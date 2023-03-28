@@ -113,7 +113,8 @@ export default{
   methods:{
     setOpen(){
         this.editMode = false;
-        this.open = !this.open
+        this.open = !this.open,
+        this.form.reset()
     },
     saveBuilding(){
         this.$Progress.start();
@@ -140,7 +141,6 @@ export default{
     editBuilding(item){
         this.editMode = true;
         this.open = !this.open
-        this.form = item
     },
     updateBuilding(){
         axios.put("/api/building-types/"+ this.form.id, {
