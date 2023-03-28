@@ -1,5 +1,4 @@
 <template>
-    <div>
     <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
             <h1 class="text-base font-semibold leading-6 text-gray-900">Building Type</h1>
@@ -16,10 +15,10 @@
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Description</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Delivery Form</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Status</th>
+                                <th scope="col" class="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
+                                <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Description</th>
+                                <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Delivery Form</th>
+                                <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
                                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                     Action
                                 </th>
@@ -27,12 +26,12 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="item in data.data" :key="item.id">
-                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ item.name }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.description }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
-                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-right text-sm font-medium sm:pr-6">
-                                        <a @click.prevent="editBuilding(item)" href="#" class="text-indigo-600 hover:text-indigo-900">Edit</a>
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-center font-medium text-gray-900 sm:pl-6">{{ item.name }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.description }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
+                                        <a @click.prevent="editBuilding(item)" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -41,8 +40,6 @@
                 </div>
             </div>
         </div>
-       
-    </div>
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Building Type'" :description="'A roster of all building types associated with your account, including their category, description and location.'">
             <template v-slot:slider-body>
                 <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
@@ -51,13 +48,13 @@
                             <div class="sm:col-span-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Building Name</label>
                                 <div class="mt-2">
-                                    <input v-model="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div class="mt-2">
-                                    <input v-model="form.description" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.description" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-5">
@@ -105,16 +102,15 @@ export default{
             id:'',
             name:'',
             description:'',
-            delivery_form: true,
-            status:true,
+            delivery_form: false,
+            status:false,
         }),
     }
   },
   methods:{
     setOpen(){
         this.editMode = false;
-        this.open = !this.open,
-        this.form.reset()
+        this.open = !this.open
     },
     saveBuilding(){
         this.$Progress.start();
@@ -141,6 +137,7 @@ export default{
     editBuilding(item){
         this.editMode = true;
         this.open = !this.open
+        this.form = item
     },
     updateBuilding(){
         axios.put("/api/building-types/"+ this.form.id, {

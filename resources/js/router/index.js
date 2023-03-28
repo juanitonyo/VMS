@@ -65,7 +65,7 @@ const routes = [
                 path: "/app/users",
                 component: Users,
                 meta: {
-                    title: `User`,
+                    title: `VMS | User`,
                     ability: "",
                 },
             },
@@ -74,7 +74,7 @@ const routes = [
                 path: "/app/settings",
                 component: Settings,
                 meta: {
-                    title: `Settings`,
+                    title: `VMS | Settings`,
                     ability: "",
                 },
             },

@@ -8,7 +8,7 @@
         <span aria-hidden="true" :class="[enabled ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
       </Switch>
     </SwitchGroup>
-  </template>
+</template>
   
 
 <script>
@@ -29,12 +29,12 @@ import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui
             },
             hasDescription:{
                 type: Boolean,
-                default: true,
+                default: false,
             }
         },
         data(){
             return {
-                enabled: true,
+                enabled: false,
             }
         },
         methods:{

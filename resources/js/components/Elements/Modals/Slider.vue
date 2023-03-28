@@ -12,14 +12,13 @@
                       <div class="flex items-center justify-between">
                         <DialogTitle class="text-base font-semibold leading-6 text-white">{{ title }}</DialogTitle>
                         <div class="ml-3 flex h-7 items-center">
-                          <button type="button" class="rounded-md bg-cyan-700 text-cyan-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white" @click="setOpen = false">
-                            <span class="sr-only">Close panel</span>
+                          <button type="button" class="rounded-md bg-cyan-700 text-cyan-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white" @click.prevent="setOpen = false">
                             <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                           </button>
                         </div>
                       </div>
                       <div class="mt-1">
-                        <p class="text-sm text-cyan-300">{{ description }}</p>
+                        <p class="text-sm text-gray-200">{{ description }}</p>
                       </div>
                     </div>
                     <slot name="slider-body"></slot>
@@ -41,7 +40,7 @@
         props: {
             setOpen:{
                 type:Boolean,
-                default:false,
+                default:'false',
             },
             title:{
               type:String,
@@ -55,13 +54,13 @@
               type:String,
               default:'Submit',
             },
-
+            
         },
         components:{
             Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot, XMarkIcon
         },
         data () {
-            open:false
+
         },
         methods:{
          
