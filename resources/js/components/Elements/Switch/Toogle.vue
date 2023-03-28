@@ -29,12 +29,12 @@ import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui
             },
             hasDescription:{
                 type: Boolean,
-                default: true,
+                default: false,
             }
         },
         data(){
             return {
-                enabled: true,
+                enabled: false,
             }
         },
         methods:{

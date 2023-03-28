@@ -1,5 +1,4 @@
 <template>
-    <div>
     <div class="sm:flex sm:items-center">
             <div class="sm:flex-auto">
             <h1 class="text-base font-semibold leading-6 text-gray-900">Building Type</h1>
@@ -41,8 +40,6 @@
                 </div>
             </div>
         </div>
-       
-    </div>
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Building Type'" :description="'A roster of all building types associated with your account, including their category, description and location.'">
             <template v-slot:slider-body>
                 <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
@@ -51,13 +48,13 @@
                             <div class="sm:col-span-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Building Name</label>
                                 <div class="mt-2">
-                                    <input v-model="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div class="mt-2">
-                                    <input v-model="form.description" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.description" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-5">
@@ -105,8 +102,8 @@ export default{
             id:'',
             name:'',
             description:'',
-            delivery_form: true,
-            status:true,
+            delivery_form: false,
+            status:false,
         }),
     }
   },
