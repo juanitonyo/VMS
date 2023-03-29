@@ -31,7 +31,7 @@
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500"></td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500"></td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
-                            <a href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
+                            <a @click.prevent="setOpen" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
                         </td>
                     </tr>
                     </tbody>
@@ -43,19 +43,19 @@
 
         <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Email Template'" :description="'A catalog of all email template maintenance entries.'">
             <template v-slot:slider-body>
-                <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
+                <form @submit.prevent="editMode ? updateTemplate() : saveTemplate()">
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
-                        <div class="grid grid-cols-1">
+                        <div class="my-4 grid grid-cols-1">
                             
                             <div class="sm:col-span-3 mt-3">
                                 <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Subject</label>
                                 <div class="mt-2">
-                                    <input v-model="form.subject" type="text" name="email_subj" id="email_subj" autocomplete="email_subj" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.description" type="text" name="email_subj" id="email_subj" autocomplete="email_subj" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
 
-                            <div class="editor sm:col-span-3 mt-3" id="editor">
-                                <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                            <div class="editor sm:col-span-3 mt-3">
+                                <ckeditor :editor="editor" :config="editorConfig"></ckeditor>
                             </div>
 
                             <div class="sm:col-span-3 mt-3">
@@ -81,11 +81,13 @@
 
 <script>
 
-
+import axios from "axios";
 import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import Toogle from '@/components/Elements/Switch/Toogle.vue'
+import { createToast } from 'mosha-vue-toastify'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 export default{
  
   name:"EmailTemplateTable",
@@ -96,7 +98,8 @@ export default{
     },
   },
   components:{
-    SliderVue, Toogle,
+    SliderVue, 
+    Toogle,
   },
   data () {
     return {
@@ -106,15 +109,22 @@ export default{
         form: new Form({
             id:'',
             name:'',
-            subject:'',
+            body:'',
             description:'',
             status:true,
         }),
-        editor: ClassicEditor,
-        editorConfig: {
-            // The configuration of the editor.
-        }
-        
+
+        editor:ClassicEditor,
+        editorConfig:{
+            toolbar: [ 'undo', 'redo', '|', 'bold', 'italic', '|', 'indent', 'link', 'heading' ],
+            heading: {
+                options: [
+                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                ]
+            }
+        },
     }
   },
   methods: {
@@ -123,10 +133,28 @@ export default{
         this.editMode = false;
         this.open = !this.open;
     },
+    saveTemplate(){
+        this.$Progress.start();
+        this.form.post('/api/email-template')
+        .then((data) => {
+            this.$Progress.finish();
+            createToast({
+                title: 'Success!',
+                description: 'Data has been saved.'
+                },
+                {
+                position: 'top-left',
+                showIcon: 'true',
+                type: 'success',
+                hideProgressBar: 'true',
+            })
+            this.getData();
+            this.form.reset();
 
-    emptyEditor() {
-        this.editorData = '';
-    }
+        }).catch((error) => {
+            this.$Progress.fail();
+        })
+    },
   },
     
 }

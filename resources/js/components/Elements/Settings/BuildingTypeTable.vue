@@ -103,21 +103,14 @@ export default{
             name:'',
             description:'',
             delivery_form: false,
-            status: false,
+            status:false,
         }),
     }
   },
   methods:{
     setOpen(){
         this.editMode = false;
-        this.open = !this.open;
-        this.form = new Form({
-            id:'',
-            name:'',
-            description:'',
-            delivery_form: false,
-            status: false,
-        })
+        this.open = !this.open
     },
     saveBuilding(){
         this.$Progress.start();

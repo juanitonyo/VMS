@@ -6,11 +6,10 @@ import axios from "axios";
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import VueProgressBar from "@aacassandra/vue3-progressbar";
 import Router from "@/router";
+import CKEditor from '@ckeditor/ckeditor5-vue';
 
 import moshaToast from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
-import CKEditor from "@ckeditor/ckeditor5-vue";
-
 
 const options = {
     color: "rgb(143, 255, 199)",
@@ -26,7 +25,6 @@ const options = {
     inverse: false,
 };
 
-
 const app = createApp({});
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
@@ -35,5 +33,6 @@ app.use(Router);
 app.use(pinia, moshaToast);
 app.use(VueProgressBar, options);
 app.use(CKEditor);
+
 
 app.mount('#app');
