@@ -41,21 +41,21 @@
             </div>
         </div>
 
-        <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'SMS Template'" :description="'A roster of all building types associated with your account, including their category, description and location.'">
+        <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'SMS Template'" :description="'A catalog of all SMS template maintenance entries.'">
             <template v-slot:slider-body>
                 <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                         <div class="my-4 grid grid-cols-1">
                             <div class="sm:col-span-3">
-                                <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Message</label>
+                                <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Message</label>
                                 <div class="mt-2">
-                                    <input v-model="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.message" type="text" name="sms" id="sms" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-3">
-                                <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
+                                <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div class="mt-2">
-                                    <input v-model="form.description" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.description" type="text" name="sms" id="sms" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-3">
@@ -98,7 +98,7 @@ export default{
         open:false,
         form: new Form({
             id:'',
-            name:'',
+            message:'',
             description:'',
             status:true,
         }),
