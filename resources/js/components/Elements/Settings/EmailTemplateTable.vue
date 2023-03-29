@@ -108,7 +108,7 @@ export default{
         open:false,
         form: new Form({
             id:'',
-            name:'',
+            subject:'',
             body:'',
             description:'',
             status:true,
