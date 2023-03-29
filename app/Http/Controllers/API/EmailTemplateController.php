@@ -1,18 +1,19 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\API;
 
 use App\Models\emailTemplate;
 use Illuminate\Http\Request;
 
-class EmailTemplateController extends Controller
+class EmailTemplateController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        $data = emailTemplate::paginate(10);
+        return $this->sendResponse($data, "All Email Template in Array.");
     }
 
     /**
@@ -28,7 +29,8 @@ class EmailTemplateController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = emailTemplate::create($request->all());
+        return $this->sendResponse($data, "Saved data");
     }
 
     /**
@@ -50,9 +52,15 @@ class EmailTemplateController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, emailTemplate $emailTemplate)
+    public function update(Request $request, $id)
     {
-        //
+        $data = emailTemplate::findOrFail($id)->update([
+            'subject' => $request->params['data']['subject'],
+            'body' => $request->params['data']['body'],
+            'description' => $request->params['data']['description'],
+            'status' => $request->params['data']['status'],
+        ]);
+        return $this->sendResponse($data, "Updated Data");
     }
 
     /**

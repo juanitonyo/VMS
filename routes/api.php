@@ -24,6 +24,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
 
     Route::apiResources([
         'building-types' => 'BuildingTypesController',
+        'email-template' => 'EmailTemplateController',
     ]);
 });
 
