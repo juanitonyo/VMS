@@ -23,17 +23,16 @@
                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">Action</th>
                     </tr>
                     </thead>
-
                     <tbody class="divide-y divide-gray-200 bg-white">
-                    <tr>
-                        <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6"></td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500"></td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500"></td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500"></td>
-                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
-                            <a href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
-                        </td>
-                    </tr>
+                        <tr v-for="item in data.data" :key="item.id">
+                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-center font-medium text-gray-900 sm:pl-6">{{ item.id }}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.message }}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.description }}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
+                                <a @click.prevent="editSMSTemplate(item)" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
                 </div>
@@ -43,7 +42,7 @@
 
         <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'SMS Template'" :description="'A catalog of all SMS template maintenance entries.'">
             <template v-slot:slider-body>
-                <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
+                <form @submit.prevent="editMode ? updateSMS() : saveSMS()">
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                         <div class="my-4 grid grid-cols-1">
                             <div class="sm:col-span-3">
@@ -93,7 +92,7 @@ export default{
   },
   data () {
     return {
-        data:{},
+        data:[],
         editMode:false,
         open:false,
         form: new Form({
@@ -109,9 +108,39 @@ export default{
         this.editMode = false;
         this.open = !this.open;
     },
+    saveSMS(){
+        this.$Progress.start();
+        this.form.post('/api/sms-template')
+        .then((data) => {
+            this.$Progress.finish();
+            createToast({
+                title: 'Success!',
+                description: 'Data has been saved.'
+                },
+                {
+                position: 'top-left',
+                showIcon: 'true',
+                type: 'success',
+                hideProgressBar: 'true',
+            })
+            this.getData();
+            this.form.reset();
+
+        }).catch((error) => {
+            this.$Progress.fail();
+        })
+    },
+    async getData(){
+        await axios.get('/api/sms-template').then((data) =>{
+            this.data = data.data.data;
+        }).catch((e) => {
+            errorMessage('Opps!', e.message, 'top-right')
+        });
+    },
   },
-    
-    
+  created(){
+    this.getData();
+  }    
 }
 
 </script>
