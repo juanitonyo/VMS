@@ -9,6 +9,8 @@ import Router from "@/router";
 
 import moshaToast from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
+import CKEditor from "@ckeditor/ckeditor5-vue";
+
 
 const options = {
     color: "rgb(143, 255, 199)",
@@ -32,6 +34,6 @@ app.config.globalProperties.$axios = axios;
 app.use(Router);
 app.use(pinia, moshaToast);
 app.use(VueProgressBar, options);
-
+app.use(CKEditor);
 
 app.mount('#app');

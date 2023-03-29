@@ -45,29 +45,28 @@
             <template v-slot:slider-body>
                 <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
-                        <div class="my-4 grid grid-cols-1">
-                            <div class="sm:col-span-3">
-                                <label for="email-name" class="block text-sm font-medium leading-6 text-gray-900">Subject</label>
+                        <div class="grid grid-cols-1">
+                            
+                            <div class="sm:col-span-3 mt-3">
+                                <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Subject</label>
                                 <div class="mt-2">
-                                    <input v-model="form.name" type="text" name="email-name" id="email-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.subject" type="text" name="email_subj" id="email_subj" autocomplete="email_subj" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
 
-                            <div class="sm:col-span-3">
-                                <label for="email-name" class="block text-sm font-medium leading-6 text-gray-900">Body</label>
+                            <div class="editor sm:col-span-3 mt-3" id="editor">
+                                <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
+                            </div>
+
+                            <div class="sm:col-span-3 mt-3">
+                                <label for="email_desc" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div class="mt-2">
-                                    <textarea id="editor" rows="8" class="block w-full px-3 py-1.5 text-sm text-gray-900 bg-white border-0 shadow-sm ring-1 ring-inset ring-gray-300 dark:bg-white dark:text-black dark:placeholder-gray-400 rounded-md focus:ring-2 focus:ring-inset focus:ring-cyan-600" placeholder="Write your Email here ..." required></textarea>
+                                    <input v-model="form.description" type="text" name="email_desc" id="email_desc" autocomplete="email_desc" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
-                            
-                            <div class="sm:col-span-3">
-                                <label for="email-name" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
-                                <div class="mt-2">
-                                    <input v-model="form.name" type="text" name="email-name" id="email-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
-                                </div>
-                            </div>
-                            <div class="sm:col-span-3 mt-5">
-                                <Toogle v-model="form.delivery_form" title="Status" :hasDescription="false" ></Toogle>
+
+                            <div class="sm:col-span-3 mt-3">
+                                <Toogle v-model="form.status" title="Status" :hasDescription="false"></Toogle>
                             </div>
                         </div>
                     </div>
@@ -82,11 +81,11 @@
 
 <script>
 
-import axios from "axios";
+
 import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import Toogle from '@/components/Elements/Switch/Toogle.vue'
-import { createToast } from 'mosha-vue-toastify';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 export default{
  
   name:"EmailTemplateTable",
@@ -97,7 +96,7 @@ export default{
     },
   },
   components:{
-    SliderVue, Toogle
+    SliderVue, Toogle,
   },
   data () {
     return {
@@ -107,9 +106,15 @@ export default{
         form: new Form({
             id:'',
             name:'',
+            subject:'',
             description:'',
             status:true,
         }),
+        editor: ClassicEditor,
+        editorConfig: {
+            // The configuration of the editor.
+        }
+        
     }
   },
   methods: {
@@ -118,6 +123,10 @@ export default{
         this.editMode = false;
         this.open = !this.open;
     },
+
+    emptyEditor() {
+        this.editorData = '';
+    }
   },
     
 }
