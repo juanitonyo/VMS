@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('s_m_s_templates', function (Blueprint $table) {
             $table->id();
             $table->string('message');
-            $table->string('description');
+            $table->longText('description');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
