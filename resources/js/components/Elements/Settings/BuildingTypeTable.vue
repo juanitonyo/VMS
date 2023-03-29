@@ -110,9 +110,10 @@ export default{
   methods:{
     setOpen(){
         this.editMode = false;
-        this.open = !this.open
+        this.open = !this.open;
     },
     saveBuilding(){
+        console.log(this.form);
         this.$Progress.start();
         this.form.post('/api/building-types')
         .then((data) => {
@@ -136,8 +137,8 @@ export default{
     },
     editBuilding(item){
         this.editMode = true;
-        this.open = !this.open
-        this.form = item
+        this.open = !this.open;
+        this.form = item;
     },
     updateBuilding(){
         axios.put("/api/building-types/"+ this.form.id, {
@@ -145,7 +146,7 @@ export default{
                 data: this.form
             }
         }).then((data) =>{
-            this.editMode = false
+            this.editMode = false;
             this.$Progress.finish();
             createToast({
                 title: 'Success!',
