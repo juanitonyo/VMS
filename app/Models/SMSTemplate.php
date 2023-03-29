@@ -14,4 +14,5 @@ class SMSTemplate extends Model
         'description',
         'status'
     ];
+
 }

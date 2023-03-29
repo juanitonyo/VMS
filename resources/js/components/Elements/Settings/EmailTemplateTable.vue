@@ -55,7 +55,10 @@
                             </div>
 
                             <div class="editor sm:col-span-3 mt-3">
-                                <ckeditor v-model="form.body" :editor="editor" :config="editorConfig"></ckeditor>
+                                <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Body</label>
+                                <div class="mt-2">
+                                    <ckeditor v-model="form.body" :editor="editor" :config="editorConfig"></ckeditor>
+                                </div>
                             </div>
 
                             <div class="sm:col-span-3 mt-3">
@@ -156,7 +159,7 @@ export default{
         })
     },
     async getData(){
-        await axios.get('/api/sms-template').then((data) =>{
+        await axios.get('/api/email-template').then((data) =>{
             this.data = data.data.data;
         }).catch((e) => {
             errorMessage('Opps!', e.message, 'top-right')

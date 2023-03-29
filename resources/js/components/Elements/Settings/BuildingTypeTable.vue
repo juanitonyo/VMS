@@ -15,10 +15,10 @@
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-                                <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Description</th>
-                                <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Delivery Form</th>
-                                <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
+                                <th scope="col" class="py-3.5 pl-4 pr-3  text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
+                                <th scope="col" class="px-3 py-3.5  text-sm font-semibold text-gray-900">Description</th>
+                                <th scope="col" class="px-3 py-3.5  text-sm font-semibold text-gray-900">Delivery Form</th>
+                                <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">Status</th>
                                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                     Action
                                 </th>
@@ -26,11 +26,11 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="item in data.data" :key="item.id">
-                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-center font-medium text-gray-900 sm:pl-6">{{ item.name }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.description }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
-                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm  font-medium text-gray-900 sm:pl-6">{{ item.name }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.description }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm  text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
                                         <a @click.prevent="editBuilding(item)" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
                                     </td>
                                 </tr>
@@ -58,10 +58,24 @@
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-5">
-                                <Toogle v-model="form.delivery_form" title="Add Delivery Registration" :hasDescription="false" ></Toogle>
+                                <SwitchGroup as="div" class="flex items-center justify-between">
+                                    <span class="flex flex-grow flex-col">
+                                        <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Add Delivery Registration</SwitchLabel>
+                                    </span>
+                                    <Switch v-model="form.delivery_form" :class="[form.delivery_form ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                        <span aria-hidden="true" :class="[form.delivery_form ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                    </Switch>
+                                </SwitchGroup>
                             </div>
                             <div class="sm:col-span-3 mt-3">
-                                <Toogle v-model="form.status" title="Status" :hasDescription="false"></Toogle>
+                                <SwitchGroup as="div" class="flex items-center justify-between">
+                                    <span class="flex flex-grow flex-col">
+                                        <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Status</SwitchLabel>
+                                    </span>
+                                    <Switch v-model="form.status" :class="[form.status ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                        <span aria-hidden="true" :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                    </Switch>
+                                </SwitchGroup>
                             </div>
                         </div>
                     </div>
@@ -81,6 +95,7 @@ import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import Toogle from '@/components/Elements/Switch/Toogle.vue'
 import { createToast } from 'mosha-vue-toastify';
+import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 
 export default{
   name:"BuildingTypeTable",
@@ -91,7 +106,7 @@ export default{
     }
   },
   components:{
-    SliderVue, Toogle
+    SliderVue, Toogle, Switch, SwitchDescription, SwitchGroup, SwitchLabel
   },
   data () {
     return {
