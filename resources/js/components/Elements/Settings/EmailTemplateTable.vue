@@ -133,28 +133,28 @@ export default{
         this.editMode = false;
         this.open = !this.open;
     },
-    saveTemplate(){
-        this.$Progress.start();
-        this.form.post('/api/email-template')
-        .then((data) => {
-            this.$Progress.finish();
-            createToast({
-                title: 'Success!',
-                description: 'Data has been saved.'
-                },
-                {
-                position: 'top-left',
-                showIcon: 'true',
-                type: 'success',
-                hideProgressBar: 'true',
-            })
-            this.getData();
-            this.form.reset();
+    // saveTemplate(){
+    //     this.$Progress.start();
+    //     this.form.post('/api/email-template')
+    //     .then((data) => {
+    //         this.$Progress.finish();
+    //         createToast({
+    //             title: 'Success!',
+    //             description: 'Data has been saved.'
+    //             },
+    //             {
+    //             position: 'top-left',
+    //             showIcon: 'true',
+    //             type: 'success',
+    //             hideProgressBar: 'true',
+    //         })
+    //         this.getData();
+    //         this.form.reset();
 
-        }).catch((error) => {
-            this.$Progress.fail();
-        })
-    },
+    //     }).catch((error) => {
+    //         this.$Progress.fail();
+    //     })
+    // },
   },
     
 }
