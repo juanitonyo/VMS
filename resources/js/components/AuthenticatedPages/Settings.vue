@@ -18,10 +18,10 @@
         <BuildingTypeTable :data="building_types"></BuildingTypeTable>
     </div>
     <div v-show="currentTab == 'Email Template'"  class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10 mt-4" >
-        <EmailTemplateTable></EmailTemplateTable>
+        <EmailTemplateTable :data="email_templates"></EmailTemplateTable>
     </div>
     <div v-show="currentTab == 'SMS Template'"  class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10 mt-4" >
-        <SMSTemplateTable></SMSTemplateTable>
+        <SMSTemplateTable :data="sms_templates"></SMSTemplateTable>
     </div>
 </template>
 
@@ -41,6 +41,8 @@ export default{
             {name: 'SMS Template', description:'A catalog of all sms template maintenance entries'}
         ],
         building_types:{},
+        email_templates:{},
+        sms_templates:{},
     }
   },
   components:{
@@ -53,6 +55,22 @@ export default{
             case 'Building Type':
                 await axios.get('/api/building-types').then((data) =>{
                     this.building_types = data.data.data;
+                }).catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+            break;
+
+            case 'Email Template':
+                await axios.get('/api/email-template').then((data) =>{
+                    this.email_templates = data.data.data;
+                }).catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+            break;
+
+            case 'SMS Template':
+                await axios.get('/api/sms-template').then((data) =>{
+                    this.sms_templates = data.data.data;
                 }).catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
                 });

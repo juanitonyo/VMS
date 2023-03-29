@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('subject', 100);
             $table->string('body');
-            $table->boolean('description');
+            $table->string('description');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
