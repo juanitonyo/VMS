@@ -138,11 +138,17 @@ export default{
                 hideProgressBar: 'true',
             })
             this.getData();
-            this.form.reset();
+            new Form({
+            id:'',
+            message:'',
+            description:'',
+            status:true,
+        })
 
         }).catch((error) => {
             this.$Progress.fail();
         })
+        this.open = !this.open;
     },
     updateSMS(){
         axios.put("/api/sms-template/"+ this.form.id, {

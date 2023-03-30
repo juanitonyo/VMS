@@ -178,12 +178,11 @@ export default{
             })
             this.getData();
             this.form.reset();
-            this.open = !this.open;
 
         }).catch((error) => {
             this.$Progress.fail();
-
         })
+        this.open = !this.open;
     },
     updateTemplate(){
         axios.put("/api/email-template/"+ this.form.id, {
