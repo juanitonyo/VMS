@@ -95,7 +95,7 @@ export default{
     },
   },
   components:{
-    SliderVue, Toogle, Switch, SwitchDescription, SwitchGroup, SwitchLabel
+    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
   },
   data () {
     return {

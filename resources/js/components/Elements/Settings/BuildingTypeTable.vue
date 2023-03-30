@@ -93,7 +93,6 @@
 import axios from "axios";
 import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
-import Toogle from '@/components/Elements/Switch/Toogle.vue'
 import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 
@@ -106,7 +105,7 @@ export default{
     }
   },
   components:{
-    SliderVue, Toogle, Switch, SwitchDescription, SwitchGroup, SwitchLabel
+    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
   },
   data () {
     return {
