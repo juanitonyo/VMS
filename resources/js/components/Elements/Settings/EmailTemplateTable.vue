@@ -16,24 +16,24 @@
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">ID</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-80 break-all">Purpose</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-80 break-all">Subject</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-80 break-all">Body</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-80 break-all">Description</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-80 break-all">Status</th>
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">Action</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purpose</th>
+                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">Subject</th>
+                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">Body</th>
+                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">Description</th>
+                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-sm">Action</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
                     <tr v-for="item in data.data" :key="item.id">
-                        <td class="py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ item.id }}</td>
-                        <td class="px-3 py-4 text-sm text-center text-gray-500 w-80 break-all">{{ item.purpose }}</td>
-                        <td class="px-3 py-4 text-sm text-center text-gray-500 w-80 break-all">{{ item.subject }}</td>
-                        <td class="px-3 py-4 text-sm text-center text-gray-500 w-80 break-all">{{ item.body }}</td>
-                        <td class="px-3 py-4 text-sm text-center text-gray-500 w-80 break-all">{{ item.description }}</td>
-                        <td class="px-3 py-4 text-sm text-center text-gray-500 w-80 break-all">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                        <td class=" py-4 pl-4 pr-3 text-center text-sm font-bold text-gray-900 sm:pl-6">{{ item.id }}</td>
+                        <td class=" px-3 py-4 text-sm text-left text-gray-500">{{ item.purpose }}</td>
+                        <td class=" px-3 py-4 text-sm text-left text-gray-500">{{ item.subject }}</td>
+                        <td class=" px-3 py-4 text-sm text-left text-gray-500">{{ item.body }}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">{{ item.description }}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
-                            <a @click.prevent="editTemplate(item)" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
+                            <a @click.prevent="editTemplate(item)" href="#" class="text-cyan-600 hover:text-cyan-900 text-xs">Edit</a>
                         </td>
                     </tr>
                     </tbody>
@@ -55,7 +55,7 @@
                                     <input v-model="form.purpose" type="text" name="email_subj" id="email_subj" autocomplete="email_subj" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
-
+                            
                             <div class="sm:col-span-3 mt-3">
                                 <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Subject</label>
                                 <div class="mt-2">
@@ -150,13 +150,14 @@ export default{
     setOpen(){
         this.editMode = false;
         this.open = !this.open;
-        this.form = new Form({
+        this.for = new Form({
             id:'',
+            purpose:'',
             subject:'',
             body:'',
             description:'',
             status:true,
-        });
+        })
     },
     saveTemplate(){
         this.$Progress.start();
@@ -171,29 +172,21 @@ export default{
                 position: 'top-left',
                 showIcon: 'true',
                 type: 'success',
+                toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
                 toastBackgroundColor: '#00bcd4',
             })
-            this.getData();
-            this.form = new Form({
-                id:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
-            });
-
         }).catch((error) => {
             this.$Progress.fail();
-            this.form = new Form({
-                id:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
-            });
         })
-
+        this.getData();
+        this.form = new Form({
+            id:'',
+            subject:'',
+            body:'',
+            description:'',
+            status:true,
+        });
         this.open = !this.open;
     },
     updateTemplate(){
@@ -212,27 +205,21 @@ export default{
                 position: 'top-left',
                 showIcon: 'true',
                 type: 'success',
+                toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
                 toastBackgroundColor: '#00bcd4',
             })
-            this.getData();
-            this.form = new Form({
-                id:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
-            });
         }).catch((error) => {
-            this.form = new Form({
-                id:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
-            });
+            
         })
-
+        this.getData();
+        this.form = new Form({
+            id:'',
+            subject:'',
+            body:'',
+            description:'',
+            status:true,
+        });
         this.open = !this.open;
     },
     editTemplate(item){

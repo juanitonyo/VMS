@@ -17,19 +17,19 @@
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">ID</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Message</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Description</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm w-80 font-semibold text-gray-900">Message</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm w-80 font-semibold text-gray-900">Description</th>
                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
                         <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-sm">Action</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
                         <tr v-for="item in data.data" :key="item.id">
-                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-center font-medium text-gray-900 sm:pl-6">{{ item.id }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.message }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.description }}</td>
-                            <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
-                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
+                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-xs text-center w-5 font-bold text-gray-900 sm:pl-6">{{ item.id }}</td>
+                            <td class="px-3 py-4 text-xs text-left w-96 break-all text-gray-500">{{ item.message }}</td>
+                            <td class="px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{ item.description }}</td>
+                            <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                            <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-xs font-medium sm:pr-6">
                                 <a @click.prevent="editSMSTemplate(item)" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
                             </td>
                         </tr>
@@ -40,7 +40,7 @@
             </div>
         </div>
 
-        <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'SMS Template'" :description="'A roster of all building types associated with your account, including their category, description and location.'">
+        <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'SMS Template'" :description="'A catalog of all SMS template maintenance entries.'">
             <template v-slot:slider-body>
                 <form @submit.prevent="editMode ? updateSMS() : saveSMS()">
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
@@ -116,11 +116,10 @@ export default{
         this.open = !this.open;
         this.form = new Form({
             id:'',
-            subject:'',
-            body:'',
+            message:'',
             description:'',
             status:true,
-        });
+        })
     },
     saveSMS(){
         this.$Progress.start();
@@ -135,29 +134,20 @@ export default{
                 position: 'top-left',
                 showIcon: 'true',
                 type: 'success',
+                toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
                 toastBackgroundColor: '#00bcd4',
             })
-            this.getData();
-            this.form = new Form({
-                id:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
-            });
-
         }).catch((error) => {
             this.$Progress.fail();
-            this.form = new Form({
-                id:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
-            });
         })
-
+        this.getData();
+        this.form = new Form({
+            id:'',
+            message:'',
+            description:'',
+            status:true,
+        });
         this.open = !this.open;
     },
     updateSMS(){
@@ -175,28 +165,21 @@ export default{
                 {
                 position: 'top-left',
                 showIcon: 'true',
+                toastBackgroundColor: '#00bcd4',
                 type: 'success',
                 hideProgressBar: 'true',
                 toastBackgroundColor: '#00bcd4',
             })
-            this.getData();
-            this.form = new Form({
-                id:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
-            });
         }).catch((error) => {
-            this.form = new Form({
-                id:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
-            });
+            
         })
-
+        this.getData();
+        this.form = new Form({
+            id:'',
+            message:'',
+            description:'',
+            status:true,
+        });
         this.open = !this.open;
     },
     editSMSTemplate(item){
