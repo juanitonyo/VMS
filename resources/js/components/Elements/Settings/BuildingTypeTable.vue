@@ -27,7 +27,7 @@
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="item in data.data" :key="item.id">
                                     <td class="w-72 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ item.name }}</td>
-                                    <td class="w-80 px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
+                                    <td class="w-80 break-all px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
                                     <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
@@ -48,13 +48,13 @@
                             <div class="sm:col-span-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Building Name</label>
                                 <div class="mt-2">
-                                    <input v-model.lazy="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div class="mt-2">
-                                    <input v-model.lazy="form.description" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.description" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-5">
@@ -62,7 +62,7 @@
                                     <span class="flex flex-grow flex-col">
                                         <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Add Delivery Registration</SwitchLabel>
                                     </span>
-                                    <Switch v-model.lazy="form.delivery_form" :class="[form.delivery_form ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                    <Switch v-model="form.delivery_form" :class="[form.delivery_form ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
                                         <span aria-hidden="true" :class="[form.delivery_form ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                     </Switch>
                                 </SwitchGroup>
