@@ -2,4 +2,8 @@
 
 @tailwind base;
 @tailwind components;
-@tailwind utilities
+@tailwind utilities;
+
+.ck-editor__editable_inline{ 
+    height:200px; 
+}

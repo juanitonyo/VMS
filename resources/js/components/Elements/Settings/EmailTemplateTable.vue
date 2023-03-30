@@ -21,7 +21,7 @@
                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-80 break-all">Body</th>
                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-80 break-all">Description</th>
                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 w-80 break-all">Status</th>
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-sm">Action</th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">Action</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
