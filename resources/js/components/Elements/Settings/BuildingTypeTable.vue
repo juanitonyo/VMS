@@ -15,10 +15,10 @@
                         <table class="min-w-full divide-y divide-gray-300">
                             <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="py-3.5 pl-4 pr-3  text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-                                <th scope="col" class="px-3 py-3.5  text-sm font-semibold text-gray-900">Description</th>
-                                <th scope="col" class="px-3 py-3.5  text-sm font-semibold text-gray-900">Delivery Form</th>
-                                <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">Status</th>
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
+                                <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">Description</th>
+                                <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">Delivery Form</th>
+                                <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">Status</th>
                                 <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
                                     Action
                                 </th>
@@ -26,11 +26,11 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="item in data.data" :key="item.id">
-                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm  font-medium text-gray-900 sm:pl-6">{{ item.name }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.description }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm  text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
-                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-sm font-medium sm:pr-6">
+                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ item.name }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-xs  text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-xs font-medium sm:pr-6">
                                         <a @click.prevent="editBuilding(item)" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
                                     </td>
                                 </tr>
