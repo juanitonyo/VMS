@@ -16,24 +16,24 @@
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col" class="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">ID</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Purpose</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Subject</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Body</th>
-                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Description</th>
+                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">Purpose</th>
+                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">Subject</th>
+                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">Body</th>
+                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">Description</th>
                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 font-semibold ">Action</th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-sm">Action</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
                     <tr v-for="item in data.data" :key="item.id">
-                        <td class="py-4 pl-4 pr-3 text-sm text-center w-5 font-medium text-gray-900 sm:pl-6">{{ item.id }}</td>
-                        <td class="px-3 py-4 text-sm text-center w-80 break-all text-gray-500">{{ item.purpose }}</td>
-                        <td class="px-3 py-4 text-sm text-center w-80 break-all text-gray-500">{{ item.subject }}</td>
-                        <td class="px-3 py-4 text-sm text-center text-gray-500 w-80 break-all">{{ item.body }}</td>
-                        <td class="px-3 py-4 text-sm text-center w-80 break-all text-gray-500">{{ item.description }}</td>
-                        <td class="px-3 py-4 text-sm text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                        <td class="py-4 pl-4 pr-3 text-xs text-center w-5 font-bold text-gray-900 sm:pl-6">{{ item.id }}</td>
+                        <td class="px-3 py-4 text-xs text-left w-40 break-all text-gray-500">{{ item.purpose }}</td>
+                        <td class="px-3 py-4 text-xs text-left w-40 break-all text-gray-500">{{ item.subject }}</td>
+                        <td class="px-3 py-4 text-xs text-left text-gray-500 w-96 break-all">{{ item.body }}</td>
+                        <td class="px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{ item.description }}</td>
+                        <td class="px-3 py-4 text-xs text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
-                            <a @click.prevent="editTemplate(item)" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
+                            <a @click.prevent="editTemplate(item)" href="#" class="text-cyan-600 hover:text-cyan-900 text-xs">Edit</a>
                         </td>
                     </tr>
                     </tbody>
@@ -173,13 +173,16 @@ export default{
                 position: 'top-left',
                 showIcon: 'true',
                 type: 'success',
+                toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
             })
             this.getData();
             this.form.reset();
+            this.open = !this.open;
 
         }).catch((error) => {
             this.$Progress.fail();
+
         })
     },
     updateTemplate(){
@@ -198,13 +201,16 @@ export default{
                 position: 'top-left',
                 showIcon: 'true',
                 type: 'success',
+                toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
             })
             this.getData();
             this.form.reset();
+            this.open = !this.open;
         }).catch((error) => {
             this.getData();
         })
+        this.open = !this.open;
     },
     editTemplate(item){
         this.editMode = true;

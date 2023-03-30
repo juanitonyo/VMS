@@ -17,21 +17,21 @@
                             <tr>
                                 <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
                                 <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">Description</th>
-                                <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">Delivery Form</th>
-                                <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">Status</th>
-                                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                <th scope="col" class="text-center px-3 py-3.5  text-sm font-semibold text-gray-900">Delivery Form</th>
+                                <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">Status</th>
+                                <th scope="col" class="text-center relative py-3.5 pl-3 pr-4 sm:pr-6">
                                     Action
                                 </th>
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="item in data.data" :key="item.id">
-                                    <td class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ item.name }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-xs  text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
-                                    <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
-                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-xs font-medium sm:pr-6">
-                                        <a @click.prevent="editBuilding(item)" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
+                                    <td class="w-72 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ item.name }}</td>
+                                    <td class="w-80 px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
+                                    <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                                    <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
+                                        <a @click.prevent="editBuilding(item)" href="#" class="text-cyan-600 hover:text-cyan-900 text-xs">Edit</a>
                                     </td>
                                 </tr>
                             </tbody>
@@ -125,6 +125,13 @@ export default{
     setOpen(){
         this.editMode = false;
         this.open = !this.open;
+        new Form({
+            id:'',
+            name:'',
+            description:'',
+            delivery_form: false,
+            status:false,
+        })
     },
     saveBuilding(){
         console.log(this.form);
@@ -140,6 +147,7 @@ export default{
                 position: 'top-left',
                 showIcon: 'true',
                 type: 'success',
+                toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
             })
             this.getData();
@@ -170,13 +178,15 @@ export default{
                 position: 'top-left',
                 showIcon: 'true',
                 type: 'success',
+                toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
             })
             this.getData();
             this.form.reset();
         }).catch((error) => {
-
+            this.getData();
         })
+        this.open = !this.open;
     },
    async getData(){
         await axios.get('/api/building-types').then((data) =>{
