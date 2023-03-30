@@ -57,6 +57,7 @@ class EmailTemplateController extends BaseController
         $data = emailTemplate::findOrFail($id)->update([
             'subject' => $request->params['data']['subject'],
             'body' => $request->params['data']['body'],
+            'purpose' => $request->params['data']['purpose'],
             'description' => $request->params['data']['description'],
             'status' => $request->params['data']['status'],
         ]);

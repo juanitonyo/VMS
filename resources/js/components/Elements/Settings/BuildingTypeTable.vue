@@ -19,7 +19,7 @@
                                 <th scope="col" class="px-3 py-3.5  text-sm font-semibold text-gray-900">Description</th>
                                 <th scope="col" class="px-3 py-3.5  text-sm font-semibold text-gray-900">Delivery Form</th>
                                 <th scope="col" class="px-3 py-3.5 text-sm font-semibold text-gray-900">Status</th>
-                                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-sm">
                                     Action
                                 </th>
                             </tr>
@@ -93,7 +93,6 @@
 import axios from "axios";
 import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
-import Toogle from '@/components/Elements/Switch/Toogle.vue'
 import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 
@@ -106,7 +105,7 @@ export default{
     }
   },
   components:{
-    SliderVue, Toogle, Switch, SwitchDescription, SwitchGroup, SwitchLabel
+    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
   },
   data () {
     return {
@@ -126,6 +125,13 @@ export default{
     setOpen(){
         this.editMode = false;
         this.open = !this.open;
+        this.form = new Form({
+            id:'',
+            subject:'',
+            body:'',
+            description:'',
+            status:true,
+        });
     },
     saveBuilding(){
         console.log(this.form);
@@ -142,13 +148,28 @@ export default{
                 showIcon: 'true',
                 type: 'success',
                 hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
             })
             this.getData();
-            this.form.reset();
-
+            this.form = new Form({
+                id:'',
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
+            });
         }).catch((error) => {
             this.$Progress.fail();
+            this.form = new Form({
+                id:'',
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
+            });
         })
+
+        this.open = !this.open;
     },
     editBuilding(item){
         this.editMode = true;
@@ -172,12 +193,27 @@ export default{
                 showIcon: 'true',
                 type: 'success',
                 hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
             })
             this.getData();
-            this.form.reset();
+            this.form = new Form({
+                id:'',
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
+            });     
         }).catch((error) => {
-
+            this.form = new Form({
+                id:'',
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
+            });
         })
+
+        this.open = !this.open;
     },
    async getData(){
         await axios.get('/api/building-types').then((data) =>{

@@ -20,7 +20,7 @@
                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Message</th>
                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Description</th>
                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">Action</th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-sm">Action</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
@@ -83,7 +83,6 @@
 import axios from "axios";
 import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
-import Toogle from '@/components/Elements/Switch/Toogle.vue'
 import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 
@@ -96,7 +95,7 @@ export default{
     },
   },
   components:{
-    SliderVue, Toogle, Switch, SwitchDescription, SwitchGroup, SwitchLabel
+    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
   },
   data () {
     return {
@@ -115,6 +114,13 @@ export default{
     setOpen(){
         this.editMode = false;
         this.open = !this.open;
+        this.form = new Form({
+            id:'',
+            subject:'',
+            body:'',
+            description:'',
+            status:true,
+        });
     },
     saveSMS(){
         this.$Progress.start();
@@ -130,13 +136,29 @@ export default{
                 showIcon: 'true',
                 type: 'success',
                 hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
             })
             this.getData();
-            this.form.reset();
+            this.form = new Form({
+                id:'',
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
+            });
 
         }).catch((error) => {
             this.$Progress.fail();
+            this.form = new Form({
+                id:'',
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
+            });
         })
+
+        this.open = !this.open;
     },
     updateSMS(){
         axios.put("/api/sms-template/"+ this.form.id, {
@@ -155,12 +177,27 @@ export default{
                 showIcon: 'true',
                 type: 'success',
                 hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
             })
             this.getData();
-            this.form.reset();
+            this.form = new Form({
+                id:'',
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
+            });
         }).catch((error) => {
-
+            this.form = new Form({
+                id:'',
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
+            });
         })
+
+        this.open = !this.open;
     },
     editSMSTemplate(item){
         this.editMode = true;
