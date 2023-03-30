@@ -20,7 +20,7 @@
                         <th scope="col" class="px-3 py-3.5 text-left text-sm w-80 font-semibold text-gray-900">Message</th>
                         <th scope="col" class="px-3 py-3.5 text-left text-sm w-80 font-semibold text-gray-900">Description</th>
                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status</th>
-                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6">Action</th>
+                        <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-sm">Action</th>
                     </tr>
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
@@ -114,7 +114,7 @@ export default{
     setOpen(){
         this.editMode = false;
         this.open = !this.open;
-        new Form({
+        this.form = new Form({
             id:'',
             message:'',
             description:'',
@@ -136,18 +136,18 @@ export default{
                 type: 'success',
                 toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
             })
-            this.getData();
-            new Form({
+        }).catch((error) => {
+            this.$Progress.fail();
+        })
+        this.getData();
+        this.form = new Form({
             id:'',
             message:'',
             description:'',
             status:true,
-        })
-
-        }).catch((error) => {
-            this.$Progress.fail();
-        })
+        });
         this.open = !this.open;
     },
     updateSMS(){
@@ -168,12 +168,18 @@ export default{
                 toastBackgroundColor: '#00bcd4',
                 type: 'success',
                 hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
             })
-            this.getData();
-            this.form.reset();
         }).catch((error) => {
-            this.getData();
+            
         })
+        this.getData();
+        this.form = new Form({
+            id:'',
+            message:'',
+            description:'',
+            status:true,
+        });
         this.open = !this.open;
     },
     editSMSTemplate(item){

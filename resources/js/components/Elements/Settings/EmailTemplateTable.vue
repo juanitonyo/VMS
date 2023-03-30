@@ -26,12 +26,12 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
                     <tr v-for="item in data.data" :key="item.id">
-                        <td class="py-4 pl-4 pr-3 text-xs text-center w-5 font-bold text-gray-900 sm:pl-6">{{ item.id }}</td>
-                        <td class="px-3 py-4 text-xs text-left w-40 break-all text-gray-500">{{ item.purpose }}</td>
-                        <td class="px-3 py-4 text-xs text-left w-40 break-all text-gray-500">{{ item.subject }}</td>
-                        <td class="px-3 py-4 text-xs text-left text-gray-500 w-96 break-all">{{ item.body }}</td>
-                        <td class="px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{ item.description }}</td>
-                        <td class="px-3 py-4 text-xs text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                        <td class=" py-4 pl-4 pr-3 text-center text-sm font-bold text-gray-900 sm:pl-6">{{ item.id }}</td>
+                        <td class=" px-3 py-4 text-sm text-left text-gray-500">{{ item.purpose }}</td>
+                        <td class=" px-3 py-4 text-sm text-left text-gray-500">{{ item.subject }}</td>
+                        <td class=" px-3 py-4 text-sm text-left text-gray-500">{{ item.body }}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">{{ item.description }}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
                             <a @click.prevent="editTemplate(item)" href="#" class="text-cyan-600 hover:text-cyan-900 text-xs">Edit</a>
                         </td>
@@ -148,10 +148,9 @@ export default{
   },
   methods: {
     setOpen(){
-        console.log(this.open);
         this.editMode = false;
         this.open = !this.open;
-        new Form({
+        this.for = new Form({
             id:'',
             purpose:'',
             subject:'',
@@ -175,13 +174,19 @@ export default{
                 type: 'success',
                 toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
             })
-            this.getData();
-            this.form.reset();
-
         }).catch((error) => {
             this.$Progress.fail();
         })
+        this.getData();
+        this.form = new Form({
+            id:'',
+            subject:'',
+            body:'',
+            description:'',
+            status:true,
+        });
         this.open = !this.open;
     },
     updateTemplate(){
@@ -202,13 +207,19 @@ export default{
                 type: 'success',
                 toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
             })
-            this.getData();
-            this.form.reset();
-            this.open = !this.open;
         }).catch((error) => {
-            this.getData();
+            
         })
+        this.getData();
+        this.form = new Form({
+            id:'',
+            subject:'',
+            body:'',
+            description:'',
+            status:true,
+        });
         this.open = !this.open;
     },
     editTemplate(item){

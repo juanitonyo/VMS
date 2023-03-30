@@ -13,6 +13,7 @@ class EmailTemplate extends Model
         'purpose',
         'subject',
         'body',
+        'purpose',
         'description',
         'status'
     ];

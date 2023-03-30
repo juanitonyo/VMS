@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('purpose', 100)->unique();
             $table->string('subject', 100);
+            $table->string('purpose', 100)->unique();
             $table->string('body');
             $table->longText('description');
             $table->boolean('status')->default(true);

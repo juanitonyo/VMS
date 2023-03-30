@@ -48,13 +48,13 @@
                             <div class="sm:col-span-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Building Name</label>
                                 <div class="mt-2">
-                                    <input v-model="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model.lazy="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div class="mt-2">
-                                    <input v-model="form.description" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model.lazy="form.description" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-5">
@@ -62,7 +62,7 @@
                                     <span class="flex flex-grow flex-col">
                                         <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Add Delivery Registration</SwitchLabel>
                                     </span>
-                                    <Switch v-model="form.delivery_form" :class="[form.delivery_form ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                    <Switch v-model.lazy="form.delivery_form" :class="[form.delivery_form ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
                                         <span aria-hidden="true" :class="[form.delivery_form ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                     </Switch>
                                 </SwitchGroup>
@@ -72,7 +72,7 @@
                                     <span class="flex flex-grow flex-col">
                                         <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Status</SwitchLabel>
                                     </span>
-                                    <Switch v-model="form.status" :class="[form.status ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                    <Switch v-model.lazy="form.status" :class="[form.status ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
                                         <span aria-hidden="true" :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                     </Switch>
                                 </SwitchGroup>
@@ -125,7 +125,7 @@ export default{
     setOpen(){
         this.editMode = false;
         this.open = !this.open;
-        new Form({
+        this.form = new Form({
             id:'',
             name:'',
             description:'',
@@ -149,13 +149,20 @@ export default{
                 type: 'success',
                 toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
             })
-            this.getData();
-            this.form.reset();
-
         }).catch((error) => {
             this.$Progress.fail();
         })
+        this.getData();
+        this.form = new Form({
+            id:'',
+            name:'',
+            description:'',
+            delivery_form: false,
+            status:false,
+        });
+        this.open = !this.open;
     },
     editBuilding(item){
         this.editMode = true;
@@ -180,12 +187,19 @@ export default{
                 type: 'success',
                 toastBackgroundColor: '#00bcd4',
                 hideProgressBar: 'true',
-            })
-            this.getData();
-            this.form.reset();
+                toastBackgroundColor: '#00bcd4',
+            }) 
         }).catch((error) => {
-            this.getData();
+            
         })
+        this.getData();
+        this.form = new Form({
+            id:'',
+            name:'',
+            description:'',
+            delivery_form: false,
+            status:false,
+        });
         this.open = !this.open;
     },
    async getData(){
