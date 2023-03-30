@@ -27,11 +27,11 @@
                     <tr v-for="item in data.data" :key="item.id">
                         <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm text-center font-medium text-gray-900 sm:pl-6">{{ item.id }}</td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.subject }}</td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.body }}</td>
+                        <td class="overflow-hidden text-overflow-ellipsis white-space-nowrap whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.body }}</td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.description }}</td>
                         <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
-                            <a @click.prevent="setOpen" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
+                            <a @click.prevent="editTemplate(item)" href="#" class="text-cyan-600 hover:text-cyan-900">Edit</a>
                         </td>
                     </tr>
                     </tbody>
@@ -68,7 +68,7 @@
                                 </div>
                             </div>
 
-                            <div class="sm:col-span-3 mt-5">
+                            <div class="sm:col-span-3 mt-3">
                                 <SwitchGroup as="div" class="flex items-center justify-between">
                                     <span class="flex flex-grow flex-col">
                                         <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Status</SwitchLabel>
@@ -108,7 +108,7 @@ export default{
     },
   },
   components:{
-    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
+    SliderVue, Toogle, Switch, SwitchDescription, SwitchGroup, SwitchLabel
   },
   data () {
     return {
@@ -163,6 +163,35 @@ export default{
         }).catch((error) => {
             this.$Progress.fail();
         })
+    },
+    updateTemplate(){
+        axios.put("/api/email-template/"+ this.form.id, {
+            params:{
+                data: this.form
+            }
+        }).then((data) =>{
+            this.editMode = false;
+            this.$Progress.finish();
+            createToast({
+                title: 'Success!',
+                description: 'Data has been updated.'
+                },
+                {
+                position: 'top-left',
+                showIcon: 'true',
+                type: 'success',
+                hideProgressBar: 'true',
+            })
+            this.getData();
+            this.form.reset();
+        }).catch((error) => {
+
+        })
+    },
+    editTemplate(item){
+        this.editMode = true;
+        this.open = !this.open;
+        this.form = item;
     },
     async getData(){
         await axios.get('/api/email-template').then((data) =>{

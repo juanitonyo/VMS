@@ -48,16 +48,16 @@
                             <div class="sm:col-span-3">
                                 <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Message</label>
                                 <div class="mt-2">
-                                    <input v-model="form.message" type="text" name="sms" id="sms" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.message" type="text" name="sms" id="sms" autocomplete="sms" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
                             <div class="sm:col-span-3 mt-3">
                                 <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div class="mt-2">
-                                    <input v-model="form.description" type="text" name="sms" id="sms" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.description" type="text" name="sms" id="sms" autocomplete="sms" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                                 </div>
                             </div>
-                            <div class="sm:col-span-3 mt-5">
+                            <div class="sm:col-span-3 mt-3">
                                 <SwitchGroup as="div" class="flex items-center justify-between">
                                     <span class="flex flex-grow flex-col">
                                         <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Status</SwitchLabel>
@@ -95,7 +95,7 @@ export default{
     },
   },
   components:{
-    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
+    SliderVue, Toogle, Switch, SwitchDescription, SwitchGroup, SwitchLabel
   },
   data () {
     return {
@@ -136,6 +136,35 @@ export default{
         }).catch((error) => {
             this.$Progress.fail();
         })
+    },
+    updateSMS(){
+        axios.put("/api/sms-template/"+ this.form.id, {
+            params:{
+                data: this.form
+            }
+        }).then((data) =>{
+            this.editMode = false;
+            this.$Progress.finish();
+            createToast({
+                title: 'Success!',
+                description: 'Data has been updated.'
+                },
+                {
+                position: 'top-left',
+                showIcon: 'true',
+                type: 'success',
+                hideProgressBar: 'true',
+            })
+            this.getData();
+            this.form.reset();
+        }).catch((error) => {
+
+        })
+    },
+    editSMSTemplate(item){
+        this.editMode = true;
+        this.open = !this.open;
+        this.form = item;
     },
     async getData(){
         await axios.get('/api/sms-template').then((data) =>{
