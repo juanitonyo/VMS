@@ -26,13 +26,13 @@
                     </thead>
                     <tbody class="divide-y divide-gray-200 bg-white">
                     <tr v-for="item in data.data" :key="item.id">
-                        <td class=" py-4 pl-4 pr-3 text-center text-sm font-bold text-gray-900 sm:pl-6">{{ item.id }}</td>
-                        <td class=" px-3 py-4 text-sm text-left text-gray-500">{{ item.purpose }}</td>
-                        <td class=" px-3 py-4 text-sm text-left text-gray-500">{{ item.subject }}</td>
-                        <td class=" px-3 py-4 text-sm text-left text-gray-500">{{ item.body }}</td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-left text-gray-500">{{ item.description }}</td>
-                        <td class="whitespace-nowrap px-3 py-4 text-sm text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
-                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-sm font-medium sm:pr-6">
+                        <td class=" py-4 pl-4 pr-3 text-center text-xs font-bold text-gray-900 sm:pl-6">{{ item.id }}</td>
+                        <td class=" px-3 py-4 text-xs text-left text-gray-500">{{ item.purpose }}</td>
+                        <td class=" px-3 py-4 text-xs text-left text-gray-500">{{ item.subject }}</td>
+                        <td class=" px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{ item.body }}</td>
+                        <td class=" px-3 py-4 w-80 break-all text-xs text-left text-gray-500">{{ item.description }}</td>
+                        <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                        <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-xs font-medium sm:pr-6">
                             <a @click.prevent="editTemplate(item)" href="#" class="text-cyan-600 hover:text-cyan-900 text-xs">Edit</a>
                         </td>
                     </tr>
