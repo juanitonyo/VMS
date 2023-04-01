@@ -13,10 +13,10 @@ return new class extends Migration
     {
         Schema::create('email_templates', function (Blueprint $table) {
             $table->id();
-            $table->string('purpose', 100)->unique();
-            $table->string('subject', 100);
-            $table->string('body');
-            $table->longText('description');
+            $table->string('subject');
+            $table->string('purpose')->unique();
+            $table->longText('body');
+            $table->string('description');
             $table->boolean('status')->default(true);
             $table->timestamps();
         });
