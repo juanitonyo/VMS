@@ -29,7 +29,7 @@
                         <td class=" py-4 pl-4 pr-3 text-center text-xs font-bold text-gray-900 sm:pl-6">{{ item.id }}</td>
                         <td class=" px-3 py-4 text-xs text-left text-gray-500">{{ item.purpose }}</td>
                         <td class=" px-3 py-4 text-xs text-left text-gray-500">{{ item.subject }}</td>
-                        <td class=" px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{ item.body }}</td>
+                        <td class=" px-3 py-4 text-xs text-left w-52 break-all text-cyan-600  hover:text-cyan-900"> <a @click.prevent="isOpen" href="">View Content</a></td>
                         <td class=" px-3 py-4 w-80 break-all text-xs text-left text-gray-500">{{ item.description }}</td>
                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
                         <td class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-xs font-medium sm:pr-6">
@@ -96,6 +96,25 @@
                 </form>
             </template>
         </SliderVue>
+
+        <DialogVue :isOpen="pop" :dialogTitle="'Body Content'">
+            <template v-slot:dialogBody>
+                <div>
+                    <div v-for="item in data.data" :key="item.id">
+                        {{ item.body }}
+                    </div>
+                </div>
+                <div class="mt-4">
+                  <button
+                    type="button"
+                    class="inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500"
+                    @click="isOpen"
+                  >
+                    Close
+                  </button>
+                </div>
+            </template>
+        </DialogVue>
 </template>
 
 <script>
@@ -103,6 +122,7 @@
 import axios from "axios";
 import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
+import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { createToast } from 'mosha-vue-toastify'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
@@ -117,13 +137,14 @@ export default{
     },
   },
   components:{
-    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
+    DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
   },
   data () {
     return {
         data:{},
         editMode:false,
         open:false,
+        pop: false,
         form: new Form({
             id:'',
             purpose:'',
@@ -158,6 +179,9 @@ export default{
             description:'',
             status:true,
         })
+    },
+    isOpen(){
+        this.pop = !this.pop;
     },
     saveTemplate(){
         this.$Progress.start();

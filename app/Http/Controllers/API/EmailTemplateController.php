@@ -58,7 +58,6 @@ class EmailTemplateController extends BaseController
             'purpose' => $request->params['data']['purpose'],
             'subject' => $request->params['data']['subject'],
             'body' => $request->params['data']['body'],
-            'purpose' => $request->params['data']['purpose'],
             'description' => $request->params['data']['description'],
             'status' => $request->params['data']['status'],
         ]);
