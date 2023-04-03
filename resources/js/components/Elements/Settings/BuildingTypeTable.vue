@@ -45,12 +45,14 @@
                 <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                         <div class="my-4 grid grid-cols-1">
-                            <div class="sm:col-span-3">
+                             <NormalInput v-model="form.name" label="Building Name" id="building-name" :hasError="this.editMode || !this.editMode ? false : form.errors.has('name')" :errorMessage="this.editMode || !this.editMode ? '' :form.errors.get('name')"></NormalInput>
+                            <!-- <div class="sm:col-span-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Building Name</label>
                                 <div class="mt-2">
-                                    <input v-model="form.name" type="text" name="building-name" id="building-name" autocomplete="given-name" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    <input v-model="form.name" type="text"  name="building-name" id="building-name" autocomplete="given-name" :class="[form.errors.has('name') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400', 'block w-full px-3 rounded-md border py-1.5 shadow-sm ring-1 ring-inset   sm:text-sm sm:leading-6']" />
                                 </div>
-                            </div>
+                                <div class="text-sm text-red-600 dark:text-red-500" v-if="form.errors.has('name')" v-html="form.errors.get('name')" />
+                            </div> -->
                             <div class="sm:col-span-3 mt-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div class="mt-2">
@@ -80,7 +82,7 @@
                         </div>
                     </div>
                     <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
-                        <button type="button" class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400" @click="setOpen">Cancel</button>
+                        <button type="button" :disabled="form.busy" class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400" @click="setOpen">Cancel</button>
                         <button type="submit" class="ml-4 inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500" >{{editMode ? 'Update' : 'Save'}}</button>
                     </div>
                 </form>
@@ -93,6 +95,8 @@
 import axios from "axios";
 import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
+
+import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
 import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 
@@ -105,14 +109,14 @@ export default{
     }
   },
   components:{
-    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
+    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput
   },
   data () {
     return {
         data:{},
         editMode:false,
         open:false,
-        form: new Form({
+        form: Form.make({
             id:'',
             name:'',
             description:'',
@@ -133,43 +137,8 @@ export default{
             status:false,
         })
     },
-    saveBuilding(){
-        console.log(this.form);
-        this.$Progress.start();
-        this.form.post('/api/building-types')
-        .then((data) => {
-            this.$Progress.finish();
-            createToast({
-                title: 'Success!',
-                description: 'Data has been saved.'
-                },
-                {
-                position: 'top-left',
-                showIcon: 'true',
-                type: 'success',
-                toastBackgroundColor: '#00bcd4',
-                hideProgressBar: 'true',
-                toastBackgroundColor: '#00bcd4',
-            })
-        }).catch((error) => {
-            this.$Progress.fail();
-        })
-        this.getData();
-        this.form = new Form({
-            id:'',
-            name:'',
-            description:'',
-            delivery_form: false,
-            status:false,
-        });
-        this.open = !this.open;
-    },
-    editBuilding(item){
-        this.editMode = true;
-        this.open = !this.open;
-        this.form = item;
-    },
-    updateBuilding(){
+     updateBuilding(){
+    this.$Progress.start();
         axios.put("/api/building-types/"+ this.form.id, {
             params:{
                 data: this.form
@@ -189,26 +158,66 @@ export default{
                 hideProgressBar: 'true',
                 toastBackgroundColor: '#00bcd4',
             }) 
+            this.getData();
         }).catch((error) => {
             
         })
-        this.getData();
-        this.form = new Form({
-            id:'',
-            name:'',
-            description:'',
-            delivery_form: false,
-            status:false,
-        });
-        this.open = !this.open;
+        // this.getData();
+        // this.form = new Form({
+        //     id:'',
+        //     name:'',
+        //     description:'',
+        //     delivery_form: false,
+        //     status:false,
+        // });
+        // this.open = !this.open;
     },
+    saveBuilding(){
+        this.$Progress.start();
+        this.form.post('/api/building-types')
+        .then((data) => {
+            this.$Progress.finish();
+            this.getData();
+            createToast({
+                title: 'Success!',
+                description: 'Data has been saved.'
+                },
+                {
+                position: 'top-left',
+                showIcon: 'true',
+                type: 'success',
+                toastBackgroundColor: '#00bcd4',
+                hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
+            })
+        }).catch((error) => {
+            this.$Progress.fail();
+            this.getData();
+        })
+       
+        // this.form = new Form({
+        //     id:'',
+        //     name:'',
+        //     description:'',
+        //     delivery_form: false,
+        //     status:false,
+        // });
+        // this.open = !this.open;
+    },
+    editBuilding(item){
+        this.editMode = true;
+        this.open = !this.open;
+        this.form = item;
+    },
+
    async getData(){
         await axios.get('/api/building-types').then((data) =>{
             this.data = data.data.data;
         }).catch((e) => {
             errorMessage('Opps!', e.message, 'top-right')
         });
-    }
+    },
+ 
   },
   created(){
     this.getData();
