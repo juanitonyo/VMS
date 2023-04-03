@@ -1,6 +1,6 @@
 <template>
     <TransitionRoot as="template" :show="setOpen">
-      <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen = false">
+      <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen">
         <div class="fixed inset-0" />
         <div class="fixed inset-0 overflow-hidden">
           <div class="absolute inset-0 overflow-hidden">

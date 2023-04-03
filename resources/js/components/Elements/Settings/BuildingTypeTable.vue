@@ -45,14 +45,7 @@
                 <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                         <div class="my-4 grid grid-cols-1">
-                             <NormalInput v-model="form.name" label="Building Name" id="building-name" :hasError="this.editMode || !this.editMode ? false : form.errors.has('name')" :errorMessage="this.editMode || !this.editMode ? '' :form.errors.get('name')"></NormalInput>
-                            <!-- <div class="sm:col-span-3">
-                                <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Building Name</label>
-                                <div class="mt-2">
-                                    <input v-model="form.name" type="text"  name="building-name" id="building-name" autocomplete="given-name" :class="[form.errors.has('name') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400', 'block w-full px-3 rounded-md border py-1.5 shadow-sm ring-1 ring-inset   sm:text-sm sm:leading-6']" />
-                                </div>
-                                <div class="text-sm text-red-600 dark:text-red-500" v-if="form.errors.has('name')" v-html="form.errors.get('name')" />
-                            </div> -->
+                             <NormalInput v-model="form.name" label="Building Name" id="building-name" :hasError=" this.editMode ? false: form.errors.has('name')" :errorMessage="this.editMode ? false: form.errors.get('name')"></NormalInput>
                             <div class="sm:col-span-3 mt-3">
                                 <label for="building-name" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
                                 <div class="mt-2">
@@ -104,7 +97,7 @@ export default{
   name:"BuildingTypeTable",
   props: {
     data:{
-        type:Array,
+        type:Object,
         default: {},
     }
   },
@@ -113,7 +106,7 @@ export default{
   },
   data () {
     return {
-        data:{},
+        //data:{},
         editMode:false,
         open:false,
         form: Form.make({
@@ -144,7 +137,7 @@ export default{
                 data: this.form
             }
         }).then((data) =>{
-            this.editMode = false;
+            
             this.$Progress.finish();
             createToast({
                 title: 'Success!',
@@ -159,6 +152,7 @@ export default{
                 toastBackgroundColor: '#00bcd4',
             }) 
             this.getData();
+            
         }).catch((error) => {
             
         })
@@ -214,7 +208,7 @@ export default{
         await axios.get('/api/building-types').then((data) =>{
             this.data = data.data.data;
         }).catch((e) => {
-            errorMessage('Opps!', e.message, 'top-right')
+           // errorMessage('Opps!', e.message, 'top-right')
         });
     },
  

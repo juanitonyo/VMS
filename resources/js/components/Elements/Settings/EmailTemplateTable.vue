@@ -134,16 +134,16 @@ export default{
   name:"EmailTemplateTable",
   props: {
     data:{
-        type: Array,
-        default: {}
-    },
+        type:Object,
+        default: {},
+    }
   },
   components:{
     DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
   },
   data () {
     return {
-        data:{},
+       // data:{},
         editMode:false,
         open:false,
         pop: false,
@@ -258,7 +258,7 @@ export default{
         await axios.get('/api/email-template').then((data) =>{
             this.data = data.data.data;
         }).catch((e) => {
-            errorMessage('Opps!', e.message, 'top-right')
+           // errorMessage('Opps!', e.message, 'top-right')
         });
     }
   },

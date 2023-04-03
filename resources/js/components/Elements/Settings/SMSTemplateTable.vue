@@ -99,7 +99,7 @@ export default{
   },
   data () {
     return {
-        data:[],
+        //data:{},
         editMode:false,
         open:false,
         form: new Form({
@@ -191,7 +191,7 @@ export default{
         await axios.get('/api/sms-template').then((data) =>{
             this.data = data.data.data;
         }).catch((e) => {
-            errorMessage('Opps!', e.message, 'top-right')
+           // errorMessage('Opps!', e.message, 'top-right')
         });
     },
   },

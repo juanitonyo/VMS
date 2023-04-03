@@ -6,9 +6,9 @@
                 <option v-for="item in tabs" :key="item.name">{{item.name}}</option>
             </select>
         </div>
-        <ul class="hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-700 dark:text-gray-400">
+        <ul class="hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-200 dark:text-gray-400">
             <li class="w-full" v-for="(item,index) in tabs" :key="item.name">
-                <a href="#" @click.prevent="setTab(item.name)" :class="[index == 0 ? 'rounded-l-lg' : (tabs.length - 1 == index ? 'rounded-r-lg' : '') , currentTab == item.name ? 'active dark:bg-cyan-800' : 'dark:bg-cyan-700' ,'inline-block w-full p-4 text-gray-900 bg-cyan-500 focus:ring-4 focus:ring-blue-500 focus:outline-none  dark:text-white']" aria-current="page">
+                <a href="#" @click.prevent="setTab(item.name)" :class="[index == 0 ? 'rounded-l-lg' : (tabs.length - 1 == index ? 'rounded-r-lg' : '') , currentTab == item.name ? 'bg-cyan-800 dark:bg-cyan-800 text-white ' : 'dark:bg-cyan-700 bg-cyan-500 text-white' ,'inline-block w-full p-4 text-gray-900 bg-cyan-700 focus:outline-none dark:text-white']" aria-current="page">
                     {{ item.name }}
                 </a>
             </li>
@@ -56,7 +56,7 @@ export default{
                 await axios.get('/api/building-types').then((data) =>{
                     this.building_types = data.data.data;
                 }).catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
+                   // errorMessage('Opps!', e.message, 'top-right')
                 });
             break;
 
@@ -64,7 +64,7 @@ export default{
                 await axios.get('/api/email-template').then((data) =>{
                     this.email_templates = data.data.data;
                 }).catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
+                  //  errorMessage('Opps!', e.message, 'top-right')
                 });
             break;
 
@@ -72,7 +72,7 @@ export default{
                 await axios.get('/api/sms-template').then((data) =>{
                     this.sms_templates = data.data.data;
                 }).catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
+                    //errorMessage('Opps!', e.message, 'top-right')
                 });
             break;
 
@@ -80,7 +80,7 @@ export default{
                 await axios.get('/api/building-types').then((data) =>{
                         this.building_types = data.data.data;
                     }).catch((e) => {
-                        errorMessage('Opps!', e.message, 'top-right')
+                      //  errorMessage('Opps!', e.message, 'top-right')
                     });
                 break;
 
@@ -97,7 +97,7 @@ export default{
      axios.get('/api/building-types').then((data) =>{
                         this.building_types = data.data.data;
                     }).catch((e) => {
-                        errorMessage('Opps!', e.message, 'top-right')
+                       // errorMessage('Opps!', e.message, 'top-right')
                     });
 
   },
