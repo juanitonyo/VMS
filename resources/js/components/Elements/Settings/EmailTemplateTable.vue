@@ -27,7 +27,7 @@
                     <tbody class="divide-y divide-gray-200 bg-white">
                     <tr v-for="item in data.data" :key="item.id">
                         <td class=" py-4 pl-4 pr-3 text-center text-xs font-bold text-gray-900 sm:pl-6">{{ item.id }}</td>
-                        <td class=" px-3 py-4 text-xs text-left text-gray-500">{{ item.purpose }}</td>
+                        <td class=" px-3 py-4 text-xs text-left w-56 text-gray-500">{{ item.purpose }}</td>
                         <td class=" px-3 py-4 text-xs text-left text-gray-500">{{ item.subject }}</td>
                         <td class=" px-3 py-4 text-xs text-left w-52 break-all text-cyan-600  hover:text-cyan-900"> <a @click.prevent="isOpen(item)" href="">[ View Content ]</a></td>
                         <td class=" px-3 py-4 w-80 break-all text-xs text-left text-gray-500">{{ item.description }}</td>
@@ -52,7 +52,11 @@
                             <div class="sm:col-span-3 mt-3">
                                 <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Purpose</label>
                                 <div class="mt-2">
-                                    <input v-model="form.purpose" type="text" name="email_subj" id="email_subj" autocomplete="email_subj" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                        <select v-model="form.purpose" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-800 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6">
+                                            <option value=""  disabled selected>Choose a purpose</option>
+                                            <option value="reset-password">reset-password</option>
+                                            <option value="register">register</option>
+                                        </select>
                                 </div>
                             </div>
                             
