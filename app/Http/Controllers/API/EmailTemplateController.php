@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
-use App\Models\emailTemplate;
+use App\Models\EmailTemplate;
 use Illuminate\Http\Request;
 
 class EmailTemplateController extends BaseController
@@ -12,8 +12,8 @@ class EmailTemplateController extends BaseController
      */
     public function index()
     {
-        $data = emailTemplate::paginate(10);
-        return $this->sendResponse($data, "All Email Template in Array.");
+        $data=EmailTemplate::paginate(10);
+        return $this->sendResponse($data, "All SMS in Array");
     }
 
     /**
@@ -29,14 +29,14 @@ class EmailTemplateController extends BaseController
      */
     public function store(Request $request)
     {
-        $data = emailTemplate::create($request->all());
-        return $this->sendResponse($data, "Saved data");
+        $data=EmailTemplate::create($request->all());
+        return $this->sendResponse($data, "Saved");
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(emailTemplate $emailTemplate)
+    public function show(EmailTemplate $emailTemplate)
     {
         //
     }
@@ -44,7 +44,7 @@ class EmailTemplateController extends BaseController
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(emailTemplate $emailTemplate)
+    public function edit(EmailTemplate $emailTemplate)
     {
         //
     }
@@ -54,19 +54,20 @@ class EmailTemplateController extends BaseController
      */
     public function update(Request $request, $id)
     {
-        $data = emailTemplate::findOrFail($id)->update([
+        $data = EmailTemplate::findOrFail($id)->update([
             'subject' => $request->params['data']['subject'],
+            'purpose' => $request->params['data']['purpose'],
             'body' => $request->params['data']['body'],
             'description' => $request->params['data']['description'],
             'status' => $request->params['data']['status'],
-        ]);
-        return $this->sendResponse($data, "Updated Data");
+          ]);
+          return $this->sendResponse($data, "Updated Data");
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(emailTemplate $emailTemplate)
+    public function destroy(EmailTemplate $emailTemplate)
     {
         //
     }
