@@ -126,6 +126,13 @@ export default{
     setOpen(){
         this.editMode = false;
         this.open = !this.open;
+        this.form = new Form({
+            id:'',
+            name:'',
+            description:'',
+            delivery_form: false,
+            status:false,
+        });
     },
     saveBuilding(){
         console.log(this.form);
@@ -148,6 +155,7 @@ export default{
 
         }).catch((error) => {
             this.$Progress.fail();
+            this.getData();
         })
     },
     editBuilding(item){
@@ -176,7 +184,7 @@ export default{
             this.getData();
             this.form.reset();
         }).catch((error) => {
-
+            this.getData();
         })
     },
    async getData(){
