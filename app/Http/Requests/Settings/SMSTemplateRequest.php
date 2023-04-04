@@ -4,7 +4,7 @@ namespace App\Http\Requests\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class EmailTemplateRequest extends FormRequest
+class SMSTemplateRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -26,9 +26,7 @@ class EmailTemplateRequest extends FormRequest
 
     public function createRules() :array {
         return [
-            'purpose' => 'required|unique:email_templates|max:100',
-            'subject' => 'required',
-            'body' => 'required',
+            'message' => 'required|unique:s_m_s_templates|max:100',
             'description' => 'required',
             'status' => 'required',
         ];
@@ -36,12 +34,9 @@ class EmailTemplateRequest extends FormRequest
 
     public function updateRules(){
         return [
-            'params.data.purpose' => 'required|max:100|unique:email_templates,id,'.$this->get('id'),
-            'params.data.subject' => 'required',
-            'params.data.body' => 'required',
+            'params.data.message' => 'required|max:100|unique:s_m_s_templates, id,'.$this->get('id'),
             'params.data.description' => 'required',
             'params.data.status' => 'required',
         ];
     }
-
 }

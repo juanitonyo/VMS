@@ -1,45 +1,37 @@
 <template>
-  <TransitionRoot as="template" :show="setOpen">
-    <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen">
-      <TransitionChild as="template" enter="duration-100 ease-out" enter-from="opacity-0" enter-to="opacity-100"
-        leave="duration-100 ease-in" leave-from="opacity-100" leave-to="opacity-0">
-        <div class="fixed inset-0 bg-black bg-opacity-25" />
-      </TransitionChild>
-      <div class="fixed inset-0 overflow-hidden">
-        <div class="absolute inset-0 overflow-hidden">
-          <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
-            <TransitionChild as="template" enter="transform transition ease-in-out duration-400 sm:duration-700"
-              enter-from="translate-x-full" enter-to="translate-x-0"
-              leave="transform transition ease-in-out duration-400 sm:duration-700" leave-from="translate-x-0"
-              leave-to="translate-x-full">
-              <DialogPanel class="pointer-events-auto w-screen max-w-md">
-                <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-                  <div class="bg-cyan-700 py-6 px-4 sm:px-6 ">
-                    <div class="flex items-center justify-between">
-                      <DialogTitle class="text-base font-semibold leading-6 text-white">{{ title }}</DialogTitle>
-                      <div class="ml-3 flex h-7 items-center">
-                        <button type="button"
-                          class="rounded-md bg-cyan-700 text-cyan-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white"
-                          @click.prevent="setOpen = false">
-                          <XMarkIcon class="h-6 w-6" aria-hidden="true" />
-                        </button>
+    <TransitionRoot as="template" :show="setOpen">
+      <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen">
+        <div class="fixed inset-0" />
+        <div class="fixed inset-0 overflow-hidden">
+          <div class="absolute inset-0 overflow-hidden">
+            <div class="pointer-events-none fixed inset-y-0 right-0 flex max-w-full pl-10">
+              <TransitionChild as="template" enter="transform transition ease-in-out duration-400 sm:duration-700" enter-from="translate-x-full" enter-to="translate-x-0" leave="transform transition ease-in-out duration-400 sm:duration-700" leave-from="translate-x-0" leave-to="translate-x-full">
+                <DialogPanel class="pointer-events-auto w-screen max-w-md">
+                  <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
+                    <div class="bg-cyan-700 py-6 px-4 sm:px-6 ">
+                      <div class="flex items-center justify-between">
+                        <DialogTitle class="text-base font-semibold leading-6 text-white">{{ title }}</DialogTitle>
+                        <div class="ml-3 flex h-7 items-center">
+                          <button type="button" class="rounded-md bg-cyan-700 text-cyan-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white" @click="setOpen = false">
+                            <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                          </button>
+                        </div>
+                      </div>
+                      <div class="mt-1">
+                        <p class="text-sm text-gray-200">{{ description }}</p>
                       </div>
                     </div>
-                    <div class="mt-1">
-                      <p class="text-sm text-gray-200">{{ description }}</p>
-                    </div>
+                    <slot name="slider-body"></slot>
+                    
                   </div>
-                  <slot name="slider-body"></slot>
-
-                </div>
-              </DialogPanel>
-            </TransitionChild>
+                </DialogPanel>
+              </TransitionChild>
+            </div>
           </div>
         </div>
-      </div>
-    </Dialog>
-  </TransitionRoot>
-</template>
+      </Dialog>
+    </TransitionRoot>
+  </template>
   
 <script>
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
@@ -69,10 +61,10 @@ export default {
   },
   data() {
 
-  },
-  methods: {
-
-  }
+        },
+        methods:{
+          
+        }
 
 }
 </script>

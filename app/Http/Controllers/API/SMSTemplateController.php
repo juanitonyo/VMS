@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\SMSTemplate;
 use Illuminate\Http\Request;
+use App\Http\Requests\Settings\SMSTemplateRequest;
 
 class SMSTemplateController extends BaseController
 {
@@ -12,7 +13,7 @@ class SMSTemplateController extends BaseController
      */
     public function index()
     {
-        $data=SMSTemplate::paginate(10);
+        $data = SMSTemplate::paginate(10);
         return $this->sendResponse($data, "All SMS in Array");
     }
 
@@ -27,9 +28,9 @@ class SMSTemplateController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(SMSTemplateRequest $request)
     {
-        $data=SMSTemplate::create($request->all());
+        $data = SMSTemplate::create($request->all());
         return $this->sendResponse($data, "Saved");
     }
 
@@ -52,14 +53,14 @@ class SMSTemplateController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(SMSTemplateRequest $request, $id)
     {
         $data = SMSTemplate::findOrFail($id)->update([
             'message' => $request->params['data']['message'],
             'description' => $request->params['data']['description'],
             'status' => $request->params['data']['status'],
           ]);
-          return $this->sendResponse($data, "Updated Data");
+          return $this->sendResponse($request->validated(), "Updated Data");
     }
 
     /**
