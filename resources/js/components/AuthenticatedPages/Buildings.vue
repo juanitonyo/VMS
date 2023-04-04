@@ -1,0 +1,222 @@
+<template>
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8 mt-3">
+        <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
+            <div class="sm:flex sm:items-center">
+                <div class="sm:flex-auto">
+                    <h1 class="text-2xl font-extrabold leading-6 text-cyan-600">BUILDINGS</h1>
+                    <p class="mt-2 text-xs text-gray-700">Viewing and Adding types of Buildings</p>
+                </div>
+
+                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                    <button @click.prevent="setOpen" type="button"
+                        class="block rounded-md bg-cyan-600 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Add
+                        Building</button>
+                </div>
+
+            </div>
+            <div class="mt-8 flow-root">
+                <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-300">
+                                <thead class="bg-gray-50">
+                                    <tr>
+                                        <th scope="col"
+                                            class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+                                            Building Name</th>
+                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                            Description</th>
+                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                            Building Type</th>
+                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                            QR Code</th>
+                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                            Status</th>
+                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                            Date Created</th>
+                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                            Actions</th>
+
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 bg-white">
+                                    <tr v-for="item in data" :key="item.id">
+                                        <td class="text-center px-3 py-4 text-xs text-gray-900 ">{{ item.buildingName }}
+                                        </td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.buildingType }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">
+                                            <button @click.prevent="isOpen('Visitor')"
+                                                class="border border-cyan-500 rounded-md py-1 px-3 mx-1 hover:bg-cyan-500 hover:text-white">Visitor</button>
+                                            <button @click.prevent="isOpen('Host')"
+                                                class="border border-cyan-500 rounded-md py-1 px-4 hover:bg-cyan-500 hover:text-white">Host</button>
+                                        </td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.date }}</td>
+                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs">
+                                            <a @click.prevent="editBuilding(data)" href="#"
+                                                class="text-cyan-600 hover:text-cyan-900">Edit<span
+                                                    class="sr-only"></span></a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Building'"
+        :description="'This. add building. haha'">
+        <template v-slot:slider-body>
+            <form @submit.prevent="editMode ? updateSMS() : saveSMS()">
+                <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
+                    <div class="my-4 grid grid-cols-1">
+
+                        <div class="sm:col-span-3">
+                            <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Building Name</label>
+                            <div class="mt-2">
+                                <input v-model="form.buildingName" type="text" name="build" id="sms" autocomplete="sms"
+                                    class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
+                            <div class="mt-2">
+                                <textarea v-model="form.description" type="text" name="build" id="sms" autocomplete="sms"
+                                    class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <label for="build_type" class="block text-sm font-medium leading-6 text-gray-900">Building
+                                Type</label>
+                            <div class="mt-2">
+                                <select v-model="form.buildingType"
+                                    class="block w-full px-3 rounded-md border-0 py-1.5 bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-800 sm:text-sm sm:leading-6">
+                                    <option value="" disabled selected>Choose a purpose</option>
+                                    <option value="">Mall</option>
+                                    <option value="">Co Working Space</option>
+                                    <option value="">Subdivision</option>
+                                </select>
+                            </div>
+                        </div>
+
+
+                        <div class="sm:col-span-3 mt-3">
+                            <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">Upload
+                                Logo</label>
+                            <div class="flex flex-col items-center justify-center mt-2">
+                                <div
+                                    class="flex flex-col items-center justify-center content-none border h-32 w-32 rounded-md">
+                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                        class="w-12 h-12 text-gray-400 group-hover:text-gray-600" viewBox="0 0 20 20"
+                                        fill="currentColor">
+                                        <path fill-rule="evenodd"
+                                            d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                            clip-rule="evenodd" />
+                                    </svg>
+                                    <p class="text-xs m-2">Upload Logo</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
+                    <button type="button"
+                        class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
+                        @click="setOpen">Cancel</button>
+                    <button type="submit"
+                        class="ml-4 inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">{{
+                            editMode
+                            ? 'Update' : 'Save' }}</button>
+                </div>
+            </form>
+        </template>
+    </SliderVue>
+
+    <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR'">
+        <template v-slot:dialogBody>
+            <div>
+                <p v-html="form.body"></p>
+            </div>
+            <div class="mt-4">
+                <button type="button"
+                    class="inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500"
+                    @click.prevent="this.pop = !this.pop">
+                    Close
+                </button>
+            </div>
+        </template>
+    </DialogVue>
+</template>
+
+<script>
+
+import axios from "axios";
+import Form from "vform";
+import SliderVue from '@/components/Elements/Modals/Slider.vue'
+import DialogVue from '@/components/Elements/Modals/Dialog.vue'
+
+export default {
+
+    name: 'Building',
+    props: {
+        data: {
+            type: Array,
+            default: {}
+        },
+    },
+
+    components: {
+        SliderVue, DialogVue
+    },
+
+    data() {
+        return {
+            editMode: false,
+            open: false,
+            pop: false,
+            vMode: '',
+            form: new Form({
+                buildingName: '',
+                description: '',
+                buildingType: '',
+                status: false,
+                date: '',
+            }),
+        }
+    },
+
+    methods: {
+        setOpen() {
+            this.editMode = false;
+            this.open = !this.open;
+            this.form = new Form({
+                buildingName: '',
+                description: '',
+                buildingType: '',
+                status: false,
+                date: '',
+            })
+        },
+
+        isOpen(mode) {
+            this.pop = !this.pop;
+            this.vMode = mode;
+        },
+
+        editBuilding(item) {
+            this.editMode = true;
+            this.open = !this.open;
+            this.form = item;
+        },
+
+    },
+}
+
+</script>

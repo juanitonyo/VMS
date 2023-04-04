@@ -1,5 +1,5 @@
 <template>
-    <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-3">
+    <div class="mx-auto max-w-full px-4 sm:px-6 lg:px-8 mt-3">
             <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
                 <div class="sm:flex sm:items-center">
                     <div class="sm:flex-auto">

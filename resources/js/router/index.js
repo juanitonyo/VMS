@@ -16,6 +16,7 @@ const Login = () => import("@/components/GuestPages/Login.vue");
 const Dashboard = () => import("@/components/AuthenticatedPages/Dashboard.vue");
 const Users = () => import("@/components/AuthenticatedPages/Users.vue");
 const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
+const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 
 const routes = [
     {
@@ -56,7 +57,7 @@ const routes = [
                 path: "/app/dashboard",
                 component: Dashboard,
                 meta: {
-                    title: `Dashboard`,
+                    title: `VMS | Dashboard`,
                     ability: "",
                 },
             },
@@ -75,6 +76,15 @@ const routes = [
                 component: Settings,
                 meta: {
                     title: `VMS | Settings`,
+                    ability: "",
+                },
+            },
+            {
+                name: "buildings",
+                path: "/app/buildings",
+                component: Buildings,
+                meta: {
+                    title: `VMS | Buildings`,
                     ability: "",
                 },
             },

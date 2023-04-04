@@ -59,7 +59,7 @@ import { useRouter, useRoute } from 'vue-router'
   const sidebarNavigation = [
     { name: 'Dashboard', href: '/app/dashboard', icon: RectangleStackIcon },
     { name: 'Users', href: '/app/users', icon: UsersIcon },
-    { name: 'Buildings', href: '#', icon: BuildingOffice2Icon },
+    { name: 'Buildings', href: '/app/buildings', icon: BuildingOffice2Icon },
     { name: 'Visitors', href: '#', icon: UserGroupIcon },
     { name: 'Deliveries', href: '#', icon: TruckIcon},
     { name: 'Employee Reports', href: '#', icon: DocumentChartBarIcon },
