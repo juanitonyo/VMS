@@ -46,16 +46,10 @@
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                         <div class="my-4 grid grid-cols-1">
                             <div class="sm:col-span-3">
-                                <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Message</label>
-                                <div class="mt-2">
-                                    <input v-model="form.message" type="text" name="sms" id="sms" autocomplete="sms" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
-                                </div>
+                                <NormalInput v-model="form.message" label="Message" id="sms" :hasError=" this.editMode ? false: form.errors.has('message')" :errorMessage="this.editMode ? false: form.errors.get('message')"></NormalInput>
                             </div>
                             <div class="sm:col-span-3 mt-3">
-                                <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
-                                <div class="mt-2">
-                                    <input v-model="form.description" type="text" name="sms" id="sms" autocomplete="sms" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
-                                </div>
+                                <NormalInput v-model="form.description" label="Description" id="sms" :hasError=" this.editMode ? false: form.errors.has('description')" :errorMessage="this.editMode ? false: form.errors.get('description')"></NormalInput>
                             </div>
                             <div class="sm:col-span-3 mt-3">
                                 <SwitchGroup as="div" class="flex items-center justify-between">
@@ -85,21 +79,22 @@ import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+import NormalInput from "../Inputs/NormalInput.vue";
 
 export default{
   name:"SMSTemplateTable",
   props: {
     data:{
         type: Array,
-        default: {}
+        default: {},
     },
   },
   components:{
-    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel
+    SliderVue, Switch, SwitchDescription, SwitchGroup, NormalInput
   },
   data () {
     return {
-        data:[],
+        data:{},
         editMode:false,
         open:false,
         form: new Form({
@@ -126,6 +121,14 @@ export default{
         this.form.post('/api/sms-template')
         .then((data) => {
             this.$Progress.finish();
+            this.getData();
+            this.form = new Form({
+                id:'',
+                message:'',
+                description:'',
+                status:true,
+            });
+            this.open = !this.open;
             createToast({
                 title: 'Success!',
                 description: 'Data has been saved.'
@@ -141,14 +144,6 @@ export default{
         }).catch((error) => {
             this.$Progress.fail();
         })
-        this.getData();
-        this.form = new Form({
-            id:'',
-            message:'',
-            description:'',
-            status:true,
-        });
-        this.open = !this.open;
     },
     updateSMS(){
         axios.put("/api/sms-template/"+ this.form.id, {
@@ -158,6 +153,14 @@ export default{
         }).then((data) =>{
             this.editMode = false;
             this.$Progress.finish();
+            this.getData();
+            this.form = new Form({
+                id:'',
+                message:'',
+                description:'',
+                status:true,
+            });
+            this.open = !this.open;
             createToast({
                 title: 'Success!',
                 description: 'Data has been updated.'
@@ -173,14 +176,6 @@ export default{
         }).catch((error) => {
             
         })
-        this.getData();
-        this.form = new Form({
-            id:'',
-            message:'',
-            description:'',
-            status:true,
-        });
-        this.open = !this.open;
     },
     editSMSTemplate(item){
         this.editMode = true;
@@ -191,7 +186,7 @@ export default{
         await axios.get('/api/sms-template').then((data) =>{
             this.data = data.data.data;
         }).catch((e) => {
-            errorMessage('Opps!', e.message, 'top-right')
+            // errorMessage('Opps!', e.message, 'top-right')
         });
     },
   },

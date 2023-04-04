@@ -1,6 +1,6 @@
 <template>
     <TransitionRoot as="template" :show="setOpen">
-      <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen = false">
+      <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen">
         <div class="fixed inset-0" />
         <div class="fixed inset-0 overflow-hidden">
           <div class="absolute inset-0 overflow-hidden">
@@ -12,7 +12,7 @@
                       <div class="flex items-center justify-between">
                         <DialogTitle class="text-base font-semibold leading-6 text-white">{{ title }}</DialogTitle>
                         <div class="ml-3 flex h-7 items-center">
-                          <button type="button" class="rounded-md bg-cyan-700 text-cyan-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white" @click.prevent="setOpen = false">
+                          <button type="button" class="rounded-md bg-cyan-700 text-cyan-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white" @click="setOpen = false">
                             <XMarkIcon class="h-6 w-6" aria-hidden="true" />
                           </button>
                         </div>
@@ -63,7 +63,7 @@
 
         },
         methods:{
-         
+          
         }
 
     }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\API;
 
 use App\Models\BuildingTypes;
 use Illuminate\Http\Request;
+use App\Http\Requests\Settings\BuildingTypeRequest;
 
 class BuildingTypesController extends BaseController
 {
@@ -27,9 +28,10 @@ class BuildingTypesController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(BuildingTypeRequest $request)
     {
-      $data = BuildingTypes::create($request->all());
+
+      $data = BuildingTypes::create($request->validated());
       return $this->sendResponse($data, "Saved Data");
     }
 
@@ -52,15 +54,16 @@ class BuildingTypesController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
+    public function update(BuildingTypeRequest $request, $id)
     {
+
       $data = BuildingTypes::findOrFail($id)->update([
         'name' => $request->params['data']['name'],
         'description' => $request->params['data']['description'],
         'delivery_form' => $request->params['data']['delivery_form'],
         'status' => $request->params['data']['status'],
       ]);
-      return $this->sendResponse($data, "Updated Data");
+       return $this->sendResponse($request->validated(), "Updated Data");
     }
 
     /**
