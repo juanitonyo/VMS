@@ -40,7 +40,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="item in data" :key="item.id">
+                                    <tr v-for="item in data.data" :key="item.id">
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 ">{{ item.buildingName }}
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
@@ -95,15 +95,15 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <label for="build_type" class="block text-sm font-medium leading-6 text-gray-900">Building
+                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Building
                                 Type</label>
                             <div class="mt-2">
                                 <select v-model="form.buildingType"
                                     class="block w-full px-3 rounded-md border-0 py-1.5 bg-white text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-800 sm:text-sm sm:leading-6">
                                     <option value="" disabled selected>Choose a purpose</option>
-                                    <option value="">Mall</option>
-                                    <option value="">Co Working Space</option>
-                                    <option value="">Subdivision</option>
+                                    <option value="Mall">Mall</option>
+                                    <option value="Co Working Space">Co Working Space</option>
+                                    <option value="Subdivision">Subdivision</option>
                                 </select>
                             </div>
                         </div>

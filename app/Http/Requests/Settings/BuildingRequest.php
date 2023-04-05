@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Request\Settings;
+namespace App\Http\Requests\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -28,14 +28,14 @@ class BuildingRequest extends FormRequest
         return [
             'buildingName' => 'required|unique:buildings|max:100',
             'description' => 'required',
-            'buildingType' => 'required|unique|max:100',
+            'buildingType' => 'required|max:100',
             'status' => 'required',
         ];
     }
 
     public function updateRules(){
         return [
-            'params.data.buildingName' => 'required|max:100|unique:buildings,id,'.$this->get('id'),
+            'params.data.buildingName' => 'required|max:100|unique:buildings'.$this->get('id'),
             'params.data.description' => 'required',
             'params.data.buildingType' => 'required',
             'params.data.status' => 'required',
