@@ -35,7 +35,7 @@ class BuildingRequest extends FormRequest
 
     public function updateRules(){
         return [
-            'params.data.buildingName' => 'required|max:100|unique:buildings'.$this->get('id'),
+            'params.data.buildingName' => 'required|max:100|unique:buildings, id'.$this->get('id'),
             'params.data.description' => 'required',
             'params.data.buildingType' => 'required',
             'params.data.status' => 'required',
