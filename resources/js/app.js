@@ -35,5 +35,4 @@ app.use(pinia, moshaToast, Form);
 app.use(VueProgressBar, options);
 app.use(CKEditor);
 
-
 app.mount('#app');

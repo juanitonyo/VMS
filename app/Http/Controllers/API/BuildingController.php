@@ -13,7 +13,7 @@ class BuildingController extends BaseController
      */
     public function index()
     {
-        $data = Building::paginate(10);
+        $data = Building::paginate(2);
         return $this->sendResponse($data, "All buildings in array");
     }
 
