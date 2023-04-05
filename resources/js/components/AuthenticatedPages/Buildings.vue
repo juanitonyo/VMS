@@ -86,16 +86,25 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
+                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
+                            <div class="mt-2">
+                                <input v-model="form.description" type="text" name="build" id="building"
+                                    autocomplete="building"
+                                    class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
                             <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
                             <div class="mt-2">
-                                <textarea v-model="form.description" type="text" name="build" id="building"
+                                <textarea v-model="form.address" type="text" name="build" id="building"
                                     autocomplete="building  "
                                     class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <label for="build_type" class="block text-sm font-medium leading-6 text-gray-900">Building
+                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Building
                                 Type</label>
                             <div class="mt-2">
                                 <select v-model="form.buildingType"
@@ -108,6 +117,19 @@
                             </div>
                         </div>
 
+                        <div class="sm:col-span-3 mt-3">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+                                        Status</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.status"
+                                    :class="[form.status ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">Upload
@@ -162,9 +184,10 @@
 
 import axios from "axios";
 import Form from "vform";
-import SliderVue from '@/components/Elements/Modals/Slider.vue'
-import DialogVue from '@/components/Elements/Modals/Dialog.vue'
-import { createToast } from "mosha-vue-toastify";
+import SliderVue from '@/components/Elements/Modals/Slider.vue';
+import DialogVue from '@/components/Elements/Modals/Dialog.vue';
+import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+import { createToast } from 'mosha-vue-toastify';
 
 export default {
 
@@ -178,7 +201,11 @@ export default {
 
     components: {
         SliderVue,
-        DialogVue,
+        DialogVue, 
+        Switch, 
+        SwitchDescription, 
+        SwitchGroup, 
+        SwitchLabel
     },
 
     data() {
@@ -190,9 +217,10 @@ export default {
             vMode: '',
             form: new Form({
                 buildingName: '',
+                address: '',
                 description: '',
                 buildingType: '',
-                status: false,
+                status: true,
             }),
         }
     },
@@ -203,6 +231,7 @@ export default {
             this.open = !this.open;
             this.form = new Form({
                 buildingName: '',
+                address: '',
                 description: '',
                 buildingType: '',
                 status: false,
@@ -228,6 +257,7 @@ export default {
                     this.getData();
                     this.form = new Form({
                         buildingName: '',
+                        address: '',
                         description: '',
                         buildingType: '',
                         status: false,
@@ -259,8 +289,10 @@ export default {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
+                this.open = !this.open;
                 this.form = new Form({
                     buildingName: '',
+                    address: '',
                     description: '',
                     buildingType: '',
                     status: false,
@@ -279,7 +311,7 @@ export default {
                         toastBackgroundColor: '#00bcd4',
                     })
             }).catch((error) => {
-
+                this.$Progress.fail();
             })
         },
         async getData() {

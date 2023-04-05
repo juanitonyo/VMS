@@ -58,6 +58,7 @@ class BuildingController extends BaseController
         $data = Building::findOrFail($id)->update([
             'buildingName' => $request->params['data']['buildingName'],
             'description' => $request->params['data']['description'],
+            'address' => $request->params['data']['address'],
             'buildingType' => $request->params['data']['buildingType'],
             'status' => $request->params['data']['status'],
           ]);

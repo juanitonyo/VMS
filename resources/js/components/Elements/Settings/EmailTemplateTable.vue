@@ -261,7 +261,7 @@ export default{
                 toastBackgroundColor: '#00bcd4',
             })
         }).catch((error) => {
-            
+            this.open = !this.open;
         })
     },
     editTemplate(item){
