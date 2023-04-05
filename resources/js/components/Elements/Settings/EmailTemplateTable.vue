@@ -65,14 +65,6 @@
 
                             <div class="sm:col-span-3 mt-3">    
                                 <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :options="option" :hasError=" this.editMode ? false: form.errors.has('purpose')" :errorMessage="this.editMode ? false: form.errors.get('purpose')"></DropDown>
-                                <!-- <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Purpose</label>
-                                <div class="mt-2">
-                                        <select v-model="form.purpose" class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-800 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6">
-                                            <option value=""  disabled selected>Choose a purpose</option>
-                                            <option value="reset-password">reset-password</option>
-                                            <option value="register">register</option>
-                                        </select>
-                                </div> -->
                             </div>
                             
                             <div class="sm:col-span-3 mt-3">

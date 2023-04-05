@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Requests\Request\Settings;
+namespace App\Http\Requests\Settings;
 
 use Illuminate\Foundation\Http\FormRequest;
 
@@ -28,7 +28,7 @@ class BuildingRequest extends FormRequest
         return [
             'buildingName' => 'required|unique:buildings|max:100',
             'description' => 'required',
-            'buildingType' => 'required|unique|max:100',
+            'buildingType' => 'required',
             'status' => 'required',
         ];
     }
