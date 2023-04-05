@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('buildingName', 100);
             $table->longText('description');
+            $table->longText('address');
             $table->string('buildingType');
             $table->boolean('status')->default(true);
             $table->timestamps();

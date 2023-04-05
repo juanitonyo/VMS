@@ -28,6 +28,7 @@ class BuildingRequest extends FormRequest
         return [
             'buildingName' => 'required|unique:buildings|max:100',
             'description' => 'required',
+            'address' => 'required',
             'buildingType' => 'required',
             'buildingType' => 'required|max:100',
             'status' => 'required',
@@ -38,6 +39,7 @@ class BuildingRequest extends FormRequest
         return [
             'params.data.buildingName' => 'required|max:100|unique:buildings, id'.$this->get('id'),
             'params.data.description' => 'required',
+            'params.data.address' => 'address',
             'params.data.buildingType' => 'required',
             'params.data.status' => 'required',
         ];

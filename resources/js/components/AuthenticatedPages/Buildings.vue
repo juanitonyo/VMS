@@ -86,9 +86,18 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
+                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Description</label>
+                            <div class="mt-2">
+                                <input v-model="form.description" type="text" name="build" id="building"
+                                    autocomplete="building"
+                                    class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                            </div>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
                             <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
                             <div class="mt-2">
-                                <textarea v-model="form.description" type="text" name="build" id="building"
+                                <textarea v-model="form.address" type="text" name="build" id="building"
                                     autocomplete="building  "
                                     class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                             </div>
@@ -164,6 +173,7 @@ import axios from "axios";
 import Form from "vform";
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
+import { createToast } from 'mosha-vue-toastify';
 
 export default {
 
@@ -189,6 +199,7 @@ export default {
             vMode: '',
             form: new Form({
                 buildingName: '',
+                address: '',
                 description: '',
                 buildingType: '',
                 status: false,
@@ -202,6 +213,7 @@ export default {
             this.open = !this.open;
             this.form = new Form({
                 buildingName: '',
+                address: '',
                 description: '',
                 buildingType: '',
                 status: false,
@@ -227,6 +239,7 @@ export default {
                     this.getData();
                     this.form = new Form({
                         buildingName: '',
+                        address: '',
                         description: '',
                         buildingType: '',
                         status: false,
@@ -260,6 +273,7 @@ export default {
                 this.getData();
                 this.form = new Form({
                     buildingName: '',
+                    address: '',
                     description: '',
                     buildingType: '',
                     status: false,
