@@ -14,7 +14,7 @@ class BuildingController extends BaseController
     public function index()
     {
         $data = Building::paginate(10);
-        return $this->sendResponse($data, "All building in array");
+        return $this->sendResponse($data, "All buildings in array");
     }
 
     /**
@@ -31,7 +31,7 @@ class BuildingController extends BaseController
     public function store(BuildingRequest $request)
     {
         $data = Building::create($request->validated());
-        return $this->sendResponse($data, "Saved Data");
+      return $this->sendResponse($data, "Saved Data");
     }
 
     /**

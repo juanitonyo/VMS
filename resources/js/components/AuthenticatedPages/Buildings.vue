@@ -257,6 +257,14 @@ export default {
             }).then((data) => {
                 this.editMode = false;
                 this.$Progress.finish();
+                this.getData();
+                this.form = new Form({
+                    buildingName: '',
+                    description: '',
+                    buildingType: '',
+                    status: false,
+                });
+                this.open = !this.open;
                 createToast({
                     title: 'Success!',
                     description: 'Data has been updated.'
@@ -272,14 +280,6 @@ export default {
             }).catch((error) => {
 
             })
-            this.getData();
-            this.form = new Form({
-                buildingName: '',
-                description: '',
-                buildingType: '',
-                status: false,
-            });
-            this.open = !this.open;
         },
         async getData() {
             await axios.get('/api/building').then((data) => {

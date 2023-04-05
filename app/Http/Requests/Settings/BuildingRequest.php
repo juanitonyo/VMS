@@ -28,6 +28,7 @@ class BuildingRequest extends FormRequest
         return [
             'buildingName' => 'required|unique:buildings|max:100',
             'description' => 'required',
+            'buildingType' => 'required',
             'buildingType' => 'required|max:100',
             'status' => 'required',
         ];
