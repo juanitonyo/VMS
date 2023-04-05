@@ -51,10 +51,10 @@
                                             <button @click.prevent="isOpen('Host')"
                                                 class="border border-cyan-500 rounded-md py-1 px-4 hover:bg-cyan-500 hover:text-white">Host</button>
                                         </td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.date }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500"> No Date </td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
-                                            <a @click.prevent="editBuilding(data)" href="#"
+                                            <a @click.prevent="editBuilding(item)" href="#"
                                                 class="text-cyan-600 hover:text-cyan-900">Edit<span
                                                     class="sr-only"></span></a>
                                         </td>
@@ -71,22 +71,25 @@
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Building'"
         :description="'This. add building. haha'">
         <template v-slot:slider-body>
-            <form @submit.prevent="editMode ? updateSMS() : saveSMS()">
+            <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
                         <div class="sm:col-span-3">
-                            <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Building Name</label>
+                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Building
+                                Name</label>
                             <div class="mt-2">
-                                <input v-model="form.buildingName" type="text" name="build" id="sms" autocomplete="sms"
+                                <input v-model="form.buildingName" type="text" name="build" id="building"
+                                    autocomplete="building"
                                     class="block w-full px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <label for="sms" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
+                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
                             <div class="mt-2">
-                                <textarea v-model="form.description" type="text" name="build" id="sms" autocomplete="sms"
+                                <textarea v-model="form.description" type="text" name="build" id="building"
+                                    autocomplete="building  "
                                     class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
@@ -173,11 +176,13 @@ export default {
     },
 
     components: {
-        SliderVue, DialogVue
+        SliderVue,
+        DialogVue,
     },
 
     data() {
         return {
+            data:{},
             editMode: false,
             open: false,
             pop: false,
@@ -187,7 +192,6 @@ export default {
                 description: '',
                 buildingType: '',
                 status: false,
-                date: '',
             }),
         }
     },
@@ -201,7 +205,6 @@ export default {
                 description: '',
                 buildingType: '',
                 status: false,
-                date: '',
             })
         },
 
@@ -216,7 +219,80 @@ export default {
             this.form = item;
         },
 
+        saveBuilding() {
+            this.$Progress.start();
+            this.form.post('/api/building')
+                .then((data) => {
+                    this.$Progress.finish();
+                    this.getData();
+                    this.form = new Form({
+                        buildingName: '',
+                        description: '',
+                        buildingType: '',
+                        status: false,
+                    });
+                    this.open = !this.open;
+                    createToast({
+                        title: 'Success!',
+                        description: 'Data has been saved.'
+                    },
+                        {
+                            position: 'top-left',
+                            showIcon: 'true',
+                            type: 'success',
+                            toastBackgroundColor: '#00bcd4',
+                            hideProgressBar: 'true',
+                            toastBackgroundColor: '#00bcd4',
+                        })
+                }).catch((error) => {
+                    this.$Progress.fail();
+                })
+        },
+
+        updateBuilding() {
+            axios.put("/api/building/" + this.form.id, {
+                params: {
+                    data: this.form
+                }
+            }).then((data) => {
+                this.editMode = false;
+                this.$Progress.finish();
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been updated.'
+                },
+                    {
+                        position: 'top-left',
+                        showIcon: 'true',
+                        type: 'success',
+                        toastBackgroundColor: '#00bcd4',
+                        hideProgressBar: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                    })
+            }).catch((error) => {
+
+            })
+            this.getData();
+            this.form = new Form({
+                buildingName: '',
+                description: '',
+                buildingType: '',
+                status: false,
+            });
+            this.open = !this.open;
+        },
+        async getData() {
+            await axios.get('/api/building').then((data) => {
+                this.data = data.data.data;
+            }).catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+            });
+        }
+
     },
+    created() {
+        this.getData();
+    }
 }
 
 </script>
