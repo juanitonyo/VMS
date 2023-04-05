@@ -40,14 +40,6 @@ import {
   DialogTitle,
 } from '@headlessui/vue'
 export default {
-  //   methods: {
-  //     closeModal(){
-  //         isOpen.value = false
-  //     },
-  //     openModal(){
-  //         isOpen.value = true
-  //     }
-  //   },
   props: {
     isOpen: {
       type: Boolean,
@@ -66,14 +58,6 @@ export default {
     DialogPanel,
     DialogTitle,
   }
-  // const isOpen = ref(true)
-
-  // function closeModal() {
-  //     isOpen.value = false
-  // }
-  // function openModal() {
-  //     isOpen.value = true
-  // }
 
 }
 

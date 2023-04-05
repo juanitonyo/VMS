@@ -39,6 +39,10 @@ export default{
             type: Boolean,
             default: false
         },
+        messageMessage:{
+            type: String,
+            default: ''
+        },
         errorMessage:{
             type: String,
             default: ''
@@ -47,10 +51,5 @@ export default{
             type: Array,
         },
     },
-    // methods: {
-    //     onChange(event) {
-    //         this.
-    //     }
-    // },
 }
 </script>

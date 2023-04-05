@@ -103,7 +103,7 @@ export default{
     },
   },
   components:{
-    SliderVue, Switch, SwitchDescription, SwitchGroup, NormalInput
+    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput
   },
   data () {
     return {
