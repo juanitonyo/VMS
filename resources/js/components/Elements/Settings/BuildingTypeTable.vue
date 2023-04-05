@@ -136,7 +136,6 @@ export default{
         })
     },
     saveBuilding(){
-        console.log(this.form);
         this.$Progress.start();
         this.form.post('/api/building-types')
         .then((data) => {
