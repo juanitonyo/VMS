@@ -47,9 +47,9 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.buildingType }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">
                                             <button @click.prevent="isOpen('Visitor')"
-                                                class="border border-cyan-500 rounded-md py-1 px-3 mx-1 hover:bg-cyan-500 hover:text-white">Visitor</button>
+                                                class="border border-cyan-500 rounded-md py-1.5 px-3 mx-1 hover:bg-cyan-500 hover:text-white">Visitor</button>
                                             <button @click.prevent="isOpen('Host')"
-                                                class="border border-cyan-500 rounded-md py-1 px-4 hover:bg-cyan-500 hover:text-white">Host</button>
+                                                class="border border-cyan-500 rounded-md py-1.5 px-4 hover:bg-cyan-500 hover:text-white">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>
@@ -62,6 +62,7 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <TailwindPagination :data="data" @pagination-change-page="getData" />
                         </div>
                     </div>
                 </div>
@@ -190,7 +191,8 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import { createToast } from 'mosha-vue-toastify';
-import moment from "moment"
+import moment from 'moment';
+import { TailwindPagination } from 'laravel-vue-pagination';
 
 export default {
 
@@ -205,7 +207,7 @@ export default {
     components: {
         SliderVue,
         DialogVue,
-        Switch, SwitchDescription, SwitchGroup, SwitchLabel, moment
+        Switch, SwitchDescription, SwitchGroup, SwitchLabel, moment, TailwindPagination
     },
 
     data() {
@@ -317,8 +319,8 @@ export default {
 
             })
         },
-        async getData() {
-            await axios.get('/api/building').then((data) => {
+        async getData(page = 1) {
+            await axios.get('/api/building?page=${page}').then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')

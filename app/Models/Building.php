@@ -15,6 +15,5 @@ class Building extends Model
         'description',
         'buildingType',
         'status',
-        'timeDate'
     ];
 }

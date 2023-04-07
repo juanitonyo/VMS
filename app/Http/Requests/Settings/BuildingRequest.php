@@ -31,7 +31,6 @@ class BuildingRequest extends FormRequest
             'address' => 'required',
             'buildingType' => 'required|max:100',
             'status' => 'required',
-            'timeDate' => 'required'
         ];
     }
 
@@ -42,7 +41,6 @@ class BuildingRequest extends FormRequest
             'params.data.address' => 'required',
             'params.data.buildingType' => 'required',
             'params.data.status' => 'required',
-            'params.data.timeDate' => 'required'
         ];
     }
 }

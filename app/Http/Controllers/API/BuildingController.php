@@ -13,7 +13,7 @@ class BuildingController extends BaseController
      */
     public function index()
     {
-        $data = Building::paginate(10);
+        $data = Building::paginate(2);
         return $this->sendResponse($data, "All buildings in array");
     }
 
@@ -61,7 +61,6 @@ class BuildingController extends BaseController
             'address' => $request->params['data']['address'],
             'buildingType' => $request->params['data']['buildingType'],
             'status' => $request->params['data']['status'],
-            'created_at' => $request->params['data']['created_at']
           ]);
            return $this->sendResponse($request->validated(), "Updated Data");
     }

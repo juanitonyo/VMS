@@ -13,6 +13,7 @@ class BuildingTypes extends Model
         'name',
         'description',
         'delivery_form',
-        'status'
+        'status',
+        'created_at'
     ];
 }
