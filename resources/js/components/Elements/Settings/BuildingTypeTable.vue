@@ -207,7 +207,7 @@ export default{
         await axios.get('/api/building-types').then((data) =>{
             this.data = data.data.data;
         }).catch((e) => {
-            errorMessage('Opps!', e.message, 'top-right')
+            //errorMessage('Opps!', e.message, 'top-right')
         });
     }
   },
