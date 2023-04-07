@@ -53,7 +53,7 @@
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"> No Date </td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.timeDate).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a @click.prevent="editBuilding(item)" href="#"
                                                 class="text-cyan-600 hover:text-cyan-900">Edit<span
@@ -190,6 +190,7 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import { createToast } from 'mosha-vue-toastify';
+import moment from "moment"
 
 export default {
 
@@ -204,7 +205,7 @@ export default {
     components: {
         SliderVue,
         DialogVue,
-        Switch, SwitchDescription, SwitchGroup, SwitchLabel,
+        Switch, SwitchDescription, SwitchGroup, SwitchLabel, moment
     },
 
     data() {
@@ -220,6 +221,7 @@ export default {
                 description: '',
                 buildingType: '',
                 status: false,
+                timeDate: null
             }),
         }
     },
@@ -234,6 +236,7 @@ export default {
                 description: '',
                 buildingType: '',
                 status: false,
+                timeDate: null
             })
         },
 
@@ -260,6 +263,7 @@ export default {
                         description: '',
                         buildingType: '',
                         status: false,
+                        timeDate: null
                     });
                     this.open = !this.open;
                     createToast({
@@ -294,6 +298,7 @@ export default {
                     description: '',
                     buildingType: '',
                     status: false,
+                    timeDate: null
                 });
                 this.open = !this.open;
                 createToast({
@@ -318,11 +323,11 @@ export default {
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
-        }
-
+        },
     },
     created() {
         this.getData();
+        this.moment = moment;
     }
 }
 
