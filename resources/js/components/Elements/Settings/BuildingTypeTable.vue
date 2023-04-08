@@ -52,12 +52,15 @@
                 <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                         <div class="my-4 grid grid-cols-1">
-                            <div class="sm:col-span-3">
+                            
+                            <div class="sm:col-span-3 mt-3">
                                 <NormalInput v-model="form.name" label="Building Name" id="building-name" :hasError=" this.editMode ? false: form.errors.has('name')" :errorMessage="this.editMode ? false: form.errors.get('name')"></NormalInput>
                             </div>
+
                             <div class="sm:col-span-3 mt-3">
                                 <NormalInput v-model="form.description" label="Description" id="building-name" :hasError=" this.editMode ? false: form.errors.has('description')" :errorMessage="this.editMode ? false: form.errors.get('description')"></NormalInput>
                             </div>
+                            
                             <div class="sm:col-span-3 mt-5">
                                 <SwitchGroup as="div" class="flex items-center justify-between">
                                     <span class="flex flex-grow flex-col">
@@ -68,6 +71,7 @@
                                     </Switch>
                                 </SwitchGroup>
                             </div>
+                            
                             <div class="sm:col-span-3 mt-3">
                                 <SwitchGroup as="div" class="flex items-center justify-between">
                                     <span class="flex flex-grow flex-col">
@@ -78,6 +82,7 @@
                                     </Switch>
                                 </SwitchGroup>
                             </div>
+                        
                         </div>
                     </div>
                     <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
