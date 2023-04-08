@@ -33,7 +33,7 @@
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="item in data.data" :key="item.id">
-                                    <td class="w-72 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ item.name }}</td>
+                                    <td class="w-72 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ moment(item.created_at) }}</td>
                                     <td class="w-80 break-all px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.delivery_form == true ? 'Active' : 'Inactive'  }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status == true ? 'Active' : 'Inactive' }}</td>
@@ -52,12 +52,15 @@
                 <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
                     <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                         <div class="my-4 grid grid-cols-1">
-                            <div class="sm:col-span-3">
+                            
+                            <div class="sm:col-span-3 mt-3">
                                 <NormalInput v-model="form.name" label="Building Name" id="building-name" :hasError=" this.editMode ? false: form.errors.has('name')" :errorMessage="this.editMode ? false: form.errors.get('name')"></NormalInput>
                             </div>
+
                             <div class="sm:col-span-3 mt-3">
                                 <NormalInput v-model="form.description" label="Description" id="building-name" :hasError=" this.editMode ? false: form.errors.has('description')" :errorMessage="this.editMode ? false: form.errors.get('description')"></NormalInput>
                             </div>
+                            
                             <div class="sm:col-span-3 mt-5">
                                 <SwitchGroup as="div" class="flex items-center justify-between">
                                     <span class="flex flex-grow flex-col">
@@ -68,6 +71,7 @@
                                     </Switch>
                                 </SwitchGroup>
                             </div>
+                            
                             <div class="sm:col-span-3 mt-3">
                                 <SwitchGroup as="div" class="flex items-center justify-between">
                                     <span class="flex flex-grow flex-col">
@@ -78,6 +82,7 @@
                                     </Switch>
                                 </SwitchGroup>
                             </div>
+                        
                         </div>
                     </div>
                     <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
@@ -97,6 +102,7 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import NormalInput from "../Inputs/NormalInput.vue";
+import moment from 'moment'
 
 export default{
   name:"BuildingTypeTable",
@@ -107,7 +113,7 @@ export default{
     }
   },
   components:{
-    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput,
+    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, moment
   },
   data () {
     return {
@@ -116,7 +122,7 @@ export default{
         open:false,
         form: new Form({
             id:'',
-            name:'',
+            created_at:'',
             description:'',
             delivery_form: false,
             status:false,
@@ -131,7 +137,9 @@ export default{
             id:'',
             name:'',
             description:'',
+            created_at:'',
             delivery_form: false,
+            created_at:'',
             status:false,
         })
     },
@@ -144,7 +152,8 @@ export default{
             this.form = new Form({
                 id:'',
                 name:'',
-                description:'',
+                description:'',            
+                created_at:'',
                 delivery_form: false,
                 status:false,
             });
@@ -178,6 +187,16 @@ export default{
         }).then((data) =>{
             this.editMode = false;
             this.$Progress.finish();
+            this.getData();
+            this.form = new Form({
+                id:'',
+                name:'',
+                description:'',
+                created_at:'',
+                delivery_form: false,
+                status:false,
+            });
+            this.open = !this.open;
             createToast({
                 title: 'Success!',
                 description: 'Data has been updated.'
@@ -193,26 +212,18 @@ export default{
         }).catch((error) => {
             
         })
-        this.getData();
-        this.form = new Form({
-            id:'',
-            name:'',
-            description:'',
-            delivery_form: false,
-            status:false,
-        });
-        this.open = !this.open;
     },
    async getData(){
         await axios.get('/api/building-types').then((data) =>{
             this.data = data.data.data;
         }).catch((e) => {
-            //errorMessage('Opps!', e.message, 'top-right')
+            // errorMessage('Opps!', e.message, 'top-right')
         });
     }
   },
   created(){
     this.getData();
+    this.moment = moment
   }
     
     

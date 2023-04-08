@@ -63,13 +63,13 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
-                            <div class="sm:col-span-3 mt-3">    
-                                <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :options="option" :hasError=" this.editMode ? false: form.errors.has('purpose')" :errorMessage="this.editMode ? false: form.errors.get('purpose')"></DropDown>
-                            </div>
+                        <div class="sm:col-span-3 mt-3">    
+                            <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :options="option" :hasError=" this.editMode ? false: form.errors.has('purpose')" :errorMessage="this.editMode ? false: form.errors.get('purpose')"></DropDown>
+                        </div>
                             
-                            <div class="sm:col-span-3 mt-3">
-                                <NormalInput v-model="form.subject" label="Subject" id="email_subj" :hasError=" this.editMode ? false: form.errors.has('subject')" :errorMessage="this.editMode ? false: form.errors.get('subject')"></NormalInput>
-                            </div>
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.subject" label="Subject" id="email_subj" :hasError=" this.editMode ? false: form.errors.has('subject')" :errorMessage="this.editMode ? false: form.errors.get('subject')"></NormalInput>
+                        </div>
 
                         <div class="editor sm:col-span-3 mt-3">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Body</label>
@@ -78,9 +78,9 @@
                             </div>
                         </div>
 
-                            <div class="sm:col-span-3 mt-3">
-                                <NormalInput v-model="form.description" label="Description" id="email_subj" :hasError=" this.editMode ? false: form.errors.has('description')" :errorMessage="this.editMode ? false: form.errors.get('description')"></NormalInput>
-                            </div>
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.description" label="Description" id="email_subj" :hasError=" this.editMode ? false: form.errors.has('description')" :errorMessage="this.editMode ? false: form.errors.get('description')"></NormalInput>
+                        </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -141,145 +141,146 @@ import DropDown from "../Inputs/DropDown.vue";
 
 export default{
  
-  name:"EmailTemplateTable",
-  props: {
-    data:{
-        type:Array,
-        default: {},
-    }
-  },
-  components:{
-    DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, NormalInput, DropDown
-  },
-  data () {
-    return {
-        data:{},
-        editMode:false,
-        open:false,
-        pop: false,
-        form: new Form({
-            id:'',
-            purpose:null,
-            subject:'',
-            body:'',
-            description:'',
-            status:true,
-        }),
+    name:"EmailTemplateTable",
+    props: {
+        data:{
+            type:Array,
+            default: {},
+        }
+    },
+    components:{
+        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, DropDown
+    },
+    data () {
+        return {
+            data:{},
+            editMode:false,
+            open:false,
+            pop: false,
+            form: new Form({
+                id:'',
+                purpose:null,
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
+            }),
 
-        editor:ClassicEditor,
-        editorConfig:{
-            toolbar: [ 'undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading' ],
-            heading: {
-                options: [
-                    { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                    { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                    { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
-                ]
+            editor:ClassicEditor,
+            editorConfig:{
+                toolbar: [ 'undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading' ],
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                    ]
+                },
             },
-        },
 
-        option: [
-            'register',
-            'reset-password'
-        ],
-    }
-  },
-  methods: {
-    setOpen(){
-        this.editMode = false;
-        this.open = !this.open;
-        this.form = new Form({
-            id:'',
-            purpose:'',
-            subject:'',
-            body:'',
-            description:'',
-            status:true,
-        })
+            option: [
+                {value: '', label: 'Choose purpose', disabled: true, selected: true}, 
+                {value: 'register', label: 'Register'},
+                {value: 'reset-password', label: 'Reset Password'}
+            ],
+        }
     },
-    isOpen(item){
-        this.form = item;
-        this.pop = !this.pop;
-    },
-    saveTemplate(){
-        this.$Progress.start();
-        this.form.post('/api/email-template')
-        .then((data) => {
-            this.$Progress.finish();
-            this.getData();
-            this.form = new Form({
-                id:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
-            });
-            this.open = !this.open;
-            createToast({
-                title: 'Success!',
-                description: 'Data has been saved.'
-                },
-                {
-                position: 'top-left',
-                showIcon: 'true',
-                type: 'success',
-                toastBackgroundColor: '#00bcd4',
-                hideProgressBar: 'true',
-                toastBackgroundColor: '#00bcd4',
-            })
-        }).catch((error) => {
-            this.$Progress.fail();
-        })
-    },
-    updateTemplate(){
-        axios.put("/api/email-template/"+ this.form.id, {
-            params:{
-                data: this.form
-            }
-        }).then((data) =>{
+    methods: {
+        setOpen(){
             this.editMode = false;
-            this.$Progress.finish();
             this.open = !this.open;
-            this.getData();
             this.form = new Form({
                 id:'',
+                purpose:'',
                 subject:'',
                 body:'',
                 description:'',
                 status:true,
-            });
-            createToast({
-                title: 'Success!',
-                description: 'Data has been updated.'
-                },
-                {
-                position: 'top-left',
-                showIcon: 'true',
-                type: 'success',
-                toastBackgroundColor: '#00bcd4',
-                hideProgressBar: 'true',
-                toastBackgroundColor: '#00bcd4',
             })
-        }).catch((error) => {
+        },
+        isOpen(item){
+            this.form = item;
+            this.pop = !this.pop;
+        },
+        saveTemplate(){
+            this.$Progress.start();
+            this.form.post('/api/email-template')
+            .then((data) => {
+                this.$Progress.finish();
+                this.getData();
+                this.form = new Form({
+                    id:'',
+                    subject:'',
+                    body:'',
+                    description:'',
+                    status:true,
+                });
+                this.open = !this.open;
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been saved.'
+                    },
+                    {
+                    position: 'top-left',
+                    showIcon: 'true',
+                    type: 'success',
+                    toastBackgroundColor: '#00bcd4',
+                    hideProgressBar: 'true',
+                    toastBackgroundColor: '#00bcd4',
+                })
+            }).catch((error) => {
+                this.$Progress.fail();
+            })
+        },
+        updateTemplate(){
+            axios.put("/api/email-template/"+ this.form.id, {
+                params:{
+                    data: this.form
+                }
+            }).then((data) =>{
+                this.editMode = false;
+                this.$Progress.finish();
+                this.open = !this.open;
+                this.getData();
+                this.form = new Form({
+                    id:'',
+                    subject:'',
+                    body:'',
+                    description:'',
+                    status:true,
+                });
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been updated.'
+                    },
+                    {
+                    position: 'top-left',
+                    showIcon: 'true',
+                    type: 'success',
+                    toastBackgroundColor: '#00bcd4',
+                    hideProgressBar: 'true',
+                    toastBackgroundColor: '#00bcd4',
+                })
+            }).catch((error) => {
+                
+            })
+        },
+        editTemplate(item){
+            this.editMode = true;
             this.open = !this.open;
-        })
+            this.form = item;
+        },
+        async getData(){
+            await axios.get('/api/email-template').then((data) =>{
+                this.data = data.data.data;
+            }).catch((e) => {
+            // errorMessage('Opps!', e.message, 'top-right')
+            });
+        }
     },
-    editTemplate(item){
-        this.editMode = true;
-        this.open = !this.open;
-        this.form = item;
-    },
-    async getData(){
-        await axios.get('/api/email-template').then((data) =>{
-            this.data = data.data.data;
-        }).catch((e) => {
-           // errorMessage('Opps!', e.message, 'top-right')
-        });
+    created(){
+        this.getData();
     }
-  },
-  created(){
-    this.getData();
-  }
     
 }
 
