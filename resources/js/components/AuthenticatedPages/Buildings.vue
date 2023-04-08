@@ -322,6 +322,5 @@ export default {
         this.moment = moment;
     }
 }
-}
 
 </script>
