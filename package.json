@@ -24,6 +24,8 @@
         "@ckeditor/ckeditor5-vue": "^4.0.1",
         "@headlessui/vue": "^1.7.12",
         "@heroicons/vue": "^2.0.16",
+        "laravel-vue-pagination": "^4.1.0",
+        "moment": "^2.29.4",
         "mosha-vue-toastify": "^1.0.23",
         "pinia": "^2.0.33",
         "pinia-plugin-persistedstate": "^3.1.0",
