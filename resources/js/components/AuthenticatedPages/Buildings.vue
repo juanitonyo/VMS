@@ -62,7 +62,6 @@
                                     </tr>
                                 </tbody>
                             </table>
-                            <TailwindPagination :data="data" @pagination-change-page="getData" />
                         </div>
                     </div>
                 </div>
@@ -310,11 +309,12 @@ export default {
                 this.$Progress.fail();
             })
         },
-        async getData(page = 1) {
-            await axios.get('/api/building?page=${page}').then((data) => {
+        async getData() {
+            await axios.get('/api/building')
+            .then((data) => {
                 this.data = data.data.data;
-            }).catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
+            }).catch((error) => {
+                
             });
         },
     },
