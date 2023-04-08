@@ -14,6 +14,6 @@ class Building extends Model
         'address',
         'description',
         'buildingType',
-        'status'
+        'status',
     ];
 }
