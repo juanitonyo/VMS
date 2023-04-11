@@ -130,7 +130,7 @@
 
     <DialogVue :isOpen="pop" :dialogTitle="'Body Content'">
         <template v-slot:dialogBody>
-            <div>
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5 my-5">
                 <p v-html="form.body"></p>
             </div>
             <div class="mt-4">

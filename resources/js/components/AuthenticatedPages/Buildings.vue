@@ -158,15 +158,19 @@
 
     <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR'">
         <template v-slot:dialogBody>
-            <div>
-                <img :src="qrName()" />
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5">
+                <div class="flex justify-center items-center flex-col">
+                    <img :src="qrName()" class="mt-5 bg-cyan-400"/>
+                    <h1 class="font-extrabold text-2xl my-5 text-cyan-700">OR</h1>
+                    <a :href="route" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.route }}</a>
+                </div>
             </div>
-            <div>
+            <!-- <div>
                 <a :href="route">{{ form.buildingName }}</a>
-            </div>
+            </div> -->
             <div class="mt-4">
                 <button type="button"
-                    class="inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500"
+                    class="inline-flex justify-center rounded-md bg-cyan-600 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500"
                     @click.prevent="this.pop = !this.pop">
                     Close
                 </button>
@@ -220,6 +224,7 @@ export default {
             open: false,
             pop: false,
             vMode: '',
+            hashMessage: '',
             form: new Form({
                 buildingName: '',
                 address: '',
@@ -234,8 +239,8 @@ export default {
                 'Subdivision',
             ],
 
-            url: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=',
-            route: 'https://www.facebook.com/jmark404/'
+            url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
+            route: 'http://fakebsod.com/windows-8-and-10'
         }
     },
 
