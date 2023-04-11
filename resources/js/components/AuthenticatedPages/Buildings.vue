@@ -96,9 +96,9 @@
                             </div>
                         </div>
 
-                        <div class="sm:col-span-3 mt-3" >    
+                        <!-- <div class="sm:col-span-3 mt-3" >    
                             <DropDown v-model="form.buildingType" label="Building Type" id="building" :options="option" :hasError=" this.editMode ? false: form.errors.has('buildingType')" :errorMessage="this.editMode ? false: form.errors.get('buildingType ')"></DropDown>
-                        </div>
+                        </div> -->
 
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -167,7 +167,7 @@
 
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
-import DropDown from '@/components/Elements/Inputs/DropDown.vue'
+// import DropDown from '@/components/Elements/Inputs/DropDown.vue'
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { TailwindPagination } from 'laravel-vue-pagination';
@@ -190,7 +190,7 @@ export default {
         SliderVue,
         DialogVue,
         NormalInput,
-        DropDown,
+        //DropDown,
         Switch, 
         SwitchDescription, 
         SwitchGroup, 

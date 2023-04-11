@@ -59,7 +59,7 @@
                 </div>
             </div>
             <div class="flex items-center justify-center mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" />
+                <!-- <TailwindPagination :data="data" @pagination-change-page="getData" /> -->
             </div>
         </div>
     </div>

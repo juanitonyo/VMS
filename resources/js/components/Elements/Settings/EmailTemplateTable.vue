@@ -67,8 +67,21 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
-                        <div class="sm:col-span-3 mt-3">    
+                        <!-- <div class="sm:col-span-3 mt-3">    
                             <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :items="option" :placeholder="placeholder" :hasError=" this.editMode ? false: form.errors.has('purpose')" :errorMessage="this.editMode ? false: form.errors.get('purpose')"></DropDown>
+                        </div> -->
+
+                        <div class="sm:col-span-3 mt-3">
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Purpose</label>
+                            <VueMultiselect
+                                v-model="form.purpose"
+                                :options="option"
+                                :close-on-select="true"
+                                :clear-on-select="false"
+                                :allow-empty="false"
+                                placeholder="Choose a purpose"
+                                class="mt-2"
+                            />
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -144,8 +157,8 @@ import { createToast } from 'mosha-vue-toastify'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import NormalInput from "../Inputs/NormalInput.vue";
-import DropDown from "../Inputs/DropDown.vue";
-import { TailwindPagination } from 'laravel-vue-pagination';
+import VueMultiselect from 'vue-multiselect';
+// import DropDown from "../Inputs/DropDown.vue";
 
 export default {
 
@@ -157,7 +170,7 @@ export default {
         }
     },
     components:{
-        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, DropDown,
+        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, VueMultiselect
     },
     data() {
         return {
@@ -166,12 +179,12 @@ export default {
             open: false,
             pop: false,
             form: new Form({
-                id: '',
-                purpose: '',
-                subject: '',
-                body: '',
-                description: '',
-                status: true,
+                id:'',
+                purpose:'',
+                subject:'',
+                body:'',
+                description:'',
+                status:true,
             }),
 
             editor: ClassicEditor,
@@ -189,9 +202,9 @@ export default {
             placeholder:'Choose a purpose: ',
 
             option: [
-                {value: 'Register', label: 'Register'},
-                {value: 'Reset Password', label: 'Reset Password'}
-            ],
+              'Register', 'Reset Password'
+                
+            ]
         }
     },
     methods: {
@@ -214,20 +227,21 @@ export default {
         saveTemplate() {
             this.$Progress.start();
             this.form.post('/api/email-template')
-                .then((data) => {
-                    this.$Progress.finish();
-                    this.getData();
-                    this.form = new Form({
-                        id: '',
-                        subject: '',
-                        body: '',
-                        description: '',
-                        status: true,
-                    });
-                    this.open = !this.open;
-                    createToast({
-                        title: 'Success!',
-                        description: 'Data has been saved.'
+            .then((data) => {
+                this.$Progress.finish();
+                this.getData();
+                this.form = new Form({
+                    id:'',
+                    purpose:'',
+                    subject:'',
+                    body:'',
+                    description:'',
+                    status:true,
+                });
+                this.open = !this.open;
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been saved.'
                     },
                         {
                             position: 'top-left',
@@ -252,11 +266,12 @@ export default {
                 this.open = !this.open;
                 this.getData();
                 this.form = new Form({
-                    id: '',
-                    subject: '',
-                    body: '',
-                    description: '',
-                    status: true,
+                    id:'',
+                    purpose:'',
+                    subject:'',
+                    body:'',
+                    description:'',
+                    status:true,
                 });
                 createToast({
                     title: 'Success!',
