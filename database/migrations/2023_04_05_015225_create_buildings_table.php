@@ -18,7 +18,7 @@ return new class extends Migration
             $table->longText('address');
             $table->string('buildingType');
             $table->boolean('status')->default(true);
-            $table->dateTime('timeDate');
+            $table->integer('refID')->nullable();
             $table->timestamps();
         });
     }
