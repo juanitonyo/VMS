@@ -5,6 +5,7 @@ import { userAuthStore } from "@/store/auth";
 /* Layouts */
 const AuthenticatedLayout = () => import("@/components/Layouts/AuthenticatedLayout.vue");
 const GuestLayout = () => import("@/components/Layouts/GuestLayout.vue");
+const VisitorQRLayout = () => import("@/components/Layouts/VisitorQRLayout.vue");
 /* Layouts */
 
 // GUEST PAGES
@@ -18,6 +19,9 @@ const Users = () => import("@/components/AuthenticatedPages/Users.vue");
 const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
+
+// VISITOR QR PAGE
+const VisitorReg = () => import("@/components/VisitorQR/VisitorReg.vue");
 
 const routes = [
     {
@@ -99,6 +103,24 @@ const routes = [
                 },
             },
             
+        ],
+    },
+
+    {
+        path: "/visitor-registration",
+        component: VisitorQRLayout,
+        meta: {
+            middleware: "vqr",
+        },
+        children: [
+            {
+                name: "visitor",
+                path: "/",
+                component: VisitorReg,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
         ],
     },
 ];

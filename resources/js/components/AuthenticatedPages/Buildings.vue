@@ -159,7 +159,7 @@
     <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR'">
         <template v-slot:dialogBody>
             <div>
-                <p v-html="form.body"></p>
+                
             </div>
             <div class="mt-4">
                 <button type="button"
@@ -229,7 +229,7 @@ export default {
                 'Mall',
                 'Co Working Space',
                 'Subdivision',
-            ]
+            ],
         }
     },
 
@@ -328,6 +328,8 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
+
+
     },
     created() {
         this.getData();
