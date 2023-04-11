@@ -88,17 +88,8 @@ const routes = [
                     title: `VMS | Buildings`,
                     ability: "",
                 },
-            },            {
-                name: "visitors",
-                path: "/app/visitors",
-                component: Visitors,
-                meta: {
-                    title: `VMS | Visitors`,
-                    ability: "",
-                },
             },
             
-           
         ],
     },
 ];
