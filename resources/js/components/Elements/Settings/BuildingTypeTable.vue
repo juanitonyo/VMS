@@ -102,7 +102,6 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import NormalInput from "../Inputs/NormalInput.vue";
-import moment from 'moment'
 
 export default{
   name:"BuildingTypeTable",
@@ -113,7 +112,7 @@ export default{
     }
   },
   components:{
-    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, moment
+    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput,
   },
   data () {
     return {
@@ -122,7 +121,7 @@ export default{
         open:false,
         form: new Form({
             id:'',
-            created_at:'',
+            name:'',
             description:'',
             delivery_form: false,
             status:false,
@@ -137,9 +136,7 @@ export default{
             id:'',
             name:'',
             description:'',
-            created_at:'',
             delivery_form: false,
-            created_at:'',
             status:false,
         })
     },
@@ -152,8 +149,7 @@ export default{
             this.form = new Form({
                 id:'',
                 name:'',
-                description:'',            
-                created_at:'',
+                description:'',
                 delivery_form: false,
                 status:false,
             });
@@ -192,7 +188,6 @@ export default{
                 id:'',
                 name:'',
                 description:'',
-                created_at:'',
                 delivery_form: false,
                 status:false,
             });
@@ -223,7 +218,6 @@ export default{
   },
   created(){
     this.getData();
-    this.moment = moment
   }
     
     

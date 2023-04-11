@@ -30,7 +30,6 @@ class BuildingTypeRequest extends FormRequest
             'description' => 'required',
             'delivery_form' => 'required',
             'status' => 'required',
-            'created_at' => 'required'
         ];
     }
 
@@ -40,7 +39,6 @@ class BuildingTypeRequest extends FormRequest
             'params.data.description' => 'required',
             'params.data.delivery_form' => 'required',
             'params.data.status' => 'required',
-            'params.data.created_at' => 'required'
         ];
     }
 
