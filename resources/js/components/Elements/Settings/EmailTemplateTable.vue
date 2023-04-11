@@ -63,8 +63,22 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
-                        <div class="sm:col-span-3 mt-3">    
+                        <!-- <div class="sm:col-span-3 mt-3">    
                             <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :items="option" :placeholder="placeholder" :hasError=" this.editMode ? false: form.errors.has('purpose')" :errorMessage="this.editMode ? false: form.errors.get('purpose')"></DropDown>
+                        </div> -->
+
+                        <div class="sm:col-span-3 mt-3">
+                            <VueMultiselect
+                                v-model="form.purpose"
+                                :options="option"
+                                :close-on-select="true"
+                                :clear-on-select="false"
+                                :allow-empty="false"
+                                placeholder="Choose a purpose"
+                                :value="value"
+                                label="name"
+                                track-by="name"
+                            />
                         </div>
                             
                         <div class="sm:col-span-3 mt-3">
@@ -137,7 +151,8 @@ import { createToast } from 'mosha-vue-toastify'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import NormalInput from "../Inputs/NormalInput.vue";
-import DropDown from "../Inputs/DropDown.vue";
+import VueMultiselect from 'vue-multiselect';
+// import DropDown from "../Inputs/DropDown.vue";
 
 export default{
  
@@ -149,7 +164,7 @@ export default{
         }
     },
     components:{
-        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, DropDown,
+        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, VueMultiselect
     },
     data () {
         return {
@@ -159,7 +174,7 @@ export default{
             pop: false,
             form: new Form({
                 id:'',
-                purpose:null,
+                purpose:'',
                 subject:'',
                 body:'',
                 description:'',
@@ -181,8 +196,8 @@ export default{
             placeholder:'Choose a purpose: ',
 
             option: [
-                {value: 'Register', label: 'Register'},
-                {value: 'Reset Password', label: 'Reset Password'}
+                {value: 'register', name: 'Register'},
+                {value: 'reset-password', name: 'Reset Password'}
             ],
         }
     },
@@ -211,6 +226,7 @@ export default{
                 this.getData();
                 this.form = new Form({
                     id:'',
+                    purpose:'',
                     subject:'',
                     body:'',
                     description:'',
@@ -245,6 +261,7 @@ export default{
                 this.getData();
                 this.form = new Form({
                     id:'',
+                    purpose:'',
                     subject:'',
                     body:'',
                     description:'',

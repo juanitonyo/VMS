@@ -3,7 +3,7 @@
         <label :for="id" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
             <VueMultiselect 
                 :options="items" 
-                :value="label" 
+                :value="value" 
                 :close-on-select="true"
                 :clear-on-select="false" 
                 :placeholder="placeholder"
