@@ -167,7 +167,7 @@ export default {
             pop: false,
             form: new Form({
                 id: '',
-                purpose: null,
+                purpose: '',
                 subject: '',
                 body: '',
                 description: '',
