@@ -46,9 +46,9 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.buildingType }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">
-                                            <button @click.prevent="isOpen('Visitor')"
+                                            <button @click.prevent="isOpen('Visitor', item)"
                                                 class="border border-cyan-500 rounded-md py-1.5 px-3 mx-1 hover:bg-cyan-500 hover:text-white">Visitor</button>
-                                            <button @click.prevent="isOpen('Host')"
+                                            <button @click.prevent="isOpen('Host', item)"
                                                 class="border border-cyan-500 rounded-md py-1.5 px-4 hover:bg-cyan-500 hover:text-white">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
@@ -159,7 +159,10 @@
     <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR'">
         <template v-slot:dialogBody>
             <div>
-                
+                <img :src="qrName()" />
+            </div>
+            <div>
+                <a :href="route">{{ form.buildingName }}</a>
             </div>
             <div class="mt-4">
                 <button type="button"
@@ -230,6 +233,9 @@ export default {
                 'Co Working Space',
                 'Subdivision',
             ],
+
+            url: 'https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=',
+            route: 'https://www.facebook.com/jmark404/'
         }
     },
 
@@ -246,9 +252,10 @@ export default {
             })
         },
 
-        isOpen(mode) {
+        isOpen(mode, item) {
             this.pop = !this.pop;
             this.vMode = mode;
+            this.form = item;
         },
 
         editBuilding(item) {
@@ -328,8 +335,9 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
-
-
+        qrName() {
+            return this.url + this.route;
+        }
     },
     created() {
         this.getData();
