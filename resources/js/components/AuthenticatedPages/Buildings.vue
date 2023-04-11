@@ -66,6 +66,9 @@
                     </div>
                 </div>
             </div>
+            <div class="flex items-center justify-center mt-3">
+                <TailwindPagination :data="data" @pagination-change-page="getData"/>
+            </div>
         </div>
     </div>
 
@@ -208,7 +211,7 @@ export default {
                 address: '',
                 description: '',
                 buildingType: '',
-                status: true,
+                status: false,
             }),
 
             option: [
@@ -284,7 +287,6 @@ export default {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
-                this.open = !this.open;
                 this.form = new Form({
                     buildingName: '',
                     address: '',
@@ -306,15 +308,14 @@ export default {
                         toastBackgroundColor: '#00bcd4',
                     })
             }).catch((error) => {
-                this.$Progress.fail();
+
             })
         },
-        async getData() {
-            await axios.get('/api/building')
-            .then((data) => {
+        async getData(page = 1) {
+            await axios.get('/api/building?page=' + page).then((data) => {
                 this.data = data.data.data;
-            }).catch((error) => {
-                
+            }).catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
             });
         },
     },

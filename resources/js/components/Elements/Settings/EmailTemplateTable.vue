@@ -109,17 +109,17 @@
         </template>
     </SliderVue>
 
-    <DialogVue :isOpen="pop" :dialogTitle="'Body Content'">
-        <template v-slot:dialogBody>
-            <div>
-                <p v-html="form.body"></p>
-            </div>
-            <div class="mt-4">
-                <button
+        <DialogVue :isOpen="pop" :dialogTitle="'Body Content'">
+            <template v-slot:dialogBody>
+                <div>
+                    <p v-html="form.body"></p>
+                </div>
+                <div class="mt-4">
+                  <button
                     type="button"
                     class="inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500"
                     @click.prevent="isOpen"
-                    >
+                  >
                     Close
                 </button>
             </div>
