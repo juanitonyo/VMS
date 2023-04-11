@@ -73,11 +73,7 @@
                                 :options="option"
                                 :close-on-select="true"
                                 :clear-on-select="false"
-                                :allow-empty="false"
                                 placeholder="Choose a purpose"
-                                :value="value"
-                                label="name"
-                                track-by="name"
                             />
                         </div>
                             
@@ -195,10 +191,7 @@ export default{
 
             placeholder:'Choose a purpose: ',
 
-            option: [
-                {value: 'register', name: 'Register'},
-                {value: 'reset-password', name: 'Reset Password'}
-            ],
+            option: [ 'Register', 'Reset Password' ],
         }
     },
     methods: {
