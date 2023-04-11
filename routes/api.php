@@ -27,6 +27,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'email-template' => 'EmailTemplateController',
         'sms-template' => 'SMSTemplateController',
         'building' => 'BuildingController',
+        'visitors' => 'VisitorsController',
 
     ]);
 });

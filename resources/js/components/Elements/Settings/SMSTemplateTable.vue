@@ -49,40 +49,58 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="flex items-center justify-center mt-3">
+                    <TailwindPagination :data="data" @pagination-change-page="getData" />
+                </div>
             </div>
         </div>
     </div>
 
-        <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'SMS Template'" :description="'A catalog of all SMS template maintenance entries.'">
-            <template v-slot:slider-body>
-                <form @submit.prevent="editMode ? updateSMS() : saveSMS()">
-                    <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
-                        <div class="my-4 grid grid-cols-1">
-                            <div class="sm:col-span-3">
-                                <NormalInput v-model="form.message" label="Message" id="sms" :hasError=" this.editMode ? false: form.errors.has('message')" :errorMessage="this.editMode ? false: form.errors.get('message')"></NormalInput>
-                            </div>
-                            <div class="sm:col-span-3 mt-3">
-                                <NormalInput v-model="form.description" label="Description" id="sms" :hasError=" this.editMode ? false: form.errors.has('description')" :errorMessage="this.editMode ? false: form.errors.get('description')"></NormalInput>
-                            </div>
-                            <div class="sm:col-span-3 mt-3">
-                                <SwitchGroup as="div" class="flex items-center justify-between">
-                                    <span class="flex flex-grow flex-col">
-                                        <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Status</SwitchLabel>
-                                    </span>
-                                    <Switch v-model="form.status" :class="[form.status ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
-                                        <span aria-hidden="true" :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                                    </Switch>
-                                </SwitchGroup>
+    <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'SMS Template'"
+        :description="'A catalog of all SMS template maintenance entries.'">
+        <template v-slot:slider-body>
+            <form @submit.prevent="editMode ? updateSMS() : saveSMS()">
+                <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
+                    <div class="my-4 grid grid-cols-1">
+                        <div class="sm:col-span-3 mt-3">
+                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Message</label>
+                            <div class="mt-2">
+                                <textarea v-model="form.message" type="text" name="sms" id="sms"
+                                    autocomplete="sms"
+                                    class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.description" label="Description" id="sms"
+                                :hasError="this.editMode ? false : form.errors.has('description')"
+                                :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
+                        </div>
+                        <div class="sm:col-span-3 mt-3">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+                                        Status</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.status"
+                                    :class="[form.status ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
                     </div>
-                    <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
-                        <button type="button" class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400" @click="setOpen">Cancel</button>
-                        <button type="submit" class="ml-4 inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">{{editMode ? 'Update' : 'Save'}}</button>
-                    </div>
-                </form>
-            </template>
-        </SliderVue>
+                </div>
+                <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
+                    <button type="button"
+                        class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
+                        @click="setOpen">Cancel</button>
+                    <button type="submit"
+                        class="ml-4 inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">{{ editMode
+                            ? 'Update' : 'Save' }}</button>
+                </div>
+            </form>
+        </template>
+    </SliderVue>
 </template>
 
 <script>
@@ -93,119 +111,120 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import NormalInput from "../Inputs/NormalInput.vue";
+import { TailwindPagination } from 'laravel-vue-pagination';
 
-export default{
-  name:"SMSTemplateTable",
-  props: {
-    data:{
-        type: Array,
-        default: {},
+export default {
+    name: "SMSTemplateTable",
+    props: {
+        data: {
+            type: Array,
+            default: {},
+        },
     },
-  },
-  components:{
-    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput
-  },
-  data () {
-    return {
-        data:{},
-        editMode:false,
-        open:false,
-        form: new Form({
-            id:'',
-            message:'',
-            description:'',
-            status:true,
-        }),
-    }
-  },
-  methods: {
-    setOpen(){
-        this.editMode = false;
-        this.open = !this.open;
-        this.form = new Form({
-            id:'',
-            message:'',
-            description:'',
-            status:true,
-        })
+    components: {
+        SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, TailwindPagination
     },
-    saveSMS(){
-        this.$Progress.start();
-        this.form.post('/api/sms-template')
-        .then((data) => {
-            this.$Progress.finish();
-            this.getData();
-            this.form = new Form({
-                id:'',
-                message:'',
-                description:'',
-                status:true,
-            });
-            this.open = !this.open;
-            createToast({
-                title: 'Success!',
-                description: 'Data has been saved.'
-                },
-                {
-                position: 'top-left',
-                showIcon: 'true',
-                type: 'success',
-                toastBackgroundColor: '#00bcd4',
-                hideProgressBar: 'true',
-                toastBackgroundColor: '#00bcd4',
-            })
-        }).catch((error) => {
-            this.$Progress.fail();
-        })
+    data() {
+        return {
+            data: {},
+            editMode: false,
+            open: false,
+            form: new Form({
+                id: '',
+                message: '',
+                description: '',
+                status: true,
+            }),
+        }
     },
-    updateSMS(){
-        axios.put("/api/sms-template/"+ this.form.id, {
-            params:{
-                data: this.form
-            }
-        }).then((data) =>{
+    methods: {
+        setOpen() {
             this.editMode = false;
-            this.$Progress.finish();
-            this.getData();
-            this.form = new Form({
-                id:'',
-                message:'',
-                description:'',
-                status:true,
-            });
             this.open = !this.open;
-            createToast({
-                title: 'Success!',
-                description: 'Data has been updated.'
-                },
-                {
-                position: 'top-left',
-                showIcon: 'true',
-                toastBackgroundColor: '#00bcd4',
-                type: 'success',
-                hideProgressBar: 'true',
-                toastBackgroundColor: '#00bcd4',
+            this.form = new Form({
+                id: '',
+                message: '',
+                description: '',
+                status: true,
             })
-        }).catch((error) => {
-            
-        })
+        },
+        saveSMS() {
+            this.$Progress.start();
+            this.form.post('/api/sms-template')
+                .then((data) => {
+                    this.$Progress.finish();
+                    this.getData();
+                    this.form = new Form({
+                        id: '',
+                        message: '',
+                        description: '',
+                        status: true,
+                    });
+                    this.open = !this.open;
+                    createToast({
+                        title: 'Success!',
+                        description: 'Data has been saved.'
+                    },
+                        {
+                            position: 'top-left',
+                            showIcon: 'true',
+                            type: 'success',
+                            toastBackgroundColor: '#00bcd4',
+                            hideProgressBar: 'true',
+                            toastBackgroundColor: '#00bcd4',
+                        })
+                }).catch((error) => {
+                    this.$Progress.fail();
+                })
+        },
+        updateSMS() {
+            axios.put("/api/sms-template/" + this.form.id, {
+                params: {
+                    data: this.form
+                }
+            }).then((data) => {
+                this.editMode = false;
+                this.$Progress.finish();
+                this.getData();
+                this.form = new Form({
+                    id: '',
+                    message: '',
+                    description: '',
+                    status: true,
+                });
+                this.open = !this.open;
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been updated.'
+                },
+                    {
+                        position: 'top-left',
+                        showIcon: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                        type: 'success',
+                        hideProgressBar: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                    })
+            }).catch((error) => {
+
+            })
+        },
+        editSMSTemplate(item) {
+            this.editMode = true;
+            this.open = !this.open;
+            this.form = item;
+        },
+        async getData(page = 1) {
+            await axios.get('/api/sms-template?page=' + page).then((data) => {
+                this.data = data.data.data;
+            }).catch((e) => {
+                // errorMessage('Opps!', e.message, 'top-right')
+            });
+        },
     },
-    editSMSTemplate(item){
-        this.editMode = true;
-        this.open = !this.open;
-        this.form = item;
-    },
-    async getData(){
-        await axios.get('/api/sms-template').then((data) =>{
-            this.data = data.data.data;
-        }).catch((e) => {
-            // errorMessage('Opps!', e.message, 'top-right')
-        });
-    },
-  },
-  created(){
-    this.getData();
-  }    
+    created() {
+        this.getData();
+    }
 }
 
 </script>

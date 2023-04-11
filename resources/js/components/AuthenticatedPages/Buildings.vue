@@ -96,7 +96,7 @@
                             </div>
                         </div>
 
-                        <div class="sm:col-span-3 mt-3">    
+                        <div class="sm:col-span-3 mt-3" >    
                             <DropDown v-model="form.buildingType" label="Building Type" id="building" :options="option" :hasError=" this.editMode ? false: form.errors.has('buildingType')" :errorMessage="this.editMode ? false: form.errors.get('buildingType ')"></DropDown>
                         </div>
 

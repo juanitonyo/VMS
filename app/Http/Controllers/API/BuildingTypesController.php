@@ -62,7 +62,6 @@ class BuildingTypesController extends BaseController
         'description' => $request->params['data']['description'],
         'delivery_form' => $request->params['data']['delivery_form'],
         'status' => $request->params['data']['status'],
-        'created_at' => $request->params['data']['created_at']
       ]);
        return $this->sendResponse($request->validated(), "Updated Data");
     }

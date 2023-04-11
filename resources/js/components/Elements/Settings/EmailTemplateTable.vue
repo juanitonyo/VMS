@@ -38,7 +38,8 @@
                                 <td class=" px-3 py-4 text-xs text-left w-48 text-gray-500">{{ item.purpose }}</td>
                                 <td class=" px-3 py-4 text-xs text-left w-56 text-gray-500">{{ item.subject }}</td>
                                 <td class=" px-3 py-4 text-xs text-left w-52 break-all text-cyan-600  hover:text-cyan-900">
-                                    <a @click.prevent="isOpen(item)" href="">[ View Content ]</a></td>
+                                    <a @click.prevent="isOpen(item)" href="">[ View Content ]</a>
+                                </td>
                                 <td class=" px-3 py-4 w-80 break-all text-xs text-left text-gray-500">{{ item.description }}
                                 </td>
                                 <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status ==
@@ -52,6 +53,9 @@
                         </tbody>
                     </table>
                 </div>
+                <div class="flex items-center justify-center mt-3">
+                    <TailwindPagination :data="data" @pagination-change-page="getData" />
+                </div>
             </div>
         </div>
     </div>
@@ -63,12 +67,16 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
-                        <div class="sm:col-span-3 mt-3">    
-                            <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :options="option" :hasError=" this.editMode ? false: form.errors.has('purpose')" :errorMessage="this.editMode ? false: form.errors.get('purpose')"></DropDown>
-                        </div>
-                            
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.subject" label="Subject" id="email_subj" :hasError=" this.editMode ? false: form.errors.has('subject')" :errorMessage="this.editMode ? false: form.errors.get('subject')"></NormalInput>
+                            <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :options="option"
+                                :hasError="this.editMode ? false : form.errors.has('purpose')"
+                                :errorMessage="this.editMode ? false : form.errors.get('purpose')"></DropDown>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.subject" label="Subject" id="email_subj"
+                                :hasError="this.editMode ? false : form.errors.has('subject')"
+                                :errorMessage="this.editMode ? false : form.errors.get('subject')"></NormalInput>
                         </div>
 
                         <div class="editor sm:col-span-3 mt-3">
@@ -79,7 +87,9 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.description" label="Description" id="email_subj" :hasError=" this.editMode ? false: form.errors.has('description')" :errorMessage="this.editMode ? false: form.errors.get('description')"></NormalInput>
+                            <NormalInput v-model="form.description" label="Description" id="email_subj"
+                                :hasError="this.editMode ? false : form.errors.has('description')"
+                                :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -102,24 +112,23 @@
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                         @click="setOpen">Cancel</button>
                     <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">{{ editMode
+                        class="ml-4 inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">{{
+                            editMode
                             ? 'Update' : 'Save' }}</button>
                 </div>
             </form>
         </template>
     </SliderVue>
 
-        <DialogVue :isOpen="pop" :dialogTitle="'Body Content'">
-            <template v-slot:dialogBody>
-                <div>
-                    <p v-html="form.body"></p>
-                </div>
-                <div class="mt-4">
-                  <button
-                    type="button"
+    <DialogVue :isOpen="pop" :dialogTitle="'Body Content'">
+        <template v-slot:dialogBody>
+            <div>
+                <p v-html="form.body"></p>
+            </div>
+            <div class="mt-4">
+                <button type="button"
                     class="inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500"
-                    @click.prevent="isOpen"
-                  >
+                    @click.prevent="isOpen">
                     Close
                 </button>
             </div>
@@ -138,37 +147,38 @@ import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import NormalInput from "../Inputs/NormalInput.vue";
 import DropDown from "../Inputs/DropDown.vue";
+import { TailwindPagination } from 'laravel-vue-pagination';
 
-export default{
- 
-    name:"EmailTemplateTable",
+export default {
+
+    name: "EmailTemplateTable",
     props: {
-        data:{
-            type:Array,
+        data: {
+            type: Array,
             default: {},
         }
     },
-    components:{
-        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, DropDown
+    components: {
+        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, DropDown, TailwindPagination
     },
-    data () {
+    data() {
         return {
-            data:{},
-            editMode:false,
-            open:false,
+            data: {},
+            editMode: false,
+            open: false,
             pop: false,
             form: new Form({
-                id:'',
-                purpose:null,
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
+                id: '',
+                purpose: null,
+                subject: '',
+                body: '',
+                description: '',
+                status: true,
             }),
 
-            editor:ClassicEditor,
-            editorConfig:{
-                toolbar: [ 'undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading' ],
+            editor: ClassicEditor,
+            editorConfig: {
+                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading'],
                 heading: {
                     options: [
                         { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -179,109 +189,109 @@ export default{
             },
 
             option: [
-                {value: '', label: 'Choose purpose', disabled: true, selected: true}, 
-                {value: 'register', label: 'Register'},
-                {value: 'reset-password', label: 'Reset Password'}
+                { value: '', label: 'Choose purpose', disabled: true, selected: true },
+                { value: 'register', label: 'Register' },
+                { value: 'reset-password', label: 'Reset Password' }
             ],
         }
     },
     methods: {
-        setOpen(){
+        setOpen() {
             this.editMode = false;
             this.open = !this.open;
             this.form = new Form({
-                id:'',
-                purpose:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
+                id: '',
+                purpose: '',
+                subject: '',
+                body: '',
+                description: '',
+                status: true,
             })
         },
-        isOpen(item){
+        isOpen(item) {
             this.form = item;
             this.pop = !this.pop;
         },
-        saveTemplate(){
+        saveTemplate() {
             this.$Progress.start();
             this.form.post('/api/email-template')
-            .then((data) => {
-                this.$Progress.finish();
-                this.getData();
-                this.form = new Form({
-                    id:'',
-                    subject:'',
-                    body:'',
-                    description:'',
-                    status:true,
-                });
-                this.open = !this.open;
-                createToast({
-                    title: 'Success!',
-                    description: 'Data has been saved.'
+                .then((data) => {
+                    this.$Progress.finish();
+                    this.getData();
+                    this.form = new Form({
+                        id: '',
+                        subject: '',
+                        body: '',
+                        description: '',
+                        status: true,
+                    });
+                    this.open = !this.open;
+                    createToast({
+                        title: 'Success!',
+                        description: 'Data has been saved.'
                     },
-                    {
-                    position: 'top-left',
-                    showIcon: 'true',
-                    type: 'success',
-                    toastBackgroundColor: '#00bcd4',
-                    hideProgressBar: 'true',
-                    toastBackgroundColor: '#00bcd4',
+                        {
+                            position: 'top-left',
+                            showIcon: 'true',
+                            type: 'success',
+                            toastBackgroundColor: '#00bcd4',
+                            hideProgressBar: 'true',
+                            toastBackgroundColor: '#00bcd4',
+                        })
+                }).catch((error) => {
+                    this.$Progress.fail();
                 })
-            }).catch((error) => {
-                this.$Progress.fail();
-            })
         },
-        updateTemplate(){
-            axios.put("/api/email-template/"+ this.form.id, {
-                params:{
+        updateTemplate() {
+            axios.put("/api/email-template/" + this.form.id, {
+                params: {
                     data: this.form
                 }
-            }).then((data) =>{
+            }).then((data) => {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.open = !this.open;
                 this.getData();
                 this.form = new Form({
-                    id:'',
-                    subject:'',
-                    body:'',
-                    description:'',
-                    status:true,
+                    id: '',
+                    subject: '',
+                    body: '',
+                    description: '',
+                    status: true,
                 });
                 createToast({
                     title: 'Success!',
                     description: 'Data has been updated.'
-                    },
+                },
                     {
-                    position: 'top-left',
-                    showIcon: 'true',
-                    type: 'success',
-                    toastBackgroundColor: '#00bcd4',
-                    hideProgressBar: 'true',
-                    toastBackgroundColor: '#00bcd4',
-                })
+                        position: 'top-left',
+                        showIcon: 'true',
+                        type: 'success',
+                        toastBackgroundColor: '#00bcd4',
+                        hideProgressBar: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                    })
             }).catch((error) => {
-                
+
             })
         },
-        editTemplate(item){
+        editTemplate(item) {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
         },
-        async getData(){
-            await axios.get('/api/email-template').then((data) =>{
+        async getData(page = 1) {
+            await axios.get('/api/email-template?page=' + page).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
-            // errorMessage('Opps!', e.message, 'top-right')
+                // errorMessage('Opps!', e.message, 'top-right')
             });
         }
     },
-    created(){
+    created() {
         this.getData();
     }
-    
+
 }
 
 </script>

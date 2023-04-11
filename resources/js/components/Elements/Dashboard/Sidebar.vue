@@ -60,7 +60,7 @@ import { useRouter, useRoute } from 'vue-router'
     { name: 'Dashboard', href: '/app/dashboard', icon: RectangleStackIcon },
     { name: 'Users', href: '/app/users', icon: UsersIcon },
     { name: 'Buildings', href: '/app/buildings', icon: BuildingOffice2Icon },
-    { name: 'Visitors', href: '#', icon: UserGroupIcon },
+    { name: 'Visitors', href: '/app/visitors', icon: UserGroupIcon },
     { name: 'Deliveries', href: '#', icon: TruckIcon},
     { name: 'Employee Reports', href: '#', icon: DocumentChartBarIcon },
     { name: 'Employee Logs', href: '#', icon: UserPlusIcon },

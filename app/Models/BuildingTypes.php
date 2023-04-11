@@ -14,6 +14,5 @@ class BuildingTypes extends Model
         'description',
         'delivery_form',
         'status',
-        'created_at'
     ];
 }
