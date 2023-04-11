@@ -72,15 +72,12 @@
                         </div> -->
 
                         <div class="sm:col-span-3 mt-3">
-                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Purpose</label>
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose purpose</label>
                             <VueMultiselect
                                 v-model="form.purpose"
                                 :options="option"
                                 :close-on-select="true"
                                 :clear-on-select="false"
-                                :allow-empty="false"
-                                placeholder="Choose a purpose"
-                                class="mt-2"
                             />
                         </div>
 
@@ -201,10 +198,7 @@ export default {
 
             placeholder:'Choose a purpose: ',
 
-            option: [
-              'Register', 'Reset Password'
-                
-            ]
+            option: [ 'Register', 'Reset Password' ],
         }
     },
     methods: {

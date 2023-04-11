@@ -1,19 +1,18 @@
 <template>
     <div class="sm:col-span-3">
         <label :for="id" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
-            <VueMultiselect 
-                :options="items" 
-                :value="value" 
-                :close-on-select="true"
-                :clear-on-select="false" 
-                :placeholder="placeholder"
-                label="label"
-                track-by="label"
+            <VueMultiselect
+                v-model="option"
+                @select="onSelect"
+                :options="options"
                 :name="id" 
-                :id="id"
-                :class="[hasError ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset bg-white focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400']">
-                <!-- <option v-for="option in options" :value="option.value" :disabled="option.disabled" :selected="option.selected">{{ option.label }}</option> -->
-            </VueMultiselect>
+                :id="id" 
+                autocomplete="given-name"
+                :close-on-select="true"
+                :clear-on-select="false"
+                :placeholder="placeholder"
+                :class="[hasError ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400']"
+            />
         <div class="text-xs text-red-600 dark:text-red-500" v-show="hasError" v-html="errorMessage" />
     </div>
 </template>
@@ -27,12 +26,10 @@ export default{
         VueMultiselect
     },
     name:'drop-down',
-    setup(props, context) {
-        const updateValue = (event) => {
-            context.emit('update:modelValue', event.target.value);
+    data() {
+        return {
+            selectedOptions: [],
         }
-
-        return { updateValue }
     },
     props:{
         label:{
@@ -55,7 +52,7 @@ export default{
             type: String,
             default: ''
         },
-        items: {
+        options: {
             type: Array,
             required: true
         },
@@ -65,9 +62,9 @@ export default{
         },
     },
     methods: {
-        thisSelected({ label }) {
-            return '${ label }'
+        onSelect(selectedOptions) {
+            this.$emit('selectedOption', selectedOptions);
         }
-    },
+    }
 }
 </script>

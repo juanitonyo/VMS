@@ -96,7 +96,16 @@
                             </div>
                         </div>
 
-                        <!-- <div class="sm:col-span-3 mt-3" >    
+                        <div class="sm:col-span-3 mt-3">
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose Building Type</label>
+                            <VueMultiselect
+                                v-model="form.buildingType"
+                                :options="option"
+                                :close-on-select="true"
+                                :clear-on-select="false"
+                            />
+                        </div>
+                        <!-- <div class="sm:col-span-3 mt-3">    
                             <DropDown v-model="form.buildingType" label="Building Type" id="building" :options="option" :hasError=" this.editMode ? false: form.errors.has('buildingType')" :errorMessage="this.editMode ? false: form.errors.get('buildingType ')"></DropDown>
                         </div> -->
 
@@ -172,6 +181,7 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { TailwindPagination } from 'laravel-vue-pagination';
 import { createToast } from 'mosha-vue-toastify';
+import VueMultiselect from 'vue-multiselect';
 import moment from 'moment';
 import axios from "axios";
 import Form from "vform";
@@ -196,7 +206,8 @@ export default {
         SwitchGroup, 
         SwitchLabel, 
         moment, 
-        TailwindPagination
+        TailwindPagination,
+        VueMultiselect
     },
 
     data() {
@@ -215,10 +226,9 @@ export default {
             }),
 
             option: [
-                {value: '', label: 'Choose building type', disabled: true, selected: true},
-                {value: 'Mall', label: 'Mall'},
-                {value: 'Co Working Space', label: 'Co Working Space'},
-                {value: 'Subdivision', label: 'Subdivision'}
+                'Mall',
+                'Co Working Space',
+                'Subdivision',
             ]
         }
     },
