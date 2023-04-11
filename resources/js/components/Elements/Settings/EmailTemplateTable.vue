@@ -67,10 +67,8 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
-                        <div class="sm:col-span-3 mt-3">
-                            <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :options="option"
-                                :hasError="this.editMode ? false : form.errors.has('purpose')"
-                                :errorMessage="this.editMode ? false : form.errors.get('purpose')"></DropDown>
+                        <div class="sm:col-span-3 mt-3">    
+                            <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :items="option" :placeholder="placeholder" :hasError=" this.editMode ? false: form.errors.has('purpose')" :errorMessage="this.editMode ? false: form.errors.get('purpose')"></DropDown>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -158,8 +156,8 @@ export default {
             default: {},
         }
     },
-    components: {
-        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, DropDown, TailwindPagination
+    components:{
+        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, DropDown,
     },
     data() {
         return {
@@ -188,10 +186,11 @@ export default {
                 },
             },
 
+            placeholder:'Choose a purpose: ',
+
             option: [
-                { value: '', label: 'Choose purpose', disabled: true, selected: true },
-                { value: 'register', label: 'Register' },
-                { value: 'reset-password', label: 'Reset Password' }
+                {value: 'Register', label: 'Register'},
+                {value: 'Reset Password', label: 'Reset Password'}
             ],
         }
     },

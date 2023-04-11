@@ -128,123 +128,124 @@ import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui
 import { TailwindPagination } from 'laravel-vue-pagination';
 import NormalInput from "../Inputs/NormalInput.vue";
 
-export default {
-    name: "BuildingTypeTable",
-    props: {
-        data: {
-            type: Array,
-            default: {},
-        }
-    },
-    components: {
-        SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, TailwindPagination
-    },
-    data() {
-        return {
-            data: {},
-            editMode: false,
-            open: false,
-            form: new Form({
-                id: '',
-                description: '',
-                delivery_form: false,
-                status: false,
-            }),
-        }
-    },
-    methods: {
-        setOpen() {
-            this.editMode = false;
-            this.open = !this.open;
-            this.form = new Form({
-                id: '',
-                name: '',
-                description: '',
-                delivery_form: false,
-                status: false,
-            })
-        },
-        saveBuilding() {
-            this.$Progress.start();
-            this.form.post('/api/building-types')
-                .then((data) => {
-                    this.$Progress.finish();
-                    this.getData();
-                    this.form = new Form({
-                        id: '',
-                        name: '',
-                        description: '',
-                        delivery_form: false,
-                        status: false,
-                    });
-                    this.open = !this.open;
-                    createToast({
-                        title: 'Success!',
-                        description: 'Data has been saved.'
-                    },
-                        {
-                            position: 'top-left',
-                            showIcon: 'true',
-                            type: 'success',
-                            toastBackgroundColor: '#00bcd4',
-                            hideProgressBar: 'true',
-                            toastBackgroundColor: '#00bcd4',
-                        })
-                }).catch((error) => {
-                    this.$Progress.fail();
-                })
-        },
-        editBuilding(item) {
-            this.editMode = true;
-            this.open = !this.open;
-            this.form = item;
-        },
-        updateBuilding() {
-            axios.put("/api/building-types/" + this.form.id, {
-                params: {
-                    data: this.form
-                }
-            }).then((data) => {
-                this.editMode = false;
-                this.$Progress.finish();
-                this.getData();
-                this.form = new Form({
-                    id: '',
-                    name: '',
-                    description: '',
-                    delivery_form: false,
-                    status: false,
-                });
-                this.open = !this.open;
-                createToast({
-                    title: 'Success!',
-                    description: 'Data has been updated.'
-                },
-                    {
-                        position: 'top-left',
-                        showIcon: 'true',
-                        type: 'success',
-                        toastBackgroundColor: '#00bcd4',
-                        hideProgressBar: 'true',
-                        toastBackgroundColor: '#00bcd4',
-                    })
-            }).catch((error) => {
-
-            })
-        },
-        async getData(page = 1) {
-            await axios.get('/api/building-types?page=' + page).then((data) => {
-                this.data = data.data.data;
-            }).catch((e) => {
-                // errorMessage('Opps!', e.message, 'top-right')
-            });
-        }
-    },
-    created() {
-        this.getData();
+export default{
+  name:"BuildingTypeTable",
+  props: {
+    data:{
+        type:Array,
+        default: {},
     }
-
-
+  },
+  components:{
+    SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput,
+  },
+  data () {
+    return {
+        data:{},
+        editMode:false,
+        open:false,
+        form: new Form({
+            id:'',
+            name:'',
+            description:'',
+            delivery_form: false,
+            status:false,
+        }),
+    }
+  },
+  methods:{
+    setOpen(){
+        this.editMode = false;
+        this.open = !this.open;
+        this.form = new Form({
+            id:'',
+            name:'',
+            description:'',
+            delivery_form: false,
+            status:false,
+        })
+    },
+    saveBuilding(){
+        this.$Progress.start();
+        this.form.post('/api/building-types')
+        .then((data) => {
+            this.$Progress.finish();
+            this.getData();
+            this.form = new Form({
+                id:'',
+                name:'',
+                description:'',
+                delivery_form: false,
+                status:false,
+            });
+            this.open = !this.open;
+            createToast({
+                title: 'Success!',
+                description: 'Data has been saved.'
+                },
+                {
+                position: 'top-left',
+                showIcon: 'true',
+                type: 'success',
+                toastBackgroundColor: '#00bcd4',
+                hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
+            })
+        }).catch((error) => {
+            this.$Progress.fail();
+        })
+    },
+    editBuilding(item){
+        this.editMode = true;
+        this.open = !this.open;
+        this.form = item;
+    },
+    updateBuilding(){
+        axios.put("/api/building-types/"+ this.form.id, {
+            params:{
+                data: this.form
+            }
+        }).then((data) =>{
+            this.editMode = false;
+            this.$Progress.finish();
+            this.getData();
+            this.form = new Form({
+                id:'',
+                name:'',
+                description:'',
+                delivery_form: false,
+                status:false,
+            });
+            this.open = !this.open;
+            createToast({
+                title: 'Success!',
+                description: 'Data has been updated.'
+                },
+                {
+                position: 'top-left',
+                showIcon: 'true',
+                type: 'success',
+                toastBackgroundColor: '#00bcd4',
+                hideProgressBar: 'true',
+                toastBackgroundColor: '#00bcd4',
+            }) 
+        }).catch((error) => {
+            
+        })
+    },
+   async getData(){
+        await axios.get('/api/building-types').then((data) =>{
+            this.data = data.data.data;
+        }).catch((e) => {
+            // errorMessage('Opps!', e.message, 'top-right')
+        });
+    }
+  },
+  created(){
+    this.getData();
+  }
+    
+    
 }
 
 </script>
