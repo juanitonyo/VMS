@@ -63,7 +63,7 @@ class BuildingController extends BaseController
             'buildingName' => $request->params['data']['buildingName'],
             'description' => $request->params['data']['description'],
             'address' => $request->params['data']['address'],
-            'buildingType' => $request->params['data']['buildingType'],
+            'buildingType' => $request->params['data']['buildingType']['value'],
             'status' => $request->params['data']['status'],
           ]);
            return $this->sendResponse($request->validated(), "Updated Data");
