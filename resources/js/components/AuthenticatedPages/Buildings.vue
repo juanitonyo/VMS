@@ -364,6 +364,7 @@ export default {
     },
     created() {
         this.getData();
+        this.getBuildingTypes();
         this.moment = moment;
     }
 }
