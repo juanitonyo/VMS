@@ -13,6 +13,8 @@ import "vue-select/dist/vue-select.css";
 
 import moshaToast from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
+import "vue-multiselect/dist/vue-multiselect.css";
+
 
 const options = {
     color: "rgb(143, 255, 199)",

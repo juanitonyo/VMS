@@ -1,5 +1,5 @@
 <template>
-    <div class="max-w-sc font-poppins">
+    <div class="font-poppins min-h-full">
         <router-view :key="$route.fullPath"></router-view>
         <vue-progress-bar></vue-progress-bar>
     </div>
