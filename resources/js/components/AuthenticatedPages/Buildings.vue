@@ -44,7 +44,8 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 ">{{ item.buildingName }}
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.buildingType }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type.name
+                                        }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">
                                             <button @click.prevent="isOpen('Visitor', item)"
                                                 class="border border-cyan-500 rounded-md py-1.5 px-3 mx-1 hover:bg-cyan-500 hover:text-white">Visitor</button>
@@ -53,7 +54,8 @@
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{
+                                            moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a @click.prevent="editBuilding(item)" href="#"
                                                 class="text-cyan-600 hover:text-cyan-900">Edit<span
@@ -67,24 +69,28 @@
                 </div>
             </div>
             <div class="flex items-center justify-center mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData"/>
+                <TailwindPagination :data="data" @pagination-change-page="getData" />
             </div>
         </div>
     </div>
 
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Building'"
-        :description="'This. add building. haha'">
+        :description="'Viewing and Adding types of Buildings'">
         <template v-slot:slider-body>
             <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.buildingName" label="Building Name" id="building" :hasError=" this.editMode ? false: form.errors.has('buildingName')" :errorMessage="this.editMode ? false: form.errors.get('buildingName')"></NormalInput>
+                            <NormalInput v-model="form.buildingName" label="Building Name" id="building"
+                                :hasError="this.editMode ? false : form.errors.has('buildingName')"
+                                :errorMessage="this.editMode ? false : form.errors.get('buildingName')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.description" label="Description" id="building" :hasError=" this.editMode ? false: form.errors.has('description')" :errorMessage="this.editMode ? false: form.errors.get('description')"></NormalInput>
+                            <NormalInput v-model="form.description" label="Description" id="building"
+                                :hasError="this.editMode ? false : form.errors.has('description')"
+                                :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -96,14 +102,17 @@
                             </div>
                         </div>
 
-                        <div class="sm:col-span-3 mt-3">
-                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose Building Type</label>
-                            <VueMultiselect
+                        <div class="sm:col-span-3 mt-3 text-sm">
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
+                                Building Type</label>
+                            <!-- <VueMultiselect
                                 v-model="form.buildingType"
                                 :options="option"
                                 :close-on-select="true"
                                 :clear-on-select="false"
-                            />
+                            /> -->
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
+                                label="label"></v-select>
                         </div>
                         <!-- <div class="sm:col-span-3 mt-3">    
                             <DropDown v-model="form.buildingType" label="Building Type" id="building" :options="option" :hasError=" this.editMode ? false: form.errors.has('buildingType')" :errorMessage="this.editMode ? false: form.errors.get('buildingType ')"></DropDown>
@@ -160,9 +169,10 @@
         <template v-slot:dialogBody>
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5">
                 <div class="flex justify-center items-center flex-col">
-                    <img :src="qrName()" class="mt-5 bg-cyan-400"/>
+                    <img :src="qrName(form.uuid)" class="mt-5 bg-cyan-400" />
                     <h1 class="font-extrabold text-2xl my-5 text-cyan-700">OR</h1>
-                    <a :href="route" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.route }}</a>
+                    <a :href="route" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.route + this.hashMessage
+                    }}</a>
                 </div>
             </div>
             <!-- <div>
@@ -208,11 +218,11 @@ export default {
         DialogVue,
         NormalInput,
         //DropDown,
-        Switch, 
-        SwitchDescription, 
-        SwitchGroup, 
-        SwitchLabel, 
-        moment, 
+        Switch,
+        SwitchDescription,
+        SwitchGroup,
+        SwitchLabel,
+        moment,
         TailwindPagination,
         VueMultiselect
     },
@@ -266,7 +276,8 @@ export default {
         editBuilding(item) {
             this.editMode = true;
             this.open = !this.open;
-            this.form = item;
+             this.form = item;
+            this.form.buildingType = {value : item.building_type.id , label: item.building_type.name}
         },
 
         saveBuilding() {
@@ -340,8 +351,15 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        qrName() {
-            return this.url + this.route;
+
+        qrName(uuid) {
+            return this.url + this.route + uuid;
+        },
+
+        getBuildingTypes() {
+            axios.get('/api/get-building-types').then((data) => { this.building_types = data.data.data }).catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+            });
         }
     },
     created() {
