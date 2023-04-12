@@ -104,7 +104,7 @@
                                 :close-on-select="true"
                                 :clear-on-select="false"
                             /> -->
-                            <v-select v-model="form.buildingType" :options="building_types" label="label"></v-select>
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" class="dropdown"></v-select>
                         </div>
                         <!-- <div class="sm:col-span-3 mt-3">    
                             <DropDown v-model="form.buildingType" label="Building Type" id="building" :options="option" :hasError=" this.editMode ? false: form.errors.has('buildingType')" :errorMessage="this.editMode ? false: form.errors.get('buildingType ')"></DropDown>
@@ -161,7 +161,7 @@
         <template v-slot:dialogBody>
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5 mt-4">
                 <div class="flex justify-center items-center flex-col">
-                    <img :src="qrName()" class="mt-5 bg-cyan-400"/>
+                    <img :src="qrName(form.uuid)" class="mt-5 bg-cyan-400"/>
                     <h1 class="font-extrabold text-2xl my-5 text-cyan-700">OR</h1>
                     <a :href="route" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.route + this.hashMessage }}</a>
                 </div>
@@ -193,7 +193,6 @@ import VueMultiselect from 'vue-multiselect';
 import moment from 'moment';
 import axios from "axios";
 import Form from "vform";
-import { MD5 } from 'crypto-js';
 
 export default {
 
@@ -235,17 +234,7 @@ export default {
                 status: false,
             }),
 
-            building_types: [
-                {value: '12', label: 'Test'}
-            ],
-            books: [
-                { title: "Old Man's War" },
-                { title: "The Lock Artist" },
-                { title: "HTML5" },
-                { title: "Right Ho Jeeves" },
-                { title: "The Code of the Wooster" },
-                { title: "Thank You Jeeves" }
-            ],
+            building_types: [],
 
             url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
             route: '../visitor-registration/'
@@ -349,18 +338,29 @@ export default {
             });
         },
        
-        qrName() {
-            this.hashMessage = MD5(this.route).toString()
-            return this.url + this.route + this.hashMessage;
+        qrName(uuid) {
+            return this.url + this.route + uuid;
+        },
+
+        getBuildingTypes(){
+            axios.get('/api/get-building-types').then((data) => { this.building_types = data.data.data }).catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+            });
         }
     },
     created() {
         this.getData();
-        axios.get('/api/get-building-types').then((data) => { this.building_types = data.data.data }).catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
+        this.getBuildingTypes();
         this.moment = moment;
     }
 }
 
 </script>
+
+<style>
+
+.dropdown .vs__search::placeholder{
+    color: gray;
+}
+
+</style>
