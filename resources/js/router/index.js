@@ -111,11 +111,12 @@ const routes = [
         component: VisitorQRLayout,
         meta: {
             middleware: "vqr",
+            title: `VMS | Visitor Registration`,    
         },
         children: [
             {
                 name: "visitor",
-                path: "/",
+                path: "/visitor-registration/",
                 component: VisitorReg,
                 meta: {
                     title: `VMS | Visitor Registration`,

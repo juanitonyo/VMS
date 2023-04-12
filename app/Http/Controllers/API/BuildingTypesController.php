@@ -17,6 +17,18 @@ class BuildingTypesController extends BaseController
         return $this->sendResponse($data, "All building types in array");
     }
 
+    public function getBuildingTypeArray(){
+        $data = BuildingTypes::all();
+        $arr = [];
+        foreach($data as $item){
+            $arr[] = [
+                'value' => $item->id,
+                'label' => $item->name
+            ]; 
+        }
+        return $this->sendResponse($arr, "All buildings in array");
+    }
+
     /**
      * Show the form for creating a new resource.
      */

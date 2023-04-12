@@ -8,10 +8,13 @@ import VueProgressBar from "@aacassandra/vue3-progressbar";
 import Router from "@/router";
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import Form from "vform";
+import vSelect from "vue-select";
+import "vue-select/dist/vue-select.css";
 
 import moshaToast from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 import "vue-multiselect/dist/vue-multiselect.css";
+
 
 const options = {
     color: "rgb(143, 255, 199)",
@@ -35,5 +38,6 @@ app.use(Router);
 app.use(pinia, moshaToast, Form);
 app.use(VueProgressBar, options);
 app.use(CKEditor);
+app.component("v-select", vSelect);
 
 app.mount('#app');

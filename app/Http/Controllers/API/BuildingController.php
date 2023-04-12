@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingRequest;
+use Illuminate\Support\Str;
 
 class BuildingController extends BaseController
 {
@@ -13,9 +14,11 @@ class BuildingController extends BaseController
      */
     public function index()
     {
-        $data = Building::paginate(10);
+        $data = Building::with('buildingType')->paginate(10);
         return $this->sendResponse($data, "All buildings in array");
     }
+
+    
 
     /**
      * Show the form for creating a new resource.
@@ -30,6 +33,7 @@ class BuildingController extends BaseController
      */
     public function store(BuildingRequest $request)
     {
+
         $data = Building::create($request->validated());
         return $this->sendResponse($data, "Saved Data");
     }

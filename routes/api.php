@@ -22,13 +22,14 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::post('login', 'AuthController@login');
 
+    Route::get('get-building-types', 'BuildingTypesController@getBuildingTypeArray');
+
     Route::apiResources([
         'building-types' => 'BuildingTypesController',
         'email-template' => 'EmailTemplateController',
         'sms-template' => 'SMSTemplateController',
         'building' => 'BuildingController',
         'visitors' => 'VisitorsController',
-
     ]);
 });
 
