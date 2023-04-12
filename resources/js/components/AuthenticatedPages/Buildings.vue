@@ -44,7 +44,7 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 ">{{ item.buildingName }}
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type.name }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.buildingType }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">
                                             <button @click.prevent="isOpen('Visitor', item)"
                                                 class="border border-cyan-500 rounded-md py-1.5 px-3 mx-1 hover:bg-cyan-500 hover:text-white">Visitor</button>
@@ -98,13 +98,12 @@
 
                         <div class="sm:col-span-3 mt-3">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose Building Type</label>
-                            <!-- <VueMultiselect
+                            <VueMultiselect
                                 v-model="form.buildingType"
                                 :options="option"
                                 :close-on-select="true"
                                 :clear-on-select="false"
-                            /> -->
-                            <v-select v-model="form.buildingType" :options="building_types" label="label"></v-select>
+                            />
                         </div>
                         <!-- <div class="sm:col-span-3 mt-3">    
                             <DropDown v-model="form.buildingType" label="Building Type" id="building" :options="option" :hasError=" this.editMode ? false: form.errors.has('buildingType')" :errorMessage="this.editMode ? false: form.errors.get('buildingType ')"></DropDown>
@@ -159,11 +158,11 @@
 
     <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR'">
         <template v-slot:dialogBody>
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5 mt-4">
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5">
                 <div class="flex justify-center items-center flex-col">
                     <img :src="qrName()" class="mt-5 bg-cyan-400"/>
                     <h1 class="font-extrabold text-2xl my-5 text-cyan-700">OR</h1>
-                    <a :href="route" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.route + this.hashMessage }}</a>
+                    <a :href="route" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.route }}</a>
                 </div>
             </div>
             <!-- <div>
@@ -193,7 +192,6 @@ import VueMultiselect from 'vue-multiselect';
 import moment from 'moment';
 import axios from "axios";
 import Form from "vform";
-import { MD5 } from 'crypto-js';
 
 export default {
 
@@ -235,20 +233,14 @@ export default {
                 status: false,
             }),
 
-            building_types: [
-                {value: '12', label: 'Test'}
-            ],
-            books: [
-                { title: "Old Man's War" },
-                { title: "The Lock Artist" },
-                { title: "HTML5" },
-                { title: "Right Ho Jeeves" },
-                { title: "The Code of the Wooster" },
-                { title: "Thank You Jeeves" }
+            option: [
+                'Mall',
+                'Co Working Space',
+                'Subdivision',
             ],
 
             url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
-            route: '../visitor-registration/'
+            route: 'http://fakebsod.com/windows-8-and-10'
         }
     },
 
@@ -348,17 +340,12 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
-       
         qrName() {
-            this.hashMessage = MD5(this.route).toString()
-            return this.url + this.route + this.hashMessage;
+            return this.url + this.route;
         }
     },
     created() {
         this.getData();
-        axios.get('/api/get-building-types').then((data) => { this.building_types = data.data.data }).catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
         this.moment = moment;
     }
 }
