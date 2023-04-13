@@ -165,19 +165,18 @@
         </template>
     </SliderVue>
 
-    <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR'">
+    <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR | ' + form.buildingName">
         <template v-slot:dialogBody>
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5">
+
+            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5 mt-4">
                 <div class="flex justify-center items-center flex-col">
                     <img :src="qrName(form.qr_id)" class="mt-5 bg-cyan-400" />
                     <h1 class="font-extrabold text-2xl my-5 text-cyan-700">OR</h1>
-                    <a :href="this.proxyURL+this.route+form.qr_id" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.proxyURL + this.route + form.qr_id
+                    <a :href="this.proxyURL + this.route + form.qr_id" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.proxyURL + this.route + form.qr_id
                     }}</a>
                 </div>
             </div>
-            <!-- <div>
-                <a :href="route">{{ form.buildingName }}</a>
-            </div> -->
+
             <div class="mt-4">
                 <button type="button"
                     class="inline-flex justify-center rounded-md bg-cyan-600 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500"
@@ -185,6 +184,7 @@
                     Close
                 </button>
             </div>
+            
         </template>
     </DialogVue>
 </template>

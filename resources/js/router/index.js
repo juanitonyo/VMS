@@ -20,8 +20,9 @@ const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
 
-// VISITOR QR PAGE
-const VisitorPrompt = () => import("@/components/VisitorQR/VisitorPrompt.vue");
+// VISITOR REGISTRATION PAGE
+const VisitorPrompt = () => import("@/components/VisitorRegistration/VisitorPrompt.vue");
+const VisitorRegIndex = () => import("@/components/VisitorRegistration/VisitorRegIndex.vue");
 
 const routes = [
     {
@@ -136,6 +137,14 @@ const routes = [
                 name: "visitor",
                 path: "/visitor-registration/:id",
                 component: VisitorPrompt,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "index",
+                path: "/visitor-registration/index/",
+                component: VisitorRegIndex,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },
