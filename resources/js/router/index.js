@@ -21,7 +21,7 @@ const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
 
 // VISITOR QR PAGE
-const VisitorReg = () => import("@/components/VisitorQR/VisitorReg.vue");
+const VisitorPrompt = () => import("@/components/VisitorQR/VisitorPrompt.vue");
 
 const routes = [
     {
@@ -102,6 +102,24 @@ const routes = [
                     ability: "",
                 },
             },
+            {
+                name: "deliveries",
+                path: "/app/deliveries",
+                component: Visitors,
+                meta: {
+                    title: `VMS | Deliveries`,
+                    ability: "",
+                },
+            },
+            {
+                name: "profile",
+                path: "/app/profile",
+                component: Visitors,
+                meta: {
+                    title: `VMS | Profile`,
+                    ability: "",
+                },
+            },
             
         ],
     },
@@ -116,8 +134,8 @@ const routes = [
         children: [
             {
                 name: "visitor",
-                path: "/visitor-registration/",
-                component: VisitorReg,
+                path: "/visitor-registration/:id",
+                component: VisitorPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },

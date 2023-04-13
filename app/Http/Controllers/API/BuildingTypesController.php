@@ -18,7 +18,7 @@ class BuildingTypesController extends BaseController
     }
 
     public function getBuildingTypeArray(){
-        $data = BuildingTypes::all();
+        $data = BuildingTypes::where('status', 1)->get();
         $arr = [];
         foreach($data as $item){
             $arr[] = [

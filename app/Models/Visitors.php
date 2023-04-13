@@ -11,7 +11,6 @@ class VisitorLogs extends Model
 
     protected $fillable = [
         'name',
-        'email',
-        '
+        
     ];
 }

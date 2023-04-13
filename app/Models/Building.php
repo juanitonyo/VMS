@@ -15,6 +15,7 @@ class Building extends Model
         'address',
         'description',
         'buildingType',
+        'image',
         'status',
     ];
 

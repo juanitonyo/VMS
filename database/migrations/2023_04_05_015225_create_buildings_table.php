@@ -19,7 +19,7 @@ return new class extends Migration
             $table->longText('address');
             $table->string('buildingType');
             $table->boolean('status')->default(true);
-            $table->integer('refID')->nullable();
+            $table->binary('image')->nullable();
             $table->timestamps();
         });
     }

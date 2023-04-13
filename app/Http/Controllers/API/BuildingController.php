@@ -18,7 +18,11 @@ class BuildingController extends BaseController
         return $this->sendResponse($data, "All buildings in array");
     }
 
-    
+    public function getBuilding(Request $request, $id){
+        $data = Building::where('qr_id', $id)->first('buildingName');
+       
+        return $this->sendResponse($data, "All buildings in array");
+    }
 
     /**
      * Show the form for creating a new resource.
@@ -33,7 +37,6 @@ class BuildingController extends BaseController
      */
     public function store(BuildingRequest $request)
     {
-
         $data = Building::create($request->validated());
         return $this->sendResponse($data, "Saved Data");
     }
@@ -64,6 +67,7 @@ class BuildingController extends BaseController
             'description' => $request->params['data']['description'],
             'address' => $request->params['data']['address'],
             'buildingType' => $request->params['data']['buildingType']['value'],
+            'image' => $request->params['data']['image']['value'],
             'status' => $request->params['data']['status'],
           ]);
            return $this->sendResponse($request->validated(), "Updated Data");
