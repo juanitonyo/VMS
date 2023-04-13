@@ -8,8 +8,8 @@
         <Bars3CenterLeftIcon class="h-6 w-6" aria-hidden="true" />
       </button>
       <!-- Search bar -->
-      <div class="flex flex-1 justify-between px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
-        <div class="flex flex-1">
+      <div class="flex flex-1 justify-end px-4 sm:px-6 lg:mx-auto lg:max-w-6xl lg:px-8">
+        <!-- <div class="flex flex-1">
           <form class="flex w-full md:ml-0" action="#" method="GET">
             <label for="search-field" class="sr-only">Search</label>
             <div class="relative w-full text-gray-400 focus-within:text-gray-600">
@@ -21,13 +21,13 @@
                 placeholder="Search transactions" type="search" />
             </div>
           </form>
-        </div>
+        </div> -->
         <div class="ml-4 flex items-center md:ml-6">
-          <button type="button"
+          <!-- <button type="button"
             class="rounded-full bg-white p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2">
             <span class="sr-only">View notifications</span>
             <BellIcon class="h-6 w-6" aria-hidden="true" />
-          </button>
+          </button> -->
 
           <!-- Profile dropdown -->
           <Menu as="div" class="relative ml-3">

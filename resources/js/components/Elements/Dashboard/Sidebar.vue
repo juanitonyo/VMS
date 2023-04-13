@@ -4,6 +4,7 @@
       <div class="flex flex-shrink-0 items-center px-4 ">
         <img class="h-8 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=cyan&shade=300"
           alt="Easywire logo" />
+          <span class="p-2 font-semibold text-cyan-300 text-xl">VMS</span>
       </div>
       <nav class="mt-5 flex flex-1 flex-col divide-y divide-cyan-800 overflow-y-auto justify-between" aria-label="Sidebar">
         <div class="space-y-1 px-2">
@@ -17,7 +18,7 @@
         <div class="mt-6 pt-6">
           <div class="space-y-1 px-2">
             <router-link v-for="item in sideBarSecondaryNavigation" :key="item.name" :to="item.href"
-              :class="[useRoute().path == item.href ? 'bg-cyan-800 text-white' : 'text-cyan-100 hover:bg-cyan-600 hover:text-white', 'group flex items-center rounded-md px-2 py-2 text-sm font-medium leading-6']">
+              :class="[useRoute().path == item.href ? 'bg-cyan-800 text-white' : 'text-white hover:bg-cyan-600 hover:text-white', 'group flex items-center rounded-md px-2 py-2 text-sm font-medium leading-6']">
               <component :is="item.icon" class="mr-4 h-6 w-6 text-cyan-200" aria-hidden="true" />
               {{ item.name }}
             </router-link>
@@ -70,8 +71,8 @@ const sidebarNavigation = [
   // { name: 'Employee Logs', href: '#', icon: UserPlusIcon },
 ]
 const sideBarSecondaryNavigation = [
-  { name: 'Profile', href: '/app/profile', icon: UserIcon },
-  { name: 'Settings', href: '/app/settings', icon: CogIcon },
+  // { name: 'Profile', href: '/app/profile', icon: UserIcon },
+  { name: 'Maintenance', href: '/app/settings', icon: CogIcon },
   // { name: 'QR Codes', href: '#', icon: QrCodeIcon },
 ]
 
