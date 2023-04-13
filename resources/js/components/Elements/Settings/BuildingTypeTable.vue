@@ -49,7 +49,7 @@
                     </table>
                 </div>
             </div>
-            <div class="flex items-center justify-center mt-3">
+            <div class="flex items-center justify-end mt-3">
                 <TailwindPagination :data="data" @pagination-change-page="getData" />
             </div>
         </div>

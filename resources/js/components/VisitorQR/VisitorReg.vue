@@ -1,5 +1,5 @@
 <template>
-    <div class="min-w-full flex items-center justify-center overflow-hidden">
+    <div class="min-w-full flex absolute top-36 sm:top-3  items-center justify-center overflow-hidden">
         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 m-5 p-5 md:p-10">
             <h1 class="flex justify-center items-center text-xs md:text-lg">YOU ARE ABOUT TO ENTER ...</h1>
 

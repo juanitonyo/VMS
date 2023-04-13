@@ -102,6 +102,24 @@ const routes = [
                     ability: "",
                 },
             },
+            {
+                name: "deliveries",
+                path: "/app/deliveries",
+                component: Visitors,
+                meta: {
+                    title: `VMS | Deliveries`,
+                    ability: "",
+                },
+            },
+            {
+                name: "profile",
+                path: "/app/profile",
+                component: Visitors,
+                meta: {
+                    title: `VMS | Profile`,
+                    ability: "",
+                },
+            },
             
         ],
     },

@@ -68,7 +68,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-center mt-3">
+            <div class="flex items-center justify-end mt-3">
                 <TailwindPagination :data="data" @pagination-change-page="getData" />
             </div>
         </div>
@@ -82,7 +82,7 @@
                     <div class="my-4 grid grid-cols-1">
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.buildingName" label="Building Name" id="building"
+                            <NormalInput v-model="form.buildingName" label="Building Type Name" id="building"
                                 :hasError="this.editMode ? false : form.errors.has('buildingName')"
                                 :errorMessage="this.editMode ? false : form.errors.get('buildingName')"></NormalInput>
                         </div>
@@ -169,9 +169,9 @@
         <template v-slot:dialogBody>
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5 mt-4">
                 <div class="flex justify-center items-center flex-col">
-                    <img :src="qrName(form.uuid)" class="mt-5 bg-cyan-400" />
+                    <img :src="qrName(form.qr_id)" class="mt-5 bg-cyan-400" />
                     <h1 class="font-extrabold text-2xl my-5 text-cyan-700">OR</h1>
-                    <a :href="route" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.route + this.hashMessage
+                    <a :href="this.proxyURL" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.proxyURL + this.route + form.qr_id
                     }}</a>
                 </div>
             </div>
@@ -202,6 +202,7 @@ import VueMultiselect from 'vue-multiselect';
 import moment from 'moment';
 import axios from "axios";
 import Form from "vform";
+
 
 export default {
 
@@ -234,7 +235,6 @@ export default {
             open: false,
             pop: false,
             vMode: '',
-            hashMessage: '',
             form: new Form({
                 buildingName: '',
                 address: '',
@@ -246,7 +246,8 @@ export default {
             building_types: [],
 
             url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
-            route: '../visitor-registration/'
+            route: '/visitor-registration/',
+            proxyURL: import.meta.env.VITE_APP_URL
         }
     },
 
@@ -349,7 +350,7 @@ export default {
         },
 
         qrName(uuid) {
-            return this.url + this.route + uuid;
+            return this.url + this.proxyURL + this.route + uuid;
         },
 
         getBuildingTypes() {
