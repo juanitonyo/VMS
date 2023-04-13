@@ -1,12 +1,12 @@
 <template>
-    <div class="flex flex-col justify-center min-h-screen">
+    <div class="lg:-mt-14 flex flex-col justify-center min-h-screen">
 
         <div class="flex flex-col gap-y-2 items-center justify-center mb-5">
             <h2 class="text-2xl lg:text-5xl font-semibold">{{ this.buildings.buildingName }}</h2>
             <h4 class="text-gray-500 text-base">{{ this.buildings.address }}</h4>
         </div>
 
-        <div class='flex flex-col md:flex-row mx-20 items-center justify-center space-x-3'>
+        <div class='flex flex-col lg:flex-row lg:mx-10 items-center justify-center gap-y-2 lg:gap-x-2'>
 
             <a href="#"
                 class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow ring-black ring-opacity-5 justify-start hover:bg-black hover:bg-opacity-5">
@@ -16,7 +16,7 @@
                 <div class="flex flex-col justify-center">
 
                     <div class="hidden sm:block sm:shrink-0">
-                        <img alt="No Icon" src="https://picsum.photos/80?grayscale"
+                        <img alt="No Icon" src="https://icon-library.com/images/registration-icon-png/registration-icon-png-13.jpg"
                             class="h-16 w-16 rounded-lg object-cover shadow-sm" />
                     </div>
 
@@ -35,7 +35,7 @@
                 <div class="flex flex-col justify-center">
 
                     <div class="hidden sm:block sm:shrink-0">
-                        <img alt="No Icon" src="https://picsum.photos/80?grayscale"
+                        <img alt="No Icon" src="https://static.thenounproject.com/png/4713553-200.png"
                             class="h-16 w-16 rounded-lg object-cover shadow-sm" />
                     </div>
 
@@ -54,7 +54,7 @@
                 <div class="flex flex-col justify-center">
 
                     <div class="hidden sm:block sm:shrink-0">
-                        <img alt="No Icon" src="https://picsum.photos/80?grayscale"
+                        <img alt="No Icon" src="https://pixlok.com/wp-content/uploads/2022/02/Exit-Icon-SVG-0987678.png"
                             class="h-16 w-16 rounded-lg object-cover shadow-sm" />
                     </div>
 
@@ -73,7 +73,7 @@
                 <div class="flex flex-col justify-center">
 
                     <div class="hidden sm:block sm:shrink-0">
-                        <img alt="No Icon" src="https://picsum.photos/80?grayscale"
+                        <img alt="No Icon" src="https://icons.veryicon.com/png/o/miscellaneous/zr_icon/invitation-card.png"
                             class="h-16 w-16 rounded-lg object-cover shadow-sm" />
                     </div>
 
@@ -85,13 +85,13 @@
             </a>
 
             <a href="#"
-                class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow ring-black ring-opacity-5 justify-start hover:bg-black hover:bg-opacity-5">
+                class="relative mb-10 lg:mb-0 flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow ring-black ring-opacity-5 justify-start hover:bg-black hover:bg-opacity-5">
                 <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-red-300 via-red-500 to-red-600"></span>
 
                 <div class="flex flex-col justify-center">
 
                     <div class="hidden sm:block sm:shrink-0">
-                        <img alt="No Icon" src="https://picsum.photos/80?grayscale"
+                        <img alt="No Icon" src="https://cdn-icons-png.flaticon.com/512/1179/1179540.png"
                             class="h-16 w-16 rounded-lg object-cover shadow-sm" />
                     </div>
 
