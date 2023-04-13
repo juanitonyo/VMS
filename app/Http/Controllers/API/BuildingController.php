@@ -18,8 +18,8 @@ class BuildingController extends BaseController
         return $this->sendResponse($data, "All buildings in array");
     }
 
-    public function getBuilding(Request $request, $id){
-        $data = Building::where('qr_id', $id)->first('buildingName');
+    public function getBuilding($id){
+        $data = Building::where('qr_id', $id)->first(['buildingName', 'address']);
        
         return $this->sendResponse($data, "All buildings in array");
     }
@@ -67,7 +67,6 @@ class BuildingController extends BaseController
             'description' => $request->params['data']['description'],
             'address' => $request->params['data']['address'],
             'buildingType' => $request->params['data']['buildingType']['value'],
-            'image' => $request->params['data']['image']['value'],
             'status' => $request->params['data']['status'],
           ]);
            return $this->sendResponse($request->validated(), "Updated Data");

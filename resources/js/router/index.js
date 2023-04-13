@@ -143,7 +143,7 @@ const routes = [
             },
             {
                 name: "index",
-                path: "/visitor-registration/index/",
+                path: "/visitor-registration/index/:id",
                 component: VisitorRegIndex,
                 meta: {
                     title: `VMS | Visitor Registration`,

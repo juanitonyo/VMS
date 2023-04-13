@@ -30,7 +30,6 @@ class BuildingRequest extends FormRequest
             'description' => 'required',
             'address' => 'required',
             'buildingType' => 'required',
-            'image' => 'required',
             'status' => 'required',
         
         ];
@@ -42,7 +41,6 @@ class BuildingRequest extends FormRequest
             'params.data.description' => 'required',
             'params.data.address' => 'required',
             'params.data.buildingType' => 'required',
-            'params.data.image' => 'required',
             'params.data.status' => 'required',
         ];
     }

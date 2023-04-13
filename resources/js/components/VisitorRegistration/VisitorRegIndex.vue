@@ -1,9 +1,9 @@
 <template>
     <div class="flex flex-col justify-center min-h-screen">
 
-        <div class="flex flex-col items-center justify-center mb-5">
-            <h2 class="text-4xl font-semibold">BUILDING NAME</h2>
-            <h4 class="text-gray-500 text-sm">address here</h4>
+        <div class="flex flex-col gap-y-2 items-center justify-center mb-5">
+            <h2 class="text-2xl lg:text-5xl font-semibold">{{ this.buildings.buildingName }}</h2>
+            <h4 class="text-gray-500 text-base">{{ this.buildings.address }}</h4>
         </div>
 
         <div class='flex flex-col md:flex-row mx-20 items-center justify-center space-x-3'>
@@ -106,3 +106,33 @@
 
     </div>
 </template>
+
+<script>
+import axios from 'axios';
+
+export default {
+    name: 'Visitor Prompt',
+    props: {
+        data: {
+            type: Array,
+            default: []
+        },
+    },
+    data() {
+        return {
+            data: {},
+            id: window.location.href.split('/').pop(),
+            buildings: {},
+        }
+    },
+    created() {
+        axios.get('/api/visitor-registration/' + this.id)
+            .then((data) => { 
+                this.buildings = data.data.data;
+            })
+            .catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+        });
+    },
+}
+</script>
