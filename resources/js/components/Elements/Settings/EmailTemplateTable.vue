@@ -1,19 +1,19 @@
 <template>
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-            <h1 class="text-2xl font-extrabold leading-6 text-cyan-600">Email Template Table</h1>
+            <h1 class="text-2xl font-extrabold leading-6 text-gray-900">Email Template Table</h1>
             <p class="mt-2 text-xs text-gray-600">A catalog of all email template maintenance entries.</p>
         </div>
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
             <button @click.prevent="setOpen" type="button"
-                class="block rounded-md bg-cyan-600 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Compose
+                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Compose
                 Email</button>
         </div>
     </div>
     <div class="mt-8 flow-root">
         <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
             <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                <div class="overflow-auto shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
@@ -35,19 +35,19 @@
                             <tr v-for="item in data.data" :key="item.id">
                                 <td class=" py-4 pl-4 pr-3 text-center text-xs font-bold text-gray-900 sm:pl-6">{{ item.id
                                 }}</td>
-                                <td class=" px-3 py-4 text-xs text-left w-48 text-gray-500">{{ item.purpose }}</td>
+                                <td class=" px-3 py-4 text-xs text-left w-40 text-gray-500">{{ item.purpose }}</td>
                                 <td class=" px-3 py-4 text-xs text-left w-56 text-gray-500">{{ item.subject }}</td>
-                                <td class=" px-3 py-4 text-xs text-left w-52 break-all text-cyan-600  hover:text-cyan-900">
+                                <td class=" px-3 py-4 text-xs text-left whitespace-nowrap  text-indigo-400  hover:text-indigo-900">
                                     <a @click.prevent="isOpen(item)" href="">[ View Content ]</a>
                                 </td>
                                 <td class=" px-3 py-4 w-80 break-all text-xs text-left text-gray-500">{{ item.description }}
                                 </td>
-                                <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status ==
+                                <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500 ">{{ item.status ==
                                     true ? 'Active' : 'Inactive' }}</td>
                                 <td
                                     class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-xs font-medium sm:pr-6">
                                     <a @click.prevent="editTemplate(item)" href="#"
-                                        class="text-cyan-600 hover:text-cyan-900 text-xs">Edit</a>
+                                        class="text-indigo-400 hover:text-indigo-900 text-xs">Edit</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -107,7 +107,7 @@
                                         Status</SwitchLabel>
                                 </span>
                                 <Switch v-model="form.status"
-                                    :class="[form.status ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
@@ -120,7 +120,7 @@
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                         @click="setOpen">Cancel</button>
                     <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">{{
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
                             editMode
                             ? 'Update' : 'Save' }}</button>
                 </div>
@@ -135,7 +135,7 @@
             </div>
             <div class="mt-4">
                 <button type="button"
-                    class="inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500"
+                    class="inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
                     @click.prevent="isOpen">
                     Close
                 </button>

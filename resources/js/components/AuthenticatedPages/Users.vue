@@ -3,7 +3,7 @@
             <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
                 <div class="sm:flex sm:items-center">
                     <div class="sm:flex-auto">
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">User</h1>
+                    <h1 class="text-2xl font-extrabold leading-6 text-gray-900">USERS</h1>
                     <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name, title, email and role.</p>
                     </div>
                 </div>

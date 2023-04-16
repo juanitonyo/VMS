@@ -1,13 +1,13 @@
 <template>
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-            <h1 class="text-2xl font-extrabold leading-6 text-cyan-600">Building Type</h1>
+            <h1 class="text-2xl font-extrabold leading-6 text-gray-900">Building Type</h1>
             <p class="mt-2 text-xs text-gray-700">A roster of all building types associated with your account, including
                 their category, description and location.</p>
         </div>
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
             <button @click.prevent="setOpen" type="button"
-                class="block rounded-md bg-cyan-600 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Add
+                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
                 Entry</button>
         </div>
     </div>
@@ -19,14 +19,14 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
+                                    class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Building Type</th>
                                 <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">
                                     Description</th>
                                 <th scope="col" class="text-center px-3 py-3.5  text-sm font-semibold text-gray-900">
                                     Delivery Form</th>
                                 <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">Status
                                 </th>
-                                <th scope="col" class="text-center relative py-3.5 pl-3 pr-4 sm:pr-6">
+                                <th scope="col" class="text-center py-3.5 pl-3 pr-4 sm:pr-6">
                                     Action
                                 </th>
                             </tr>
@@ -42,7 +42,7 @@
                                 <td
                                     class="relative whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
                                     <a @click.prevent="editBuilding(item)" href="#"
-                                        class="text-cyan-600 hover:text-cyan-900 text-xs">Edit</a>
+                                        class="text-indigo-400 hover:text-indigo-900 text-xs">Edit</a>
                                 </td>
                             </tr>
                         </tbody>
@@ -81,7 +81,7 @@
                                         Delivery Registration</SwitchLabel>
                                 </span>
                                 <Switch v-model="form.delivery_form"
-                                    :class="[form.delivery_form ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                    :class="[form.delivery_form ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.delivery_form ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
@@ -95,7 +95,7 @@
                                         Status</SwitchLabel>
                                 </span>
                                 <Switch v-model.lazy="form.status"
-                                    :class="[form.status ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
@@ -109,7 +109,7 @@
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                         @click="setOpen">Cancel</button>
                     <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">{{ editMode
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{ editMode
                             ? 'Update' : 'Save' }}</button>
                 </div>
             </form>

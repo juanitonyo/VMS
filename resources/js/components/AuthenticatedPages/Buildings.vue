@@ -3,13 +3,13 @@
         <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-2xl font-extrabold leading-6 text-cyan-600">BUILDINGS</h1>
+                    <h1 class="text-2xl font-extrabold leading-6 text-gray-900">BUILDINGS</h1>
                     <p class="mt-2 text-xs text-gray-700">Viewing and Adding types of Buildings</p>
                 </div>
 
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                     <button @click.prevent="setOpen" type="button"
-                        class="block rounded-md bg-cyan-600 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Add
+                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
                         Building</button>
                 </div>
 
@@ -17,7 +17,7 @@
             <div class="mt-8 flow-root">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                        <div class="overflow-auto shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
                             <table class="min-w-full divide-y divide-gray-300">
                                 <thead class="bg-gray-50">
                                     <tr>
@@ -43,14 +43,14 @@
                                     <tr v-for="item in data.data" :key="item.id">
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 ">{{ item.buildingName }}
                                         </td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
+                                        <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type.name
                                         }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">
                                             <button @click.prevent="isOpen('Visitor', item)"
-                                                class="border border-cyan-500 rounded-md py-1.5 px-3 mx-1 hover:bg-cyan-500 hover:text-white">Visitor</button>
+                                                class="border border-gray-500 rounded-md py-1.5 px-3 mx-1 hover:bg-gray-500 hover:text-white">Visitor</button>
                                             <button @click.prevent="isOpen('Host', item)"
-                                                class="border border-cyan-500 rounded-md py-1.5 px-4 hover:bg-cyan-500 hover:text-white">Host</button>
+                                                class="border border-gray-500 rounded-md py-1.5 px-4 hover:bg-gray-500 hover:text-white">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>
@@ -58,7 +58,7 @@
                                             moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a @click.prevent="editBuilding(item)" href="#"
-                                                class="text-cyan-600 hover:text-cyan-900">Edit<span
+                                                class="text-gray-600 hover:text-gray-900">Edit<span
                                                     class="sr-only"></span></a>
                                         </td>
                                     </tr>
@@ -98,7 +98,7 @@
                             <div class="mt-2">
                                 <textarea v-model="form.address" type="text" name="build" id="building"
                                     autocomplete="building  "
-                                    class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-cyan-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
 
@@ -125,7 +125,7 @@
                                         Status</SwitchLabel>
                                 </span>
                                 <Switch v-model="form.status"
-                                    :class="[form.status ? 'bg-cyan-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-cyan-600 focus:ring-offset-2']">
+                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
@@ -136,7 +136,7 @@
                             <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">Upload
                                 Logo</label>
                             <div class="flex flex-col items-center justify-center mt-2">
-                                <div
+                                <!-- <div
                                     class="flex flex-col items-center justify-center content-none border h-32 w-32 rounded-md">
                                     <svg xmlns="http://www.w3.org/2000/svg"
                                         class="w-12 h-12 text-gray-400 group-hover:text-gray-600" viewBox="0 0 20 20"
@@ -146,7 +146,32 @@
                                             clip-rule="evenodd" />
                                     </svg>
                                     <p class="text-xs m-2">Upload Logo</p>
+                                </div> -->
+
+                                <div class="flex justify-center mt-3">
+                                    <div class="">
+                                        <div class="flex items-center justify-center w-full">
+                                            <label
+                                                class="flex flex-col w-full h-40 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300">
+                                                <div class="flex flex-col items-center justify-center pt-10">
+                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                        class="w-12 h-12 text-gray-600 group-hover:text-black"
+                                                        viewBox="0 0 20 20" fill="currentColor">
+                                                        <path fill-rule="evenodd"
+                                                            d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
+                                                            clip-rule="evenodd" />
+                                                    </svg>
+                                                    <p
+                                                        class="pt-1 text-sm tracking-wider text-black group-hover:text-black">
+                                                        Select a photo</p>
+                                                </div>
+                                                <input type="file" class="opacity-0" />
+                                            </label>
+                                        </div>
+                                    </div>
                                 </div>
+
+
                             </div>
                         </div>
 
@@ -157,7 +182,7 @@
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                         @click="setOpen">Cancel</button>
                     <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-cyan-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500">{{
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
                             editMode
                             ? 'Update' : 'Save' }}</button>
                 </div>
@@ -170,21 +195,22 @@
 
             <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5 mt-4">
                 <div class="flex justify-center items-center flex-col">
-                    <img :src="qrName(form.qr_id)" class="mt-5 bg-cyan-400" />
-                    <h1 class="font-extrabold text-2xl my-5 text-cyan-700">OR</h1>
-                    <a :href="this.proxyURL + this.route + form.qr_id" class="text-cyan-500 hover:text-cyan-600 underline">{{ this.proxyURL + this.route + form.qr_id
-                    }}</a>
+                    <img :src="qrName(form.qr_id)" class="mt-5 bg-gray-400" />
+                    <h1 class="font-extrabold text-2xl my-5 text-gray-700">OR</h1>
+                    <a :href="this.proxyURL + this.route + form.qr_id"
+                        class="text-gray-500 hover:text-gray-600 underline text-center">{{ this.proxyURL + this.route + form.qr_id
+                        }}</a>
                 </div>
             </div>
 
             <div class="mt-4">
                 <button type="button"
-                    class="inline-flex justify-center rounded-md bg-cyan-600 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-cyan-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-500"
+                    class="inline-flex justify-center rounded-md bg-gray-600 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
                     @click.prevent="this.pop = !this.pop">
                     Close
                 </button>
             </div>
-            
+
         </template>
     </DialogVue>
 </template>
@@ -273,8 +299,8 @@ export default {
         editBuilding(item) {
             this.editMode = true;
             this.open = !this.open;
-             this.form = item;
-            this.form.buildingType = {value : item.building_type.id , label: item.building_type.name}
+            this.form = item;
+            this.form.buildingType = { value: item.building_type.id, label: item.building_type.name }
         },
 
         saveBuilding() {

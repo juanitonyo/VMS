@@ -56,6 +56,7 @@ const routes = [
         component: AuthenticatedLayout,
         meta: {
             middleware: "auth",
+            title: "VMS | App",
         },
         children: [
             {

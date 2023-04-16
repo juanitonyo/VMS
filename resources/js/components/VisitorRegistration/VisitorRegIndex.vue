@@ -1,15 +1,16 @@
 <template>
+        
     <div class="lg:-mt-14 flex flex-col justify-center min-h-screen">
 
-        <div class="flex flex-col gap-y-2 items-center justify-center mb-5">
+        <div class="flex flex-col gap-y-2 items-center justify-center my-5">
             <h2 class="text-2xl lg:text-5xl font-semibold">{{ this.buildings.buildingName }}</h2>
-            <h4 class="text-gray-500 text-base">{{ this.buildings.address }}</h4>
+            <h4 class="text-gray-500 text-base text-center break-normal px-20 lg:px-56">{{ this.buildings.address }}</h4>
         </div>
 
         <div class='flex flex-col lg:flex-row lg:mx-10 items-center justify-center gap-y-2 lg:gap-x-2'>
 
             <a href="#"
-                class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow ring-black ring-opacity-5 justify-start hover:bg-black hover:bg-opacity-5">
+                class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow-lg shadow-slate-400 justify-start hover:bg-black hover:bg-opacity-5">
                 <span
                     class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-green-500 to-green-600"></span>
 
@@ -28,7 +29,7 @@
             </a>
 
             <a href="#"
-                class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow ring-black ring-opacity-5 justify-start hover:bg-black hover:bg-opacity-5">
+                class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow-lg shadow-slate-400 justify-start hover:bg-black hover:bg-opacity-5">
                 <span
                     class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-blue-300 via-blue-500 to-blue-600"></span>
 
@@ -41,13 +42,13 @@
 
                     <h3 class="mt-4 text-lg font-bold text-gray-900 sm:text-xl">Returning Guest</h3>
                     <p class="max-w-[40ch] text-xs text-gray-500">
-                        Fill out Visitor Management Form
+                        Enter Reference Code
                     </p>
                 </div>
             </a>
 
             <a href="#"
-                class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow ring-black ring-opacity-5 justify-start hover:bg-black hover:bg-opacity-5">
+                class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow-lg shadow-slate-400 justify-start hover:bg-black hover:bg-opacity-5">
                 <span
                     class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-purple-300 via-purple-500 to-purple-600"></span>
 
@@ -66,7 +67,7 @@
             </a>
 
             <a href="#"
-                class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow ring-black ring-opacity-5 justify-start hover:bg-black hover:bg-opacity-5">
+                class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow-lg shadow-slate-400 justify-start hover:bg-black hover:bg-opacity-5">
                 <span
                     class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-yellow-300 via-yellow-500 to-yellow-600"></span>
 
@@ -85,7 +86,7 @@
             </a>
 
             <a href="#"
-                class="relative mb-10 lg:mb-0 flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow ring-black ring-opacity-5 justify-start hover:bg-black hover:bg-opacity-5">
+                class="relative mb-10 lg:mb-0 flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow-lg shadow-slate-400 justify-start hover:bg-black hover:bg-opacity-5">
                 <span class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-red-300 via-red-500 to-red-600"></span>
 
                 <div class="flex flex-col justify-center">
@@ -101,9 +102,7 @@
                     </p>
                 </div>
             </a>
-
         </div>
-
     </div>
 </template>
 
