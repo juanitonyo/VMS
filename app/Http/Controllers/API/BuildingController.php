@@ -37,8 +37,18 @@ class BuildingController extends BaseController
      */
     public function store(BuildingRequest $request)
     {
-        $data = Building::create($request->validated());
-        return $this->sendResponse($data, "Saved Data");
+        $logo_link = "";
+        if($request->logo){
+            $logo_binary = $request->logo;
+            $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
+            \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+        }
+
+        $validated = $request->validated();
+        $validated['logo']   = $logo_link;
+
+        $data = Building::create($validated);
+        return $this->sendResponse($logo_link, "Saved Data");
     }
 
     /**
@@ -62,13 +72,27 @@ class BuildingController extends BaseController
      */
     public function update(BuildingRequest $request, $id)
     {
-        $data = Building::findOrFail($id)->update([
+        $logo_link = "";
+        $logo_binary = $request->params['data']['logo'];
+        $data = Building::findOrFail($id);
+        if($logo_binary){
+            unlink('uploads/images/'.$data->logo);
+            $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
+            \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+        }
+        
+        
+
+        $data->update([
             'buildingName' => $request->params['data']['buildingName'],
             'description' => $request->params['data']['description'],
             'address' => $request->params['data']['address'],
+            'logo' => $logo_link,
             'buildingType' => $request->params['data']['buildingType']['value'],
             'status' => $request->params['data']['status'],
           ]);
+         
+        
            return $this->sendResponse($request->validated(), "Updated Data");
     }
 
