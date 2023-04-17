@@ -67,19 +67,13 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
-                        <!-- <div class="sm:col-span-3 mt-3">    
-                            <DropDown v-model="form.purpose" label="Purpose" id="email_subj" :items="option" :placeholder="placeholder" :hasError=" this.editMode ? false: form.errors.has('purpose')" :errorMessage="this.editMode ? false: form.errors.get('purpose')"></DropDown>
-                        </div> -->
+                        <div class="sm:col-span-3 mt-3 text-sm">
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
+                                Purpose</label>
 
-                        <div class="sm:col-span-3 mt-3">
-                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose purpose</label>
-                            <VueMultiselect
-                                v-model="form.purpose"
-                                :options="option"
-                                :close-on-select="true"
-                                :clear-on-select="false"
-                            />
+                            <v-select v-model="form.purpose" placeholder="search" :options="option" label="label" :class="form.errors.has('purpose') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400'"></v-select>
                         </div>
+                        <div class="text-xs text-red-600 dark:text-red-500" v-show="form.errors.has('purpose')" v-html="form.errors.get('purpose')" />
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.subject" label="Subject" id="email_subj"
@@ -155,7 +149,6 @@ import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import NormalInput from "../Inputs/NormalInput.vue";
 import VueMultiselect from 'vue-multiselect';
-// import DropDown from "../Inputs/DropDown.vue";
 
 export default {
 
@@ -167,7 +160,7 @@ export default {
         }
     },
     components:{
-        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, VueMultiselect
+        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, VueMultiselect,
     },
     data() {
         return {

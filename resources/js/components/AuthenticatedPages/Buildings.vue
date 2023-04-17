@@ -97,7 +97,7 @@
                             <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
                             <div class="mt-2">
                                 <textarea v-model="form.address" type="text" name="build" id="building"
-                                    autocomplete="building  "
+                                    autocomplete="building"
                                     class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
@@ -105,18 +105,10 @@
                         <div class="sm:col-span-3 mt-3 text-sm">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Building Type</label>
-                            <!-- <VueMultiselect
-                                v-model="form.buildingType"
-                                :options="option"
-                                :close-on-select="true"
-                                :clear-on-select="false"
-                            /> -->
-                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
-                                label="label"></v-select>
+
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400'"></v-select>
                         </div>
-                        <!-- <div class="sm:col-span-3 mt-3">    
-                            <DropDown v-model="form.buildingType" label="Building Type" id="building" :options="option" :hasError=" this.editMode ? false: form.errors.has('buildingType')" :errorMessage="this.editMode ? false: form.errors.get('buildingType ')"></DropDown>
-                        </div> -->
+                        <div class="text-xs text-red-600 dark:text-red-500" v-show="form.errors.has('buildingType')" v-html="form.errors.get('buildingType')" />
 
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -136,18 +128,6 @@
                             <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">Upload
                                 Logo</label>
                             <div class="flex flex-col items-center justify-center mt-2">
-                                <!-- <div
-                                    class="flex flex-col items-center justify-center content-none border h-32 w-32 rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="w-12 h-12 text-gray-400 group-hover:text-gray-600" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <p class="text-xs m-2">Upload Logo</p>
-                                </div> -->
-
                                 <div class="flex justify-center mt-3">
                                     <div class="">
                                         <div class="flex items-center justify-center w-full">
@@ -170,11 +150,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
@@ -219,7 +196,6 @@
 
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
-// import DropDown from '@/components/Elements/Inputs/DropDown.vue'
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { TailwindPagination } from 'laravel-vue-pagination';
@@ -244,7 +220,6 @@ export default {
         SliderVue,
         DialogVue,
         NormalInput,
-        //DropDown,
         Switch,
         SwitchDescription,
         SwitchGroup,
@@ -380,10 +355,13 @@ export default {
         },
 
         getBuildingTypes() {
-            axios.get('/api/get-building-types').then((data) => { this.building_types = data.data.data; console.log(this.building_types) }).catch((e) => {
+            axios.get('/api/get-building-types').then((data) => { this.building_types = data.data.data }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
-        }
+        },
+        // updateValue(value) {
+        //     form.buildingType = value;
+        // }
     },
     created() {
         this.getData();
