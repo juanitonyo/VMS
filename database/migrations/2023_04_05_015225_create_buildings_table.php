@@ -15,11 +15,11 @@ return new class extends Migration
             $table->id();
             $table->uuid('qr_id')->nullable();
             $table->string('buildingName', 100);
+            $table->string('logo')->nullable();
             $table->longText('description');
             $table->longText('address');
             $table->string('buildingType');
             $table->boolean('status')->default(true);
-            $table->binary('image')->nullable();
             $table->timestamps();
         });
     }
