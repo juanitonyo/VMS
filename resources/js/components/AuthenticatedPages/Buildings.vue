@@ -149,11 +149,11 @@
                                 </div> -->
 
                                 <div class="flex justify-center mt-3">
-                                    <div class="">
+                                    <div>
                                         <div class="flex items-center justify-center w-full">
                                             <label
-                                                class="flex flex-col w-full h-40 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300">
-                                                <div class="flex flex-col items-center justify-center pt-10">
+                                                class="flex flex-col justify-center w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300">
+                                                <div class="flex flex-col items-center pt-10">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-12 h-12 text-gray-600 group-hover:text-black"
                                                         viewBox="0 0 20 20" fill="currentColor">
@@ -224,7 +224,6 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { TailwindPagination } from 'laravel-vue-pagination';
 import { createToast } from 'mosha-vue-toastify';
-import VueMultiselect from 'vue-multiselect';
 import moment from 'moment';
 import axios from "axios";
 import Form from "vform";
@@ -251,7 +250,6 @@ export default {
         SwitchLabel,
         moment,
         TailwindPagination,
-        VueMultiselect
     },
 
     data() {

@@ -23,6 +23,7 @@ const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
 // VISITOR REGISTRATION PAGE
 const VisitorPrompt = () => import("@/components/VisitorRegistration/VisitorPrompt.vue");
 const VisitorRegIndex = () => import("@/components/VisitorRegistration/VisitorRegIndex.vue");
+const NewRegistration = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration.vue");
 
 const routes = [
     {
@@ -146,6 +147,14 @@ const routes = [
                 name: "index",
                 path: "/visitor-registration/index/:id",
                 component: VisitorRegIndex,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "create",
+                path: "/visitor-registration/create/:id",
+                component: NewRegistration,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },

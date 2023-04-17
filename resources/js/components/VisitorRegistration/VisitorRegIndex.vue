@@ -9,7 +9,7 @@
 
         <div class='flex flex-col lg:flex-row lg:mx-10 items-center justify-center gap-y-2 lg:gap-x-2'>
 
-            <a href="#"
+            <a :href="'/visitor-registration/create/' + this.id"
                 class="relative flex overflow-hidden rounded-lg border border-gray-100 w-80 h-44 p-4 shadow-lg shadow-slate-400 justify-start hover:bg-black hover:bg-opacity-5">
                 <span
                     class="absolute inset-x-0 bottom-0 h-2 bg-gradient-to-r from-green-300 via-green-500 to-green-600"></span>
@@ -21,9 +21,9 @@
                             class="h-16 w-16 rounded-lg object-cover shadow-sm" />
                     </div>
 
-                    <h3 class="mt-4 text-lg font-bold text-gray-900 sm:text-xl">New Registration</h3>
+                    <h3 class="mt-4 text-lg font-bold text-gray-900 sm:text-xl">Guest New Registration</h3>
                     <p class="max-w-[40ch] text-xs text-gray-500">
-                        Fill out Visitor Management Form
+                        Create New Account
                     </p>
                 </div>
             </a>
@@ -40,9 +40,9 @@
                             class="h-16 w-16 rounded-lg object-cover shadow-sm" />
                     </div>
 
-                    <h3 class="mt-4 text-lg font-bold text-gray-900 sm:text-xl">Returning Guest</h3>
+                    <h3 class="mt-4 text-lg font-bold text-gray-900 sm:text-xl">Check In</h3>
                     <p class="max-w-[40ch] text-xs text-gray-500">
-                        Enter Reference Code
+                        Check - In before entering the building
                     </p>
                 </div>
             </a>
@@ -59,9 +59,9 @@
                             class="h-16 w-16 rounded-lg object-cover shadow-sm" />
                     </div>
 
-                    <h3 class="mt-4 text-lg font-bold text-gray-900 sm:text-xl">Guest Checkout</h3>
+                    <h3 class="mt-4 text-lg font-bold text-gray-900 sm:text-xl">Check Out</h3>
                     <p class="max-w-[40ch] text-xs text-gray-500">
-                        Self - Checkout
+                        Check - out before exiting the building
                     </p>
                 </div>
             </a>
@@ -80,7 +80,7 @@
 
                     <h3 class="mt-4 text-lg font-bold text-gray-900 sm:text-xl">With Invitation</h3>
                     <p class="max-w-[40ch] text-xs text-gray-500">
-                        Enter Reference Code / Scan QR Code
+                        Guest with provided invitation
                     </p>
                 </div>
             </a>
