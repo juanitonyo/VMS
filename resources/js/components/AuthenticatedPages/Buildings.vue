@@ -105,19 +105,9 @@
                         <div class="sm:col-span-3 mt-3 text-sm">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Building Type</label>
-                            <!-- <VueMultiselect
-                                v-model="form.buildingType"
-                                :options="option"
-                                :close-on-select="true"
-                                :clear-on-select="false"
-                            /> -->
                             <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
                                 label="label"></v-select>
                         </div>
-                        <!-- <div class="sm:col-span-3 mt-3">    
-                            <DropDown v-model="form.buildingType" label="Building Type" id="building" :options="option" :hasError=" this.editMode ? false: form.errors.has('buildingType')" :errorMessage="this.editMode ? false: form.errors.get('buildingType ')"></DropDown>
-                        </div> -->
-
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
@@ -136,24 +126,12 @@
                             <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">Upload
                                 Logo</label>
                             <div class="flex flex-col items-center justify-center mt-2">
-                                <!-- <div
-                                    class="flex flex-col items-center justify-center content-none border h-32 w-32 rounded-md">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="w-12 h-12 text-gray-400 group-hover:text-gray-600" viewBox="0 0 20 20"
-                                        fill="currentColor">
-                                        <path fill-rule="evenodd"
-                                            d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                    <p class="text-xs m-2">Upload Logo</p>
-                                </div> -->
-
                                 <div class="flex justify-center mt-3">
                                     <div class="">
                                         <div class="flex items-center justify-center w-full">
-                                            <label
-                                                class="flex flex-col w-full h-40 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300">
-                                                <div class="flex flex-col items-center justify-center pt-10">
+                                            <label :style="{'background-image':`url(${image_url})`}" @click="$refs.buildingLogo.click()" 
+                                               class="flex flex-col justify-center  w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-cover bg-no-repeat">
+                                                <div class="flex flex-col items-center" :class="{'hidden' : hideLabel}">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-12 h-12 text-gray-600 group-hover:text-black"
                                                         viewBox="0 0 20 20" fill="currentColor">
@@ -165,7 +143,7 @@
                                                         class="pt-1 text-sm tracking-wider text-black group-hover:text-black">
                                                         Select a photo</p>
                                                 </div>
-                                                <input type="file" class="opacity-0" />
+                                                <input type="file" ref="buildingLogo" class="opacity-0"  @input="uploadImage" />
                                             </label>
                                         </div>
                                     </div>
@@ -219,12 +197,10 @@
 
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
-// import DropDown from '@/components/Elements/Inputs/DropDown.vue'
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { TailwindPagination } from 'laravel-vue-pagination';
 import { createToast } from 'mosha-vue-toastify';
-import VueMultiselect from 'vue-multiselect';
 import moment from 'moment';
 import axios from "axios";
 import Form from "vform";
@@ -251,7 +227,6 @@ export default {
         SwitchLabel,
         moment,
         TailwindPagination,
-        VueMultiselect
     },
 
     data() {
@@ -268,9 +243,9 @@ export default {
                 buildingType: '',
                 status: false,
             }),
-
+            image_url:'',
+            hideLabel: false,
             building_types: [],
-
             url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
             route: '/visitor-registration/',
             proxyURL: import.meta.env.VITE_APP_URL
@@ -286,6 +261,7 @@ export default {
                 address: '',
                 description: '',
                 buildingType: '',
+                logo:'',
                 status: false,
             })
         },
@@ -303,20 +279,35 @@ export default {
             this.form.buildingType = { value: item.building_type.id, label: item.building_type.name }
         },
 
+        uploadImage(){
+            this.hideLabel = true
+            let input = this.$refs.buildingLogo;
+            let file = input.files;
+            if (file && file[0]) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.image_url = e.target.result;
+                    this.form.logo = e.target.result;
+                };
+                reader.readAsDataURL(file[0]);
+                this.$emit("input", file[0]);
+            }
+        },
+
         saveBuilding() {
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    this.form = new Form({
-                        buildingName: '',
-                        address: '',
-                        description: '',
-                        buildingType: '',
-                        status: false,
-                    });
-                    this.open = !this.open;
+                    // this.form = new Form({
+                    //     buildingName: '',
+                    //     address: '',
+                    //     description: '',
+                    //     buildingType: '',
+                    //     status: false,
+                    // });
+                    // this.open = !this.open;
                     createToast({
                         title: 'Success!',
                         description: 'Data has been saved.'
