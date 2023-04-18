@@ -1,9 +1,9 @@
 <template>
-    <div class="flex flex-col items-center justify-center min-h-screen">
+    <div class="flex flex-col items-center justify-center">
 
-        <div class="flex flex-col gap-y-2 items-center justify-center absolute top-16">
-            <h2 class="text-xl font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
-            <h4 class="text-gray-400 text-[10px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
+        <div class="flex flex-col gap-y-2 items-center justify-center absolute top-10 lg:top-16">
+            <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+            <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
         </div>
 
         <div class="flex flex-col items-center justify-center absolute top-64">
@@ -22,7 +22,7 @@
                 Sign up with Google
             </button>
 
-            <router-link to="'/visitor-registration/create/' + this.id"
+            <button type="button"
                 class="text-white bg-blue-500 hover:bg-blue-500/90 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2 w-[325px]">
                 <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
                     data-icon="facebook-f" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -31,14 +31,14 @@
                     </path>
                 </svg>
                 Sign up with Facebook
-            </router-link>
+            </button>
             <div class="my-8">
                 <hr class="w-64 h-px bg-gray-300 border-0">
                 <span
                     class="absolute top-[152px] px-3 font-medium text-gray-400 text-sm -translate-x-1/2 bg-white left-1/2">or</span>
             </div>
 
-            <buttonToInput is-button :id="id" :label="'Create Account'" class="text-blue-800 border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-2 w-[325px]"></buttonToInput>
+            <buttonToInput is-button :label="'Create Account'"></buttonToInput>
             <!-- <buttonToInput :is-button="false"></buttonToInput> -->
         </div>
     </div>
