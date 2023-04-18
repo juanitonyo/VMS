@@ -1,104 +1,76 @@
 <template>
-    <div class="min-w-full flex absolute sm:top-0 items-center justify-center overflow-hidden">
-        <div
-            class="relative overflow-hidden shadow-sm shadow-slate-400 w-[340px] sm:w-[600px] lg:w-[960px] h-[1080px] m-8 p-5 lg:p-10 rounded-md">
-            <span class="absolute inset-x-0 top-0 h-2 bg-gradient-to-r from-green-300 via-green-500 to-green-600"></span>
-            <div class="text-center my-5">
-                <p class=" text-2xl md:text-3xl font-semibold">Building Name</p>
-                <p class="text-gray-600 text-[12px] md:text-sm p-1">Building Address</p>
-                <p class="text-lg md:text-xl font-bold text-green-600">Visitor Registration</p>
-            </div>
+    <div class="flex flex-col items-center justify-center">
 
-            <div class="my-14 md:my-12 md:mx-10">
-                <form action="">
+        <div class="flex flex-col gap-y-2 items-center justify-center absolute top-10 lg:top-20">
+            <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+            <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
+            <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
+        </div>
 
-                    <!-- <div class="mx-auto w-64 text-center ">
-                        <div class="relative w-64">
-                            <img class="w-64 h-64 rounded-full absolute"
-                                src="https://images.pexels.com/photos/2690323/pexels-photo-2690323.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500"
-                                alt="" />
-                            <div
-                                class="w-64 h-64 group hover:bg-gray-200 opacity-60 rounded-full absolute flex justify-center items-center cursor-pointer transition duration-500">
-                                <img class="hidden group-hover:block w-12"
-                                    src="https://www.svgrepo.com/show/33565/upload.svg" alt="" />
+        <div class="flex flex-col items-center justify-center w-[100px] absolute top-48">
+            <label for="dropzone-file"
+                class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90">
+                <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                    <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
+                </div>
+                <input id="dropzone-file" type="file" class="hidden" />
+            </label>
+            <p class="text-[10px] text-gray-400 mt-1">Upload Photo</p>
+
+            <form action="">
+
+                <div class="flex items-center mt-8">
+                    <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
+                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                </div>
+
+                <div class="flex items-center mt-3">
+                    <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
+                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                </div>
+
+                <div class="flex items-center mt-3">
+                    <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
+                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                </div>
+
+                <div class="flex items-center mt-3 gov-ids">
+                    <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
+                    <!-- <input type="text"
+                        class="text-[9px] border border-blue-700 rounded-[3px] pl-2 h-[23px] w-[196px]"> -->
+                    <v-select id="dropdown" :options="valid_id" label="label"
+                        class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[230px]"></v-select>
+                </div>
+
+                <div class="mt-5 flex flex-row justify-end">
+                    <div class="flex flex-row items-center flex-start">
+                        <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
+                        <label for="dropzone-file"
+                            class="flex flex-col items-center justify-center w-[62px] h-[51px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                             </div>
-                        </div>
-                    </div> -->
-
-                    <div class="flex justify-center">
-                        <div>
-                            <label
-                                class="flex flex-col items-center justify-center w-20 h-20 md:w-36 md:h-36 rounded-full border-4 border-green-400 hover:bg-green-100 bg-cover bg-no-repeat">
-                                <div class="flex flex-col justify-center items-center">
-                                    <svg xmlns="http://www.w3.org/2000/svg"
-                                        class="w-12 h-12 text-gray-600 group-hover:text-black" viewBox="0 0 16 12"
-                                        fill="currentColor">
-                                        <path
-                                            d="M15 12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1h1.172a3 3 0 0 0 2.12-.879l.83-.828A1 1 0 0 1 6.827 3h2.344a1 1 0 0 1 .707.293l.828.828A3 3 0 0 0 12.828 5H14a1 1 0 0 1 1 1v6zM2 4a2 2 0 0 0-2 2v6a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2h-1.172a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 9.172 2H6.828a2 2 0 0 0-1.414.586l-.828.828A2 2 0 0 1 3.172 4H2z" />
-                                        <path
-                                            d="M8 11a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm0 1a3.5 3.5 0 1 0 0-7 3.5 3.5 0 0 0 0 7zM3 6.5a.5.5 0 1 1-1 0 .5.5 0 0 1 1 0z" />
-                                    </svg>
-                                </div>
-                                <input type="file" ref="buildingLogo" class="opacity-0" @input="uploadImage" />
-                            </label>
-                            <p class="text-xs md:text-base text-center my-3">Upload Photo</p>
-                        </div>
+                            <input id="dropzone-file" type="file" class="hidden" />
+                        </label>
                     </div>
 
-                    <div>
-                        <label for="email" class="block text-xs md:text-sm font-medium leading-6 text-gray-900">Email
-                            address</label>
-                        <div class="mt-2">
-                            <input id="email" name="email" type="email" autocomplete="email"
-                                class="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                        </div>
+                    <div class="flex flex-row items-center ml-2">
+                        <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
+                        <label for="dropzone-file"
+                            class="flex flex-col items-center justify-center w-[62px] h-[51px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
+                            </div>
+                            <input id="dropzone-file" type="file" class="hidden" />
+                        </label>
                     </div>
+                </div>
 
-                    <div>
-                        <label for="fname" class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">First
-                            Name</label>
-                        <div class="mt-2">
-                            <input id="fname" name="fname" type="fname" autocomplete="fname"
-                                class="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="lname" class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">Last
-                            Name</label>
-                        <div class="mt-2">
-                            <input id="lname" name="lname" type="lname" autocomplete="lname"
-                                class="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6" />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="contact"
-                            class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">Contact Number</label>
-                        <div class="mt-2">
-                            <input id="contact" name="contact" type="contact" autocomplete="contact"
-                                class="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6" />
-                        </div>
-                    </div>
-
-                    <div>
-                        <label for="valid_id"
-                            class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">Valid ID</label>
-                        <div class="mt-2">
-                            <v-select id="dropdown" placeholder="Select" :options="valid_id" label="label"
-                                class="text-xs"></v-select>
-                        </div>
-                    </div>
-
-
-
-
-
-                </form>
-            </div>
-
-
-
+                <div class="flex flex-row mt-10 justify-center gap-x-8">
+                    <a :href="'/visitor-registration/details/' + this.id" class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
+                    <a :href="'/visitor-registration/policy/' + this.id" class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</a>
+                </div>
+            </form>
         </div>
 
     </div>
@@ -106,9 +78,14 @@
 
 <script>
 
+import axios from 'axios';
+
 export default {
     data() {
         return {
+            data: {},
+            id: window.location.href.split('/').pop(),
+            buildings: {},
             valid_id: [
                 "Digitalized BIR Taxpayer's ID",
                 'Digitized Postal ID',
@@ -126,7 +103,25 @@ export default {
                 "Voter's ID"
             ],
         }
-    }
+    },
+    created() {
+        axios.get('/api/visitor-registration/' + this.id)
+            .then((data) => {
+                this.buildings = data.data.data;
+            })
+            .catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+            });
+    },
 }
 
 </script>
+
+<!-- <div>
+    <label for="valid_id"
+        class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">Valid ID</label>
+    <div class="mt-2">
+        <v-select id="dropdown" placeholder="Select" :options="valid_id" label="label"
+            class="text-xs"></v-select>
+    </div>
+</div> -->

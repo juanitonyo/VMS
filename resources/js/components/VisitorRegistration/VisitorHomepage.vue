@@ -1,9 +1,9 @@
 <template>
-    <div class="flex flex-col items-center justify-center min-h-screen">
+    <div class="flex flex-col items-center justify-center">
 
         <div class="flex flex-col gap-y-2 items-center justify-center">
-            <h2 class="text-xl font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
-            <h4 class="text-gray-400 text-[10px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
+            <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+            <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
         </div>
 
         <div class='flex flex-col items-center justify-center gap-y-4'>

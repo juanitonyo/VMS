@@ -1,6 +1,8 @@
 <template>
     <div>
-        <button v-if="isButton" @click="onClick">{{ label }}</button>
+
+        <a :href="'/visitor-registration/create/' + this.id" v-if="isButton" @click="onClick" tag="button" class="text-blue-800 border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-2 w-[325px] cursor-pointer">{{ label }}</a>
+
         <div v-else class="relative">
             <input :value="value" @input="onInput" :placeholder="'Email Address / Reference Code '"
                 :class="'placeholder:text-gray-400 text-black border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-left inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-2 w-[325px]'">
@@ -13,6 +15,8 @@
 </template>
 
 <script>
+
+import axios from 'axios';
 export default {
     name: 'buttonToInput',
     props: {
@@ -28,6 +32,22 @@ export default {
             type: String,
             default: ''
         }
+    },
+    data() {
+        return {
+            data: {},
+            id: window.location.href.split('/').pop(),
+            buildings: {},
+        }
+    },
+    created() {
+        axios.get('/api/visitor-registration/' + this.id)
+            .then((data) => {
+                this.buildings = data.data.data;
+            })
+            .catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+            });
     },
     methods: {
         onClick() {

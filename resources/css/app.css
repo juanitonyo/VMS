@@ -8,3 +8,29 @@
     height:200px; 
     font-size: 12px;
 }
+
+.gov-ids .vs__search{
+    height: 20px;
+    font-size: 9px;
+    padding-left: 2px;
+    border: none;
+}
+
+.gov-ids .vs__search:focus{
+    font-size: 9px;
+}
+
+.gov-ids::placeholder{
+    font-size: 9px;
+    color: #808080;
+}
+
+.gov-ids::placeholder:focus{
+    font-size: 9px;
+    color: #808080;
+}
+
+.gov-ids .vs__dropdown-toggle{
+    height:28px; 
+    border: none;
+}

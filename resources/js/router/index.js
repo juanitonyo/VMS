@@ -25,6 +25,7 @@ const VisitorPrompt = () => import("@/components/VisitorRegistration/VisitorProm
 const VisitorHomepage = () => import("@/components/VisitorRegistration/VisitorHomepage.vue");
 const NewRegistration = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/NewRegistration.vue");
 const RegPrompt = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/RegPrompt.vue");
+const RegPolicy = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/PolicyPage.vue");
 
 const routes = [
     {
@@ -153,16 +154,25 @@ const routes = [
                 },
             },
             {
-                name: "create",
+                name: "regcreate",
                 path: "/visitor-registration/create/:id",
                 component: NewRegistration,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },
-            },            {
+            },            
+            {
                 name: "regprompt",
                 path: "/visitor-registration/details/:id",
                 component: RegPrompt,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "regpolicy",
+                path: "/visitor-registration/policy/:id",
+                component: RegPolicy,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },
