@@ -241,6 +241,7 @@ export default {
                 address: '',
                 description: '',
                 buildingType: '',
+                logo:'',
                 status: false,
             }),
             image_url:'',
@@ -339,6 +340,7 @@ export default {
                     address: '',
                     description: '',
                     buildingType: '',
+                    logo:'',
                     status: false,
                 });
                 this.open = !this.open;
