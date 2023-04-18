@@ -37,7 +37,6 @@ export default {
         return {
             data: {},
             id: window.location.href.split('/').pop(),
-            buildings: {},
         }
     },
     created() {
