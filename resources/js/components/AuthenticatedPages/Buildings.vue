@@ -97,7 +97,7 @@
                             <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
                             <div class="mt-2">
                                 <textarea v-model="form.address" type="text" name="build" id="building"
-                                    autocomplete="building  "
+                                    autocomplete="building"
                                     class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" />
                             </div>
                         </div>
@@ -105,9 +105,12 @@
                         <div class="sm:col-span-3 mt-3 text-sm">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Building Type</label>
-                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
-                                label="label"></v-select>
+
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
+                            <span v-show="form.errors.has('buildingType')" class="text-xs/2 text-red-600 dark:text-red-500">{{  }}</span>
                         </div>
+                        <!-- <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('buildingTypes')"  v-html="this.editMode ? false : form.errors.get('buildingTypes')" /> -->
+
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
@@ -148,11 +151,8 @@
                                         </div>
                                     </div>
                                 </div>
-
-
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
@@ -220,7 +220,6 @@ export default {
         SliderVue,
         DialogVue,
         NormalInput,
-        //DropDown,
         Switch,
         SwitchDescription,
         SwitchGroup,
@@ -277,7 +276,7 @@ export default {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
-            this.form.buildingType = { value: item.building_type.id, label: item.building_type.name }
+            this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
         },
 
         uploadImage(){
@@ -301,14 +300,14 @@ export default {
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    // this.form = new Form({
-                    //     buildingName: '',
-                    //     address: '',
-                    //     description: '',
-                    //     buildingType: '',
-                    //     status: false,
-                    // });
-                    // this.open = !this.open;
+                    this.form = new Form({
+                        buildingName: '',
+                        address: '',
+                        description: '',
+                        buildingType: '',
+                        status: false,
+                    });
+                    this.open = !this.open;
                     createToast({
                         title: 'Success!',
                         description: 'Data has been saved.'
@@ -373,11 +372,15 @@ export default {
         },
 
         getBuildingTypes() {
-            axios.get('/api/get-building-types').then((data) => { this.building_types = data.data.data; console.log(this.building_types) }).catch((e) => {
+            axios.get('/api/get-building-types').then((data) => { this.building_types = data.data.data }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
+        },
+        hasError(thisBool) {
+            return hasBool ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400';
         }
     },
+
     created() {
         this.getData();
         this.getBuildingTypes();

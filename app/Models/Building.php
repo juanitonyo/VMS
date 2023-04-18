@@ -13,15 +13,13 @@ class Building extends Model
     protected $fillable = [
         'buildingName',
         'address',
+        'qr_id',
         'description',
         'buildingType',
         'logo',
         'status',
     ];
 
-        /**
-     * Get the phone associated with the user.
-     */
     public function buildingType(): HasOne
     {
         return $this->hasOne(BuildingTypes::class, 'id', 'buildingType')->select(['id','name']);

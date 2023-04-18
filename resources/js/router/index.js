@@ -61,6 +61,7 @@ const routes = [
             middleware: "auth",
             title: "VMS | App",
         },
+        redirect: "/app/dashboard",
         children: [
             {
                 name: "dashboard",

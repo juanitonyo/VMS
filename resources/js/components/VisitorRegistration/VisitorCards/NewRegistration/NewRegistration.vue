@@ -19,28 +19,38 @@
                 </label>
                 <p class="text-[10px] text-gray-400 mt-1">Upload Photo</p>
 
-                <form action="">
+                <form @submit.prevent="showPolicy()">
 
-                    <div class="flex items-center mt-8">
-                        <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
-                        <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <div class="flex flex flex flex-col mt-8 relative">
+                        <div class="flex flex-row items-center">
+                            <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
+                            <input v-model="form.name" type="text" :class="form.errors.has('name') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                        </div>
+                        <p v-show="form.errors.has('name')" class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500 mb-0 ">{{ form.errors.get('name') }}</p>
                     </div>
 
                     <div class="flex items-center mt-6">
-                        <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
-                        <input type="email"
-                            class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                        <div class="flex flex-row items-center">
+                            <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
+                            <input v-model="form.email" type="email" :class="form.errors.has('email') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                            <!-- <span v-show="form.errors.has('email')" class="text-[10px] absolute top-[180px] -left-4 w-max text-red-500">{{ form.errors.get('email') }}</span> -->
+                        </div>
                     </div>
 
                     <div class="flex items-center mt-6">
-                        <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
-                        <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                        <div class="flex flex-row items-center">
+                            <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
+                            <input v-model="form.contact" type="text" :class="form.errors.has('contact') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                            <!-- <span v-show="form.errors.has('contact')" class="text-[10px] absolute top-[180px] -left-4 w-max text-red-500">{{ form.errors.get('contact') }}</span> -->
+                        </div>
                     </div>
 
                     <div class="flex items-center mt-6 gov-ids">
-                        <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
-                        <v-select id="dropdown" :options="valid_id" label="label"
-                            class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[230px]"></v-select>
+                        <div class="flex flex-row items-center">
+                            <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
+                            <v-select id="dropdown" :options="valid_id" label="label" :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'"></v-select>
+                            <!-- <span v-show="form.errors.has('validId')" class="text-[10px] absolute top-[180px] -left-4 w-max text-red-500">{{ form.errors.get('validId') }}</span> -->
+                        </div>
                     </div>
 
                     <div class="mt-5 flex flex-row justify-end">
@@ -74,8 +84,8 @@
                     <div class="flex flex-row mt-10 justify-center gap-x-8">
                         <a :href="'/visitor-registration/details/' + this.id"
                             class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
-                        <a @click="showPolicy" href="#"
-                            class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</a>
+                        <button type="submit" href="#"
+                            class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                     </div>
                 </form>
             </div>
@@ -123,16 +133,29 @@
 </template>
 
 <script>
-
 import axios from 'axios';
 import Form from 'vform';
 
 export default {
+    name: "Visitor Registration Form",
+    props: {
+        data: {
+            type: Array,
+            default: {},
+        },
+    },
     data() {
         return {
             data: {},
             id: window.location.href.split('/').pop(),
-            image_url: '',
+            form: new Form({
+                id: '',
+                refId: window.location.href.split('/').pop(),
+                email: '',
+                name: '',
+                contact: '',
+                validId: ''
+            }),
             buildings: {},
             isFormComplete: false,
             enableButton: false,
@@ -182,28 +205,15 @@ export default {
         },
         showPolicy() {
             //validate form
-            this.$Progress.start();
             this.form.post('/api/visitors/')
                 .then((data) => {
-                    this.$Progress.finish();
-                    this.getData();
-                    createToast({
-                        title: 'Success!',
-                        description: 'Data has been saved.'
-                    },
-                        {
-                            position: 'top-left',
-                            showIcon: 'true',
-                            type: 'success',
-                            toastBackgroundColor: '#00bcd4',
-                            hideProgressBar: 'true',
-                            toastBackgroundColor: '#00bcd4',
-                        })
+                    this.isFormComplete = true    
                 }).catch((error) => {
                     this.$Progress.fail();
                 })
+        },
+        saveLog() {
 
-            this.isFormComplete = true
         },
         isChecked(event) {
             this.enableButton = !this.enableButton
@@ -221,12 +231,3 @@ export default {
 }
 
 </script>
-
-<!-- <div>
-    <label for="valid_id"
-        class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">Valid ID</label>
-    <div class="mt-2">
-        <v-select id="dropdown" placeholder="Select" :options="valid_id" label="label"
-            class="text-xs"></v-select>
-    </div>
-</div> -->

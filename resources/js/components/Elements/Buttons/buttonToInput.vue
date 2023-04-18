@@ -39,6 +39,14 @@ export default {
             id: window.location.href.split('/').pop(),
         }
     },
+    methods: {
+        onClick() {
+            this.$emit('click')
+        },
+        onInput(event) {
+            this.$emit('input', event.target.value)
+        }
+    }, 
     created() {
         axios.get('/api/visitor-registration/' + this.id)
             .then((data) => {
@@ -48,13 +56,5 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
     },
-    methods: {
-        onClick() {
-            this.$emit('click')
-        },
-        onInput(event) {
-            this.$emit('input', event.target.value)
-        }
-    }
 }
 </script>
