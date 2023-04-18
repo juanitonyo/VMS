@@ -4,13 +4,22 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
-class VisitorLogs extends Model
+class Visitors extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'name',
-        
+        'refId',
+        'email',
+        'fname',
+        'lname',
+        'contact',
+        'validId'
     ];
+
+    public function refId(): HasOne {
+        return $this->hasOne(Building::class, 'id', 'refId')->select(['id', 'qr_id']);
+    }
 }

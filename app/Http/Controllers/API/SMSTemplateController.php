@@ -59,8 +59,9 @@ class SMSTemplateController extends BaseController
             'message' => $request->params['data']['message'],
             'description' => $request->params['data']['description'],
             'status' => $request->params['data']['status'],
-          ]);
-          return $this->sendResponse($request->validated(), "Updated Data");
+        ]);
+        
+        return $this->sendResponse($request->validated(), "Updated Data");
     }
 
     /**

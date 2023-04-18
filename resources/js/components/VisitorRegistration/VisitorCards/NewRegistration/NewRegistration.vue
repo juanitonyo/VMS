@@ -10,8 +10,6 @@
             </div>
 
             <div class="my-14 md:my-12 md:mx-10">
-                <form action="">
-
                     <!-- <div class="mx-auto w-64 text-center ">
                         <div class="relative w-64">
                             <img class="w-64 h-64 rounded-full absolute"
@@ -24,7 +22,7 @@
                             </div>
                         </div>
                     </div> -->
-
+                    <form @submit.prevent="saveLog()">
                     <div class="flex justify-center">
                         <div>
                             <label
@@ -49,7 +47,7 @@
                         <label for="email" class="block text-xs md:text-sm font-medium leading-6 text-gray-900">Email
                             address</label>
                         <div class="mt-2">
-                            <input id="email" name="email" type="email" autocomplete="email"
+                            <input v-model="form.email" id="email" name="email" type="email" autocomplete="email"
                                 class="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
@@ -58,7 +56,7 @@
                         <label for="fname" class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">First
                             Name</label>
                         <div class="mt-2">
-                            <input id="fname" name="fname" type="fname" autocomplete="fname"
+                            <input v-model="form.fname" id="fname" name="fname" type="fname" autocomplete="fname"
                                 class="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
@@ -67,7 +65,7 @@
                         <label for="lname" class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">Last
                             Name</label>
                         <div class="mt-2">
-                            <input id="lname" name="lname" type="lname" autocomplete="lname"
+                            <input v-model="form.lname" id="lname" name="lname" type="lname" autocomplete="lname"
                                 class="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6" />
                         </div>
                     </div>
@@ -76,7 +74,7 @@
                         <label for="contact"
                             class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">Contact Number</label>
                         <div class="mt-2">
-                            <input id="contact" name="contact" type="contact" autocomplete="contact"
+                            <input v-model="form.contact" id="contact" name="contact" type="contact" autocomplete="contact"
                                 class="block w-full rounded-md border-0 py-1 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400  sm:text-sm sm:leading-6" />
                         </div>
                     </div>
@@ -85,15 +83,12 @@
                         <label for="valid_id"
                             class="block text-xs md:text-sm font-medium leading-6 text-gray-900 mt-2">Valid ID</label>
                         <div class="mt-2">
-                            <v-select id="dropdown" placeholder="Select" :options="valid_id" label="label"
+                            <v-select v-model="form.validId" id="dropdown" placeholder="Select" :options="valid_id" label="label"
                                 class="text-xs"></v-select>
                         </div>
                     </div>
-
-
-
-
-
+                    <button type="submit"
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">Save</button>
                 </form>
             </div>
 
@@ -105,10 +100,29 @@
 </template>
 
 <script>
+import axios from 'axios';
+import Form from 'vform';
 
 export default {
+    name: "Visitor Registration Form",
+    props: {
+        data: {
+            type: Array,
+            default: {},
+        },
+    },
     data() {
         return {
+            data: {},
+            form: new Form({
+                id: '',
+                refId: window.location.href.split('/').pop(),
+                email: '',
+                fname: '',
+                lname: '',
+                contact: '',
+                validId: ''
+            }),
             valid_id: [
                 "Digitalized BIR Taxpayer's ID",
                 'Digitized Postal ID',
@@ -126,7 +140,40 @@ export default {
                 "Voter's ID"
             ],
         }
-    }
+    },
+    methods: {
+        saveLog() {
+            this.$Progress.start();
+            this.form.post('/api/visitors')
+                .then((data) => {
+                    this.$Progress.finish();
+                    this.getData();
+                    this.form = new Form({
+                        id: '',
+                        email: '',
+                        fname: '',
+                        lname: '',
+                        contact: '',
+                        validId: ''
+                    }),
+                    this.open = !this.open;
+                    createToast({
+                        title: 'Success!',
+                        description: 'Data has been saved.'
+                    },
+                        {
+                            position: 'top-left',
+                            showIcon: 'true',
+                            type: 'success',
+                            toastBackgroundColor: '#00bcd4',
+                            hideProgressBar: 'true',
+                            toastBackgroundColor: '#00bcd4',
+                        })
+                }).catch((error) => {
+                    this.$Progress.fail();
+                })
+        },
+    },
 }
 
 </script>

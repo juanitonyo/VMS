@@ -38,7 +38,7 @@
                     class="absolute top-[152px] px-3 font-medium text-gray-400 text-sm -translate-x-1/2 bg-white left-1/2">or</span>
             </div>
 
-            <buttonToInput is-button :label="'Create Account'" class="text-blue-800 border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-2 w-[325px]"></buttonToInput>
+            <buttonToInput is-button :id="id" :label="'Create Account'" class="text-blue-800 border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-2 w-[325px]"></buttonToInput>
             <!-- <buttonToInput :is-button="false"></buttonToInput> -->
         </div>
     </div>
