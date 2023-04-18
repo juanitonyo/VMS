@@ -129,7 +129,7 @@
                                 Logo</label>
                             <div class="flex flex-col items-center justify-center mt-2">
                                 <div class="flex justify-center mt-3">
-                                    <div class="">
+                                    <div>
                                         <div class="flex items-center justify-center w-full">
                                             <label :style="{'background-image':`url(${image_url})`}" @click="$refs.buildingLogo.click()" 
                                                class="flex flex-col justify-center  w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-cover bg-no-repeat">
@@ -239,6 +239,7 @@ export default {
                 address: '',
                 description: '',
                 buildingType: '',
+                logo:'',
                 status: false,
             }),
             image_url:'',
@@ -337,6 +338,7 @@ export default {
                     address: '',
                     description: '',
                     buildingType: '',
+                    logo:'',
                     status: false,
                 });
                 this.open = !this.open;
