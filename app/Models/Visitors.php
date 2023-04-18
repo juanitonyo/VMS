@@ -15,7 +15,8 @@ class Visitors extends Model
         'email',
         'name',
         'contact',
-        'validId'
+        'validId',
+        'policy'
     ];
 
     public function refId(): HasOne {

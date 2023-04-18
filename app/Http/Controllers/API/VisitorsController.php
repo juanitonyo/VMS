@@ -61,6 +61,7 @@ class VisitorsController extends BaseController
             'name' => $request->params['data']['name'],
             'contact' => $request->params['data']['contact'],
             'validId' => $request->params['data']['validId'],
+            'policy' => $request->params['data']['policy']
         ]);
         
         return $this->sendResponse($request->validated(), "Updated Data");

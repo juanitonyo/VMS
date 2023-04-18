@@ -107,7 +107,7 @@
                                 Building Type</label>
 
                             <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
-                            <span v-show="form.errors.has('buildingType')" class="text-xs text-red-600 dark:text-red-500">{{ form.errors.get('buildingType') }}</span>
+                            <span v-show="form.errors.has('buildingType')" class="text-xs/2 text-red-600 dark:text-red-500">{{  }}</span>
                         </div>
                         <!-- <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('buildingTypes')"  v-html="this.editMode ? false : form.errors.get('buildingTypes')" /> -->
 
