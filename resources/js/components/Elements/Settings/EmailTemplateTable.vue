@@ -71,9 +71,9 @@
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Purpose</label>
 
-                            <v-select v-model="form.purpose" placeholder="search" :options="option" label="label" ></v-select>
+                            <v-select v-model="form.purpose" placeholder="search" :options="option" label="label" :class="form.errors.has('purpose') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
+                            <span v-show="form.errors.has('purpose')" class="text-xs text-red-600 dark:text-red-500">{{ form.errors.get('purpose') }}</span>
                         </div>
-                        <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('purpose')" v-html="this.editMode ? false : form.errors.get('purpose')" />
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.subject" label="Subject" id="email_subj"

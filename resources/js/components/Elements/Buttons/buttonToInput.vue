@@ -33,6 +33,12 @@ export default {
             default: ''
         }
     },
+    data() {
+        return {
+            data: {},
+            id: window.location.href.split('/').pop(),
+        }
+    },
     methods: {
         onClick() {
             this.$emit('click')
@@ -40,6 +46,15 @@ export default {
         onInput(event) {
             this.$emit('input', event.target.value)
         }
-    }
+    }, 
+    created() {
+        axios.get('/api/visitor-registration/' + this.id)
+            .then((data) => {
+                this.buildings = data.data.data;
+            })
+            .catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+            });
+    },
 }
 </script>

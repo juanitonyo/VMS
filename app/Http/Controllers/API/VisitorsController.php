@@ -58,8 +58,7 @@ class VisitorsController extends BaseController
         $data = Visitors::findOrFail($id)->update([
             'refId' => $request->params['data']['refId']['value'],
             'email' => $request->params['data']['email'],
-            'fname' => $request->params['data']['fname'],
-            'lname' => $request->params['data']['lname'],
+            'name' => $request->params['data']['name'],
             'contact' => $request->params['data']['contact'],
             'validId' => $request->params['data']['validId'],
         ]);

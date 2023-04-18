@@ -28,8 +28,7 @@ class VisitorsRequest extends FormRequest
         return [
             'email' => 'required|unique:visitors|max:100',
             'refId' => 'required',
-            'fname' => 'required',
-            'lname' => 'required',
+            'name' => 'required',
             'contact' => 'required',
             'validId' => 'required'
         ];
@@ -39,8 +38,7 @@ class VisitorsRequest extends FormRequest
         return [
             'params.data.email' => 'required|max:100|unique:visitors,id,'.$this->get('id'),
             'params.data.refId' => 'required',
-            'params.data.fname' => 'required',
-            'params.data.lname' => 'required',
+            'params.data.name' => 'required',
             'params.data.contact' => 'required',
             'params.data.validId' => 'required',
         ];

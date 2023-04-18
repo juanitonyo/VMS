@@ -15,8 +15,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('refId')->nullable();
             $table->string('email');
-            $table->string('fname');
-            $table->string('lname');
+            $table->string('name');
             $table->string('contact');
             $table->string('validId');
             $table->timestamps();

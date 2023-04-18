@@ -17,11 +17,13 @@
             </label>
             <p class="text-[10px] text-gray-400 mt-1">Upload Photo</p>
 
-            <form action="">
+            <form @submit.prevent="saveLog()">
 
                 <div class="flex items-center mt-8">
                     <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
-                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input type="text" :class="form.errors.has('name') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' 
+                        : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                    <span v-show="form.errors.has('name')">{{ form.errors.get('name') }}</span>
                 </div>
 
                 <div class="flex items-center mt-3">
@@ -79,9 +81,13 @@
 <script>
 import axios from 'axios';
 import Form from 'vform';
+import NormalInput from '../../../Elements/Inputs/NormalInput.vue';
 
 export default {
     name: "Visitor Registration Form",
+    components: {
+        NormalInput,
+    },
     props: {
         data: {
             type: Array,
@@ -91,15 +97,16 @@ export default {
     data() {
         return {
             data: {},
+            id: window.location.href.split('/').pop(),
             form: new Form({
                 id: '',
                 refId: window.location.href.split('/').pop(),
                 email: '',
-                fname: '',
-                lname: '',
+                name: '',
                 contact: '',
                 validId: ''
             }),
+            buildings: {},
             valid_id: [
                 "Digitalized BIR Taxpayer's ID",
                 'Digitized Postal ID',
@@ -122,34 +129,43 @@ export default {
         saveLog() {
             this.$Progress.start();
             this.form.post('/api/visitors')
-                .then((data) => {
-                    this.$Progress.finish();
-                    this.getData();
-                    this.form = new Form({
-                        id: '',
-                        email: '',
-                        fname: '',
-                        lname: '',
-                        contact: '',
-                        validId: ''
-                    }),
-                    this.open = !this.open;
-                    createToast({
-                        title: 'Success!',
-                        description: 'Data has been saved.'
-                    },
-                        {
-                            position: 'top-left',
-                            showIcon: 'true',
-                            type: 'success',
-                            toastBackgroundColor: '#00bcd4',
-                            hideProgressBar: 'true',
-                            toastBackgroundColor: '#00bcd4',
-                        })
-                }).catch((error) => {
-                    this.$Progress.fail();
-                })
+            .then((data) => {
+                this.$Progress.finish();
+                this.getData();
+                this.form = new Form({
+                    id: '',
+                    email: '',
+                    fname: '',
+                    lname: '',
+                    contact: '',
+                    validId: ''
+                }),
+                this.open = !this.open;
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been saved.'
+                },
+                    {
+                        position: 'top-left',
+                        showIcon: 'true',
+                        type: 'success',
+                        toastBackgroundColor: '#00bcd4',
+                        hideProgressBar: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                    })
+            }).catch((error) => {
+                this.$Progress.fail();
+            })
         },
+    },
+    created() {
+        axios.get('/api/visitor-registration/' + this.id)
+            .then((data) => {
+                this.buildings = data.data.data;
+            })
+            .catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+            });
     },
 }
 

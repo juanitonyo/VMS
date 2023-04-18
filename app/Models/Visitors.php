@@ -13,8 +13,7 @@ class Visitors extends Model
     protected $fillable = [
         'refId',
         'email',
-        'fname',
-        'lname',
+        'name',
         'contact',
         'validId'
     ];

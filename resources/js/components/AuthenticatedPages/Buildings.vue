@@ -106,7 +106,8 @@
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Building Type</label>
 
-                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label"></v-select>
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
+                            <span v-show="form.errors.has('buildingType')" class="text-xs text-red-600 dark:text-red-500">{{ form.errors.get('buildingType') }}</span>
                         </div>
                         <!-- <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('buildingTypes')"  v-html="this.editMode ? false : form.errors.get('buildingTypes')" /> -->
 
@@ -299,14 +300,14 @@ export default {
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    // this.form = new Form({
-                    //     buildingName: '',
-                    //     address: '',
-                    //     description: '',
-                    //     buildingType: '',
-                    //     status: false,
-                    // });
-                    // this.open = !this.open;
+                    this.form = new Form({
+                        buildingName: '',
+                        address: '',
+                        description: '',
+                        buildingType: '',
+                        status: false,
+                    });
+                    this.open = !this.open;
                     createToast({
                         title: 'Success!',
                         description: 'Data has been saved.'
