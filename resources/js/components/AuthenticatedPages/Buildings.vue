@@ -106,9 +106,9 @@
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Building Type</label>
 
-                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400'"></v-select>
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label"></v-select>
                         </div>
-                        <div class="text-xs text-red-600 dark:text-red-500" v-show="form.errors.has('buildingType')" v-html="form.errors.get('buildingType')" />
+                        <!-- <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('buildingTypes')"  v-html="this.editMode ? false : form.errors.get('buildingTypes')" /> -->
 
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -274,7 +274,7 @@ export default {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
-            this.form.buildingType = { value: item.building_type.id, label: item.building_type.name }
+            this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
         },
 
         uploadImage(){
@@ -373,10 +373,11 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        // updateValue(value) {
-        //     form.buildingType = value;
-        // }
+        hasError(thisBool) {
+            return hasBool ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400';
+        }
     },
+
     created() {
         this.getData();
         this.getBuildingTypes();
