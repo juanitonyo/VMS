@@ -82,7 +82,7 @@
                     <div class="my-4 grid grid-cols-1">
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.buildingName" label="Building Type Name" id="building"
+                            <NormalInput v-model="form.buildingName" label="Building Name" id="building"
                                 :hasError="this.editMode ? false : form.errors.has('buildingName')"
                                 :errorMessage="this.editMode ? false : form.errors.get('buildingName')"></NormalInput>
                         </div>

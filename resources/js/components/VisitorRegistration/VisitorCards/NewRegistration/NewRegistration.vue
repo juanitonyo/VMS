@@ -21,7 +21,7 @@
 
                 <form @submit.prevent="showPolicy()">
 
-                    <div class="flex flex flex flex-col mt-8 relative">
+                    <div class="flex flex-col mt-8 relative">
                         <div class="flex flex-row items-center">
                             <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
                             <input v-model="form.name" type="text" :class="form.errors.has('name') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
@@ -29,36 +29,36 @@
                         <p v-show="form.errors.has('name')" class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500 mb-0 ">{{ form.errors.get('name') }}</p>
                     </div>
 
-                    <div class="flex items-center mt-6">
+                    <div class="flex items-center mt-6 relative">
                         <div class="flex flex-row items-center">
                             <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
                             <input v-model="form.email" type="email" :class="form.errors.has('email') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
-                            <!-- <span v-show="form.errors.has('email')" class="text-[10px] absolute top-[180px] -left-4 w-max text-red-500">{{ form.errors.get('email') }}</span> -->
+                            <p v-show="form.errors.has('email')" class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{ form.errors.get('email') }}</p>
                         </div>
                     </div>
 
-                    <div class="flex items-center mt-6">
+                    <div class="flex items-center mt-6 relative">
                         <div class="flex flex-row items-center">
                             <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
                             <input v-model="form.contact" type="text" :class="form.errors.has('contact') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
-                            <!-- <span v-show="form.errors.has('contact')" class="text-[10px] absolute top-[180px] -left-4 w-max text-red-500">{{ form.errors.get('contact') }}</span> -->
+                            <p v-show="form.errors.has('contact')" class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{ form.errors.get('contact') }}</p>
                         </div>
                     </div>
 
-                    <div class="flex items-center mt-6 gov-ids">
+                    <div class="flex items-center mt-6 gov-ids relative">
                         <div class="flex flex-row items-center">
                             <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
-                            <v-select id="dropdown" :options="valid_id" label="label" :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'"></v-select>
-                            <!-- <span v-show="form.errors.has('validId')" class="text-[10px] absolute top-[180px] -left-4 w-max text-red-500">{{ form.errors.get('validId') }}</span> -->
+                            <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label" :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'"></v-select>
+                            <!-- <span v-show="form.errors.has('validId')" class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{ form.errors.get('validId') }}</span> -->
                         </div>
                     </div>
 
-                    <div class="mt-5 flex flex-row justify-end">
-                        <div class="flex flex-row items-center flex-start">
+                    <div class="mt-8 flex flex-row justify-end">
+                        <div class="flex flex-row items-center">
                             <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
                             <label for="dropzone-file" :style="{ 'background-image': `url(${image_url})` }"
                                 @click="$refs.front.click()"
-                                class="flex flex-col items-center justify-center w-[62px] h-[51px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                                class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
                                 <div class="flex flex-col items-center justify-center pt-5 pb-6"
                                     :class="{ 'hidden': hideLabel }">
                                     <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
@@ -71,7 +71,7 @@
                             <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
                             <label for="dropzone-file" :style="{ 'background-image': `url(${image_url})` }"
                                 @click="$refs.back.click()"
-                                class="flex flex-col items-center justify-center w-[62px] h-[51px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                                class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
                                 <div class="flex flex-col items-center justify-center pt-5 pb-6"
                                     :class="{ 'hidden': hideLabel }">
                                     <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
@@ -120,7 +120,7 @@
                     <div class="flex flex-row mt-10 justify-center gap-x-8">
                         <router-link :to="'/visitor-registration/details/' + this.id"
                             class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                        <router-link :to="'/visitor-registration/success/' + this.id">
+                        <router-link :to="enableButton ? '/visitor-registration/success/' + this.id : '#'">
                             <button :disabled="!enableButton" :class="[enableButton ? 'bg-blue-700' : 'bg-gray-600']"
                                 class="w-[145px] h-[33px] bg-blue-700 rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">Submit</button>
                         </router-link>
@@ -154,22 +154,14 @@ export default {
                 email: '',
                 name: '',
                 contact: '',
-                validId: ''
+                validId: '',
+                policy: false,
             }),
             buildings: {},
             isFormComplete: false,
             enableButton: false,
             hideLabel: false,
-            form: new Form({
-                name: '',
-                email: '',
-                contact: '',
-                valid_id: '',
-                front: '',
-                back: '',
-                profile: '',
-                policy: false,
-            }),
+
             valid_id: [
                 "Digitalized BIR Taxpayer's ID",
                 'Digitized Postal ID',
