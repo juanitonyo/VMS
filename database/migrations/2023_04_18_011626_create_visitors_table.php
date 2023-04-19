@@ -16,6 +16,7 @@ return new class extends Migration
             $table->uuid('refId')->nullable();
             $table->string('email');
             $table->string('name');
+            $table->string('google_id')->nullable();
             $table->string('contact');
             $table->string('validId');
             $table->boolean('policy')->default(false);
