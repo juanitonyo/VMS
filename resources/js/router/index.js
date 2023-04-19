@@ -27,6 +27,11 @@ const NewRegistration = () => import("@/components/VisitorRegistration/VisitorCa
 const RegPrompt = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/RegPrompt.vue");
 const RegSuccess = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/RegSuccess.vue");
 
+// VISITOR CHECK IN
+const CheckInPrompt = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInPrompt.vue");
+const CheckInForm = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInForm.vue");
+const CheckInSuccess = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInSuccess.vue");
+
 const routes = [
     {
         path: "/",
@@ -164,7 +169,7 @@ const routes = [
             },            
             {
                 name: "regprompt",
-                path: "/visitor-registration/details/:id",
+                path: "/visitor-registration/new/reg/:id",
                 component: RegPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -174,6 +179,30 @@ const routes = [
                 name: "regpolicy",
                 path: "/visitor-registration/success/:id",
                 component: RegSuccess,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "checkinprompt",
+                path: "/visitor-registration/new/checkin/:id",
+                component: CheckInPrompt,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "checkinform",
+                path: "/visitor-registration/checkin/:id",
+                component: CheckInForm,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "checkinsuccess",
+                path: "/visitor-registration/success/checkin/:id",
+                component: CheckInSuccess,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },
