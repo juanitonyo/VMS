@@ -106,8 +106,8 @@
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Building Type</label>
 
-                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
-                            <span v-show="form.errors.has('buildingType')" class="text-xs/2 text-red-600 dark:text-red-500">{{  }}</span>
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                            <span v-show="this.editMode ? false : form.errors.has('buildingType')" class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                         </div>
                         <!-- <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('buildingTypes')"  v-html="this.editMode ? false : form.errors.get('buildingTypes')" /> -->
 
@@ -242,6 +242,7 @@ export default {
                 buildingType: '',
                 logo:'',
                 status: false,
+                errors: []
             }),
             image_url:'',
             hideLabel: false,
@@ -376,8 +377,12 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        hasError(thisBool) {
-            return hasBool ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400';
+        
+        forClass() {
+            return this.form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' '
+        },
+        forMessage() {
+            return this.editMode ? ' ' : this.form.errors.get('buildingType')
         }
     },
 

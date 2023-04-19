@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\Visitors;
+use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\VisitorsRequest;
 
@@ -30,7 +31,15 @@ class VisitorsController extends BaseController
      */
     public function store(VisitorsRequest $request)
     {
-        $data = Visitors::create($request->all());
+        $visitorID = Building::where('qr_id', $request->get('refId'))->first()->id;
+        $data = Visitors::create([
+            'refId' => $visitorID,
+            'email' => $request->get('email'),
+            'name' => $request->get('name'),
+            'contact' => $request->get('contact'),
+            'validId' => $request->get('validId'),
+            'policy' => $request->get('policy')
+        ]);
         return $this->sendResponse($data, "Saved");
     }
 
@@ -55,8 +64,9 @@ class VisitorsController extends BaseController
      */
     public function update(VisitorsRequest $request, $id)
     {
+
         $data = Visitors::findOrFail($id)->update([
-            'refId' => $request->params['data']['refId']['value'],
+            // 'refId' => $visitorID,
             'email' => $request->params['data']['email'],
             'name' => $request->params['data']['name'],
             'contact' => $request->params['data']['contact'],

@@ -19,7 +19,7 @@ class BuildingController extends BaseController
     }
 
     public function getBuilding($id){
-        $data = Building::where('qr_id', $id)->first(['buildingName', 'address']);
+        $data = Building::where('qr_id', $id)->first('buildingName');
        
         return $this->sendResponse($data, "All buildings in array");
     }

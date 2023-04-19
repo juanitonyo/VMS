@@ -49,7 +49,7 @@
                         <div class="flex flex-row items-center">
                             <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
                             <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label" :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'"></v-select>
-                            <!-- <span v-show="form.errors.has('validId')" class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{ form.errors.get('validId') }}</span> -->
+                            <span v-show="form.errors.has('validId')" class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{ form.errors.get('validId') }}</span>
                         </div>
                     </div>
 
@@ -96,7 +96,7 @@
                 <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                 <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                 <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
-                <form @submit.prevent="">
+                <form @submit.prevent="policy">
                     <div
                         class="relative flex flex-row items-center justify-center w-[340px] text-gray-600 font-extralight mt-10 gap-x-3">
                         <input v-model="form.policy" type="checkbox" class="absolute top-0 left-0 w-5 h-5"
@@ -120,8 +120,8 @@
                     <div class="flex flex-row mt-10 justify-center gap-x-8">
                         <router-link :to="'/visitor-registration/details/' + this.id"
                             class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                        <router-link :to="enableButton ? '/visitor-registration/success/' + this.id : '#'">
-                            <button :disabled="!enableButton" :class="[enableButton ? 'bg-blue-700' : 'bg-gray-600']"
+                        <router-link :to="enableButton ? '/visitor-registration/success/' + this.id : '/#'">
+                            <button type="submit" @click="form.policy = enableButton" :disabled="!enableButton" :class="[enableButton ? 'bg-blue-700' : 'bg-gray-600']"
                                 class="w-[145px] h-[33px] bg-blue-700 rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">Submit</button>
                         </router-link>
                     </div>
@@ -197,15 +197,21 @@ export default {
         },
         showPolicy() {
             //validate form
-            this.form.post('/api/visitors/')
+            this.form.post('/api/visitors')
                 .then((data) => {
                     this.isFormComplete = true    
                 }).catch((error) => {
                     this.$Progress.fail();
                 })
         },
-        saveLog() {
-
+        policy() {
+            this.$Progress.start();
+            this.form.put('/api/visitors/')
+                .then((data) => {
+                    this.$Progress.finish();   
+                }).catch((error) => {
+                    this.$Progress.fail();
+                })
         },
         isChecked(event) {
             this.enableButton = !this.enableButton

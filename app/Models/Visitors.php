@@ -19,7 +19,8 @@ class Visitors extends Model
         'policy'
     ];
 
-    public function refId(): HasOne {
-        return $this->hasOne(Building::class, 'id', 'refId')->select(['id', 'qr_id']);
+    public function refId(): HasOne
+    {
+        return $this->hasOne(Building::class, 'qr_id', 'refId');
     }
 }
