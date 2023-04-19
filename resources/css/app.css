@@ -34,3 +34,64 @@
     height:28px; 
     border: none;
 }
+
+.check_purpose .vs__search{
+    height: 20px;
+    font-size: 9px;
+    padding-left: 2px;
+    border: none;
+}
+
+.check_purpose .vs__search:focus{
+    font-size: 9px;
+}
+
+.check_purpose::placeholder{
+    font-size: 9px;
+    color: #808080;
+}
+
+.check_purpose::placeholder:focus{
+    font-size: 9px;
+    color: #808080;
+}
+
+.check_purpose .vs__dropdown-toggle{
+    height:28px; 
+    border: none;
+}
+
+.check_purpose .vs__search::placeholder{
+    color: gray;
+}
+
+.withguest::placeholder{
+    color: gray;
+}
+
+.buildingSelect .vs__search{
+    height: 20px;
+    font-size: 9px;
+    padding-left: 2px;
+    border: none;
+}
+
+.buildingSelect .vs__search:focus{
+    font-size: 9px;
+}
+
+.buildingSelect::placeholder{
+    font-size: 9px;
+    color: #808080;
+}
+
+.buildingSelect::placeholder:focus{
+    font-size: 9px;
+    color: #808080;
+}
+
+.buildingSelect .vs__dropdown-toggle{
+    height:28px; 
+    border: none;
+}
+
