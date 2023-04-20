@@ -1,10 +1,8 @@
 <template>
-    <!-- gmailyahoo@outlook.com -->
     <div class="flex justify-center items-center">
 
         <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen pt-10">
             <div class="flex flex-col items-center gap-y-5">
-
                 <div class="flex flex-col gap-y-2 items-center justify-center absolute top-10 lg:top-16">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
@@ -42,8 +40,12 @@
                             class="absolute top-[152px] px-3 font-medium text-gray-400 text-sm -translate-x-1/2 bg-white left-1/2">or</span>
                     </div>
 
-                    <buttonToInput is-button :label="'Create Account'"></buttonToInput>
-                    <!-- <buttonToInput :is-button="false"></buttonToInput> -->
+                    <!-- <buttonToInput is-button :label="'Create Account'"></buttonToInput> -->
+                    <buttonToInput :is-button="false"></buttonToInput>
+                    <a :href="'/visitor-registration/checkout/' + this.id"
+                        class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-3 w-[330px] cursor-pointer">
+                        Submit
+                    </a>
                 </div>
             </div>
         </div>
@@ -55,7 +57,7 @@ import axios from 'axios';
 import buttonToInput from '../../../Elements/Buttons/buttonToInput.vue'
 
 export default {
-    name: 'Visitor Prompt',
+    name: 'Check In Prompt',
 
     components: {
         buttonToInput,

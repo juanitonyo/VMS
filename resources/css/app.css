@@ -95,3 +95,30 @@
     border: none;
 }
 
+.buildingDropdown .vs__search{
+    height: 20px;
+    font-size: 9px;
+    padding-left: 2px;
+    border: none;
+}
+
+.buildingDropdown .vs__search:focus{
+    font-size: 9px;
+}
+
+.buildingDropdown .vs__search::placeholder{
+    font-size: 9px;
+    color: #808080;
+}
+
+.buildingDropdown::placeholder:focus{
+    font-size: 9px;
+    color: #808080;
+}
+
+.buildingDropdown .vs__dropdown-toggle{
+    height:28px; 
+    border: none;
+}
+
+

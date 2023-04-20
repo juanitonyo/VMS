@@ -5,15 +5,11 @@
 
                 <div class="text-[10px] text-blue-900 flex flex-col items-center text-center gap-y-3">
                     <img src="/Visitor_Homepage_Assets/successIcon.png" alt="no photo" class="w-24 h-24">
-                    <p class="text-base tracking-wide text-green-500 font-bold">Checked-In</p>
+                    <p class="text-base tracking-wide text-green-500 font-bold">Check out Successful</p>
                 </div>
-                <div class="text-[10px] text-blue-900 flex flex-col text-center">
+                <div class="text-[10px] text-blue-900 flex flex-col text-center mb-10">
                     <p>Time recorded</p>
                     <p>MMMM DD, YYYY, 0:00 PM</p>
-                </div>
-
-                <div class="text-[10px] text-blue-900 flex flex-col text-center w-48">
-                    <p>Please wait for unit owner's approval prior to entry.</p>
                 </div>
 
                 <router-link :to="'/visitor-registration/index/' + this.id">
@@ -28,7 +24,7 @@
 import axios from 'axios';
 
 export default {
-    name: 'Check In Prompt',
+    name: 'Check Out Success',
 
     props: {
         data: {

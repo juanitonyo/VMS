@@ -11,19 +11,20 @@
 
                 <div class="flex flex-col gap-y-2 items-center justify-center">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
-                    <h4 class="text-gray-400 text-[9px] text-center">{{ this.buildings.address }}</h4>
+                    <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
 
                 <div class="flex flex-row mt-4 gap-x-5">
-                    <img src="" alt="" class="w-20 h-20 rounded-full border border-slate-200">
+                    <img src="https://picsum.photos/400/400" alt="No Photo"
+                        class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200">
                     <div class="flex flex-col justify-center pl-2 w-36">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, Visitor</p>
-                        <p class="text-[9px] text-gray-400 font-light">Visit: Walk - In</p>
-                        <p class="text-[9px] text-gray-400 font-light">Status: Status Here</p>
+                        <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
+                        <p class="text-[9px] text-blue-800 font-light">Status: {{ this.status }}</p>
                     </div>
                 </div>
 
-                <form>
+                <form @submit.prevent="showSuccess()">
                     <div class="check_purpose space-y-3 mt-5">
                         <v-select id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
                             :options="purpose" label="label"
@@ -59,11 +60,14 @@
                             class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
                         <input type="text" disabled value="" placeholder="Principal buyer’s contact number"
                             class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
-                        <input type="text" placeholder="Who will you visit? Enter the host’s name heree"
-                            class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80">
-                        <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
-                            class="text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80">
-
+                        <label for="visitName" class="text-gray-400 text-[10px]">
+                            <input type="text" placeholder="Who will you visit? Enter the host’s name heree"
+                                class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80">
+                        </label>
+                        <label for="visitContact" class="text-gray-400 text-[10px]">
+                            <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
+                                class="text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80">
+                        </label>
                     </div>
 
                     <div
@@ -91,7 +95,7 @@
                                 :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
                                 class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
                         </router-link>
-                        <router-link :to="'/visitor-registration/details/' + this.id"
+                        <router-link :to="'/visitor-registration/new/checkin/' + this.id"
                             class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
                     </div>
 
@@ -104,6 +108,7 @@
 
 <script>
 import axios from 'axios';
+import Form from 'vform';
 
 export default {
     name: 'Check In Form',
@@ -117,15 +122,37 @@ export default {
         return {
             data: {},
             id: window.location.href.split('/').pop(),
+            form: new Form({
+                id: '',
+                refId: window.location.href.split('/').pop(),
+                purpose: '',
+                companions: '',
+                buildingName: '',
+                flrBlk: '',
+                unitLot: '',
+                policy: false,
+            }),
             buildings: {},
             purpose: [],
             enableButton: false,
+            isFormComplete: false,
+            status: 'Pending Approval'
         }
     },
 
     methods: {
         isChecked(event) {
             this.enableButton = !this.enableButton
+        },
+
+        showSuccess() {
+            // validate form
+            this.form.post('/api/visitors/')
+                .then((data) => {
+                    this.isFormComplete = true
+                }).catch((error) => {
+                    this.$Progress.fail();
+                })
         },
     },
 
