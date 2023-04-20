@@ -1,7 +1,6 @@
 <template>
     <div>
         <div v-show="!isFormComplete" class="flex flex-col items-center justify-center min-w-screen min-h-screen">
-
             <div class="flex flex-col gap-y-2 items-center justify-center absolute top-10 lg:top-16">
                 <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                 <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
@@ -18,8 +17,6 @@
                     <input id="dropzone-file" ref="profile" type="file" class="opacity-0" @input="uploadImage"/>
                 </label>
                 <p class="text-[10px] text-gray-400 mt-1">Upload Photo</p>
-
-                <form @submit.prevent="showPolicy()">
 
                     <div class="flex flex-col mt-8 relative">
                         <div class="flex flex-row items-center">
@@ -84,10 +81,10 @@
                     <div class="flex flex-row mt-10 justify-center gap-x-8">
                         <a :href="'/visitor-registration/new/reg/' + this.id"
                             class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
-                        <button type="submit" href="#"
+                        <button @click.prevent="submitPolicy()"
                             class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                     </div>
-                </form>
+                <!-- </form> -->
             </div>
         </div>
 
@@ -96,11 +93,9 @@
                 <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                 <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                 <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
-                <form @submit.prevent="policy">
-                    <div
-                        class="relative flex flex-row items-center justify-center w-[340px] text-gray-600 font-extralight mt-10 gap-x-3">
-                        <input v-model="form.policy" type="checkbox" class="absolute top-0 left-0 w-5 h-5"
-                            @change="isChecked()">
+                <form @submit.prevent="showPolicy()">
+                    <div class="relative flex flex-row items-center justify-center w-[340px] text-gray-600 font-extralight mt-10 gap-x-3">
+                        <input v-model="form.policy" type="checkbox"  class="absolute top-0 left-0 w-5 h-5" @change="isChecked()">
                         <span class="ml-10 text-xs leading-5">By supplying the information on VMS registration form, I
                             affirm
                             that I have read,
@@ -120,14 +115,13 @@
                     <div class="flex flex-row mt-10 justify-center gap-x-8">
                         <router-link :to="'/visitor-registration/new/reg/' + this.id"
                             class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                        <router-link :to="enableButton ? '/visitor-registration/success/' + this.id : '/#'">
-                            <input type="submit" value="Submit" :disabled="!enableButton" :class="[enableButton ? 'bg-blue-700' : 'bg-gray-600']"
-                                class="w-[145px] h-[33px] bg-blue-700 rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
-                        </router-link>
+                        <!-- <router-link :to="enableButton ? '/visitor-registration/success/' + this.id : '/#'"> -->
+                            <button type="submit" :disabled="!enableButton" :class="[enableButton ? 'bg-blue-700' : 'bg-gray-600']"
+                                class="w-[145px] h-[33px] bg-blue-700 rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">Submit</button>
+                        <!-- </router-link> -->
                     </div>
                 </form>
             </div>
-
         </div>
     </div>
 </template>
@@ -157,6 +151,7 @@ export default {
                 validId: '',
                 policy: false,
             }),
+
             buildings: {},
             isFormComplete: false,
             enableButton: false,
@@ -182,7 +177,7 @@ export default {
     },
     methods: {
         uploadImage() {
-            this.hideLabel = true
+            this.hideLabel = true;
             let input = this.$refs.front;
             let file = input.files;
             if (file && file[0]) {
@@ -196,37 +191,41 @@ export default {
             }
         },
         showPolicy() {
-            //validate form
-            this.form.post('/api/visitors')
-                .then((data) => {
-                    this.isFormComplete = true    
-                }).catch((error) => {
-                    this.$Progress.fail();
-                })
-        },
-        policy() {
             this.$Progress.start();
-            this.form.put('/api/visitors/')
+            this.form.post('/api/visitors/')
                 .then((data) => {
-                    this.$Progress.finish();   
+                    this.$Progress.finish();
+                    this.$router.push('/visitor-registration/success/' + this.id);
                 }).catch((error) => {
                     this.$Progress.fail();
-                })
+                }
+            )
+        },
+        submitPolicy() {
+            this.isFormComplete = !this.isFormComplete
         },
 
         isChecked() {
             this.enableButton = !this.enableButton
-        }
-    },
-    created() {
-        axios.get('/api/visitor-registration/' + this.id)
-            .then((data) => {
-                this.buildings = data.data.data;
-            })
+        },
+
+        checkForm(thisForm) {
+            console.log(thisForm);
+        },
+
+        async getData() {
+            await axios.get('/api/visitor-registration/' + this.id)
+                    .then((data) => {
+                        this.buildings = data.data.data;
+                        })
             .catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
+        }
     },
+    created() {
+        this.getData();
+    }
 }
 
 </script>

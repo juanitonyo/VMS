@@ -21,7 +21,7 @@ Route::get('{any}', function () {
     return view('app');
 })->where('any', '.*');
 
-Route::get('auth/google', 'GoogleAuthController@redirect');
-Route::get('auth/google/call-back', 'GoogleAuthController@callbackGoogle');
+Route::get('/auth/google', 'GoogleAuthController@redirect');
+Route::get('/auth/google/call-back', 'GoogleAuthController@callbackGoogle');
 
 Auth::routes();

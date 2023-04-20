@@ -4,7 +4,7 @@
             <h2 class="text-2xl font-extrabold leading-6 text-gray-900">Overview</h2>
             <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
             <!-- Card -->
-            <div v-for="card in cards" :key="card.name" class="overflow-hidden rounded-lg bg-white shadow">
+            <div v-for="card in this.cards" :key="card.name" class="overflow-hidden rounded-lg bg-white shadow">
                 <div class="p-5">
                 <div class="flex items-center">
                     <div class="flex-shrink-0">
@@ -58,7 +58,7 @@
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
-                            <tr v-for="person in people" :key="person.email">
+                            <tr v-for="person in this.people" :key="person.email">
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ person.name }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ person.title }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ person.email }}</td>
@@ -100,7 +100,7 @@
                             </tr>
                             </thead>
                             <tbody class="divide-y divide-gray-200 bg-white">
-                            <tr v-for="person in people" :key="person.email">
+                            <tr v-for="person in this.people" :key="person.email">
                                 <td class="whitespace-nowrap py-4 pl-4 pr-3 text-sm font-medium text-gray-900 sm:pl-6">{{ person.name }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ person.title }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-sm text-gray-500">{{ person.email }}</td>
@@ -121,24 +121,35 @@
         </div>
 </template>
   
-  <script setup>
-  import { UserMinusIcon, UserPlusIcon,UserIcon } from '@heroicons/vue/24/outline';
-  import MobileMenu from '../Elements/Dashboard/MobileMenu.vue';
-  import Sidebar from '../Elements/Dashboard/Sidebar.vue';
-  import TopBar from '../Elements/Dashboard/TopBar.vue';
+<script>
+import { UserMinusIcon, UserPlusIcon,UserIcon } from '@heroicons/vue/24/outline';
+import axios from 'axios';
+import MobileMenu from '../Elements/Dashboard/MobileMenu.vue';
+import Sidebar from '../Elements/Dashboard/Sidebar.vue';
+import TopBar from '../Elements/Dashboard/TopBar.vue';
 
-  const cards = [
-    { name: 'Totol Visitors', href: '#', icon: UserIcon, amount: '150' },
-    { name: 'Totol Checked In', href: '#', icon: UserPlusIcon, amount: '140' },
-    { name: 'Totol Check Out ', href: '#', icon: UserMinusIcon, amount: '130' },
-    ]
-
-    
-  const people = [
-  
-  { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
-]
-
-
+export default {
+    name: 'Dashboard',
+    props: {
+        data: {
+            type: Object,
+            default: {}
+        }
+    },
+    data() {
+        return {
+            data: {},
+            length: '',
+            cards: [
+                { name: 'Totol Visitors', href: '#', icon: UserIcon, amount: '150' },
+                { name: 'Totol Checked In', href: '#', icon: UserPlusIcon, amount: '140' },
+                { name: 'Totol Check Out ', href: '#', icon: UserMinusIcon, amount: '130' },
+            ],
+            people: [
+                { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
+            ]
+        }
+    },
+}
 
   </script>

@@ -9,11 +9,10 @@ import Router from "@/router";
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import Form from "vform";
 import vSelect from "vue-select";
-import "vue-select/dist/vue-select.css";
 
 import moshaToast from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
-
+import "vue-select/dist/vue-select.css";
 
 const options = {
     color: "rgb(143, 255, 199)",

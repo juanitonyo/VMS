@@ -15,7 +15,7 @@ class VisitorsController extends BaseController
     public function index()
     {
         $data = Visitors::paginate(10);
-        return $this->sendResponse($data, "All Visitors in Array");
+        return $this->sendResponse($data, "Fetched all Visitors in Array");
     }
 
     /**
@@ -31,16 +31,12 @@ class VisitorsController extends BaseController
      */
     public function store(VisitorsRequest $request)
     {
-        $visitorID = Building::where('qr_id', $request->get('refId'))->first()->id;
-        $data = Visitors::create([
-            'refId' => $visitorID,
-            'email' => $request->get('email'),
-            'name' => $request->get('name'),
-            'contact' => $request->get('contact'),
-            'validId' => $request->get('validId'),
-            'policy' => $request->get('policy')
-        ]);
-        return $this->sendResponse($data, "Saved");
+        $buildingRefID = Building::where('qr_id', $request->get('refId'))->first()->id;
+        $validated = $request->validated();
+        $validated['refId'] = $buildingRefID;
+
+        $data = Visitors::create($validated);
+        return $this->sendResponse($data, "Data Saved.");
     }
 
     /**
@@ -64,17 +60,18 @@ class VisitorsController extends BaseController
      */
     public function update(VisitorsRequest $request, $id)
     {
+        $buildingRefID = Building::where('qr_id', $request->get('refId'))->first()->id;
 
         $data = Visitors::findOrFail($id)->update([
-            // 'refId' => $visitorID,
+            'refId' => $buildingRefID,
             'email' => $request->params['data']['email'],
             'name' => $request->params['data']['name'],
             'contact' => $request->params['data']['contact'],
             'validId' => $request->params['data']['validId'],
-            'policy' => $request->params['data']['policy']
+            'policy' => $request->params['data']['policy'],
         ]);
         
-        return $this->sendResponse($request->validated(), "Updated Data");
+        return $this->sendResponse($request->validated(), "Data Updated.");
     }
 
     /**
