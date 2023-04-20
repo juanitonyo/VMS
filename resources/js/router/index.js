@@ -32,6 +32,17 @@ const CheckInPrompt = () => import("@/components/VisitorRegistration/VisitorCard
 const CheckInForm = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInForm.vue");
 const CheckInSuccess = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInSuccess.vue");
 
+// VISITOR CHECK OUT
+const CheckOutPrompt = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutPrompt.vue");
+const CheckOutForm = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutForm.vue");
+const CheckOutSuccess = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutSuccess.vue");
+
+// DELIVERY SERVICES
+
+const DeliveryPrompt = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliveryPrompt.vue");
+const DeliveryForm = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliveryForm.vue");
+const DeliverySuccess = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliverySuccess.vue");
+
 const routes = [
     {
         path: "/",
@@ -169,7 +180,7 @@ const routes = [
             },            
             {
                 name: "regprompt",
-                path: "/visitor-registration/new/reg/:id",
+                path: "/visitor-registration/SignIn/reg/:id",
                 component: RegPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -185,7 +196,7 @@ const routes = [
             },
             {
                 name: "checkinprompt",
-                path: "/visitor-registration/new/checkin/:id",
+                path: "/visitor-registration/SignIn/checkin/:id",
                 component: CheckInPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -203,6 +214,54 @@ const routes = [
                 name: "checkinsuccess",
                 path: "/visitor-registration/success/checkin/:id",
                 component: CheckInSuccess,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "checkoutprompt",
+                path: "/visitor-registration/SignIn/checkout/:id",
+                component: CheckOutPrompt,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "checkoutform",
+                path: "/visitor-registration/checkout/:id",
+                component: CheckOutForm,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "checkoutsuccess",
+                path: "/visitor-registration/success/checkout/:id",
+                component: CheckOutSuccess,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "deliveryprompt",
+                path: "/visitor-registration/SignIn/delivery/:id",
+                component: DeliveryPrompt,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "deliveryform",
+                path: "/visitor-registration/delivery/:id",
+                component: DeliveryForm,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "deliverysuccess",
+                path: "/visitor-registration/success/delivery/:id",
+                component: DeliverySuccess,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },

@@ -6,13 +6,13 @@
 
                 <div class="flex flex-col gap-y-2 items-center justify-center">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
-                    <h4 class="text-gray-400 text-[9px] text-center">{{ this.buildings.address }}</h4>
+                    <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
 
                 <div class='flex flex-col items-center justify-center gap-y-4 mt-10'>
 
-                    <a :href="'/visitor-registration/new/reg/' + this.id"
-                        class=" flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                    <a :href="'/visitor-registration/SignIn/reg/' + this.id"
+                        class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105  w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
                             <img alt="No Icon" src="/Visitor_Homepage_Assets/createNew.png" class="pl-2 h-16 w-26" />
@@ -24,8 +24,8 @@
                         </div>
                     </a>
 
-                    <a :href="'/visitor-registration/new/checkin/' + this.id"
-                        class=" flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                    <a :href="'/visitor-registration/SignIn/checkin/' + this.id"
+                        class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
                             <img alt="No Icon" src="/Visitor_Homepage_Assets/check_in.png" class="h-16 w-16" />
@@ -38,8 +38,8 @@
                         </div>
                     </a>
 
-                    <a :href="'/visitor-registration/#/' + this.id"
-                        class=" flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                    <a :href="'/visitor-registration/SignIn/checkout/' + this.id"
+                        class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
                             <img alt="No Icon" src="/Visitor_Homepage_Assets/check_out.png" class="h-16 w-16" />
@@ -53,7 +53,7 @@
                     </a>
 
                     <a :href="'/visitor-registration/#/' + this.id"
-                        class=" flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                        class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
                             <img alt="No Icon" src="/Visitor_Homepage_Assets/guest_invitation.png" class="h-16 w-16" />
@@ -66,8 +66,8 @@
                         </div>
                     </a>
 
-                    <a :href="'/visitor-registration/#/' + this.id"
-                        class=" flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                    <a :href="'/visitor-registration/SignIn/delivery/' + this.id"
+                        class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
                             <img alt="No Icon" src="/Visitor_Homepage_Assets/delivery_service.png" class="h-16 w-16" />
