@@ -9,16 +9,18 @@ use Illuminate\Support\Facades\Auth;
 
 class GoogleAuthController extends Controller
 {
-    public function redirect() {
+    public function login() {
+      
         return Socialite::driver('google')->redirect();
     }
 
     public function callbackGoogle() {
+      
         try {
             $google_user = Socialite::driver('google')->user();
-
+            
             $user = Visitors::where('google_id', $google_user->getId())->first();
-
+            
             if($user) {
                 Auth::login($user);
             
