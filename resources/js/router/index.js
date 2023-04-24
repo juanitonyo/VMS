@@ -37,6 +37,11 @@ const CheckOutPrompt = () => import("@/components/VisitorRegistration/VisitorCar
 const CheckOutForm = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutForm.vue");
 const CheckOutSuccess = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutSuccess.vue");
 
+//INVITED GUEST
+const InvitePrompt = () => import("@/components/VisitorRegistration/VisitorCards/InvitedGuest/InvitePrompt.vue");
+const InviteForm = () => import("@/components/VisitorRegistration/VisitorCards/InvitedGuest/InviteForm.vue");
+const InviteSuccess = () => import("@/components/VisitorRegistration/VisitorCards/InvitedGuest/InviteSuccess.vue");
+
 // DELIVERY SERVICES
 
 const DeliveryPrompt = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliveryPrompt.vue");
@@ -187,7 +192,7 @@ const routes = [
                 },
             },
             {
-                name: "regpolicy",
+                name: "regsuccess",
                 path: "/visitor-registration/success/:id",
                 component: RegSuccess,
                 meta: {
@@ -262,6 +267,30 @@ const routes = [
                 name: "deliverysuccess",
                 path: "/visitor-registration/success/delivery/:id",
                 component: DeliverySuccess,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "inviteprompt",
+                path: "/visitor-registration/SignIn/invite/:id",
+                component: InvitePrompt,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "inviteform",
+                path: "/visitor-registration/invite/:id",
+                component: InviteForm,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "invitesuccess",
+                path: "/visitor-registration/success/invite/:id",
+                component: InviteSuccess,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },

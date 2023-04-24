@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingRequest;
+use Intervention\Image\Image;
 use Illuminate\Support\Str;
 
 class BuildingController extends BaseController
@@ -19,7 +20,7 @@ class BuildingController extends BaseController
     }
 
     public function getBuilding($id){
-        $data = Building::where('qr_id', $id)->first(['buildingName', 'address']);
+        $data = Building::where('qr_id', $id)->first(['id', 'buildingName', 'address', 'logo']);
        
         return $this->sendResponse($data, "All buildings in array");
     }
@@ -62,7 +63,7 @@ class BuildingController extends BaseController
         $validated['logo']   = $logo_link;
 
         $data = Building::create($validated);
-        return $this->sendResponse($validated, "Saved Data");
+        return $this->sendResponse($logo_link, "Saved Data");
     }
 
     /**
@@ -90,7 +91,7 @@ class BuildingController extends BaseController
         $logo_binary = $request->params['data']['logo'];
         $data = Building::findOrFail($id);
         if($logo_binary){
-            unlink('uploads/images/'.$data->logo);
+            unlink('public/uploads/images/'.$data->logo);
             $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
             \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
         }

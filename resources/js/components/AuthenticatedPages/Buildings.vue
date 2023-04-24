@@ -47,9 +47,9 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type.name
                                         }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">
-                                            <button @click.prevent="isOpen('Visitor', item)"
+                                            <button :disabled="item.status ? false : true" @click.prevent="isOpen('Visitor', item)"
                                                 class="border border-gray-500 rounded-md py-1.5 px-3 mx-1 hover:bg-gray-500 hover:text-white">Visitor</button>
-                                            <button @click.prevent="isOpen('Host', item)"
+                                            <button :disabled="item.status ? false : true" @click.prevent="isOpen('Host', item)"
                                                 class="border border-gray-500 rounded-md py-1.5 px-4 hover:bg-gray-500 hover:text-white">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
@@ -106,8 +106,8 @@
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Building Type</label>
 
-                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
-                            <span v-show="form.errors.has('buildingType')" class="text-xs/2 text-red-600 dark:text-red-500">{{  }}</span>
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                            <span v-show="this.editMode ? false : form.errors.has('buildingType')" class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                         </div>
                         <!-- <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('buildingTypes')"  v-html="this.editMode ? false : form.errors.get('buildingTypes')" /> -->
 
@@ -175,7 +175,7 @@
                 <div class="flex justify-center items-center flex-col">
                     <img :src="qrName(form.qr_id)" class="mt-5 bg-gray-400" />
                     <h1 class="font-extrabold text-2xl my-5 text-gray-700">OR</h1>
-                    <a :href="this.proxyURL + this.route + form.qr_id"
+                    <a target="_blank" :href="this.proxyURL + this.route + form.qr_id"
                         class="text-gray-500 hover:text-gray-600 underline text-center">{{ this.proxyURL + this.route + form.qr_id
                         }}</a>
                 </div>
@@ -242,6 +242,7 @@ export default {
                 buildingType: '',
                 logo:'',
                 status: false,
+                errors: []
             }),
             image_url:'',
             hideLabel: false,
@@ -270,6 +271,8 @@ export default {
             this.pop = !this.pop;
             this.vMode = mode;
             this.form = item;
+            this.image_url = '';
+            this.hideLabel = false;
         },
 
         editBuilding(item) {
@@ -280,7 +283,7 @@ export default {
         },
 
         uploadImage(){
-            this.hideLabel = true
+            this.hideLabel = true;
             let input = this.$refs.buildingLogo;
             let file = input.files;
             if (file && file[0]) {
@@ -308,6 +311,8 @@ export default {
                         buildingType: '',
                         status: false,
                     });
+                    this.image_url = '',
+                    this.hideLabel = false
                     this.open = !this.open;
                     createToast({
                         title: 'Success!',
@@ -360,6 +365,7 @@ export default {
 
             })
         },
+        
         async getData(page = 1) {
             await axios.get('/api/building?page=' + page).then((data) => {
                 this.data = data.data.data;
@@ -373,12 +379,18 @@ export default {
         },
 
         getBuildingTypes() {
-            axios.get('/api/get-building-types').then((data) => { this.building_types = data.data.data }).catch((e) => {
+            axios.get('/api/get-building-types').then((data) => { 
+                this.building_types = data.data.data 
+            }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        hasError(thisBool) {
-            return hasBool ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : 'focus:ring-2 focus:ring-inset focus:ring-cyan-600 text-gray-900 ring-gray-300 placeholder:text-gray-400';
+        
+        forClass() {
+            return this.form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' '
+        },
+        forMessage() {
+            return this.editMode ? ' ' : this.form.errors.get('buildingType')
         }
     },
 

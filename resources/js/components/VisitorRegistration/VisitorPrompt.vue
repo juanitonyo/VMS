@@ -5,7 +5,7 @@
 
             <div class="flex flex-col items-center justify-center md:m-1">
                 <p class="m-3 text-2xl md:text-3xl font-bold">{{ this.buildings.buildingName }}</p>
-                <img src="https://picsum.photos/400/400" alt="no photo"
+                <img :src="'/uploads/images/' + this.buildings.logo" alt="no photo"
                     class="shadow-lg shadow-indigo-200 rounded-md">
             </div>
 

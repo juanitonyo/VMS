@@ -143,14 +143,6 @@ import {
   UserGroupIcon,
   XMarkIcon,
 } from '@heroicons/vue/24/outline'
-import {
-  BanknotesIcon,
-  BuildingOfficeIcon,
-  CheckCircleIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  MagnifyingGlassIcon,
-} from '@heroicons/vue/20/solid'
 
 const navigation = [
   { name: 'Home', href: '#', icon: HomeIcon, current: true },

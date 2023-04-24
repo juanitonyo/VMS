@@ -39,12 +39,11 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900 ">
-                                        </td>
+                                    <tr v-for="item in data.data" :key="item.id">
+                                        <td class="text-left px-3 py-4 text-xs text-gray-900">{{ item.name }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.refId }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
@@ -66,5 +65,31 @@
 </template>
 
 <script>
+import axios from 'axios';
+
+export default {
+    name: 'VisitorLogs',
+    props: {
+        data: {
+            type: Object,
+            default: {}
+        }
+    },
+    data() {
+        return {
+            data: {},
+        }
+    },
+    method: {
+        
+    },
+    created() {
+        axios.get('/api/visitors/').then((data) => {
+            this.data = data.data.data;
+            console.log(this.data.data.length);
+        }).catch((e) => {
+            // errorMessage('Opps!', e.message, 'top-right')
+        });
+    },}
 
 </script>

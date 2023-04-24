@@ -52,7 +52,7 @@
                         </div>
                     </a>
 
-                    <a :href="'/visitor-registration/#/' + this.id"
+                    <a :href="'/visitor-registration/SignIn/invite/' + this.id"
                         class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
