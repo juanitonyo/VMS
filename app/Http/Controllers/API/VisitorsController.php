@@ -18,6 +18,15 @@ class VisitorsController extends BaseController
         return $this->sendResponse($data, "Fetched all Visitors in Array");
     }
 
+    public function existingVisitor($email, $refId) {
+        $data = Visitors::where([
+            'email' => $email,
+            'refId' => $refId
+        ])->first(['id', 'name']);
+
+        return $this->sendResponse($data, "Found data in table");
+    }
+
     /**
      * Show the form for creating a new resource.
      */

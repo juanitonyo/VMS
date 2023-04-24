@@ -9,6 +9,7 @@ import Router from "@/router";
 import CKEditor from '@ckeditor/ckeditor5-vue';
 import Form from "vform";
 import vSelect from "vue-select";
+// import GAuth from 'vue-google-oauth2';
 
 import moshaToast from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
@@ -28,6 +29,12 @@ const options = {
     inverse: false,
 };
 
+// const gauthOption = {
+//     clientId: '222707419554-ga7luubib7v678d3u2cmfj94etum8f5m.apps.googleusercontent.com',
+//     scope: 'profile email',
+//     prompt: 'select_account'
+// };
+
 const app = createApp({});
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
@@ -37,5 +44,6 @@ app.use(pinia, moshaToast, Form);
 app.use(VueProgressBar, options);
 app.use(CKEditor);
 app.component("v-select", vSelect);
+// app.use(GAuth, gauthOption);
 
 app.mount('#app');

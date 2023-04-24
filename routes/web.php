@@ -20,8 +20,13 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('{any}', function () {
     return view('app');
 })->where('any', '.*');
-
-Route::get('/auth/google', 'GoogleAuthController@redirect');
-Route::get('/auth/google/call-back', 'GoogleAuthController@callbackGoogle');
+ 
+// Route::get('/auth/redirect', function () {
+//     return Socialite::driver('google')->redirect();
+// });
+ 
+// Route::get('/auth/callback', function () {
+//     $user = Socialite::driver('google')->user();
+// });
 
 Auth::routes();

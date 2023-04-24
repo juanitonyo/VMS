@@ -187,7 +187,7 @@ const routes = [
                 },
             },
             {
-                name: "regpolicy",
+                name: "regsuccess",
                 path: "/visitor-registration/success/:id",
                 component: RegSuccess,
                 meta: {
