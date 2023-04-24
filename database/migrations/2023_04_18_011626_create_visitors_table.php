@@ -18,6 +18,8 @@ return new class extends Migration
             $table->string('name');
             $table->string('contact');
             $table->string('validId');
+            $table->string('google_id')->nullable();
+            $table->boolean('status')->default(false);
             $table->boolean('policy')->default(false);
             $table->timestamps();
         });

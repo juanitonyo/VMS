@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Visitors extends Model
 {
@@ -16,10 +15,7 @@ class Visitors extends Model
         'name',
         'contact',
         'validId',
-        'policy'
+        'policy',
+        'status'
     ];
-
-    public function refId(): HasOne {
-        return $this->hasOne(Building::class, 'id', 'refId')->select(['id', 'qr_id']);
-    }
 }

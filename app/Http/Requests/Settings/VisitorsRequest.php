@@ -26,9 +26,9 @@ class VisitorsRequest extends FormRequest
 
     public function createRules() :array {
         return [
-            'email' => 'required|unique:visitors|max:100',
-            'refId' => 'required',
             'name' => 'required',
+            'refId' => 'required',
+            'email' => 'required',
             'contact' => 'required',
             'validId' => 'required',
             'policy' => 'required'
@@ -37,9 +37,9 @@ class VisitorsRequest extends FormRequest
 
     public function updateRules(){
         return [
-            'params.data.email' => 'required|max:100|unique:visitors,id,'.$this->get('id'),
-            'params.data.refId' => 'required',
             'params.data.name' => 'required',
+            'params.data.refId' => 'required',
+            'params.data.email' => 'required',
             'params.data.contact' => 'required',
             'params.data.validId' => 'required',
             'params.data.policy' => 'required'

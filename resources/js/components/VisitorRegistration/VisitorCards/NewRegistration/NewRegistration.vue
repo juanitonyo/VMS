@@ -20,89 +20,86 @@
                     </label>
                     <p class="text-[10px] text-gray-400 mt-1">Upload Photo</p>
 
-                    <form @submit.prevent="showPolicy()">
+                    <div class="flex flex-col mt-8 relative">
+                        <div class="flex flex-row items-center">
+                            <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
+                            <input v-model="form.name" type="text"
+                                :class="form.errors.has('name') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                        </div>
+                        <p v-show="form.errors.has('name')"
+                            class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500 mb-0 ">{{
+                                form.errors.get('name') }}</p>
+                    </div>
 
-                        <div class="flex flex-col mt-8 relative">
-                            <div class="flex flex-row items-center">
-                                <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
-                                <input v-model="form.name" type="text"
-                                    :class="form.errors.has('name') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
-                            </div>
-                            <p v-show="form.errors.has('name')"
-                                class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500 mb-0 ">{{
-                                    form.errors.get('name') }}</p>
+                    <div class="flex items-center mt-6 relative">
+                        <div class="flex flex-row items-center">
+                            <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
+                            <input v-model="form.email" type="email"
+                                :class="form.errors.has('email') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                            <p v-show="form.errors.has('email')"
+                                class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
+                                    form.errors.get('email') }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center mt-6 relative">
+                        <div class="flex flex-row items-center">
+                            <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
+                            <input v-model="form.contact" type="text"
+                                :class="form.errors.has('contact') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                            <p v-show="form.errors.has('contact')"
+                                class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
+                                    form.errors.get('contact') }}</p>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center mt-6 gov-ids relative">
+                        <div class="flex flex-row items-center">
+                            <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
+                            <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label"
+                                :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'"></v-select>
+                            <span v-show="form.errors.has('validId')"
+                                class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
+                                    form.errors.get('validId') }}</span>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 flex flex-row justify-end">
+                        <div class="flex flex-row items-center">
+                            <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
+                            <label for="dropzone-file" :style="{ 'background-image': `url(${front_url})` }"
+                                @click="$refs.front.click()"
+                                class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6"
+                                    :class="{ 'hidden': hideLabel }">
+                                    <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
+                                </div>
+                                <input id="dropzone-file" ref="front" type="file" class="opacity-0"
+                                    @input="uploadImage" />
+                            </label>
                         </div>
 
-                        <div class="flex items-center mt-6 relative">
-                            <div class="flex flex-row items-center">
-                                <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
-                                <input v-model="form.email" type="email"
-                                    :class="form.errors.has('email') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
-                                <p v-show="form.errors.has('email')"
-                                    class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
-                                        form.errors.get('email') }}</p>
-                            </div>
+                        <div class="flex flex-row items-center ml-2">
+                            <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
+                            <label for="dropzone-file" :style="{ 'background-image': `url(${back_url})` }"
+                                @click="$refs.back.click()"
+                                class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                                <div class="flex flex-col items-center justify-center pt-5 pb-6"
+                                    :class="{ 'hidden': hideLabel }">
+                                    <img src="/Visitor_Homepage_Assets/backID.png" alt="">
+                                </div>
+                                <input id="dropzone-file" ref="back" type="file" class="opacity-0"
+                                    @change="uploadImage" />
+                            </label>
                         </div>
+                    </div>
 
-                        <div class="flex items-center mt-6 relative">
-                            <div class="flex flex-row items-center">
-                                <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
-                                <input v-model="form.contact" type="text"
-                                    :class="form.errors.has('contact') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
-                                <p v-show="form.errors.has('contact')"
-                                    class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
-                                        form.errors.get('contact') }}</p>
-                            </div>
-                        </div>
-
-                        <div class="flex items-center mt-6 gov-ids relative">
-                            <div class="flex flex-row items-center">
-                                <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
-                                <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label"
-                                    :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'"></v-select>
-                                <span v-show="form.errors.has('validId')"
-                                    class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
-                                        form.errors.get('validId') }}</span>
-                            </div>
-                        </div>
-
-                        <div class="mt-8 flex flex-row justify-end">
-                            <div class="flex flex-row items-center">
-                                <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
-                                <label for="dropzone-file" :style="{ 'background-image': `url(${front_url})` }"
-                                    @click="$refs.front.click()"
-                                    class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                                        :class="{ 'hidden': hideLabel }">
-                                        <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
-                                    </div>
-                                    <input id="dropzone-file" ref="front" type="file" class="opacity-0"
-                                        @input="uploadImage" />
-                                </label>
-                            </div>
-
-                            <div class="flex flex-row items-center ml-2">
-                                <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
-                                <label for="dropzone-file" :style="{ 'background-image': `url(${back_url})` }"
-                                    @click="$refs.back.click()"
-                                    class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                                        :class="{ 'hidden': hideLabel }">
-                                        <img src="/Visitor_Homepage_Assets/backID.png" alt="">
-                                    </div>
-                                    <input id="dropzone-file" ref="back" type="file" class="opacity-0"
-                                        @change="uploadImage" />
-                                </label>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-row mt-10 justify-center gap-x-8">
-                            <a :href="'/visitor-registration/SignIn/reg/' + this.id"
-                                class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
-                            <button type="submit" href="#"
-                                class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
-                        </div>
-                    </form>
+                    <div class="flex flex-row mt-10 justify-center gap-x-8">
+                        <a :href="'/visitor-registration/new/reg/' + this.id"
+                            class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
+                        <button @click="submitPolicy(form.email)" href="#"
+                            class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
+                    </div>
                 </div>
             </div>
 
@@ -111,7 +108,7 @@
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                     <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
-                    <form @submit.prevent="">
+                    <form @submit.prevent="submitForm()">
                         <div
                             class="relative flex flex-row items-center justify-center w-[340px] text-gray-600 font-extralight mt-10 gap-x-3">
                             <input v-model="form.policy" type="checkbox" class="absolute top-0 left-0 w-5 h-5"
@@ -135,11 +132,11 @@
                         <div class="flex flex-row mt-10 justify-center gap-x-8">
                             <router-link :to="'/visitor-registration/SignIn/reg/' + this.id"
                                 class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                            <router-link :to="enableButton ? '/visitor-registration/success/' + this.id : '/#'">
-                                <input type="submit" value="Submit" :disabled="!enableButton"
+                                <button type="submit" :disabled="!enableButton"
                                     :class="[enableButton ? 'bg-blue-700' : 'bg-gray-600']"
                                     class="w-[145px] h-[33px] bg-blue-700 rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
-                            </router-link>
+                                    Submit
+                                </button>
                         </div>
                     </form>
                 </div>
@@ -152,6 +149,7 @@
 <script>
 import axios from 'axios';
 import Form from 'vform';
+import { createToast } from 'mosha-vue-toastify'
 
 export default {
     name: "Visitor Registration Form",
@@ -174,7 +172,9 @@ export default {
                 validId: '',
                 policy: false,
             }),
+            email: '',
             buildings: {},
+            account: {},
             profile_url: null,
             front_url: null,
             back_url: null,
@@ -201,46 +201,86 @@ export default {
         }
     },
     methods: {
-        uploadImage(event) {
-            this.hideLabel = true
-            // let input = this.$refs.front;
-            let input = event.target;
+
+        uploadImage() {
+            this.hideLabel = true;
+            let input = this.$refs.front;
             let file = input.files;
             if (file && file[0]) {
                 let reader = new FileReader();
                 reader.onload = (e) => {
-                    this.profile = e.target.result;
-                    // this.form.logo = e.target.result;
+                    this.image_url = e.target.result;
+                    this.form.logo = e.target.result;
                 };
                 reader.readAsDataURL(file[0]);
-                // this.$emit("input", file[0]);
+                this.$emit("input", file[0]);
             }
         },
-        showPolicy() {
-            //validate form
-            this.form.post('/api/visitors/')
-                .then((data) => {
-                    this.isFormComplete = true
-                }).catch((error) => {
-                    this.$Progress.fail();
-                })
-        },
-        saveLog() {
 
+        submitForm() {
+            this.$Progress.start();
+            this.form.post('/api/visitors')
+            .then((data) => {
+                this.$Progress.finish();
+
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been saved.'
+                    },
+                    {
+                    position: 'top-left',
+                    showIcon: 'true',
+                    type: 'success',
+                    toastBackgroundColor: '#00bcd4',
+                    hideProgressBar: 'true',
+                    toastBackgroundColor: '#00bcd4',
+
+                })
+                
+                this.$router.push('/visitor-registration/success/' + this.id);
+            }).catch((error) => {
+                this.$Progress.fail();
+                console.log(error);
+            })
+        },
+
+        submitPolicy(email) {   
+            axios.get('/api/visitor-query/' + email + '/' + this.buildings.id)
+                .then((data) => {
+                    this.account = data.data.data;
+                    
+                    if(this.account != null) {
+                        this.$router.push('/visitor-registration/Signin/checkin/' + this.id);
+                    }
+
+                    else {
+                        this.isFormComplete = !this.isFormComplete;
+                    }
+                    
+                })
+            .catch((e) => {
+                
+            });
         },
 
         isChecked() {
             this.enableButton = !this.enableButton
-        }
-    },
-    created() {
-        axios.get('/api/visitor-registration/' + this.id)
-            .then((data) => {
-                this.buildings = data.data.data;
-            })
+        },
+
+        async getData() {
+            await axios.get('/api/visitor-registration/' + this.id)
+                    .then((data) => {
+                        this.buildings = data.data.data;
+                    })
             .catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
+        }
+
+    },
+    created() {
+        this.getData();
+        // this.submitPolicy();
     },
 }
 

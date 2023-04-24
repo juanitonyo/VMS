@@ -43,8 +43,9 @@ class BuildingTypesController extends BaseController
     public function store(BuildingTypeRequest $request)
     {
 
-      $data = BuildingTypes::create($request->validated());
-      return $this->sendResponse($data, "Saved Data");
+        $data = BuildingTypes::create($request->validated());
+        return $this->sendResponse($data, "Saved Data");
+      
     }
 
     /**
@@ -69,13 +70,13 @@ class BuildingTypesController extends BaseController
     public function update(BuildingTypeRequest $request, $id)
     {
 
-      $data = BuildingTypes::findOrFail($id)->update([
-        'name' => $request->params['data']['name'],
-        'description' => $request->params['data']['description'],
-        'delivery_form' => $request->params['data']['delivery_form'],
-        'status' => $request->params['data']['status'],
-      ]);
-       return $this->sendResponse($request->validated(), "Updated Data");
+        $data = BuildingTypes::findOrFail($id)->update([
+            'name' => $request->params['data']['name'],
+            'description' => $request->params['data']['description'],
+            'delivery_form' => $request->params['data']['delivery_form'],
+            'status' => $request->params['data']['status'],
+        ]);
+        return $this->sendResponse($request->validated(), "Updated Data");
     }
 
     /**
