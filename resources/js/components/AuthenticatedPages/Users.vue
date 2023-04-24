@@ -25,6 +25,8 @@
                                             Name</th>
                                         <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">
                                             Email</th>
+                                        <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">
+                                            Assigned Building</th>
                                         <th scope="col"
                                             class="text-center px-3 py-3.5  text-sm font-semibold text-gray-900">
                                             Verified</th>
@@ -42,22 +44,20 @@
                                         }}</td>
                                         <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">{{ item.email }}
                                         </td>
+                                        <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">{{ item.user_building.building.buildingName }}
+                                        </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
                                             item.email_verified_at != null ? 'Yes' : 'No' }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500"></td>
                                         <td
                                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
-                                            <a @click.prevent="editBuilding(item)" href="#"
+                                            <a @click.prevent="editUser(item)" href="#"
                                                 class="text-indigo-400 hover:text-indigo-900 text-xs">Edit</a>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
-                    </div>
-
-                    <div class="flex items-center justify-end mt-3">
-                        <TailwindPagination :data="data" @pagination-change-page="getData" />
                     </div>
                 </div>
             </div>
@@ -68,7 +68,6 @@
                     <form @submit.prevent="editMode ? updateUser() : saveUser()">
                         <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                             <div class="my-4 grid grid-cols-1">
-
                                 <div class="sm:col-span-3 mt-3">
                                     <NormalInput v-model="form.name" label="Name" id="user-name"
                                         :hasError="this.editMode ? false : form.errors.has('name')"
@@ -79,6 +78,17 @@
                                         :hasError="this.editMode ? false : form.errors.has('email')"
                                         :errorMessage="this.editMode ? false : form.errors.get('email')">
                                     </NormalInput>
+                                </div>
+                                <div class="sm:col-span-3 mt-3 text-sm">
+                                    <label for="email_subj"
+                                        class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
+                                        Buildings</label>
+
+                                    <v-select v-model="form.building" placeholder="search" :options="buildings"
+                                        label="label"
+                                        :class="form.errors.has('building') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
+                                    <span v-show="form.errors.has('building')"
+                                        class="text-xs/2 text-red-600 dark:text-red-500">{{ }}</span>
                                 </div>
                             </div>
                         </div>
@@ -99,13 +109,13 @@
 </template>
   
 <script>
+
+import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
+import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
+import SliderVue from '@/components/Elements/Modals/Slider.vue'
+import { createToast } from 'mosha-vue-toastify';
 import axios from "axios";
 import Form from "vform";
-import SliderVue from '@/components/Elements/Modals/Slider.vue'
-import NormalInput from "../Elements/Inputs/NormalInput.vue";
-import { createToast } from 'mosha-vue-toastify';
-import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
-import { TailwindPagination } from 'laravel-vue-pagination';
 
 export default {
     name: "Users",
@@ -127,7 +137,9 @@ export default {
                 id: '',
                 name: '',
                 email: '',
+                building: '',
             }),
+            buildings: []
         }
     },
     methods: {
@@ -138,6 +150,7 @@ export default {
                 id: '',
                 name: '',
                 email: '',
+                building: '',
             })
         },
         saveUser() {
@@ -150,6 +163,7 @@ export default {
                         id: '',
                         name: '',
                         email: '',
+                        building: '',
                     });
                     this.open = !this.open;
                     createToast({
@@ -169,10 +183,13 @@ export default {
                     this.$Progress.fail();
                 })
         },
-        editBuilding(item) {
+        editUser(item) {
             this.editMode = true;
             this.open = !this.open;
-            this.form = item;
+            this.form.id = item.id;
+            this.form.name = item.name;
+            this.form.email = item.email;
+            this.form.building = { value: item.user_building.building.id, label: item.user_building.building.buildingName };
         },
         updateUser() {
             axios.put("/api/user/" + this.form.id, {
@@ -187,6 +204,7 @@ export default {
                     id: '',
                     name: '',
                     email: '',
+                    building: '',
                 });
                 this.open = !this.open;
                 createToast({
@@ -212,10 +230,19 @@ export default {
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
-        }
+        },
+
+        getBuildings() {
+            axios.get('/api/get-buildings').then((data) => {
+                this.buildings = data.data.data
+            }).catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+            });
+        },
     },
     created() {
         this.getData();
+        this.getBuildings();
     }
 }
 </script>

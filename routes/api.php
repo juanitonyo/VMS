@@ -23,6 +23,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::post('login', 'AuthController@login');
 
     Route::get('get-building-types', 'BuildingTypesController@getBuildingTypeArray');
+    Route::get('get-buildings', 'BuildingController@getBuildingsArray');
     Route::get('visitor-registration/{id}', 'BuildingController@getBuilding');
 
     Route::apiResources([

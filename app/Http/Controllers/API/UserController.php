@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\API;
 
 use App\Models\User;
+use App\Models\UserBuildings;
 use Illuminate\Http\Request;
 
 class UserController extends BaseController
@@ -12,7 +13,8 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $data = User::paginate(10);
+        $data = User::whereHas('userBuilding')->with('userBuilding.building')->latest()->paginate(100);
+
         return $this->sendResponse($data, "All users in array");
     }
 
@@ -29,8 +31,16 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
-      $data = User::create($request->all());
-      return $this->sendResponse($data, "Saved Data");
+        $data = User::create($request->all());
+
+        if ($request->building) {
+            UserBuildings::create([
+                'user_id' => $data->id,
+                'building_id' => $request->building['value']
+            ]);
+        }
+
+        return $this->sendResponse($data, "Saved Data");
     }
 
     /**
@@ -55,11 +65,18 @@ class UserController extends BaseController
     public function update(Request $request, $id)
     {
 
-      $data = User::findOrFail($id)->update([
-        'name' => $request->params['data']['name'],
-        'email' => $request->params['data']['email'],
-      ]);
-       return $this->sendResponse($request->all(), "Updated Data");
+        $data = User::findOrFail($id)->update([
+            'name' => $request->params['data']['name'],
+            'email' => $request->params['data']['email'],
+        ]);
+
+        if ($request->params['data']['building']) {
+            UserBuildings::where('user_id', $id)->update([
+                'building_id' => $request->params['data']['building']['value']
+            ]);
+        }
+
+        return $this->sendResponse($request->params['data']['building'], "Updated Data");
     }
 
     /**

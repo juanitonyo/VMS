@@ -45,4 +45,9 @@ class User extends Authenticatable
     protected $attributes = [
         'password' => 'password',
     ];
+
+    public function userBuilding()
+    {
+        return $this->hasOne(UserBuildings::class, 'user_id', 'id');
+    }
 }

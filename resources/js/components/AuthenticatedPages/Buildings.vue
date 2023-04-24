@@ -298,6 +298,7 @@ export default {
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
+                    console.log(data);
                     this.$Progress.finish();
                     this.getData();
                     this.form = new Form({
