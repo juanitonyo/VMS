@@ -8,7 +8,7 @@
               <TransitionChild as="template" enter="transform transition ease-in-out duration-400 sm:duration-700" enter-from="translate-x-full" enter-to="translate-x-0" leave="transform transition ease-in-out duration-400 sm:duration-700" leave-from="translate-x-0" leave-to="translate-x-full">
                 <DialogPanel class="pointer-events-auto w-screen max-w-md">
                   <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl rounded-l-md">
-                    <div class="bg-gray-700 py-6 px-4 sm:px-6 rounded-tl-md">
+                    <div class="bg-gray-900 py-6 px-4 sm:px-6 rounded-tl-md">
                       <div class="flex items-center justify-between">
                         <DialogTitle class="text-base font-semibold leading-6 text-white">{{ title }}</DialogTitle>
                         <div class="ml-3 flex h-7 items-center">
@@ -59,12 +59,6 @@ export default {
   components: {
     Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot, XMarkIcon
   },
-  data() {
-
-        },
-        methods:{
-          
-        }
 
 }
 </script>
