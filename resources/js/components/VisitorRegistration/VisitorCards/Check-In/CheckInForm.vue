@@ -95,7 +95,7 @@
                                 :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
                                 class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
                         </router-link>
-                        <router-link :to="'/visitor-registration/new/checkin/' + this.id"
+                        <router-link :to="'/visitor-registration/SignIn/checkin/' + this.id"
                             class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
                     </div>
 

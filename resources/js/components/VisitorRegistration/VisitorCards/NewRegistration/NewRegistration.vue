@@ -97,7 +97,7 @@
                         </div>
 
                         <div class="flex flex-row mt-10 justify-center gap-x-8">
-                            <a :href="'/visitor-registration/new/reg/' + this.id"
+                            <a :href="'/visitor-registration/SignIn/reg/' + this.id"
                                 class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
                             <button type="submit" href="#"
                                 class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
@@ -133,7 +133,7 @@
                         </div>
 
                         <div class="flex flex-row mt-10 justify-center gap-x-8">
-                            <router-link :to="'/visitor-registration/new/reg/' + this.id"
+                            <router-link :to="'/visitor-registration/SignIn/reg/' + this.id"
                                 class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
                             <router-link :to="enableButton ? '/visitor-registration/success/' + this.id : '/#'">
                                 <input type="submit" value="Submit" :disabled="!enableButton"

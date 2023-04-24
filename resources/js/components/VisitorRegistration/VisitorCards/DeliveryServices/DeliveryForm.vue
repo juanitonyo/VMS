@@ -92,7 +92,7 @@
                         </div>
 
                     </div>
-
+                    <!-- dont show below if health form for the building is false -->
                     <div>
                         <p class="text-xs text-blue-900 font-semibold leading-[20px] my-3">How are you feeling today?</p>
 
@@ -100,7 +100,7 @@
 
                             <button
                                 class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300"
-                                @click="isGood">
+                                @click="isGood" type="button">
                                 <img src="/Visitor_Homepage_Assets/happy.png" class="w-[36px] h-[35px]">
                                 <span class="text-[10px] text-gray-500">I am prefectly fine</span>
                             </button>
@@ -116,21 +116,19 @@
                     </div>
 
                     <div v-show="goodHealth" class="relative flex flex-row items-center justify-center w-[320px] text-gray-600 font-extralight mt-5 gap-x-3">
-                        <input type="checkbox" class="absolute top-1 left-0 w-5 h-5">
+                        <input type="checkbox" class="absolute top-1 left-0 w-5 h-5 ">
                         <span class=" ml-8 text-[11px] leading-4">I hereby affirm that I am in good physical condition and do
                             not suffer from any COVID-19 symptoms which would prevent on reporting physically in my office /
                             work station/ project site..
                         </span>
                     </div>
 
-                    <div class="flex flex-row justify-center items-center gap-3 mb-5 mt-5">
-                        <button class="text-xs text-white bg-gray-500 rounded-md h-[33px] w-[155px] mt-3">Close</button>
+                    <div class="flex flex-row justify-center items-center gap-3 mb-10 mt-5">
+                        <router-link :to="'/visitor-registration/SignIn/delivery/' + this.id"
+                                class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
                         <button class="text-xs text-white bg-blue-700 rounded-md h-[33px] w-[155px] mt-3">Next</button>
                     </div>
-
-
                 </form>
-
             </div>
         </div>
     </div>
