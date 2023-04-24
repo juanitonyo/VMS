@@ -16,14 +16,15 @@ use Laravel\Socialite\Facades\Socialite;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+Route::get('/login-google', [App\Http\Controllers\GoogleAuthController::class, 'login'])->middleware('guest')->name('google.login');
+Route::get('/auth/google/callback', [App\Http\Controllers\GoogleAuthController::class, 'callbackGoogle'])->middleware('guest')->name('google.login.callback');
+
 
 Route::get('{any}', function () {
     return view('app');
 })->where('any', '.*');
  
-// Route::get('/auth/redirect', function () {
-//     return Socialite::driver('google')->redirect();
-// });
+
  
 // Route::get('/auth/callback', function () {
 //     $user = Socialite::driver('google')->user();
