@@ -25,6 +25,20 @@ class BuildingController extends BaseController
         return $this->sendResponse($data, "All buildings in array");
     }
 
+    public function getBuildingsArray(){
+        $data = Building::where('status', 1)->get();
+
+        $array = [];
+
+        foreach($data as $item){
+            $array[] = [
+                'value' => $item->id,
+                'label' => $item->buildingName
+            ]; 
+        }
+        return $this->sendResponse($array, "All buildings in array");
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -49,7 +63,7 @@ class BuildingController extends BaseController
         $validated['logo']   = $logo_link;
 
         $data = Building::create($validated);
-        return $this->sendResponse($data, "Saved Data");
+        return $this->sendResponse($logo_link, "Saved Data");
     }
 
     /**
