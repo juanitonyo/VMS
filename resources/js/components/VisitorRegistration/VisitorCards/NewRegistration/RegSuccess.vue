@@ -5,7 +5,7 @@
             <div class="flex flex-col items-center gap-y-5">
 
                 <div class="flex flex-col items-center justify-center gap-y-3">
-                    <img src="/Visitor_Homepage_Assets/successIcon.png" alt="no photo" class="w-12 h-12">
+                    <img src="/Visitor_Homepage_Assets/successIcon.png" class="w-12 h-12">
                     <p class="text-lg tracking-wide text-green-500 font-bold">Registration Successful</p>
                 </div>
 

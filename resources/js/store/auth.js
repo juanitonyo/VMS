@@ -7,10 +7,15 @@ export const userAuthStore = defineStore('userAuth', {
     state:() => ({
         authenticated: false,
         user:{},
+        roles: {
+            name: null,
+            permissions: {}
+        }
     }),
     getters:{
         getUser: (state) => state.user,
         getAuthentition: (state) => state.authenticated,
+        getRoleAndPermission: (state) => state.roles,
     },
     actions:{
         async getToken(){

@@ -10,6 +10,7 @@ import CKEditor from '@ckeditor/ckeditor5-vue';
 import Form from "vform";
 import vSelect from "vue-select";
 // import GAuth from 'vue-google-oauth2';
+import VueQrcodeReader from "vue3-qrcode-reader";
 
 import moshaToast from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
@@ -45,5 +46,6 @@ app.use(VueProgressBar, options);
 app.use(CKEditor);
 app.component("v-select", vSelect);
 // app.use(GAuth, gauthOption);
+app.use(VueQrcodeReader);
 
 app.mount('#app');
