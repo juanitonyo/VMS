@@ -1,6 +1,6 @@
 <template>
-    <TransitionRoot appear as="template" :show="isOpen">
-        <Dialog as="div" class="relative z-10" @close="isOpen = false">
+    <TransitionRoot appear as="template" :show="isPop">
+        <Dialog as="div" class="relative z-10" @close="isPop = false">
             <TransitionChild as="template" enter="ease-out duration-300" enter-from="opacity-0" enter-to="opacity-100"
                 leave="ease-in duration-200" leave-from="opacity-100" leave-to="opacity-0">
                 <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
@@ -21,7 +21,7 @@
                                         {{ Title }}
                                     </DialogTitle>
                                 </div>
-                                <div class="mt-2">
+                                <div class="mt-4">
                                     <slot name="body"></slot>
                                 </div>
                             </div>
@@ -41,14 +41,13 @@ import {
     DialogPanel,
     DialogTitle,
 } from '@headlessui/vue'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
 export default {
     props: {
-        isOpen: {
+        isPop: {
             type: Boolean,
             default: true
         },
-        Title: {
+        Title:{
             type: String,
             default: ''
         }
@@ -59,7 +58,6 @@ export default {
         Dialog,
         DialogPanel,
         DialogTitle,
-        XMarkIcon
     }
 }
 </script>

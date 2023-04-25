@@ -6,6 +6,7 @@ import { userAuthStore } from "@/store/auth";
 const AuthenticatedLayout = () => import("@/components/Layouts/AuthenticatedLayout.vue");
 const GuestLayout = () => import("@/components/Layouts/GuestLayout.vue");
 const VisitorQRLayout = () => import("@/components/Layouts/VisitorQRLayout.vue");
+const HostQRLayout = () => import("@/components/Layouts/HostQRLayout.vue");
 /* Layouts */
 
 // GUEST PAGES
@@ -19,6 +20,10 @@ const Users = () => import("@/components/AuthenticatedPages/Users.vue");
 const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
+const Testing = () => import("@/components/AuthenticatedPages/testing.vue");
+
+// HOST REGISTRATION PAGE
+const HostRegistration = () => import("@/components/HostRegistration/HostRegistration.vue");
 
 // VISITOR REGISTRATION PAGE
 const VisitorPrompt = () => import("@/components/VisitorRegistration/VisitorPrompt.vue");
@@ -296,6 +301,33 @@ const routes = [
                 },
             },
         ],
+    },
+    {
+        path: "/homeowner-registration",
+        component: HostQRLayout,
+        meta: {
+            middleware: "hqr",
+            title: `VMS | Homeowner Registration`,
+        },
+        children: [
+            {
+                name: "hostreg",
+                path: "/homeowner-registration/:id",
+                component: HostRegistration,
+                meta: {
+                    title: `VMS | Homeowner Registration`,
+                },
+            },
+        ],
+    },
+
+    {
+        path: "/testing",
+        component: Testing,
+        meta: {
+            middleware: "test",
+            title: `Test`,
+        },
     },
 ];
 
