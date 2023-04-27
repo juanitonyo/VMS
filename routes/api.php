@@ -34,7 +34,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'sms-template' => 'SMSTemplateController',  
         'building' => 'BuildingController',
         'visitors' => 'VisitorsController',
-        // 'hostreg' => 'VisitorsController',
+        'hostreg' => 'HostController',
         
     ]);
 });
