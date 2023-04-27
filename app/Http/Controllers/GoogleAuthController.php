@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\Visitors;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Cookie;
 
 class GoogleAuthController extends Controller
 {
@@ -14,7 +15,7 @@ class GoogleAuthController extends Controller
         return Socialite::driver('google')->redirect();
     }
 
-    public function callbackGoogle() {
+    public function callbackGoogle(Request $request) {
       
         try {
             $google_user = Socialite::driver('google')->user();
@@ -22,21 +23,19 @@ class GoogleAuthController extends Controller
             $user = Visitors::where('google_id', $google_user->getId())->first();
             
             if($user) {
-                Auth::login($user);
-            
-                return redirect()->intended('/app/dashboard');
+                $username = $google_user->getName();
+
+                return redirect()->intended('/visitor-registration/create/'.$_COOKIE['buildingUUID'])->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
             }
             else {
-            
+
                 $new_user = Visitors::create([
                     'name' => $google_user->getName(),
                     'email' => $google_user->getEmail(),
                     'google_id' => $google_user->getId()
                 ]);
-            
-                Auth::login($new_user);
 
-                return redirect()->intended('/app/dashboard');
+                return redirect()->intended('/visitor-registration/create/'.$_COOKIE['buildingUUID'])->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
 
             }
 

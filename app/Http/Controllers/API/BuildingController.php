@@ -91,7 +91,7 @@ class BuildingController extends BaseController
         $logo_binary = $request->params['data']['logo'];
         $data = Building::findOrFail($id);
         if($logo_binary){
-            unlink('public/uploads/images/'.$data->logo);
+            unlink('uploads/images/'.$data->logo);
             $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
             \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
         }
