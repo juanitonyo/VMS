@@ -146,7 +146,6 @@
                                     <div>
                                         <div class="flex items-center justify-center w-full">
                                             <label :style="{ 'background-image': `url(${image_url})` }"
-                                                @click="$refs.buildingLogo.click()"
                                                 class="flex flex-col justify-center  w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-cover bg-no-repeat">
                                                 <div class="flex flex-col items-center" :class="{ 'hidden': hideLabel }">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
@@ -302,14 +301,19 @@ export default {
             this.pop = !this.pop;
             this.vMode = mode;
             this.form = item;
-            this.image_url = '';
             this.hideLabel = false;
+
+            if(!this.editMode) {
+                this.image_url = '';
+            }
         },
 
         editBuilding(item) {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
+            this.image_url = this.form.logo;
+            console.log(this.form.logo);
             this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
         },
 
