@@ -55,7 +55,7 @@
 
                     <div class="flex items-center mt-6 relative">
                         <div class="gov-ids flex flex-row items-center">
-                            <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
+                            <label for="valid_id" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
                             <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label" :placeholder="'Valid ID'"
                                 :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'"></v-select>
                             <span v-show="form.errors.has('validId')"
@@ -149,7 +149,6 @@
 <script>
 import axios from 'axios';
 import Form from 'vform';
-import { createToast } from 'mosha-vue-toastify'
 
 export default {
     name: "Visitor Registration Form",
@@ -222,21 +221,6 @@ export default {
             this.form.post('/api/visitors')
             .then((data) => {
                 this.$Progress.finish();
-
-                createToast({
-                    title: 'Success!',
-                    description: 'Data has been saved.'
-                    },
-                    {
-                    position: 'top-left',
-                    showIcon: 'true',
-                    type: 'success',
-                    toastBackgroundColor: '#00bcd4',
-                    hideProgressBar: 'true',
-                    toastBackgroundColor: '#00bcd4',
-
-                })
-                
                 this.$router.push('/visitor-registration/success/' + this.id);
             }).catch((error) => {
                 this.$Progress.fail();

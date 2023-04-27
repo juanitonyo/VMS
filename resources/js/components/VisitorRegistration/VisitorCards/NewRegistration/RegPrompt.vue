@@ -54,7 +54,7 @@
 import axios from 'axios';
 import buttonToInput from '../../../Elements/Buttons/buttonToInput.vue'
 
-export default {
+export default{
     name: 'Visitor Prompt',
 
     components: {

@@ -26,7 +26,6 @@ class VisitorsController extends BaseController
 
         return $this->sendResponse($data, "Found data in table");
     }
-
     /**
      * Show the form for creating a new resource.
      */
