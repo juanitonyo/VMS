@@ -47,6 +47,8 @@ export default {
             .catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
+
+        setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 3000);
     },
 }
 </script>

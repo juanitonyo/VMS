@@ -12,8 +12,8 @@
                       <div class="flex items-center justify-between">
                         <DialogTitle class="text-base font-semibold leading-6 text-white">{{ title }}</DialogTitle>
                         <div class="ml-3 flex h-7 items-center">
-                          <button type="button" class="rounded-md bg-gray-700 text-gray-200 hover:text-white focus:outline-none focus:ring-2 focus:ring-white" @click="setOpen = false">
-                            <XMarkIcon class="h-6 w-6" aria-hidden="true" />
+                          <button type="button" class="rounded-md text-white" @click="setOpen = false">
+                            <p class="text-lg font-bold"> X </p>
                           </button>
                         </div>
                       </div>

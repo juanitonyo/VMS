@@ -24,7 +24,7 @@
                         <p class="text-xs text-gray-400 mb-3 italic text-center"> Note: Place the QR Code sent to you
                             infront of the camera</p>
                         <qrcode-stream @decode="onDecode" @init="onInit">
-                            <div class="loading-indicator" v-if="loading">
+                            <div class="loading-indicator animate-pulse" v-if="loading">
                                 Loading...
                             </div>
                         </qrcode-stream>
