@@ -18,7 +18,7 @@ class GoogleAuthController extends Controller
       
         try {
             $google_user = Socialite::driver('google')->user();
-            
+            dd($google_user);
             $user = Visitors::where('google_id', $google_user->getId())->first();
             
             if($user) {
@@ -31,7 +31,8 @@ class GoogleAuthController extends Controller
                 $new_user = Visitors::create([
                     'name' => $google_user->getName(),
                     'email' => $google_user->getEmail(),
-                    'google_id' => $google_user->getId()
+                    'google_id' => $google_user->getId(),
+                    'contact' => '09174617171'
                 ]);
             
                 Auth::login($new_user);
