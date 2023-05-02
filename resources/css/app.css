@@ -16,6 +16,10 @@
     border: none;
 }
 
+.gov-ids .vs__search::placeholder{
+    color: #808080;
+}
+
 .gov-ids .vs__search:focus{
     font-size: 9px;
 }
@@ -120,5 +124,64 @@
     height:28px; 
     border: none;
 }
+
+.qrScanner .qrcode-stream-camera{
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+    border-radius: 15px;
+}
+
+.qrcode-stream-overlay{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: large;
+    font-weight: 700;
+    color: #19376D;
+}
+
+.qrScanner .qrcode-stream-wrapper .qrcode-stream-camera{
+    height: 350px;
+}
+
+.valid_ids .vs__search{
+    height: 28px;
+    font-size: 12px;
+    border: none;
+}
+
+.valid_ids .vs__selected{
+    height: 28px;
+}
+
+.valid_ids .vs__search::placeholder{
+    color: #808080;
+}
+
+.valid_ids .vs__actions .vs__open-indicator{
+    margin-top: 8px;
+}
+.valid_ids .vs__actions .vs__clear{
+    margin-top: 8px;
+}
+
+.valid_ids .vs__search:focus{
+    font-size: 12px;
+}
+
+.valid_ids::placeholder{
+    font-size: 12px;
+    color: #808080;
+}
+
+.valid_ids::placeholder:focus{
+    font-size: 12px;
+    color: #808080;
+}
+
+.valid_ids .vs__dropdown-toggle{
+    height: 28px; 
+    border: none;
+}
+
 
 

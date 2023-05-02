@@ -37,7 +37,8 @@
                                 }}</td>
                                 <td class=" px-3 py-4 text-xs text-left w-40 text-gray-500">{{ item.purpose }}</td>
                                 <td class=" px-3 py-4 text-xs text-left w-56 text-gray-500">{{ item.subject }}</td>
-                                <td class=" px-3 py-4 text-xs text-left whitespace-nowrap  text-indigo-400  hover:text-indigo-900">
+                                <td
+                                    class=" px-3 py-4 text-xs text-left whitespace-nowrap  text-indigo-400  hover:text-indigo-900">
                                     <a @click.prevent="isOpen(item)" href="">[ View Content ]</a>
                                 </td>
                                 <td class=" px-3 py-4 w-80 break-all text-xs text-left text-gray-500">{{ item.description }}
@@ -47,7 +48,15 @@
                                 <td
                                     class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-xs font-medium sm:pr-6">
                                     <a @click.prevent="editTemplate(item)" href="#"
-                                        class="text-indigo-400 hover:text-indigo-900 text-xs">Edit</a>
+                                        class="flex justify-center text-slate-800 hover:text-indigo-900">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
+                                            class="w-5 h-5">
+                                            <path fill-rule="evenodd"
+                                                d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                                clip-rule="evenodd" />
+                                        </svg>
+
+                                    </a>
                                 </td>
                             </tr>
                         </tbody>
@@ -71,8 +80,10 @@
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Purpose</label>
 
-                            <v-select v-model="form.purpose" placeholder="search" :options="option" label="label" :class="this.editMode ? ' ' : forClass()"></v-select>
-                            <span v-show="this.editMode ? false : form.errors.has('purpose')" class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                            <v-select v-model="form.purpose" placeholder="search" :options="option" label="label"
+                                :class="this.editMode ? ' ' : forClass()"></v-select>
+                            <span v-show="this.editMode ? false : form.errors.has('purpose')"
+                                class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -159,7 +170,7 @@ export default {
             default: {},
         }
     },
-    components:{
+    components: {
         DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, VueMultiselect,
     },
     data() {
@@ -169,12 +180,12 @@ export default {
             open: false,
             pop: false,
             form: new Form({
-                id:'',
-                purpose:'',
-                subject:'',
-                body:'',
-                description:'',
-                status:true,
+                id: '',
+                purpose: '',
+                subject: '',
+                body: '',
+                description: '',
+                status: true,
             }),
 
             editor: ClassicEditor,
@@ -189,9 +200,9 @@ export default {
                 },
             },
 
-            placeholder:'Choose a purpose: ',
+            placeholder: 'Choose a purpose: ',
 
-            option: [ 'Register', 'Reset Password' ],
+            option: ['Register', 'Reset Password'],
         }
     },
     methods: {
@@ -214,21 +225,21 @@ export default {
         saveTemplate() {
             this.$Progress.start();
             this.form.post('/api/email-template')
-            .then((data) => {
-                this.$Progress.finish();
-                this.getData();
-                this.form = new Form({
-                    id:'',
-                    purpose:'',
-                    subject:'',
-                    body:'',
-                    description:'',
-                    status:true,
-                });
-                this.open = !this.open;
-                createToast({
-                    title: 'Success!',
-                    description: 'Data has been saved.'
+                .then((data) => {
+                    this.$Progress.finish();
+                    this.getData();
+                    this.form = new Form({
+                        id: '',
+                        purpose: '',
+                        subject: '',
+                        body: '',
+                        description: '',
+                        status: true,
+                    });
+                    this.open = !this.open;
+                    createToast({
+                        title: 'Success!',
+                        description: 'Data has been saved.'
                     },
                         {
                             position: 'top-left',
@@ -253,12 +264,12 @@ export default {
                 this.open = !this.open;
                 this.getData();
                 this.form = new Form({
-                    id:'',
-                    purpose:'',
-                    subject:'',
-                    body:'',
-                    description:'',
-                    status:true,
+                    id: '',
+                    purpose: '',
+                    subject: '',
+                    body: '',
+                    description: '',
+                    status: true,
                 });
                 createToast({
                     title: 'Success!',

@@ -1,8 +1,8 @@
 <template>
     <div class="flex justify-center items-center">
 
-        <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen pt-10">
-            <div class="flex flex-col items-center gap-y-5">
+        <div class="w-[420px] md:w-[780px] lg:w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen pt-10">
+            <div class="flex flex-col items-center justify-center gap-y-5">
 
                 <div class="flex flex-col gap-y-2 items-center justify-center">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
@@ -15,7 +15,7 @@
                         class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105  w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
-                            <img alt="No Icon" src="/Visitor_Homepage_Assets/createNew.png" class="pl-2 h-16 w-26" />
+                            <img src="/Visitor_Homepage_Assets/createNew.png" class="pl-2 h-16 w-26" />
                         </div>
 
                         <div class="flex flex-col justify-center pl-4">
@@ -28,7 +28,7 @@
                         class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
-                            <img alt="No Icon" src="/Visitor_Homepage_Assets/check_in.png" class="h-16 w-16" />
+                            <img src="/Visitor_Homepage_Assets/check_in.png" class="h-16 w-16" />
                         </div>
 
                         <div class="flex flex-col justify-center pl-4">
@@ -42,7 +42,7 @@
                         class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
-                            <img alt="No Icon" src="/Visitor_Homepage_Assets/check_out.png" class="h-16 w-16" />
+                            <img src="/Visitor_Homepage_Assets/check_out.png" class="h-16 w-16" />
                         </div>
 
                         <div class="flex flex-col justify-center pl-4">
@@ -52,11 +52,11 @@
                         </div>
                     </a>
 
-                    <a :href="'/visitor-registration/#/' + this.id"
+                    <a :href="'/visitor-registration/SignIn/invite/' + this.id"
                         class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
-                            <img alt="No Icon" src="/Visitor_Homepage_Assets/guest_invitation.png" class="h-16 w-16" />
+                            <img src="/Visitor_Homepage_Assets/guest_invitation.png" class="h-16 w-16" />
                         </div>
 
                         <div class="flex flex-col justify-center pl-4">
@@ -70,7 +70,7 @@
                         class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
-                            <img alt="No Icon" src="/Visitor_Homepage_Assets/delivery_service.png" class="h-16 w-16" />
+                            <img src="/Visitor_Homepage_Assets/delivery_service.png" class="h-16 w-16" />
                         </div>
 
                         <div class="flex flex-col justify-center pl-4">

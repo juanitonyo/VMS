@@ -10,10 +10,11 @@ class Visitors extends Model
     use HasFactory;
 
     protected $fillable = [
-        'refId',
+        'building_ID',
         'email',
         'name',
         'contact',
+        'google_id',
         'validId',
         'policy',
         'status'

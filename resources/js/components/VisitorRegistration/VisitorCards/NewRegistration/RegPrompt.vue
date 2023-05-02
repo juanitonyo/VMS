@@ -53,8 +53,9 @@
 <script>
 import axios from 'axios';
 import buttonToInput from '../../../Elements/Buttons/buttonToInput.vue'
+import VueCookies from 'vue-cookies'
 
-export default {
+export default{
     name: 'Visitor Prompt',
 
     components: {
@@ -78,9 +79,12 @@ export default {
             .then((data) => {
                 this.buildings = data.data.data;
             })
-            .catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
+            .catch((error) => {
+               
             });
+
+            this.$cookies.set('buildingUUID', this.id);
+
     },
 }
 </script>

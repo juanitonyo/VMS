@@ -43,14 +43,17 @@
                                     <tr v-for="item in data.data" :key="item.id">
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 ">{{ item.buildingName }}
                                         </td>
-                                        <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}</td>
+                                        <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}
+                                        </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type.name
                                         }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">
-                                            <button :disabled="item.status ? false : true" @click.prevent="isOpen('Visitor', item)"
-                                                class="border border-gray-500 rounded-md py-1.5 px-3 mx-1 hover:bg-gray-500 hover:text-white">Visitor</button>
-                                            <button :disabled="item.status ? false : true" @click.prevent="isOpen('Host', item)"
-                                                class="border border-gray-500 rounded-md py-1.5 px-4 hover:bg-gray-500 hover:text-white">Host</button>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-900">
+                                            <button :disabled="item.status ? false : true"
+                                                @click.prevent="isOpen('Visitor', item)"
+                                                class="border border-gray-900 rounded-md py-1.5 px-3 mx-1 hover:bg-gray-300">Visitor</button>
+                                            <button :disabled="item.status ? false : true"
+                                                @click.prevent="isOpen('Host', item)"
+                                                class="border border-gray-900 rounded-md py-1.5 px-4 hover:bg-gray-300">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>
@@ -58,8 +61,15 @@
                                             moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a @click.prevent="editBuilding(item)" href="#"
-                                                class="text-gray-600 hover:text-gray-900">Edit<span
-                                                    class="sr-only"></span></a>
+                                                class="flex justify-center text-slate-800 hover:text-indigo-900">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
+                                                    fill="currentColor" class="w-5 h-5">
+                                                    <path fill-rule="evenodd"
+                                                        d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
+                                                        clip-rule="evenodd" />
+                                                </svg>
+
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -106,8 +116,11 @@
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Building Type</label>
 
-                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types" label="label" :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
-                            <span v-show="this.editMode ? false : form.errors.has('buildingType')" class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
+                                label="label"
+                                :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                            <span v-show="this.editMode ? false : form.errors.has('buildingType')"
+                                class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                         </div>
                         <!-- <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('buildingTypes')"  v-html="this.editMode ? false : form.errors.get('buildingTypes')" /> -->
 
@@ -132,9 +145,9 @@
                                 <div class="flex justify-center mt-3">
                                     <div>
                                         <div class="flex items-center justify-center w-full">
-                                            <label :style="{'background-image':`url(${image_url})`}" @click="$refs.buildingLogo.click()" 
-                                               class="flex flex-col justify-center  w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-cover bg-no-repeat">
-                                                <div class="flex flex-col items-center" :class="{'hidden' : hideLabel}">
+                                            <label :style="{ 'background-image': `url(${image_url})` }"
+                                                class="flex flex-col justify-center  w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-cover bg-no-repeat">
+                                                <div class="flex flex-col items-center" :class="{ 'hidden': hideLabel }">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-12 h-12 text-gray-600 group-hover:text-black"
                                                         viewBox="0 0 20 20" fill="currentColor">
@@ -146,7 +159,8 @@
                                                         class="pt-1 text-sm tracking-wider text-black group-hover:text-black">
                                                         Select a photo</p>
                                                 </div>
-                                                <input type="file" ref="buildingLogo" class="opacity-0"  @input="uploadImage" />
+                                                <input type="file" ref="buildingLogo" class="opacity-0"
+                                                    @input="uploadImage" />
                                             </label>
                                         </div>
                                     </div>
@@ -171,22 +185,37 @@
     <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR | ' + form.buildingName">
         <template v-slot:dialogBody>
 
-            <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg p-5 mt-4">
-                <div class="flex justify-center items-center flex-col">
-                    <img :src="qrName(form.qr_id)" class="mt-5 bg-gray-400" />
-                    <h1 class="font-extrabold text-2xl my-5 text-gray-700">OR</h1>
-                    <a target="_blank" :href="this.proxyURL + this.route + form.qr_id"
-                        class="text-gray-500 hover:text-gray-600 underline text-center">{{ this.proxyURL + this.route + form.qr_id
-                        }}</a>
-                </div>
-            </div>
+            <div class="overflow-hidden shadow shadow-slate-400 sm:rounded-lg p-5 mt-4">
+                <div class="flex justify-center items-center flex-col p-10">
+                    <div v-if="vMode == 'Visitor'" class="flex flex-row justify-center items-center gap-10">
+                        <img :src="qrName(vMode, form.qr_id)" class="mt-5 w-40 h-40" />
 
-            <div class="mt-4">
-                <button type="button"
-                    class="inline-flex justify-center rounded-md bg-gray-600 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
-                    @click.prevent="this.pop = !this.pop">
-                    Close
-                </button>
+                        <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
+                        <a target="_blank" :href="this.proxyURL + this.visitorRoute + form.qr_id"
+                            class="text-black bg-white w-36 h-8 border border-black hover:scale-105 duration-100 flex justify-center items-center rounded-md">
+                            Go to Link
+                        </a>
+                    </div>
+
+                    <div v-else class="flex flex-row justify-center items-center gap-10 ">
+                        <img :src="qrName(vMode, form.qr_id)" class="mt-5 w-40 h-40" />
+                        <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
+                        <a target="_blank" :href="this.proxyURL + this.hostRoute + form.qr_id"
+                            class="text-black bg-white w-36 h-8 border border-black hover:scale-105 duration-100 flex justify-center items-center rounded-md">Go
+                            to Link
+                        </a>
+                    </div>
+
+                </div>
+
+
+                <div class="mt-4">
+                    <button type="button"
+                        class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
+                        @click.prevent="this.pop = !this.pop">
+                        Close
+                    </button>
+                </div>
             </div>
 
         </template>
@@ -240,15 +269,16 @@ export default {
                 address: '',
                 description: '',
                 buildingType: '',
-                logo:'',
+                logo: '',
                 status: false,
                 errors: []
             }),
-            image_url:'',
+            image_url: '',
             hideLabel: false,
             building_types: [],
             url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
-            route: '/visitor-registration/',
+            visitorRoute: '/visitor-registration/',
+            hostRoute: '/homeowner-registration/',
             proxyURL: import.meta.env.VITE_APP_URL
         }
     },
@@ -262,7 +292,7 @@ export default {
                 address: '',
                 description: '',
                 buildingType: '',
-                logo:'',
+                logo: '',
                 status: false,
             })
         },
@@ -271,18 +301,23 @@ export default {
             this.pop = !this.pop;
             this.vMode = mode;
             this.form = item;
-            this.image_url = '';
             this.hideLabel = false;
+
+            if(!this.editMode) {
+                this.image_url = '';
+            }
         },
 
         editBuilding(item) {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
+            this.image_url = this.form.logo;
+            console.log(this.form.logo);
             this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
         },
 
-        uploadImage(){
+        uploadImage() {
             this.hideLabel = true;
             let input = this.$refs.buildingLogo;
             let file = input.files;
@@ -301,6 +336,7 @@ export default {
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
+                    console.log(data);
                     this.$Progress.finish();
                     this.getData();
                     this.form = new Form({
@@ -311,7 +347,7 @@ export default {
                         status: false,
                     });
                     this.image_url = '',
-                    this.hideLabel = false
+                        this.hideLabel = false
                     this.open = !this.open;
                     createToast({
                         title: 'Success!',
@@ -344,7 +380,7 @@ export default {
                     address: '',
                     description: '',
                     buildingType: '',
-                    logo:'',
+                    logo: '',
                     status: false,
                 });
                 this.open = !this.open;
@@ -364,7 +400,7 @@ export default {
 
             })
         },
-        
+
         async getData(page = 1) {
             await axios.get('/api/building?page=' + page).then((data) => {
                 this.data = data.data.data;
@@ -373,18 +409,21 @@ export default {
             });
         },
 
-        qrName(uuid) {
-            return this.url + this.proxyURL + this.route + uuid;
+        qrName(vMode, uuid) {
+            if (vMode == 'Visitor')
+                return this.url + this.proxyURL + this.visitorRoute + uuid;
+            else (vMode == 'Host')
+            return this.url + this.proxyURL + this.hostRoute + uuid;
         },
 
         getBuildingTypes() {
-            axios.get('/api/get-building-types').then((data) => { 
-                this.building_types = data.data.data 
+            axios.get('/api/get-building-types').then((data) => {
+                this.building_types = data.data.data
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        
+
         forClass() {
             return this.form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' '
         },

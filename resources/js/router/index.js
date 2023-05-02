@@ -6,6 +6,7 @@ import { userAuthStore } from "@/store/auth";
 const AuthenticatedLayout = () => import("@/components/Layouts/AuthenticatedLayout.vue");
 const GuestLayout = () => import("@/components/Layouts/GuestLayout.vue");
 const VisitorQRLayout = () => import("@/components/Layouts/VisitorQRLayout.vue");
+const HostQRLayout = () => import("@/components/Layouts/HostQRLayout.vue");
 /* Layouts */
 
 // GUEST PAGES
@@ -19,6 +20,10 @@ const Users = () => import("@/components/AuthenticatedPages/Users.vue");
 const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
+const Testing = () => import("@/components/AuthenticatedPages/testing.vue");
+
+// HOST REGISTRATION PAGE
+const HostRegistration = () => import("@/components/HostRegistration/HostRegistration.vue");
 
 // VISITOR REGISTRATION PAGE
 const VisitorPrompt = () => import("@/components/VisitorRegistration/VisitorPrompt.vue");
@@ -36,6 +41,11 @@ const CheckInSuccess = () => import("@/components/VisitorRegistration/VisitorCar
 const CheckOutPrompt = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutPrompt.vue");
 const CheckOutForm = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutForm.vue");
 const CheckOutSuccess = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutSuccess.vue");
+
+//INVITED GUEST
+const InvitePrompt = () => import("@/components/VisitorRegistration/VisitorCards/InvitedGuest/InvitePrompt.vue");
+const InviteForm = () => import("@/components/VisitorRegistration/VisitorCards/InvitedGuest/InviteForm.vue");
+const InviteSuccess = () => import("@/components/VisitorRegistration/VisitorCards/InvitedGuest/InviteSuccess.vue");
 
 // DELIVERY SERVICES
 
@@ -266,7 +276,58 @@ const routes = [
                     title: `VMS | Visitor Registration`,
                 },
             },
+            {
+                name: "inviteprompt",
+                path: "/visitor-registration/SignIn/invite/:id",
+                component: InvitePrompt,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "inviteform",
+                path: "/visitor-registration/invite/:id",
+                component: InviteForm,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "invitesuccess",
+                path: "/visitor-registration/success/invite/:id",
+                component: InviteSuccess,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
         ],
+    },
+    {
+        path: "/homeowner-registration",
+        component: HostQRLayout,
+        meta: {
+            middleware: "hqr",
+            title: `VMS | Homeowner Registration`,
+        },
+        children: [
+            {
+                name: "hostreg",
+                path: "/homeowner-registration/:id",
+                component: HostRegistration,
+                meta: {
+                    title: `VMS | Homeowner Registration`,
+                },
+            },
+        ],
+    },
+
+    {
+        path: "/testing",
+        component: Testing,
+        meta: {
+            middleware: "test",
+            title: `Test`,
+        },
     },
 ];
 

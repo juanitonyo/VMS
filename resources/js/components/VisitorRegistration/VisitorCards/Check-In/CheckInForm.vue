@@ -4,7 +4,7 @@
         <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
             <div class="flex flex-col items-center gap-y-5">
                 <div class="flex justify-end items-center w-[360px] h-10 mt-8">
-                    <button>
+                    <button @click.prevent="isPop()">
                         <img src="/Visitor_Homepage_Assets/hamburgerMenu.png" alt="No Photo">
                     </button>
                 </div>
@@ -104,11 +104,116 @@
             </div>
         </div>
     </div>
+
+    <Account :isPop="show" :Title="'My Account'">
+        <template v-slot:body>
+
+            <div class="flex justify-center items-center">
+                <div class="w-[80px] flex flex-col gap-y-1">
+                    <label for="dropzone-file" :style="{ 'background-image': `url(${profile_url})` }"
+                        @click="$refs.profile.click()"
+                        class="flex flex-col items-center justify-center w-full h-[80px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                        <div class="flex flex-col items-center justify-center pt-7 pb-6" :class="{ 'hidden': hideLabel }">
+                            <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
+                        </div>
+                        <input id="dropzone-file" ref="profile" type="file" class="opacity-0" @input="uploadImage" />
+                    </label>
+                    <p class="text-[10px] text-gray-400 flex justify-center">Replace Photo</p>
+                </div>
+            </div>
+
+            <div class="flex flex-col mt-8 relative">
+                <div class="flex flex-row items-center justify-center">
+                    <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
+                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                </div>
+            </div>
+            <div class="flex flex-col mt-3 relative">
+                <div class="flex flex-row items-center justify-center">
+                    <label for="email" class="text-[10px] text-gray-500 mr-6">Email Address</label>
+                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                </div>
+            </div>
+            <div class="flex flex-col mt-3 relative">
+                <div class="flex flex-row items-center justify-center">
+                    <label for="contact" class="text-[10px] text-gray-500 mr-4">Mobile Number</label>
+                    <input type="tel" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                </div>
+            </div>
+            <div class="flex flex-col mt-3 relative">
+                <div class="flex flex-row items-center justify-center">
+                    <label for="id" class="text-[10px] text-gray-500 mr-14">Valid ID</label>
+                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                </div>
+            </div>
+
+            <div class="mt-5 flex flex-row justify-end mr-3">
+                <div class="flex flex-row items-center">
+                    <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
+                    <label for="dropzone-file" :style="{ 'background-image': `url(${front_url})` }"
+                        @click="$refs.front.click()"
+                        class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel }">
+                            <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
+                        </div>
+                        <input id="dropzone-file" ref="front" type="file" class="opacity-0" @input="uploadImage" />
+                    </label>
+                </div>
+
+                <div class="flex flex-row items-center ml-2">
+                    <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
+                    <label for="dropzone-file" :style="{ 'background-image': `url(${back_url})` }"
+                        @click="$refs.back.click()"
+                        class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel }">
+                            <img src="/Visitor_Homepage_Assets/backID.png" alt="">
+                        </div>
+                        <input id="dropzone-file" ref="back" type="file" class="opacity-0" @change="uploadImage" />
+                    </label>
+                </div>
+            </div>
+            <p class="text-blue-800 text-base font-semibold mt-5">Last Activity</p>
+
+            <div class="flex flex-col mt-3 relative">
+                <div class="flex flex-row items-center justify-center">
+                    <label for="fullname" class="text-[10px] text-gray-500 mr-[70px]">Type</label>
+                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                </div>
+            </div>
+            <div class="flex flex-col mt-3 relative">
+                <div class="flex flex-row items-center justify-center">
+                    <label for="email" class="text-[10px] text-gray-500 mr-[53px]">Check In</label>
+                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px]  h-[28px] w-[230px]">
+                </div>
+            </div>
+            <div class="flex flex-col mt-3 relative">
+                <div class="flex flex-row items-center justify-center">
+                    <label for="contact" class="text-[10px] text-gray-500 mr-[45px]">Approved</label>
+                    <input type="tel" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                </div>
+            </div>
+
+            <div class="mt-5">
+                <button type="button"
+                    class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
+                    Update
+                </button>
+                <button
+                    class="mt-1 inline-flex w-full justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-400/90"
+                    @click="isPop" type="button">
+                    Close
+                </button>
+            </div>
+
+        </template>
+    </Account>
 </template>
 
 <script>
 import axios from 'axios';
 import Form from 'vform';
+import Account from '../../../Elements/Modals/MyAccount.vue';
+
 
 export default {
     name: 'Check In Form',
@@ -117,6 +222,9 @@ export default {
             type: Array,
             default: []
         },
+    },
+    components:{
+        Account
     },
     data() {
         return {
@@ -136,13 +244,18 @@ export default {
             purpose: [],
             enableButton: false,
             isFormComplete: false,
-            status: 'Pending Approval'
+            status: 'Pending Approval',
+            show: false,
         }
     },
 
     methods: {
         isChecked(event) {
             this.enableButton = !this.enableButton
+        },
+
+        isPop() {
+            this.show = !this.show;
         },
 
         showSuccess() {

@@ -31,7 +31,7 @@ class BuildingRequest extends FormRequest
             'address' => 'required',
             'buildingType' => 'required',
             'status' => 'required',
-        
+            
         ];
     }
 

@@ -41,4 +41,13 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $attributes = [
+        'password' => 'password',
+    ];
+
+    public function userBuilding()
+    {
+        return $this->hasOne(UserBuildings::class, 'user_id', 'id');
+    }
 }

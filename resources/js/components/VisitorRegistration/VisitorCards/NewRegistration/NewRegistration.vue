@@ -1,6 +1,6 @@
 <template>
     <div class="flex justify-center items-center">
-        <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen pt-10">
+        <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
             <div v-show="!isFormComplete" class="flex flex-col items-center gap-y-5">
                 
                 <div class="flex flex-col gap-y-2 items-center justify-center absolute top-10 lg:top-16">
@@ -23,7 +23,7 @@
                     <div class="flex flex-col mt-8 relative">
                         <div class="flex flex-row items-center">
                             <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
-                            <input v-model="form.name" type="text"
+                            <input v-model="form.name" type="text" :disabled="isGoogleExist" placeholder="Juan Dela Cruz"
                                 :class="form.errors.has('name') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
                         </div>
                         <p v-show="form.errors.has('name')"
@@ -34,7 +34,7 @@
                     <div class="flex items-center mt-6 relative">
                         <div class="flex flex-row items-center">
                             <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
-                            <input v-model="form.email" type="email"
+                            <input v-model="form.email" type="email" :disabled="isGoogleExist" placeholder="juan@email.com"
                                 :class="form.errors.has('email') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
                             <p v-show="form.errors.has('email')"
                                 class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
@@ -45,7 +45,7 @@
                     <div class="flex items-center mt-6 relative">
                         <div class="flex flex-row items-center">
                             <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
-                            <input v-model="form.contact" type="text"
+                            <input v-model="form.contact" type="text" placeholder="09*********"
                                 :class="form.errors.has('contact') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
                             <p v-show="form.errors.has('contact')"
                                 class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
@@ -53,10 +53,10 @@
                         </div>
                     </div>
 
-                    <div class="flex items-center mt-6 gov-ids relative">
-                        <div class="flex flex-row items-center">
-                            <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
-                            <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label"
+                    <div class="flex items-center mt-6 relative">
+                        <div class="gov-ids flex flex-row items-center">
+                            <label for="valid_id" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
+                            <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label" :placeholder="'Valid ID'"
                                 :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'"></v-select>
                             <span v-show="form.errors.has('validId')"
                                 class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
@@ -64,7 +64,7 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 flex flex-row justify-end">
+                    <div class="mt-8 flex flex-row">
                         <div class="flex flex-row items-center">
                             <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
                             <label for="dropzone-file" :style="{ 'background-image': `url(${front_url})` }"
@@ -95,9 +95,9 @@
                     </div>
 
                     <div class="flex flex-row mt-10 justify-center gap-x-8">
-                        <a :href="'/visitor-registration/new/reg/' + this.id"
+                        <a :href="'/visitor-registration/SignIn/reg/' + this.id"
                             class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
-                        <button @click="submitPolicy(form.email)" href="#"
+                        <button @click="isGoogleExist ? this.isFormComplete = !this.isFormComplete : submitPolicy(form.email)" href="#"
                             class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                     </div>
                 </div>
@@ -150,6 +150,7 @@
 import axios from 'axios';
 import Form from 'vform';
 import { createToast } from 'mosha-vue-toastify'
+import { VueCookies } from 'vue-cookies';
 
 export default {
     name: "Visitor Registration Form",
@@ -164,8 +165,7 @@ export default {
             data: {},
             id: window.location.href.split('/').pop(),
             form: new Form({
-                id: '',
-                refId: window.location.href.split('/').pop(),
+                building_ID: window.location.href.split('/').pop(),
                 email: '',
                 name: '',
                 contact: '',
@@ -181,6 +181,7 @@ export default {
             isFormComplete: false,
             enableButton: false,
             hideLabel: false,
+            isGoogleExist: false,
 
             valid_id: [
                 "Digitalized BIR Taxpayer's ID",
@@ -219,29 +220,32 @@ export default {
 
         submitForm() {
             this.$Progress.start();
-            this.form.post('/api/visitors')
-            .then((data) => {
-                this.$Progress.finish();
+            if(this.isGoogleExist) {
 
-                createToast({
-                    title: 'Success!',
-                    description: 'Data has been saved.'
-                    },
-                    {
-                    position: 'top-left',
-                    showIcon: 'true',
-                    type: 'success',
-                    toastBackgroundColor: '#00bcd4',
-                    hideProgressBar: 'true',
-                    toastBackgroundColor: '#00bcd4',
+                axios.put('/api/visitors/' + this.account.id, {
+                    params: {
+                        data: this.form
+                    }
+                }).then((data) => {
+                    this.$Progress.finish();
+                    this.$router.push('/visitor-registration/success/' + this.id);
 
+                    this.$cookies.remove('asCookie');
+                    this.$cookies.remove('refId');
+                }).catch((error) => {
+                    
                 })
-                
-                this.$router.push('/visitor-registration/success/' + this.id);
-            }).catch((error) => {
-                this.$Progress.fail();
-                console.log(error);
-            })
+            }
+            else {
+                this.form.post('/api/visitors')
+                .then((data) => {
+                    this.$Progress.finish();
+                    this.$router.push('/visitor-registration/success/' + this.id);
+                    this.$cookies.remove('refId');
+                }).catch((error) => {
+                    
+                })
+            }
         },
 
         submitPolicy(email) {   
@@ -249,7 +253,7 @@ export default {
                 .then((data) => {
                     this.account = data.data.data;
                     
-                    if(this.account != null) {
+                    if(this.account.policy == 1) {
                         this.$router.push('/visitor-registration/Signin/checkin/' + this.id);
                     }
 
@@ -258,8 +262,8 @@ export default {
                     }
                     
                 })
-            .catch((e) => {
-                
+            .catch((error) => {
+
             });
         },
 
@@ -272,15 +276,32 @@ export default {
                     .then((data) => {
                         this.buildings = data.data.data;
                     })
-            .catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
+            .catch((error) => {
+                
+            });
+        },
+
+        async syncData() {
+            await axios.get('/api/sync-visitor/')
+                    .then((data) => {
+                        this.account = data.data.data;
+
+                        if(this.account != null) {
+                            this.isGoogleExist = !this.isGoogleExist;
+                            this.form.name = this.account.name;
+                            this.form.email = this.account.email;
+                        }
+
+                    })
+            .catch((error) => {
+                
             });
         }
 
     },
     created() {
         this.getData();
-        // this.submitPolicy();
+        this.syncData();
     },
 }
 

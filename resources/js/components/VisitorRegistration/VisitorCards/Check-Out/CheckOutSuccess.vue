@@ -4,7 +4,7 @@
             <div class="flex flex-col items-center justify-center w-full min-h-screen gap-y-8">
 
                 <div class="text-[10px] text-blue-900 flex flex-col items-center text-center gap-y-3">
-                    <img src="/Visitor_Homepage_Assets/successIcon.png" alt="no photo" class="w-24 h-24">
+                    <img src="/Visitor_Homepage_Assets/successIcon.png" class="w-24 h-24">
                     <p class="text-base tracking-wide text-green-500 font-bold">Check out Successful</p>
                 </div>
                 <div class="text-[10px] text-blue-900 flex flex-col text-center mb-10">
@@ -47,6 +47,8 @@ export default {
             .catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
+
+        setTimeout( () => this.$router.push({ path: '/visitor-registration/index/' + this.id}), 3000);
     },
 }
 </script>
