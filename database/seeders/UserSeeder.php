@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
             'email' => 'dccoc12@gmail.com',
             'password' => Hash::make('asdasd123'),
             'email_verified_at' => date('Y-m-d h:i:s'),
-            'created_at' => date('Y-m-d h:i:s'),
+            'created_at' => date('Y-m-d h:i:s'),    
         ]);
     }
 }

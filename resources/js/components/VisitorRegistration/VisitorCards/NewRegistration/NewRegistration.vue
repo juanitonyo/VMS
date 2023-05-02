@@ -2,14 +2,14 @@
     <div class="flex justify-center items-center">
         <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
             <div v-show="!isFormComplete" class="flex flex-col items-center gap-y-5">
-                
-                <div class="flex flex-col gap-y-2 items-center justify-center absolute top-10 lg:top-16">
+
+                <div class="flex flex-col gap-y-2 items-center justify-center mt-10">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                 </div>
 
-                <div class="flex flex-col items-center justify-center w-[100px] absolute top-48">
+                <div class="flex flex-col items-center justify-center w-[100px]">
                     <label for="dropzone-file" :style="{ 'background-image': `url(${profile_url})` }"
                         @click="$refs.profile.click()"
                         class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
@@ -56,7 +56,8 @@
                     <div class="flex items-center mt-6 relative">
                         <div class="gov-ids flex flex-row items-center">
                             <label for="valid_id" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
-                            <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label" :placeholder="'Valid ID'"
+                            <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label"
+                                :placeholder="'Valid ID'"
                                 :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'"></v-select>
                             <span v-show="form.errors.has('validId')"
                                 class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{
@@ -64,47 +65,51 @@
                         </div>
                     </div>
 
-                    <div class="mt-8 flex flex-row">
-                        <div class="flex flex-row items-center">
-                            <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
-                            <label for="dropzone-file" :style="{ 'background-image': `url(${front_url})` }"
-                                @click="$refs.front.click()"
-                                class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                                    :class="{ 'hidden': hideLabel }">
-                                    <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
-                                </div>
-                                <input id="dropzone-file" ref="front" type="file" class="opacity-0"
-                                    @input="uploadImage" />
-                            </label>
-                        </div>
+                    <div class="mt-8 mr-10 w-full">
+                        <div class="flex gap-x-2">
+                            <div class="flex flex-row items-center">
+                                <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
+                                <label for="dropzone-file" :style="{ 'background-image': `url(${front_url})` }"
+                                    @click="$refs.front.click()"
+                                    class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6"
+                                        :class="{ 'hidden': hideLabel }">
+                                        <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
+                                    </div>
+                                    <input id="dropzone-file" ref="front" type="file" class="opacity-0"
+                                        @input="uploadImage" />
+                                </label>
+                            </div>
 
-                        <div class="flex flex-row items-center ml-2">
-                            <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
-                            <label for="dropzone-file" :style="{ 'background-image': `url(${back_url})` }"
-                                @click="$refs.back.click()"
-                                class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                                <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                                    :class="{ 'hidden': hideLabel }">
-                                    <img src="/Visitor_Homepage_Assets/backID.png" alt="">
-                                </div>
-                                <input id="dropzone-file" ref="back" type="file" class="opacity-0"
-                                    @change="uploadImage" />
-                            </label>
+                            <div class="flex flex-row items-center">
+                                <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
+                                <label for="dropzone-file" :style="{ 'background-image': `url(${back_url})` }"
+                                    @click="$refs.back.click()"
+                                    class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                                    <div class="flex flex-col items-center justify-center pt-5 pb-6"
+                                        :class="{ 'hidden': hideLabel }">
+                                        <img src="/Visitor_Homepage_Assets/backID.png" alt="">
+                                    </div>
+                                    <input id="dropzone-file" ref="back" type="file" class="opacity-0"
+                                        @change="uploadImage" />
+                                </label>
+                            </div>
                         </div>
                     </div>
 
                     <div class="flex flex-row mt-10 justify-center gap-x-8">
                         <a :href="'/visitor-registration/SignIn/reg/' + this.id"
                             class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
-                        <button @click="isGoogleExist ? this.isFormComplete = !this.isFormComplete : submitPolicy(form.email)" href="#"
+                        <button
+                            @click="isGoogleExist ? this.isFormComplete = !this.isFormComplete : submitPolicy(form.email)"
+                            href="#"
                             class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                     </div>
                 </div>
             </div>
 
             <div v-show="isFormComplete" class="flex flex-col items-center justify-center">
-                <div class="flex flex-col gap-y-2 items-center justify-center absolute top-10 lg:top-16">
+                <div class="flex flex-col gap-y-2 items-center justify-center mt-10">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                     <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
@@ -132,11 +137,11 @@
                         <div class="flex flex-row mt-10 justify-center gap-x-8">
                             <router-link :to="'/visitor-registration/SignIn/reg/' + this.id"
                                 class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                                <button type="submit" :disabled="!enableButton"
-                                    :class="[enableButton ? 'bg-blue-700' : 'bg-gray-600']"
-                                    class="w-[145px] h-[33px] bg-blue-700 rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
-                                    Submit
-                                </button>
+                            <button type="submit" :disabled="!enableButton"
+                                :class="[enableButton ? 'bg-blue-700' : 'bg-gray-600']"
+                                class="w-[145px] h-[33px] bg-blue-700 rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
+                                Submit
+                            </button>
                         </div>
                     </form>
                 </div>
@@ -220,7 +225,7 @@ export default {
 
         submitForm() {
             this.$Progress.start();
-            if(this.isGoogleExist) {
+            if (this.isGoogleExist) {
 
                 axios.put('/api/visitors/' + this.account.id, {
                     params: {
@@ -233,38 +238,38 @@ export default {
                     this.$cookies.remove('asCookie');
                     this.$cookies.remove('refId');
                 }).catch((error) => {
-                    
+
                 })
             }
             else {
                 this.form.post('/api/visitors')
-                .then((data) => {
-                    this.$Progress.finish();
-                    this.$router.push('/visitor-registration/success/' + this.id);
-                    this.$cookies.remove('refId');
-                }).catch((error) => {
-                    
-                })
+                    .then((data) => {
+                        this.$Progress.finish();
+                        this.$router.push('/visitor-registration/success/' + this.id);
+                        this.$cookies.remove('refId');
+                    }).catch((error) => {
+
+                    })
             }
         },
 
-        submitPolicy(email) {   
+        submitPolicy(email) {
             axios.get('/api/visitor-query/' + email + '/' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
-                    
-                    if(this.account.policy == 1) {
+
+                    if (this.account.policy == 1) {
                         this.$router.push('/visitor-registration/Signin/checkin/' + this.id);
                     }
 
                     else {
                         this.isFormComplete = !this.isFormComplete;
                     }
-                    
-                })
-            .catch((error) => {
 
-            });
+                })
+                .catch((error) => {
+
+                });
         },
 
         isChecked() {
@@ -273,29 +278,29 @@ export default {
 
         async getData() {
             await axios.get('/api/visitor-registration/' + this.id)
-                    .then((data) => {
-                        this.buildings = data.data.data;
-                    })
-            .catch((error) => {
-                
-            });
+                .then((data) => {
+                    this.buildings = data.data.data;
+                })
+                .catch((error) => {
+
+                });
         },
 
         async syncData() {
             await axios.get('/api/sync-visitor/')
-                    .then((data) => {
-                        this.account = data.data.data;
+                .then((data) => {
+                    this.account = data.data.data;
 
-                        if(this.account != null) {
-                            this.isGoogleExist = !this.isGoogleExist;
-                            this.form.name = this.account.name;
-                            this.form.email = this.account.email;
-                        }
+                    if (this.account != null) {
+                        this.isGoogleExist = !this.isGoogleExist;
+                        this.form.name = this.account.name;
+                        this.form.email = this.account.email;
+                    }
 
-                    })
-            .catch((error) => {
-                
-            });
+                })
+                .catch((error) => {
+
+                });
         }
 
     },

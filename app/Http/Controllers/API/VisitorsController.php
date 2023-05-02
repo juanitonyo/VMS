@@ -23,7 +23,7 @@ class VisitorsController extends BaseController
         
         $data = Visitors::where([
             'email' => $email,
-            'refId' => $refId
+            'building_ID' => $refId
         ])->first(['id', 'name']);
 
         return $this->sendResponse($data, "Found data in table");

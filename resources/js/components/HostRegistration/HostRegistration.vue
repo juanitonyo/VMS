@@ -29,19 +29,26 @@
                         <div class="lg:col-span-2">
                             <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                                 <div class="md:col-span-5 relative">
-                                    <label for="fname" class="text-xs">First Name</label>
+                                    <div class="flex justify-between">
+                                        <label for="fname" class="text-xs">First Name</label>
+                                        <span v-show="form.errors.has('fname')"
+                                            class="text-[10px] items-center w-max text-red-500">
+                                            {{ form.errors.get('fname') }}</span>
+                                    </div>
                                     <input type="text" name="fname" id="fname" placeholder="Juan"
                                         :class="form.errors.has('fname') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
                                         v-model="form.fname" />
-                                    <p v-show="form.errors.has('fname')"
-                                        class="text-[10px] items-center absolute w-max text-red-500">
-                                        {{ form.errors.get('fname') }}</p>
                                 </div>
 
-                                <div class="md:col-span-5 mt-3">
-                                    <label for="lname" class="text-xs">Last Name</label>
+                                <div class="md:col-span-5 relative">
+                                    <div class="flex justify-between">
+                                        <label for="lname" class="text-xs">Last Name</label>
+                                        <span v-show="form.errors.has('lname')"
+                                            class="text-[10px] items-center w-max text-red-500">
+                                            {{ form.errors.get('lname') }}</span>
+                                    </div>
                                     <input type="text" name="lname" id="lname" placeholder="Dela Cruz"
-                                        class="h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50"
+                                        :class="form.errors.has('lname') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
                                         v-model="form.lname" />
                                 </div>
 
