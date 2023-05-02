@@ -32,7 +32,7 @@ class VisitorsController extends BaseController
     public function syncVisitor() {
         $data = Visitors::where('google_id', Cookie::get('asCookie'))->first();
 
-        return $this->sendResponse($data, 'Found data in table');
+        return $this->sendResponse($data, 'Found data in table')->cookie(Cookie::forget('asCookie'));
     }
 
     /**
