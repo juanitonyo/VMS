@@ -18,9 +18,9 @@
                     <img src="https://picsum.photos/400/400" alt="No Photo"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200">
                     <div class="flex flex-col justify-center pl-2 w-36">
-                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, Visitor</p>
+                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name }}</p>
                         <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
-                        <p class="text-[9px] text-blue-800 font-light">Status: {{ this.status }}</p>
+                        <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
                     </div>
                 </div>
 
@@ -213,6 +213,7 @@
 import axios from 'axios';
 import Form from 'vform';
 import Account from '../../../Elements/Modals/MyAccount.vue';
+import { VueCookies } from 'vue-cookies';
 
 
 export default {
@@ -241,6 +242,7 @@ export default {
                 policy: false,
             }),
             buildings: {},
+            visitor: {},
             purpose: [],
             enableButton: false,
             isFormComplete: false,
@@ -276,11 +278,22 @@ export default {
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
                 }); 
+        },
+        async syncData() {
+            await axios.get('/api/sync-visitor/')
+                .then((data) => {
+                    this.visitor = data.data.data;
+                    this.$cookies.remove("asCookie");
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                }); 
         }
     },
 
     created() {
-
+        this.syncData();
+        this.getData();
     },
 }
 </script>

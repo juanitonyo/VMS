@@ -150,6 +150,20 @@ export default {
             ]
         }
     },
+    methods: {
+        async getData() {
+            await axios.get('/api/visitor-registration/')
+                .then((data) => {
+                    this.buildings = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                }); 
+        }
+    },
+    created() {
+
+    }
 }
 
   </script>
