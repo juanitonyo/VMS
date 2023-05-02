@@ -31,7 +31,7 @@
                                 <div class="md:col-span-5 relative">
                                     <label for="fname" class="text-xs">First Name</label>
                                     <input type="text" name="fname" id="fname" placeholder="Juan"
-                                        :class="form.errors.has('first name') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
+                                        :class="form.errors.has('fname') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
                                         v-model="form.fname" />
                                     <p v-show="form.errors.has('fname')"
                                         class="text-[10px] items-center absolute w-max text-red-500">
