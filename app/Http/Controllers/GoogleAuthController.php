@@ -19,12 +19,13 @@ class GoogleAuthController extends Controller
       
         try {
             $google_user = Socialite::driver('google')->user();
+            // dd($google_user);
             $user = Visitors::where('google_id', $google_user->getId())->first();
             
             if($user) {
                 $username = $google_user->getName();
 
-                return redirect()->intended('/visitor-registration/create/'.$_COOKIE['buildingUUID'])->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
+                return redirect()->intended('/visitor-registration/create/'.Cookie::queue('buildingUUID'))->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
             }
             else {
 
@@ -34,7 +35,7 @@ class GoogleAuthController extends Controller
                     'google_id' => $google_user->getId(),
                 ]);
 
-                return redirect()->intended('/visitor-registration/create/'.$_COOKIE['buildingUUID'])->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
+                return redirect()->intended('/visitor-registration/create/'.Cookie::queue('buildingUUID'))->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
 
             }
 

@@ -26,24 +26,26 @@ class HostRequest extends FormRequest
 
     public function createRules() :array {
         return [
-            'fname' => 'required|max:50',
-            'lname' => 'required|max:50',
+            'firstName' => 'required|max:50',
+            'lastName' => 'required|max:50',
             'email' => 'required',
             'password' => 'required',
             'location' => 'required',
             'contact' => 'required',
+            'gov_id' => 'required',
             'policy' => 'required',
         ];
     }
 
     public function updateRules() :array {
         return [
-            'params.data.fname' => 'required|max:50',
-            'params.data.lname' => 'required|max:50',
+            'params.data.firstName' => 'required|max:50',
+            'params.data.lastName' => 'required|max:50',
             'params.data.email' => 'required',
             'params.data.password' => 'required',
             'params.data.location' => 'required',
             'params.data.contact' => 'required',
+            'params.data.gov_id' => 'required',
             'params.data.policy' => 'required',
         ];
     }
