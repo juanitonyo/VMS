@@ -5,7 +5,7 @@
             <div class="flex flex-col items-center gap-y-5">
                 <div class="flex justify-end items-center w-[360px] h-10 mt-8">
                     <button @click.prevent="isPop()">
-                        <img src="/Visitor_Homepage_Assets/hamburgerMenu.png" alt="No Photo">
+                        <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
                     </button>
                 </div>
 
@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="flex flex-row mt-4 gap-x-5">
-                    <img src="https://picsum.photos/400/400" alt="No Photo"
+                    <img src="https://picsum.photos/400/400"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200">
                     <div class="flex flex-col justify-center pl-2 w-36">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name }}</p>

@@ -19,7 +19,7 @@
                         </div>
 
                         <div class="flex flex-col justify-center pl-4">
-                            <h3 class="w-52 leading-5 text-base font-bold text-blue-700">Guest <br>New Registration</h3>
+                            <h3 class="w-52 text-base font-bold text-blue-700">Guest <br>New Registration</h3>
                             <p class="text-[10px] text-gray-500">Create New Account</p>
                         </div>
                     </a>

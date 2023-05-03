@@ -41,7 +41,7 @@
                     <div class="relative mt-5">
                         <input type="text" id="riderName"
                             class="block px-2 pb-1 pt-2 w-[320px] text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" " required />
+                            placeholder=" " />
                         <label for="riderName"
                             class="absolute cursor-text text-[10px] text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4 left-1">Rider
                             Name (optional)</label>
@@ -127,7 +127,7 @@
                     </div>
 
                     <div v-show="badHealth" class="flex justify-end mt-5">
-                        <a href="#" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view form</a>
+                        <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view form</button>
                     </div>
 
                     <div class="flex flex-row justify-center items-center gap-3 mb-10 mt-5">

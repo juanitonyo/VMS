@@ -1,5 +1,5 @@
 <template>
-    <div class="min-w-full min-h-screen flex absolute top-36 sm:top-0  items-center justify-center overflow-hidden">
+    <div class="min-w-full min-h-screen flex items-center justify-center overflow-hidden">
         <div class="overflow-hidden shadow-sm shadow-slate-500 m-3 p-5 md:p-10 rounded-xl">
             <h1 class="flex justify-center items-center text-xs lg:text-base">You are about to enter ...</h1>
 
@@ -10,7 +10,7 @@
             </div>
 
             <div class="flex text-center justify-center items-center text-xs md:text-xs text-gray-600 mt-3">
-                <p>By clicking <strong class="text-black">proceed</strong>, you agree with our <a href="" class="text-indigo-600">privacy policy</a> and <a href="" class="text-indigo-600">terms and conditions</a>.</p>
+                <p>By clicking <strong class="text-black">proceed</strong>, you agree with our <a href="/Terms-and-Condition#privacy" target="_blank" class="text-indigo-600">privacy policy</a> and <a href="/Terms-and-Condition" target="_blank" class="text-indigo-600">terms and conditions</a>.</p>
             </div>
 
             <div class="buttons flex flex-col mt-5 text-center">

@@ -53,6 +53,9 @@ const DeliveryPrompt = () => import("@/components/VisitorRegistration/VisitorCar
 const DeliveryForm = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliveryForm.vue");
 const DeliverySuccess = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliverySuccess.vue");
 
+//TERMS AND CONDITION x PRIVACY POLICY
+const Terms = () => import("@/components/VisitorRegistration/TermsPrivacy.vue");
+
 const routes = [
     {
         path: "/",
@@ -320,7 +323,14 @@ const routes = [
             },
         ],
     },
-
+    {
+        path: "/Terms-and-Condition",
+        component: Terms,
+        meta: {
+            middleware: "terms",
+            title: `VMS | Terms and Conditions`,
+        },
+    },
     {
         path: "/testing",
         component: Testing,
