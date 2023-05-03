@@ -45,7 +45,7 @@
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.refId }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status ? 'Approved'
-                                            : 'Disapproved' }}</td>
+                                            : 'Pending Approval' }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">

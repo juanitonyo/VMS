@@ -46,6 +46,7 @@ export default {
         axios.get('/api/visitor-registration/' + this.id)
             .then((data) => { 
                 this.buildings = data.data.data;
+                console.log(this.buildings)
             })
             .catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
