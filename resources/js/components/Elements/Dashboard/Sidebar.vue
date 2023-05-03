@@ -34,7 +34,7 @@
 </template>
 
 <script setup>
-import { useRouter, useRoute } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'  
 import {
   CogIcon,
   UserGroupIcon,
