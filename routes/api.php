@@ -36,6 +36,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'building' => 'BuildingController',
         'visitors' => 'VisitorsController',
         'hostreg' => 'HostController',
+        'visit-type' => 'VisitTypesController'
         
     ]);
 });
