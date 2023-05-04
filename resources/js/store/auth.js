@@ -22,9 +22,8 @@ export const userAuthStore = defineStore('userAuth', {
             await axios.get("/sunctum/csrf-cookie");
         },
         async login(formData){
-    
           this.getToken();
-          await  axios.post('/api/login', formData.value)
+          await  axios.post('/login', formData.value)
             .then((data) => {
                this.authenticated = data.data.success;
                this.user = data.data.data

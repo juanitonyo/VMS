@@ -9,6 +9,15 @@ use Illuminate\Support\Facades\Auth;
 class AuthController extends BaseController
 {
 
+      /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('guest');
+    }
 
    public function login(Request $request){
         $request->validate([

@@ -17,6 +17,10 @@
             <router-view></router-view>
         </div>
         @vite(['resources/js/app.js'])
-        
+        @auth
+        <script>
+            window.user = @json(auth()->user())
+        </script>
+        @endauth
     </body>
 </html>

@@ -3,7 +3,7 @@
 
         <div class="w-[420px] md:w-[780px] lg:w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen pt-10">
             <div class="flex flex-col items-center justify-center gap-y-5">
-
+                
                 <div class="flex flex-col gap-y-2 items-center justify-center">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
