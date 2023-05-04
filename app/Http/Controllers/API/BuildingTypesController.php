@@ -29,6 +29,12 @@ class BuildingTypesController extends BaseController
         return $this->sendResponse($arr, "All buildings in array");
     }
 
+    public function getBuildingTypeName($id) {
+        $data = BuildingTypes::where('id', $id)->first()->name;
+
+        return $this->sendResponse($data, "Data found in table");
+    }
+
     /**
      * Show the form for creating a new resource.
      */

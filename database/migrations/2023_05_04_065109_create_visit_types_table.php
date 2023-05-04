@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('visit_types', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->integer('buildingType_id');
+            $table->boolean('visitApproval');
+            $table->boolean('status');
             $table->timestamps();
         });
     }

@@ -77,7 +77,7 @@ class VisitorsController extends BaseController
      */
     public function update(VisitorsRequest $request, $id)
     {
-        $buildingRefID = Building::where('qr_id', $_COOKIE['buildingUUID'])->first()->id;
+        $buildingRefID = Building::where('qr_id', Cookie::get('buildingUUID'))->first()->id;
 
         $data = Visitors::findOrFail($id)->update([
             'building_ID' => $buildingRefID,

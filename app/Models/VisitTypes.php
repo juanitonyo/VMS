@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class VisitTypes extends Model
 {
     use HasFactory;
+
+    protected $fillable = [
+        'name',
+        'buildingType_id',
+        'visitApproval',
+        'status',
+    ];
 }

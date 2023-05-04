@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\VisitTypes;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\VisitTypesRequest;
+use App\Models\BuildingTypes;
 
 class VisitTypesController extends BaseController
 {
@@ -30,7 +31,11 @@ class VisitTypesController extends BaseController
      */
     public function store(VisitTypesRequest $request)
     {
-        $data = VisitTypes::create($request->all());
+        $buildingType_id = BuildingTypes::where('name', $request->get('buildingType_id'))->first()->id;
+        $validated = $request->validated();
+        $validated['buildingType_id'] = $buildingType_id;
+
+        $data = VisitTypes::create($validated);
         return $this->sendResponse($data, "Saved");
     }
 
@@ -53,9 +58,16 @@ class VisitTypesController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, VisitTypes $visitTypes)
+    public function update(VisitTypesRequest $request, $id)
     {
-        //
+        $buildingType_id = BuildingTypes::where('name', $request->params['data']['buildingType_id'])->first()->id;
+
+        $data = VisitTypes::findOrFail($id)->update([
+            'buildingType_id' => $buildingType_id,
+            'name' => $request->params['data']['name'],
+            'visitApproval' => $request->params['data']['visitApproval'],
+            'status' => $request->params['data']['status']
+        ]);
     }
 
     /**
