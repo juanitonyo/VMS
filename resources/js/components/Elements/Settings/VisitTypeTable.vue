@@ -7,7 +7,8 @@
 
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
             <button @click.prevent="setOpen" type="button"
-                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add Entry</button>
+                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
+                Entry</button>
         </div>
     </div>
 
@@ -18,16 +19,19 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col"
-                                    class="py-3.5 pl-4 pr-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">Name</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm w-80 font-semibold text-gray-900">
-                                    Building Type</th>
-                                <th scope="col" class="px-3 py-3.5 text-left text-sm w-80 font-semibold text-gray-900">
-                                    Visit Approval</th>
-                                <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">Status
+                                <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                    Name
                                 </th>
-                                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-sm">Date Created</th>
-                                <th scope="col" class="relative py-3.5 pl-3 pr-4 sm:pr-6 text-sm">Action</th>
+                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-gray-900">
+                                    Building Type</th>
+                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-gray-900">
+                                    Person to Visit</th>
+                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-gray-900">
+                                    Visit Approval</th>
+                                <th scope="col" class="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">Status
+                                </th>
+                                <th scope="col" class="py-3.5 px-3 text-sm font-semibold text-gray-900">Date Created</th>
+                                <th scope="col" class="py-3.5 px-3 text-sm font-semibold text-gray-900">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white">
@@ -35,11 +39,17 @@
                                 <td
                                     class="whitespace-nowrap py-4 pl-4 pr-3 text-xs text-center w-5 font-bold text-gray-900 sm:pl-6">
                                     {{ item.id }}</td>
-                                <td class="px-3 py-4 text-xs text-left w-96 break-all text-gray-500">{{ item.message }}</td>
-                                <td class="px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{ item.description }}
+                                <td class="px-3 py-4 text-xs text-left w-96 break-all text-gray-500">{{ item.name }}</td>
+                                <td class="px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{ item.buildingType }}
                                 </td>
+                                <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
+                                    item.personToVisit ==
+                                    true ? 'Enabled' : 'Disabled' }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status ==
                                     true ? 'Active' : 'Inactive' }}</td>
+                                <td class="px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{
+                                    moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}
+                                </td>
                                 <td
                                     class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-xs font-medium sm:pr-6">
                                     <a @click.prevent="editVisitType(item)" href="#"
@@ -50,7 +60,6 @@
                                                 d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
                                                 clip-rule="evenodd" />
                                         </svg>
-
                                     </a>
                                 </td>
                             </tr>
@@ -71,21 +80,57 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
-                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Message</label>
-                            <div class="mt-2">
-                                <textarea v-model="form.message" type="text" name="visitType" id="visitType" autocomplete="visitType"
-                                    class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" />
-                            </div>
+                            <NormalInput v-model="form.name" label="Name" id="visitType"
+                                :hasError="this.editMode ? false : form.errors.has('name')"
+                                :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
                         </div>
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.description" label="Description" id="visitType"
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Building
+                                Type</label>
+                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
+                                label="label"
+                                :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                            <span v-show="this.editMode ? false : form.errors.has('buildingType')"
+                                class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.description" label="Description" id="building"
                                 :hasError="this.editMode ? false : form.errors.has('description')"
                                 :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
                         </div>
-                        <div class="sm:col-span-3 mt-3">
-                            <SwitchGroup as="div" class="flex items-center justify-between">
-                                <span class="flex flex-grow flex-col">
-                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+
+                        <div class="sm:col-span-3 mt-8 flex justify-between">
+                            <SwitchGroup as="div" class="flex">
+                                <span>
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900 mr-5" passive>
+                                        Person to Visit</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.personToVisit"
+                                    :class="[form.personToVisit ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.personToVisit ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+
+                            <SwitchGroup as="div" class="flex">
+                                <span>
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900 mr-5" passive>
+                                        Visit Approval</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.approval"
+                                    :class="[form.approval ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.approval ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3 flex justify-between">
+                            <SwitchGroup as="div" class="flex">
+                                <span>
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900 mr-[73.5px]"
+                                        passive>
                                         Status</SwitchLabel>
                                 </span>
                                 <Switch v-model="form.status"
@@ -94,7 +139,22 @@
                                         :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
+
+                            <SwitchGroup as="div" class="flex">
+                                <span>
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900 mr-5" passive>
+                                        Auto Approve</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.autoApprove"
+                                    :class="[form.autoApprove ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.autoApprove ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
                         </div>
+
+
+
                     </div>
                 </div>
                 <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
@@ -115,6 +175,7 @@
 
 import axios from "axios";
 import Form from "vform";
+import moment from 'moment';
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
@@ -138,10 +199,13 @@ export default {
             editMode: false,
             open: false,
             form: new Form({
-                id: '',
-                message: '',
+                name: '',
+                buildingType: '',
                 description: '',
-                status: true,
+                personToVisit: false,
+                approval: false,
+                autoApprove: false,
+                status: false,
             }),
         }
     },
@@ -150,10 +214,13 @@ export default {
             this.editMode = false;
             this.open = !this.open;
             this.form = new Form({
-                id: '',
-                message: '',
+                name: '',
+                buildingType: '',
                 description: '',
-                status: true,
+                personToVisit: false,
+                approval: false,
+                autoApprove: false,
+                status: false,
             })
         },
         saveVisitType() {
@@ -163,10 +230,13 @@ export default {
                     this.$Progress.finish();
                     this.getData();
                     this.form = new Form({
-                        id: '',
-                        message: '',
+                        name: '',
+                        buildingType: '',
                         description: '',
-                        status: true,
+                        personToVisit: false,
+                        approval: false,
+                        autoApprove: false,
+                        status: false,
                     });
                     this.open = !this.open;
                     createToast({
@@ -195,10 +265,13 @@ export default {
                 this.$Progress.finish();
                 this.getData();
                 this.form = new Form({
-                    id: '',
-                    message: '',
+                    name: '',
+                    buildingType: '',
                     description: '',
-                    status: true,
+                    personToVisit: false,
+                    approval: false,
+                    autoApprove: false,
+                    status: false,
                 });
                 this.open = !this.open;
                 createToast({
@@ -229,9 +302,20 @@ export default {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
         },
+        forMessage() {
+            return this.editMode ? ' ' : this.form.errors.get('buildingType')
+        },
+        getBuildingTypes() {
+            axios.get('/api/get-building-types').then((data) => {
+                this.building_types = data.data.data
+            }).catch((e) => {
+                errorMessage('Opps!', e.message, 'top-right')
+            });
+        },
     },
     created() {
         this.getData();
+        this.getBuildingTypes();
     }
 }
 
