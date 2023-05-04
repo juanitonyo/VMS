@@ -50,10 +50,10 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-900">
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Visitor', item)"
-                                                class="border border-gray-900 rounded-md py-1.5 px-3 mx-1 hover:bg-gray-300">Visitor</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 mx-1']">Visitor</button>
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Host', item)"
-                                                class="border border-gray-900 rounded-md py-1.5 px-4 hover:bg-gray-300">Host</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 mx-1']">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>

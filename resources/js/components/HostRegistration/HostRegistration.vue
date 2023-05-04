@@ -1,7 +1,7 @@
 <template>
     <div class="min-h-screen p-6 flex items-center justify-center">
         <div class="container max-w-screen-lg mx-auto">
-            <form @submit.prevent="submitForm()">
+            <form @submit.prevent="submitForm()" v-show="!isFormComplete">
                 <div class="bg-white rounded-md shadow-lg shadow-blue-200 p-4 px-4 md:p-8 mb-6">
                     <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
                         <div class="text-gray-600">
@@ -163,7 +163,7 @@
 
                                 <div class="md:col-span-5 mt-3">
                                     <div class="inline-flex items-center">
-                                        <input type="checkbox" name="policy" id="policy" class="form-checkbox" />
+                                        <input type="checkbox" name="policy" id="policy" class="form-checkbox" @change="isChecked"/>
                                         <label for="policy" class="ml-2 text-xs">By supplying information in the homeowner
                                             registration, you agree with our privacy policy and terms
                                             and
@@ -173,8 +173,11 @@
 
                                 <div class="md:col-span-5 text-right">
                                     <div class="inline-flex items-end">
-                                        <button type="submit"
-                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                        <button type="submit" :disabled="!checkPolicy"
+                                            class="text-white font-bold py-2 px-4 rounded"
+                                            :class="[checkPolicy ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500']"
+                                            @click="this.isFormComplete = !this.isFormComplete"
+                                            >
                                             Submit
                                         </button>
                                     </div>
@@ -184,6 +187,10 @@
                     </div>
                 </div>
             </form>
+
+            <div class="border border-black text-center" v-show="isFormComplete">
+                success
+            </div>
         </div>
     </div>
 </template>
@@ -212,6 +219,8 @@ export default {
             buildings: {},
             showPassword: false,
             setShowPassword: false,
+            checkPolicy: false,
+            isFormComplete: false,
             profile: '',
             frontId: '',
             backId: '',
@@ -259,6 +268,9 @@ export default {
 
         showHide() {
             this.showPassword = !this.showPassword
+        },
+        isChecked() {
+            this.checkPolicy = !this.checkPolicy
         }
     },
 

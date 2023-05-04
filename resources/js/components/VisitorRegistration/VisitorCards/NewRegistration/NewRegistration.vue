@@ -101,8 +101,7 @@
                         <a :href="'/visitor-registration/SignIn/reg/' + this.id"
                             class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
                         <button
-                            @click="isGoogleExist ? this.isFormComplete = !this.isFormComplete : submitPolicy(form.email)"
-                            href="#"
+                            @click="isGoogleExist ? this.isFormComplete = !this.isFormComplete : this.isFormComplete = !this.isFormComplete"
                             class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                     </div>
                 </div>
@@ -123,7 +122,7 @@
                                 that I have read,
                                 understood and
                                 hereby
-                                accept the terms of Globalland Property Management, Inc. (“Company”) <a href=""
+                                accept the terms of Globalland Property Management, Inc. (“Company”) <a href="#"
                                     class="underline text-blue-700 font-semibold"> Web Application Privacy Policy</a> and
                                 I
                                 hereby consent to the collection, use, storage, processing, retention and disclosure by the
