@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('visit_types', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('name')->unique();
             $table->integer('buildingType');
             $table->boolean('personToVisit');
             $table->boolean('visitApproval');

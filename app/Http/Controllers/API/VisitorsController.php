@@ -15,7 +15,7 @@ class VisitorsController extends BaseController
      */
     public function index()
     {
-        $data = Visitors::paginate(10);
+        $data = Visitors::with('building')->paginate(10);
         return $this->sendResponse($data, "Fetched all Visitors in Array");
     }
 

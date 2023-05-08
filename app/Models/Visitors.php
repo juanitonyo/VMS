@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Visitors extends Model
 {
@@ -19,4 +20,9 @@ class Visitors extends Model
         'policy',
         'status'
     ];
+
+    public function building(): HasOne 
+    {
+        return $this->hasOne(Building::class, 'id', 'building_ID')->select(['id','buildingName']);
+    }
 }
