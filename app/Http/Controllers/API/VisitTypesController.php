@@ -5,6 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\VisitTypes;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\VisitTypesRequest;
+use App\Models\BuildingTypes;
 
 class VisitTypesController extends BaseController
 {
@@ -13,7 +14,7 @@ class VisitTypesController extends BaseController
      */
     public function index()
     {
-        $data = VisitTypes::paginate(10);
+        $data = VisitTypes::with('buildingTypeName')->paginate(10);
         return $this->sendResponse($data, "All Visit Types in Array");
     }
 
@@ -53,9 +54,17 @@ class VisitTypesController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, VisitTypes $visitTypes)
+    public function update(VisitTypesRequest $request, $id)
     {
-        //
+
+        $data = VisitTypes::findOrFail($id)->update([
+            'name' => $request->params['data']['name'],
+            'buildingType' => $request->params['data']['buildingType']['value'],
+            'personToVisit' => $request->params['data']['personToVisit'],
+            'visitApproval' => $request->params['data']['visitApproval'],
+            'autoApprove' => $request->params['data']['autoApprove'],
+            'status' => $request->params['data']['status']
+        ]);
     }
 
     /**

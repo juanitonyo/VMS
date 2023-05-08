@@ -11,18 +11,38 @@ class VisitTypesRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
      * Get the validation rules that apply to the request.
      *
-     * @return array<string, \Illuminate\Contracts\Validation\ValidationRule|array|string>
+     * @return array<string, \Illuminate\Contracts\Validation\Rule|array|string>
      */
     public function rules(): array
     {
+        return $this->isMethod('post') ? $this->createRules() : $this->updateRules();
+    }
+
+    public function createRules() :array {
         return [
-            //
+            'name' => 'required',
+            'buildingType' => 'required',
+            'personToVisit' => 'required',
+            'visitApproval' => 'required',
+            'autoApprove' => 'required',
+            'status' => 'required'
+        ];
+    }
+
+    public function updateRules(){
+        return [
+            'params.data.name'  => 'required',
+            'params.data.buildingType' => 'required',
+            'params.data.personToVisit' => 'required',
+            'params.data.visitApproval' => 'required',
+            'params.data.autoApprove' => 'required',
+            'params.data.status' => 'required'
         ];
     }
 }

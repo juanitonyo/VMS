@@ -42,11 +42,11 @@
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in data.data" :key="item.id">
                                         <td class="text-left px-3 py-4 text-xs text-gray-900">{{ item.name }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.refId }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.buildingName }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status ? 'Approved'
                                             : 'Pending Approval' }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a @click.prevent="editVisitors(item)"
@@ -68,7 +68,7 @@
                 </div>
             </div>
             <div class="flex items-center justify-center mt-3">
-                <!-- <TailwindPagination :data="data" @pagination-change-page="getData" /> -->
+                <TailwindPagination :data="data" @pagination-change-page="getData" />
             </div>
         </div>
     </div>
@@ -135,12 +135,14 @@ import { Form } from 'vform';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
+import moment from 'moment';
+
 export default {
     name: 'VisitorLogs',
     props: {
         data: {
-            type: Object,
-            default: {}
+            type: Array,
+            default: []
         }
     },
     data() {
@@ -148,12 +150,6 @@ export default {
             data: {},
             editMode: false,
             open: false,
-            form: new Form({
-                name: '',
-                building: '',
-                refId: '',
-                status: false
-            }),
         }
     },
 
@@ -171,13 +167,18 @@ export default {
             this.editMode = false;
             this.open = !this.open;
         },
+        async getData(page = 1) {
+            await axios.get('/api/visitors?page=' + page).then((data) => {
+                this.data = data.data.data;
+                console.log(this.data);
+            }).catch((e) => {
+                // errorMessage('Opps!', e.message, 'top-right')
+            });
+        }
     },
     created() {
-        axios.get('/api/visitors/').then((data) => {
-            this.data = data.data.data;
-        }).catch((e) => {
-            // errorMessage('Opps!', e.message, 'top-right')
-        });
+        this.getData()
+        this.moment = moment;
     },
 }
 
