@@ -196,6 +196,7 @@ export default {
     data() {
         return {
             data: {},
+            building_types: [],
             editMode: false,
             open: false,
             form: new Form({
