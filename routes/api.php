@@ -27,6 +27,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('sync-visitor', 'VisitorsController@syncVisitor');
     Route::get('visitor-registration/{id}', 'BuildingController@getBuilding');
     Route::get('visitor-query/{email}/{refId}', 'VisitorsController@existingVisitor');
+    Route::get('get-building-type-name/{id}', 'BuildingTypesController@getBuildingTypeName');
 
     Route::apiResources([
         'user' => 'UserController',

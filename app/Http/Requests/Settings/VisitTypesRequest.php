@@ -27,18 +27,22 @@ class VisitTypesRequest extends FormRequest
     public function createRules() :array {
         return [
             'name' => 'required',
-            'buildingType_id' => 'required',
+            'buildingType' => 'required',
+            'personToVisit' => 'required',
             'visitApproval' => 'required',
-            'status' => 'required',
+            'autoApprove' => 'required',
+            'status' => 'required'
         ];
     }
 
     public function updateRules(){
         return [
             'params.data.name'  => 'required',
-            'params.data.buildingType_id' => 'required',
+            'params.data.buildingType' => 'required',
+            'params.data.personToVisit' => 'required',
             'params.data.visitApproval' => 'required',
-            'params.data.status' => 'required',
+            'params.data.autoApprove' => 'required',
+            'params.data.status' => 'required'
         ];
     }
 }

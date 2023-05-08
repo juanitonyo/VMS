@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class VisitTypes extends Model
 {
@@ -11,8 +12,15 @@ class VisitTypes extends Model
 
     protected $fillable = [
         'name',
-        'buildingType_id',
+        'buildingType',
+        'personToVisit',
         'visitApproval',
+        'autoApprove',
         'status',
     ];
+
+    public function buildingTypeName(): HasOne
+    {
+        return $this->hasOne(BuildingTypes::class, 'id', 'buildingType')->select(['id','name']);
+    }
 }

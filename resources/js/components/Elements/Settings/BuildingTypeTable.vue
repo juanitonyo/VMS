@@ -180,13 +180,6 @@ export default {
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    this.form = new Form({
-                        id: '',
-                        name: '',
-                        description: '',
-                        delivery_form: false,
-                        status: false,
-                    });
                     this.open = !this.open;
                     createToast({
                         title: 'Success!',
@@ -215,16 +208,9 @@ export default {
                     data: this.form
                 }
             }).then((data) => {
-                this.editMode = false;
                 this.$Progress.finish();
+                this.editMode = false;
                 this.getData();
-                this.form = new Form({
-                    id: '',
-                    name: '',
-                    description: '',
-                    delivery_form: false,
-                    status: false,
-                });
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',

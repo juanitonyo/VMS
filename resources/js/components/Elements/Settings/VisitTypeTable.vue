@@ -22,11 +22,11 @@
                                 <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                     Name
                                 </th>
-                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-gray-900">
+                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-center text-gray-900">
                                     Building Type</th>
-                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-gray-900">
+                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-center text-gray-900">
                                     Person to Visit</th>
-                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-gray-900">
+                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-center text-gray-900">
                                     Visit Approval</th>
                                 <th scope="col" class="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">Status
                                 </th>
@@ -37,17 +37,16 @@
                         <tbody class="divide-y divide-gray-200 bg-white">
                             <tr v-for="item in data.data" :key="item.id">
                                 <td
-                                    class="whitespace-nowrap py-4 pl-4 pr-3 text-xs text-center w-5 font-bold text-gray-900 sm:pl-6">
-                                    {{ item.id }}</td>
-                                <td class="px-3 py-4 text-xs text-left w-96 break-all text-gray-500">{{ item.name }}</td>
-                                <td class="px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{ item.buildingType }}
-                                </td>
+                                    class="whitespace-nowrap py-4 pl-4 pr-3 text-xs text-left w-5 font-bold text-gray-900 sm:pl-6">
+                                    {{ item.name }}</td>
+                                <td class="px-3 py-4 text-xs text-center w-96 break-all text-gray-500">{{ item.building_type_name.name }}</td>
+                                <td class="px-3 py-4 text-xs text-center w-80 break-all text-gray-500">{{ 
+                                    item.personToVisit ? "Enabled" : "Disabled" }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
-                                    item.personToVisit ==
-                                    true ? 'Enabled' : 'Disabled' }}</td>
-                                <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ item.status ==
-                                    true ? 'Active' : 'Inactive' }}</td>
-                                <td class="px-3 py-4 text-xs text-left w-80 break-all text-gray-500">{{
+                                    item.visitApproval ? 'Enabled' : 'Disabled' }}</td>
+                                <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{ 
+                                    item.status ? 'Active' : 'Inactive' }}</td>
+                                <td class="px-3 py-4 text-xs text-center w-80 break-all text-gray-500">{{
                                     moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}
                                 </td>
                                 <td
@@ -89,8 +88,8 @@
                                 Type</label>
                             <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
                                 label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
-                            <span v-show="this.editMode ? false : form.errors.has('buildingType')"
+                                :class="this.editMode ? ' ' : [form.errors.has('buildingType_id') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                            <span v-show="this.editMode ? false : form.errors.has('buildingType_id')"
                                 class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                         </div>
 
@@ -118,10 +117,10 @@
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900 mr-5" passive>
                                         Visit Approval</SwitchLabel>
                                 </span>
-                                <Switch v-model="form.approval"
-                                    :class="[form.approval ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                <Switch v-model="form.visitApproval"
+                                    :class="[form.visitApproval ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
-                                        :class="[form.approval ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                        :class="[form.visitApproval ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
                         </div>
@@ -203,10 +202,12 @@ export default {
                 buildingType: '',
                 description: '',
                 personToVisit: false,
-                approval: false,
+                visitApproval: false,
                 autoApprove: false,
                 status: false,
             }),
+            building_types: {},
+            visitTypes: {}
         }
     },
     methods: {
@@ -218,26 +219,19 @@ export default {
                 buildingType: '',
                 description: '',
                 personToVisit: false,
-                approval: false,
+                visitApproval: false,
                 autoApprove: false,
                 status: false,
             })
         },
         saveVisitType() {
+            this.form.buildingType = this.form.buildingType.label;
+
             this.$Progress.start();
             this.form.post('/api/visit-type')
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    this.form = new Form({
-                        name: '',
-                        buildingType: '',
-                        description: '',
-                        personToVisit: false,
-                        approval: false,
-                        autoApprove: false,
-                        status: false,
-                    });
                     this.open = !this.open;
                     createToast({
                         title: 'Success!',
@@ -264,15 +258,6 @@ export default {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
-                this.form = new Form({
-                    name: '',
-                    buildingType: '',
-                    description: '',
-                    personToVisit: false,
-                    approval: false,
-                    autoApprove: false,
-                    status: false,
-                });
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',
@@ -295,18 +280,20 @@ export default {
             this.open = !this.open;
             this.form = item;
         },
+        forMessage() {
+            return this.editMode ? ' ' : this.form.errors.get('buildingType_id')
+        },
+
         async getData(page = 1) {
             await axios.get('/api/visit-type?page=' + page).then((data) => {
                 this.data = data.data.data;
+                console.log(data.data);
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        forMessage() {
-            return this.editMode ? ' ' : this.form.errors.get('buildingType')
-        },
-        getBuildingTypes() {
-            axios.get('/api/get-building-types').then((data) => {
+        async getbuildingType_ids() {
+            await axios.get('/api/get-building-types').then((data) => {
                 this.building_types = data.data.data
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
@@ -315,7 +302,8 @@ export default {
     },
     created() {
         this.getData();
-        this.getBuildingTypes();
+        this.getbuildingType_ids();
+        this.moment = moment;
     }
 }
 
