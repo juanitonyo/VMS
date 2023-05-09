@@ -27,7 +27,7 @@
                 <form @submit.prevent="showSuccess()">
                     <div class="check_purpose space-y-3 mt-5">
                         <v-select id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
-                            :options="purpose" label="label"
+                            :options="visitType" label="label"
                             class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                         <input type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
                             class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-3 pt-1 pb-[80px] w-80">
@@ -243,6 +243,7 @@ export default {
             }),
             buildings: {},
             visitor: {},
+            visitType: [],
             purpose: [],
             enableButton: false,
             isFormComplete: false,
@@ -279,21 +280,32 @@ export default {
                     errorMessage('Opps!', e.message, 'top-right')
                 }); 
         },
+        
         async syncData() {
             await axios.get('/api/sync-visitor/')
                 .then((data) => {
                     this.visitor = data.data.data;
-                    this.$cookies.remove("asCookie");
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
                 }); 
+        },
+
+        async syncVisitType() {
+            await axios.get('/api/get-visit-types/')
+                .then((data) => {
+                    this.visitType = data.data.data;
+                })
+                .catch((e) => {
+
+                });
         }
     },
 
     created() {
         this.syncData();
         this.getData();
+        this.syncVisitType();
     },
 }
 </script>

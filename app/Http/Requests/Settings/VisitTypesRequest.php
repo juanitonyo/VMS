@@ -28,6 +28,7 @@ class VisitTypesRequest extends FormRequest
         return [
             'name' => 'required',
             'buildingType' => 'required',
+            'description' => 'required',
             'personToVisit' => 'required',
             'visitApproval' => 'required',
             'autoApprove' => 'required',
@@ -39,6 +40,7 @@ class VisitTypesRequest extends FormRequest
         return [
             'params.data.name'  => 'required',
             'params.data.buildingType' => 'required',
+            'params.data.description' => 'required',
             'params.data.personToVisit' => 'required',
             'params.data.visitApproval' => 'required',
             'params.data.autoApprove' => 'required',

@@ -88,8 +88,8 @@
                                 Type</label>
                             <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
                                 label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('buildingType_id') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
-                            <span v-show="this.editMode ? false : form.errors.has('buildingType_id')"
+                                :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                            <span v-show="this.editMode ? false : form.errors.has('buildingType')"
                                 class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                         </div>
 
@@ -225,7 +225,7 @@ export default {
             })
         },
         saveVisitType() {
-            this.form.buildingType = this.form.buildingType.label;
+            this.form.buildingType = this.form.buildingType.value;
 
             this.$Progress.start();
             this.form.post('/api/visit-type')
@@ -279,6 +279,7 @@ export default {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
+            this.form.buildingType = { value: item.building_type_name.id, label: item.building_type_name.name }
         },
         forMessage() {
             return this.editMode ? ' ' : this.form.errors.get('buildingType_id')

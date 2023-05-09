@@ -95,7 +95,7 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-2">
-                            <label for="vvisitType" class="text-sm">Visit Type</label>
+                            <label for="visitType" class="text-sm">Visit Type</label>
                             <input v-model="form.visitType" disabled id="vvisitType" type="text"
                                 class="mt-2 bg-gray-100 block w-full px-3 rounded-md border py-1.5 sm:text-sm ring-gray-300 ring-1 ring-inset   sm:leading-6" />
                         </div>
@@ -141,8 +141,8 @@ export default {
     name: 'VisitorLogs',
     props: {
         data: {
-            type: Array,
-            default: []
+            type: Object,
+            default: {}
         }
     },
     data() {
@@ -150,6 +150,12 @@ export default {
             data: {},
             editMode: false,
             open: false,
+            form: new Form({
+                name: '',
+                building: '',
+                visitType: '',
+                status: false,
+            })
         }
     },
 
@@ -161,7 +167,8 @@ export default {
             this.editMode = true
             this.open = !this.open
             this.form = item;
-
+            this.form.building = item.building.buildingName;
+            console.log(this.form);
         },
         setOpen() {
             this.editMode = false;

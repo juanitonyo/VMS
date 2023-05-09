@@ -83,10 +83,10 @@
                 </div>
 
                 <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
-                    <router-link
-                        :to="this.status ? '/visitor-registration/success/checkout/' + this.id : '/visitor-registration/new/checkout/' + this.id"
+                    <button @click.prevent="checkOutVisitor()"
                         :class="[this.status ? 'bg-[#890707] hover:bg-[#750505]' : 'bg-[#B3B3B3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer']">{{
-                            this.status ? 'Checkout' : 'Close' }}</router-link>
+                            this.status ? 'Checkout' : 'Close' }}
+                    </button>
                 </div>
 
             </div>
@@ -218,6 +218,7 @@ export default {
             data: {},
             id: window.location.href.split('/').pop(),
             buildings: {},
+            visitor: {},
             purpose: [],
             enableButton: false,
             status: true,
@@ -225,21 +226,52 @@ export default {
             pop: false,
         }
     },
-
-    created() {
-        axios.get('/api/visitor-registration/' + this.id)
-            .then((data) => {
-                this.buildings = data.data.data;
-            })
-            .catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
-    },
-
     methods: {
         isPop() {
             this.show = !this.show;
         },
-    }
+
+        showSuccess() {
+            
+        },
+
+        checkOutVisitor() {
+            this.visitor.isCheckedOut = true;
+
+            axios.put("/api/visitors/" + this.visitor.id, {
+                params: {
+                    data: this.visitor
+                }
+            }).then((data) => {
+                this.$router.push('/visitor-registration/success/checkout/' + this.id);
+            }).catch((e) => {
+
+            });
+        },
+
+        async getBuildingData() {
+            await axios.get('/api/visitor-registration/' + this.id)
+                .then((data) => {
+                    this.buildings = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+        },
+        
+        async syncData() {
+            await axios.get('/api/sync-visitor/')
+                .then((data) => {
+                    this.visitor = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                }); 
+        },
+    },
+    created() {
+        this.getBuildingData();
+        this.syncData();
+    },
 }
 </script>

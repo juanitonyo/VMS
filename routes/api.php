@@ -22,6 +22,7 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::post('login', 'AuthController@login');
 
+    Route::get('get-visit-types', 'VisitTypesController@getVisitTypeArray');
     Route::get('get-building-types', 'BuildingTypesController@getBuildingTypeArray');
     Route::get('get-buildings', 'BuildingController@getBuildingsArray');
     Route::get('sync-visitor', 'VisitorsController@syncVisitor');
