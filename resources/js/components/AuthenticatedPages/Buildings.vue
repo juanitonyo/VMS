@@ -139,14 +139,13 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">Upload
-                                Logo</label>
+                            <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">{{ (editMode ? 'Edit' : 'Upload') + ' Logo'}}</label>
                             <div class="flex flex-col items-center justify-center mt-2">
                                 <div class="flex justify-center mt-3">
                                     <div>
                                         <div class="flex items-center justify-center w-full">
                                             <label :style="{ 'background-image': `url(${image_url})` }"
-                                                class="flex flex-col justify-center cursor-pointer w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-cover bg-no-repeat">
+                                                class="flex flex-col justify-center cursor-pointer w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-center bg-cover bg-no-repeat">
                                                 <div v-show="form.logo == '' ? true : false"  class="flex flex-col items-center" :class="{ 'hidden': hideLabel }">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-12 h-12 text-gray-600 group-hover:text-black"

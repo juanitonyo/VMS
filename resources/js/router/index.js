@@ -21,6 +21,7 @@ const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
 const Testing = () => import("@/components/AuthenticatedPages/testing.vue");
+const Deliveries = () => import("@/components/AuthenticatedPages/Deliveries.vue");
 
 // HOST REGISTRATION PAGE
 const HostRegistration = () => import("@/components/HostRegistration/HostRegistration.vue");
@@ -140,7 +141,7 @@ const routes = [
             {
                 name: "deliveries",
                 path: "/app/deliveries",
-                component: Visitors,
+                component: Deliveries,
                 meta: {
                     title: `VMS | Deliveries`,
                     ability: "",
@@ -193,7 +194,7 @@ const routes = [
             },            
             {
                 name: "regprompt",
-                path: "/visitor-registration/SignIn/reg/:id",
+                path: "/visitor-registration/signIn/reg/:id",
                 component: RegPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -209,7 +210,7 @@ const routes = [
             },
             {
                 name: "checkinprompt",
-                path: "/visitor-registration/SignIn/checkin/:id",
+                path: "/visitor-registration/signIn/checkin/:id",
                 component: CheckInPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -233,7 +234,7 @@ const routes = [
             },
             {
                 name: "checkoutprompt",
-                path: "/visitor-registration/SignIn/checkout/:id",
+                path: "/visitor-registration/signIn/checkout/:id",
                 component: CheckOutPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -257,7 +258,7 @@ const routes = [
             },
             {
                 name: "deliveryprompt",
-                path: "/visitor-registration/SignIn/delivery/:id",
+                path: "/visitor-registration/signIn/delivery/:id",
                 component: DeliveryPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -281,7 +282,7 @@ const routes = [
             },
             {
                 name: "inviteprompt",
-                path: "/visitor-registration/SignIn/invite/:id",
+                path: "/visitor-registration/signIn/invite/:id",
                 component: InvitePrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,

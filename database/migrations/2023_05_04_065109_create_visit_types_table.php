@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('name')->unique();
             $table->integer('buildingType');
+            $table->longText('description');
             $table->boolean('personToVisit');
             $table->boolean('visitApproval');
             $table->boolean('autoApprove');

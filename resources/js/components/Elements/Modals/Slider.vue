@@ -35,9 +35,12 @@
   
 <script>
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
 export default {
   props: {
+    setOpen: {
+      type: Boolean,
+      default: 'false',
+    },
     setOpen: {
       type: Boolean,
       default: 'false',
@@ -57,7 +60,7 @@ export default {
 
   },
   components: {
-    Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot, XMarkIcon
+    Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot
   },
 
 }

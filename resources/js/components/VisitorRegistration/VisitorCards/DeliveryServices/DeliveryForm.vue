@@ -81,11 +81,11 @@
                         </div>
 
                         <div class="flex flex-row justify-center items-center gap-3 mb-2">
-                            <button :class="inputs.length == 1 ? 'bg-gray-500' : 'bg-red-500 text-white'"
+                            <button type="button" :class="inputs.length == 1 ? 'bg-gray-500' : 'bg-red-500 text-white'"
                                 :disabled="inputs.length == 1" class="text-xs text-white rounded-md h-[33px] w-[155px] mt-3"
                                 @click="remove(k)">- Remove a
                                 location</button>
-                            <button :class="inputs.length == 10 ? 'bg-gray-500' : 'bg-blue-800 text-white'"
+                            <button type="button" :class="inputs.length == 10 ? 'bg-gray-500' : 'bg-blue-800 text-white'"
                                 :disabled="inputs.length == 10"
                                 class="text-xs text-white rounded-md h-[33px] w-[155px] mt-3" @click="add(k)">+ Add more
                                 location</button>
@@ -127,7 +127,8 @@
                     </div>
 
                     <div v-show="badHealth" class="flex justify-end mt-5">
-                        <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view form</button>
+                        <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view
+                            form</button>
                     </div>
 
                     <div class="flex flex-row justify-center items-center gap-3 mb-10 mt-5">
@@ -173,8 +174,8 @@
                             </svg>
                         </div>
                         <input type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md w-full pl-10 p-1.5"
-                            placeholder="--.- °C">
+                            class="peer bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md w-full pl-10 p-1.5"
+                            placeholder="--.- °C" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1').replace(/^0[^.]/, '0');">
                     </div>
                 </div>
 

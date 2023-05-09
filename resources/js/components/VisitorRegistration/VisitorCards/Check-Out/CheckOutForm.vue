@@ -18,7 +18,8 @@
                     <img src="https://picsum.photos/400/400" alt="No Photo"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200">
                     <div class="flex flex-col justify-center pl-2 w-36">
-                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name }}</p>
+                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
+                        }}</p>
                         <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
                         <p class="text-[9px] text-blue-800 font-light">Status: Status Here</p>
                     </div>
@@ -84,7 +85,7 @@
 
                 <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
                     <router-link
-                        :to="this.status ? '/visitor-registration/success/checkout/' + this.id : '/visitor-registration/new/checkout/' + this.id"
+                        :to="this.status ? '/visitor-registration/success/checkout/' + this.id : '/visitor-registration/checkout/' + this.id"
                         :class="[this.status ? 'bg-[#890707] hover:bg-[#750505]' : 'bg-[#B3B3B3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer']">{{
                             this.status ? 'Checkout' : 'Close' }}</router-link>
                 </div>
@@ -223,23 +224,38 @@ export default {
             status: true,
             show: false,
             pop: false,
+            visitor: {}
         }
     },
 
     created() {
-        axios.get('/api/visitor-registration/' + this.id)
-            .then((data) => {
-                this.buildings = data.data.data;
-            })
-            .catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
+        this.syncData();
+        this.getData();
     },
 
     methods: {
         isPop() {
             this.show = !this.show;
         },
+        async syncData() {
+            await axios.get('/api/sync-visitor/')
+                .then((data) => {
+                    this.visitor = data.data.data;
+                    this.$cookies.remove("asCookie");
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+        },
+        async getData() {
+            axios.get('/api/visitor-registration/' + this.id)
+                .then((data) => {
+                    this.buildings = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+        }
     }
 }
 </script>
