@@ -18,7 +18,8 @@
                     <img src="https://picsum.photos/400/400" alt="No Photo"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200">
                     <div class="flex flex-col justify-center pl-2 w-36">
-                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name }}</p>
+                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
+                        }}</p>
                         <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
                         <p class="text-[9px] text-blue-800 font-light">Status: Status Here</p>
                     </div>
@@ -202,7 +203,7 @@
 import axios from 'axios';
 import Account from '../../../Elements/Modals/MyAccount.vue';
 
-export default {
+export default{
     name: 'Check Out Form',
     props: {
         data: {
@@ -224,6 +225,7 @@ export default {
             status: true,
             show: false,
             pop: false,
+            visitor: {}
         }
     },
     methods: {

@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="flex flex-row mt-4 gap-x-5">
-                    <img src="https://picsum.photos/400/400" alt="No Photo"
+                    <img src="https://picsum.photos/400/400"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200">
                     <div class="flex flex-col justify-center pl-2 w-36">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name }}</p>
@@ -296,6 +296,7 @@ export default {
             goodHealth: false,
             badHealth: false,
             buildings: {},
+            visitor: {},
             purpose: [],
             enableButton: false,
             status: true,
@@ -379,16 +380,30 @@ export default {
         isChecked() {
             this.enableButton = !this.enableButton
         },
+        async syncData() {
+            await axios.get('/api/sync-visitor/')
+                .then((data) => {
+                    this.visitor = data.data.data;
+                    this.$cookies.remove("asCookie");
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+        },
+        async getData() {
+            axios.get('/api/visitor-registration/' + this.id)
+                .then((data) => {
+                    this.buildings = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+        }
     },
 
     created() {
-        axios.get('/api/visitor-registration/' + this.id)
-            .then((data) => {
-                this.buildings = data.data.data;
-            })
-            .catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
+        this.syncData();
+        this.getData();
     },
 }
 </script>

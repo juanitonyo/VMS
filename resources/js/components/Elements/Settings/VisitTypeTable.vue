@@ -19,14 +19,14 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="py-3.5 px-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                <th scope="col" class="py-3.5 px-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
                                     Name
                                 </th>
-                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-center text-gray-900">
-                                    Building Type</th>
-                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-center text-gray-900">
+                                <th scope="col" class="py-3.5 px-3 text-center text-sm w-80 font-semibold text-gray-900">
+                                Building Type</th>
+                                <th scope="col" class="py-3.5 px-3 text-center text-sm w-80 font-semibold text-gray-900">
                                     Person to Visit</th>
-                                <th scope="col" class="py-3.5 px-3 text-left text-sm w-80 font-semibold text-center text-gray-900">
+                                <th scope="col" class="py-3.5 px-3 text-center text-sm w-80 font-semibold text-gray-900">
                                     Visit Approval</th>
                                 <th scope="col" class="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">Status
                                 </th>
@@ -195,6 +195,7 @@ export default {
     data() {
         return {
             data: {},
+            building_types: [],
             editMode: false,
             open: false,
             form: new Form({
@@ -279,7 +280,11 @@ export default {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
+<<<<<<< HEAD
             this.form.buildingType = { value: item.building_type_name.id, label: item.building_type_name.name }
+=======
+            this.form.buildingType = { value: item.building_type_name.id, label: item.building_type_name.name };
+>>>>>>> 8dd3422ab32b52746361968133a321542938b498
         },
         forMessage() {
             return this.editMode ? ' ' : this.form.errors.get('buildingType_id')
