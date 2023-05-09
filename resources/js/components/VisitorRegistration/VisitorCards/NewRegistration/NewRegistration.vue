@@ -13,7 +13,7 @@
                     <label for="dropzone-file" :style="{ 'background-image': `url(${profile_url})` }"
                         @click="$refs.profile.click()"
                         class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-10 pb-6" :class="{ 'hidden': hideLabel }">
+                        <div class="flex flex-col items-center justify-center pt-10 pb-6" :class="{ 'hidden': hideLabel_profile }">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
                         <input id="dropzone-file" ref="profile" type="file" class="opacity-0" @input="uploadImage" />
@@ -175,6 +175,7 @@ export default {
                 contact: '',
                 validId: '',
                 policy: false,
+                isCheckedOut: false
             }),
             email: '',
             buildings: {},
@@ -184,7 +185,9 @@ export default {
             back_url: null,
             isFormComplete: false,
             enableButton: false,
-            hideLabel: false,
+            hideLabel_profile: false,
+            hideLabel_front: false,
+            hideLabel_back: false,
             isGoogleExist: false,
 
             valid_id: [
@@ -225,7 +228,6 @@ export default {
         submitForm() {
             this.$Progress.start();
             if (this.isGoogleExist) {
-
                 axios.put('/api/visitors/' + this.account.id, {
                     params: {
                         data: this.form
@@ -233,9 +235,6 @@ export default {
                 }).then((data) => {
                     this.$Progress.finish();
                     this.$router.push('/visitor-registration/success/' + this.id);
-
-                    this.$cookies.remove('asCookie');
-                    this.$cookies.remove('refId');
                 }).catch((error) => {
 
                 })
@@ -245,7 +244,6 @@ export default {
                     .then((data) => {
                         this.$Progress.finish();
                         this.$router.push('/visitor-registration/success/' + this.id);
-                        this.$cookies.remove('refId');
                     }).catch((error) => {
 
                     })

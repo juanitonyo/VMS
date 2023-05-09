@@ -11,7 +11,7 @@ class VisitTypeObserver
 
     public function __construct(Request $request)
     {
-        $this->$request = $request;
+        $this->request = $request;
     }
     public function creating(VisitTypes $visitTypes): void
     {

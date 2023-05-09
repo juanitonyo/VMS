@@ -18,7 +18,8 @@ class Visitors extends Model
         'google_id',
         'validId',
         'policy',
-        'status'
+        'status',
+        'isCheckedOut'
     ];
 
     public function building(): HasOne 

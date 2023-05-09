@@ -24,8 +24,7 @@ class VisitorsController extends BaseController
         $data = Visitors::where([
             'email' => $email,
             'building_ID' => $refId
-        ])->first(['id', 'name']);
-
+        ])->latest()->first();
         return $this->sendResponse($data, "Found data in table");
     }
 
@@ -86,6 +85,7 @@ class VisitorsController extends BaseController
             'contact' => $request->params['data']['contact'],
             'validId' => $request->params['data']['validId'],
             'policy' => $request->params['data']['policy'],
+            'isCheckedOut' => $request->params['data']['isCheckedOut']
         ]);
         
         return $this->sendResponse($request->validated(), "Data Updated.");

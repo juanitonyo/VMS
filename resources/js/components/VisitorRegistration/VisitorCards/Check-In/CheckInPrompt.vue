@@ -44,9 +44,9 @@
                 </div>
 
                 <!-- <buttonToInput is-button :label="'Create Account'"></buttonToInput> -->
-                <buttonToInput :is-button="false"></buttonToInput>
-                <button @click.prevent="isExisting()"
-                    class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-3 w-[330px] cursor-pointer">
+                <buttonToInput v-model="this.email" :is-button="false"></buttonToInput>
+                <button @click.prevent="isExisting()" type="submit"
+                    class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mt-3 w-full cursor-pointer">
                     Submit
                 </button>
             </div>
@@ -56,6 +56,7 @@
 
 <script>
 import axios from 'axios';
+import { Form } from 'vform';
 import buttonToInput from '../../../Elements/Buttons/buttonToInput.vue'
 
 export default {
@@ -75,37 +76,50 @@ export default {
             data: {},
             id: window.location.href.split('/').pop(),
             email: '',
+            form: new Form({
+                building_ID: '',
+                email: '',
+                name: '',
+                contact: '',
+                validId: '',
+                google_Id: '',
+                status: '',
+                policy: '',
+            }),
+            account: {},
             buildings: {},
         }
     },
     methods: {
 
         isExisting() {
-            console.log(this.email),
+            axios.get('/api/visitor-query/' + this.email + '/' + this.buildings.id)
+                .then((data) => {
+                    this.account = data.data.data;
 
-                axios.get('/api/visitor-query/' + this.email + '/' + this.buildings.id)
-                    .then((data) => {
-                        this.account = data.data.data;
-
-                        if (this.account != null) {
+                    if (this.account != null) {
+                        if (this.account.isCheckedOut) {
                             this.$router.push('/visitor-registration/checkin/' + this.id);
                         }
-
                         else {
-                            this.$router.push('/visitor-registration/SignIn/reg/' + this.id);
+                            this.$router.push('/visitor-registration/checkout/' + this.id);
                         }
+                    }
 
-                    })
-                    .catch((e) => {
+                    else {
+                        this.$router.push('/visitor-registration/SignIn/reg/' + this.id);
+                    }
 
-                    });
+                })
+                .catch((e) => {
+
+                });
         },
 
         async getData() {
             await axios.get('/api/visitor-registration/' + this.id)
                 .then((data) => {
                     this.buildings = data.data.data;
-                    console.log(this.buildings)
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')

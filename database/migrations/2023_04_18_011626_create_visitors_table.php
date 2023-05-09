@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('google_id')->nullable();
             $table->boolean('status')->default(false);
             $table->boolean('policy')->default(false);
+            $table->boolean('isCheckedOut')->default(false);
             $table->timestamps();
         });
     }
