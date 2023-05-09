@@ -281,7 +281,7 @@ export default {
                     errorMessage('Opps!', e.message, 'top-right')
                 }); 
         },
-        
+
         async syncData() {
             await axios.get('/api/sync-visitor/')
                 .then((data) => {

@@ -19,11 +19,11 @@ class VisitorsController extends BaseController
         return $this->sendResponse($data, "Fetched all Visitors in Array");
     }
 
-    public function existingVisitor($email, $refId) {
+    public function existingVisitor(Request $request) {
         
         $data = Visitors::where([
-            'email' => $email,
-            'building_ID' => $refId
+            'email' => $request->email,
+            'building_ID' => $request->building_ID
         ])->latest()->first();
 
         return $this->sendResponse($data, "Found data in table");

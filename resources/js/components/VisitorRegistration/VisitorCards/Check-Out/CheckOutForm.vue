@@ -225,7 +225,6 @@ export default{
             status: true,
             show: false,
             pop: false,
-            visitor: {}
         }
     },
     methods: {

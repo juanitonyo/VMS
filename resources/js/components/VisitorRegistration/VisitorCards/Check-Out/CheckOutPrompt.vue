@@ -46,7 +46,7 @@
                 <!-- <buttonToInput is-button :label="'Create Account'"></buttonToInput> -->
                 <buttonToInput v-model="this.email" :is-button="false"></buttonToInput>
                 <button @click.prevent="isExisting()"
-                    class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-3 w-[330px] cursor-pointer">
+                    class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mt-3 w-[330px] cursor-pointer">
                     Submit
                 </button>
             </div>
@@ -80,7 +80,7 @@ export default {
     },
     methods: {
         isExisting() {
-            axios.get('/api/visitor-query/' + this.email + '/' + this.buildings.id)
+            axios.get('/api/visitor-query/?email=' + this.email + '&buildingId=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
 
