@@ -93,6 +93,8 @@ export default {
     methods: {
 
         isExisting() {
+            console.log(this.email + ', ' + this.buildings.id);
+
             axios.get('/api/visitor-query/' + this.email + '/' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
@@ -109,11 +111,10 @@ export default {
                     else {
                         this.$router.push('/visitor-registration/SignIn/reg/' + this.id);
                     }
-
                 })
                 .catch((e) => {
+                })
 
-                });
         },
 
         async getData() {

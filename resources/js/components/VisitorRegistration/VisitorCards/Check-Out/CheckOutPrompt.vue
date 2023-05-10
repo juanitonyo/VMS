@@ -96,6 +96,7 @@ export default {
                         this.$router.push('/visitor-registration/SignIn/reg/' + this.id);
                     }
 
+
                 })
                 .catch((e) => {
 

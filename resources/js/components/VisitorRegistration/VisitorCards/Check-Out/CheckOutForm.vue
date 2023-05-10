@@ -264,6 +264,7 @@ export default{
             await axios.get('/api/sync-visitor/')
                 .then((data) => {
                     this.visitor = data.data.data;
+                    console.log(this.visitor)
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
