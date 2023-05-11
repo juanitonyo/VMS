@@ -18,9 +18,11 @@
                     <img src="https://picsum.photos/400/400"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200">
                     <div class="flex flex-col justify-center pl-2 w-36">
-                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name }}</p>
+                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
+                        }}</p>
                         <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
-                        <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
+                        <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' :
+                            'Pending Approval' }}</p>
                     </div>
                 </div>
 
@@ -56,18 +58,20 @@
                         </div>
                     </div>
 
-                    <div class="flex flex-col space-y-2 mt-3">
+                    <div class="host flex flex-col space-y-2 mt-3">
                         <input type="text" disabled value="" placeholder="Principal buyer's details"
                             class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
                         <input type="text" disabled value="" placeholder="Principal buyer’s contact number"
                             class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
                         <label for="visitName" class="text-gray-400 text-[10px]">
-                            <input type="text" placeholder="Who will you visit? Enter the host’s name heree"
-                                class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80">
+                            <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
+                                class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80"> -->
+                            <v-select :options="user" label="label" :placeholder="'Who will you visit? Enter the host’s name here'"
+                                class="text-[10px] border border-blue-700 rounded-[3px] h-7 w-full"></v-select>
                         </label>
                         <label for="visitContact" class="text-gray-400 text-[10px]">
                             <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
-                                class="text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80">
+                                class="text-[9px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80">
                         </label>
                     </div>
 
@@ -91,11 +95,11 @@
                     </div>
 
                     <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
-                            <button @click.prevent="checkInVisitor()" :disabled="!enableButton"
-                                :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
-                                class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
-                                Check In
-                            </button>
+                        <button @click.prevent="checkInVisitor()" :disabled="!enableButton"
+                            :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
+                            class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
+                            Check In
+                        </button>
                         <router-link :to="'/visitor-registration/SignIn/checkin/' + this.id"
                             class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
                     </div>
@@ -225,7 +229,7 @@ export default {
             default: []
         },
     },
-    components:{
+    components: {
         Account
     },
     data() {
@@ -245,6 +249,7 @@ export default {
             buildings: {},
             visitor: {},
             visitType: [],
+            user: [],
             purpose: [],
             enableButton: false,
             isFormComplete: false,
@@ -288,7 +293,7 @@ export default {
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
-                }); 
+                });
         },
 
         async syncData() {
@@ -298,7 +303,7 @@ export default {
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
-                }); 
+                });
         },
 
         async syncVisitType() {

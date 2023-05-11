@@ -189,6 +189,53 @@
 .gov-ids .vs__dropdown-menu{
     max-height: 150px;
 }
+.host .v-select{
+    color: black;
+}
+.host .vs__search{
+    height: 28px;
+    border: none;
+    margin: 0;
+}
+
+.host .vs__selected-options .vs__search{
+    height: 28px;
+    font-size: 9px;
+    border: none;
+    margin: 0;
+}
+
+.host .vs__selected{
+    height: 28px;
+}
+
+.host .vs__search::placeholder{
+    font-size: 9px;
+    color: rgb(156 163 175);
+}
+
+.host .vs__actions .vs__clear{
+    margin-top: 8px;
+}
+
+.host .vs__search:focus{
+    font-size: 9px;
+}
+
+.host::placeholder{
+    font-size: 12px;
+}
+
+.host::placeholder:focus{
+    font-size: 12px;
+}
+
+.host .vs__dropdown-toggle{
+    height: 28px; 
+    border: none;
+}
+
+
 
 
 
