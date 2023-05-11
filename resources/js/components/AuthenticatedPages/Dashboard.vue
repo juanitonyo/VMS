@@ -18,7 +18,7 @@
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Visitors</dt>
                                     <div class="flex space-x-2">
-                                        <p class="text-lg font-medium text-indigo-900">100</p>
+                                        <p class="text-lg font-medium text-indigo-900">{{ this.numVisitors }}</p>
                                         <!-- vshow -->
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="green" class="w-6 h-6">
@@ -52,7 +52,7 @@
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Checked In</dt>
                                     <div class="flex space-x-2">
-                                        <p class="text-lg font-medium text-indigo-900">113</p>
+                                        <p class="text-lg font-medium text-indigo-900">{{ this.numLogs }}</p>
                                         <!-- vshow -->
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="red" class="w-6 h-6">
@@ -87,7 +87,7 @@
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Checked Out</dt>
                                     <div class="flex space-x-2">
-                                        <p class="text-lg font-medium text-indigo-900">120</p>
+                                        <p class="text-lg font-medium text-indigo-900">{{ this.numCheckouts }}</p>
                                         <!-- vshow -->
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="green" class="w-6 h-6">
@@ -141,15 +141,15 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="person in this.people" :key="person.email">
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.email }}
+                                    <tr v-for="item in data.data" :key="item.visitor.id">
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ console.log(item.visitor.email) }}
                                         </td>
                                         <td
                                             class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
-                                            {{ person.name }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.title }}
+                                            {{ item.visitor.name }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">Last Name
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.role }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ moment(item.visitor.created_at) }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -185,7 +185,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="person in this.people" :key="person.email">
+                                    <tr v-for="person in this.visitorCheckOuts" :key="person.id">
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.email }}
                                         </td>
                                         <td
@@ -211,6 +211,7 @@ import axios from 'axios';
 import MobileMenu from '../Elements/Dashboard/MobileMenu.vue';
 import Sidebar from '../Elements/Dashboard/Sidebar.vue';
 import TopBar from '../Elements/Dashboard/TopBar.vue';
+import moment from 'moment';
 
 export default {
     name: 'Dashboard',
@@ -233,7 +234,12 @@ export default {
                 { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
             ],
             visitors: {},
-            numVisitors: ''
+            visitorLogs: {},
+            visitorCheckOuts: {},
+            accountsCheckIn: {},
+            numVisitors: '',
+            numLogs: '',
+            numCheckouts: ''
         }
     },
     methods: {
@@ -250,7 +256,25 @@ export default {
             await axios.get('/api/visitors/')
                 .then((data) => {
                     this.visitors = data.data.data;
-                    this.numVisitors = this.visitors.total
+                    this.numVisitors = this.visitors.total;
+                }).catch((e) => {
+
+                });
+        },
+        async getVisitorLogs() {
+            await axios.get('/api/visitor-logs/')
+                .then((data) => {
+                    this.visitorLogs = data.data.data;
+                    this.numLogs = this.visitorLogs.total;
+                }).catch((e) => {
+
+                });
+        },
+        async getCheckOuts() {
+            await axios.get('/api/get-checkouts/')
+                .then((data) => {
+                    this.visitorCheckOuts = data.data.data;
+                    this.numCheckouts = this.visitorCheckOuts.length
                 }).catch((e) => {
 
                 });
@@ -258,6 +282,9 @@ export default {
     },
     created() {
         this.getVisitors();
+        this.getVisitorLogs();
+        this.getCheckOuts();
+        this.moment = moment
     }
 }
 

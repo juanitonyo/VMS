@@ -30,6 +30,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('visitor-query', 'VisitorsController@existingVisitor');
     Route::get('check-log', 'VisitorLogsController@queryLog');
     Route::get('get-hosts', 'HostController@getHostQuery');
+    Route::get('get-checkouts', 'VisitorLogsController@totalCheckOut');
 
     Route::apiResources([
         'user' => 'UserController',

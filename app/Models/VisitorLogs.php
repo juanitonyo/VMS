@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class VisitorLogs extends Model
 {
@@ -16,4 +17,9 @@ class VisitorLogs extends Model
         'visitPurpose_id',
         'isCheckedOut'
     ];
+
+    public function visitor(): BelongsTo
+    {
+        return $this->belongsTo(Visitors::class, 'visitor_id');
+    }
 }

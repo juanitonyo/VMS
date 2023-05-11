@@ -15,16 +15,22 @@ class VisitorLogsController extends BaseController
      */
     public function index()
     {
-        $data = VisitorLogs::paginate(10);
+        $data = VisitorLogs::with('visitor')->paginate(10);
 
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
     public function queryLog() {
-        $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->latest()->first()->count();
+        $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->latest()->first();
 
         return $this->sendResponse($data, "Fetched data from table.");
 
+    }
+
+    public function totalCheckOut() {
+        $data = VisitorLogs::where('isCheckedOut', 1)->get();
+
+        return $this->sendResponse($data, "Fetched check outs in table");
     }
 
     /**
