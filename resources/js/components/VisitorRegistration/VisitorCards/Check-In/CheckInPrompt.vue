@@ -45,7 +45,7 @@
 
                 <!-- <buttonToInput is-button :label="'Create Account'"></buttonToInput> -->
                 <buttonToInput v-model="this.email" :is-button="false"></buttonToInput>
-                <button @click.prevent="isExisting()" type="submit"
+                <button @click.prevent="isExisting(); checkLog()" type="submit"
                     class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mt-3 w-full cursor-pointer">
                     Submit
                 </button>
@@ -76,17 +76,8 @@ export default {
             data: {},
             id: window.location.href.split('/').pop(),
             email: '',
-            form: new Form({
-                building_ID: '',
-                email: '',
-                name: '',
-                contact: '',
-                validId: '',
-                google_Id: '',
-                status: '',
-                policy: '',
-            }),
             account: {},
+            log: {},
             buildings: {},
         }
     },
@@ -96,19 +87,12 @@ export default {
             axios.get('/api/visitor-query?email=' + this.email + '&building_ID=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
-                    console.log(this.account)
 
-                    if (this.account != null) {
-                        if (this.account.isCheckedOut) {
-                            this.$router.push('/visitor-registration/checkin/' + this.id);
-                        }
-                        else {
-                            this.$router.push('/visitor-registration/checkout/' + this.id);
-                        }
-                    }
-
-                    else {
+                    if(this.account == null) {
                         this.$router.push('/visitor-registration/SignIn/reg/' + this.id);
+                    }
+                    else {
+                        document.cookie = "id=" + this.account.id + "; path=/";
                     }
 
                 })
@@ -117,8 +101,24 @@ export default {
                 });
         },
 
+        async checkLog() {
+            await axios.get('/api/check-log/')
+                .then((data) => {
+                    this.log = data.data.data;
+
+                    if(this.log == null || this.log.isCheckedOut) {
+                        this.$router.push('/visitor-registration/checkin/' + this.id);
+                    }
+                    else {
+                        this.$router.push('/visitor-registration/checkout/' + this.id);
+                    }
+                }).catch((e) => {
+
+                });
+        },
+
         async getData() {
-            await axios.get('/api/visitor-registration/')
+            await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
                 .then((data) => {
                     this.buildings = data.data.data;
                     console.log(this.buildings);

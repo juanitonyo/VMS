@@ -273,7 +273,7 @@ export default {
     },
 
     created() {
-        axios.get('/api/visitor-registration/' + this.id)
+        axios.get('/api/visitor-registration?buildingUUID=' + this.id)
             .then((data) => {
                 this.buildings = data.data.data;
             })

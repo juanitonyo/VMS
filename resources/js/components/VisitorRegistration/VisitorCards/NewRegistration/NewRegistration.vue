@@ -174,8 +174,7 @@ export default {
                 name: '',
                 contact: '',
                 validId: '',
-                policy: false,
-                isCheckedOut: false
+                policy: false
             }),
             email: '',
             buildings: {},

@@ -19,7 +19,6 @@ class Visitors extends Model
         'validId',
         'policy',
         'status',
-        'isCheckedOut'
     ];
 
     public function building(): HasOne 
