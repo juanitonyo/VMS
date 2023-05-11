@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center">
         <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
-            <div v-show="!isFormComplete" class="flex flex-col items-center gap-y-5">
+            <div v-show="!isFormComplete" class="flex flex-col items-center gap-y-5 mx-[46px]">
 
                 <div class="flex flex-col gap-y-2 items-center justify-center mt-10">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
@@ -13,7 +13,8 @@
                     <label for="dropzone-file" :style="{ 'background-image': `url(${profile_url})` }"
                         @click="$refs.profile.click()"
                         class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-10 pb-6" :class="{ 'hidden': hideLabel_profile }">
+                        <div class="flex flex-col items-center justify-center pt-10 pb-6"
+                            :class="{ 'hidden': hideLabel_profile }">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
                         <input id="dropzone-file" ref="profile" type="file" class="opacity-0" @input="uploadImage" />
@@ -64,46 +65,42 @@
                                     form.errors.get('validId') }}</span>
                         </div>
                     </div>
+                </div>
 
-                    <div class="mt-8 mr-10 w-full">
-                        <div class="flex gap-x-2">
-                            <div class="flex flex-row items-center">
-                                <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
-                                <label for="dropzone-file" :style="{ 'background-image': `url(${front_url})` }"
-                                    @click="$refs.front.click()"
-                                    class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                                        :class="{ 'hidden': hideLabel }">
-                                        <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
-                                    </div>
-                                    <input id="dropzone-file" ref="front" type="file" class="opacity-0"
-                                        @input="uploadImage" />
-                                </label>
+                <div class="flex gap-x-2 w-full justify-end">
+                    <div class="flex items-center">
+                        <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
+                        <label for="dropzone-file" :style="{ 'background-image': `url(${front_url})` }"
+                            @click="$refs.front.click()"
+                            class="flex flex-col items-center justify-center w-[70px] h-[55px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6"
+                                :class="{ 'hidden': hideLabel }">
+                                <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
                             </div>
-
-                            <div class="flex flex-row items-center">
-                                <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
-                                <label for="dropzone-file" :style="{ 'background-image': `url(${back_url})` }"
-                                    @click="$refs.back.click()"
-                                    class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                                    <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                                        :class="{ 'hidden': hideLabel }">
-                                        <img src="/Visitor_Homepage_Assets/backID.png" alt="">
-                                    </div>
-                                    <input id="dropzone-file" ref="back" type="file" class="opacity-0"
-                                        @change="uploadImage" />
-                                </label>
-                            </div>
-                        </div>
+                            <input id="dropzone-file" ref="front" type="file" class="opacity-0" @input="uploadImage" />
+                        </label>
                     </div>
 
-                    <div class="flex flex-row mt-10 justify-center gap-x-8">
-                        <a :href="'/visitor-registration/SignIn/reg/' + this.id"
-                            class="w-[145px] h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
-                        <button
-                            @click="isGoogleExist ? this.isFormComplete = !this.isFormComplete : this.isFormComplete = !this.isFormComplete"
-                            class="w-[145px] h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
+                    <div class="flex items-center">
+                        <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
+                        <label for="dropzone-file" :style="{ 'background-image': `url(${back_url})` }"
+                            @click="$refs.back.click()"
+                            class="flex flex-col items-center justify-center w-[70px] h-[55px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6"
+                                :class="{ 'hidden': hideLabel }">
+                                <img src="/Visitor_Homepage_Assets/backID.png" alt="">
+                            </div>
+                            <input id="dropzone-file" ref="back" type="file" class="opacity-0" @change="uploadImage" />
+                        </label>
                     </div>
+                </div>
+
+                <div class="flex mt-10 justify-between gap-x-5 w-full">
+                    <a :href="'/visitor-registration/SignIn/reg/' + this.id"
+                        class="w-full h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
+                    <button
+                        @click="isGoogleExist ? this.isFormComplete = !this.isFormComplete : this.isFormComplete = !this.isFormComplete"
+                        class="w-full h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                 </div>
             </div>
 
