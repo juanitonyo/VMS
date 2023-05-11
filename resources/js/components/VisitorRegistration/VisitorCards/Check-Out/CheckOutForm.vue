@@ -237,15 +237,12 @@ export default{
         },
 
         checkOutVisitor() {
-            axios.put("/api/visitor-logs/" + this.visitor.id, {
-                params: {
-                    data: this.visitor
-                }
-            }).then((data) => {
-                this.$router.push('/visitor-registration/success/checkout/' + this.id);
-            }).catch((e) => {
+            axios.put("/api/visitor-logs/" + this.visitor.id)
+                .then((data) => {
+                    this.$router.push('/visitor-registration/success/checkout/' + this.id);
+                }).catch((e) => {
 
-            });
+                });
         },
 
         async getBuildingData() {

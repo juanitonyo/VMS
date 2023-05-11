@@ -282,7 +282,7 @@ export default {
         },
 
         async getData() {
-            await axios.get('/api/visitor-registration/')
+            await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
                 .then((data) => {
                     this.buildings = data.data.data;
                 })

@@ -29,6 +29,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('visitor-registration', 'BuildingController@getBuilding');
     Route::get('visitor-query', 'VisitorsController@existingVisitor');
     Route::get('get-building-type-name/{id}', 'BuildingTypesController@getBuildingTypeName');
+    Route::get('check-log', 'VisitorLogsController@queryLog');
 
     Route::apiResources([
         'user' => 'UserController',

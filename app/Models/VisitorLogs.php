@@ -11,7 +11,8 @@ class VisitorLogs extends Model
 
     protected $fillable = [
         'user_id',
+        'visitor_id',
         'building_id',
-        'visitor_id'
+        'isCheckedOut'
     ];
 }
