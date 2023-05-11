@@ -93,6 +93,7 @@ export default {
                         document.cookie = "id=" + this.account.id + "; path=/";
                     }
 
+
                 })
                 .catch((e) => {
 

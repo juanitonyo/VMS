@@ -51,8 +51,10 @@ const sidebarNavigation = [
   { name: 'Visitors', href: '/app/visitors', icon: UserGroupIcon },
   { name: 'Deliveries', href: '/app/deliveries', icon: TruckIcon },
 ]
+
 const sideBarSecondaryNavigation = [
   { name: 'Maintenance', href: '/app/settings', icon: CogIcon },
 ]
+
 
 </script>

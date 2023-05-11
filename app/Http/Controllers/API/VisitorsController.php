@@ -26,7 +26,7 @@ class VisitorsController extends BaseController
             'building_ID' => $request->building_ID
         ])->latest()->first();
 
-        return $this->sendResponse($data, "Found data in table");
+        return $this->sendResponse($data, "Found data in table")->withCookie(cookie('asCookie', $data['google_id'], 1440, $httpOnly = false));
     }
 
     public function syncVisitor() {

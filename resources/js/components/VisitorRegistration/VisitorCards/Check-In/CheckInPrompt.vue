@@ -94,7 +94,6 @@ export default {
                     else {
                         document.cookie = "id=" + this.account.id + "; path=/";
                     }
-
                 })
                 .catch((e) => {
 

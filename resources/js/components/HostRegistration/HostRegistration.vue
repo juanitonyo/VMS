@@ -174,9 +174,8 @@
                                 <div class="md:col-span-5 text-right">
                                     <div class="inline-flex items-end">
                                         <button type="submit" :disabled="!checkPolicy"
-                                            class="text-white font-bold py-2 px-4 rounded"
-                                            :class="[checkPolicy ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500']"
-                                            @click="checkForm">
+                                            @click.prevent="submitForm()"
+                                            :class="[checkPolicy == true ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500', 'text-white font-bold py-2 px-4 rounded']">
                                             Submit
                                         </button>
                                     </div>
@@ -187,9 +186,6 @@
                 </div>
             </form>
 
-            <div class="border border-black text-center" v-show="isFormComplete">
-                success
-            </div>
         </div>
     </div>
 </template>
@@ -255,7 +251,7 @@ export default {
             this.form.post('/api/hostreg')
                 .then((data) => {
                     this.$Progress.finish();
-                    this.$router.push('/host-registration/success/' + this.id);
+                    this.$router.push('/homeowner-registration/success/' + this.id);
                 }).catch((error) => {
                     this.$Progress.fail();
                 })

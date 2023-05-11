@@ -31,7 +31,7 @@
 
                     <div class="relative mt-5">
                         <input type="text" id="courierName"
-                            class="block px-2 pb-1 pt-2 w-[320px] text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="courierName"
                             class="absolute cursor-text text-[10px] text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4 left-1">Company
@@ -40,7 +40,7 @@
 
                     <div class="relative mt-5">
                         <input type="text" id="riderName"
-                            class="block px-2 pb-1 pt-2 w-[320px] text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="riderName"
                             class="absolute cursor-text text-[10px] text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4 left-1">Rider
@@ -49,7 +49,7 @@
 
                     <div class="relative mt-5">
                         <input type="tel" id="contact"
-                            class="block px-2 pb-1 pt-2 w-[320px] text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="contact"
                             class="absolute cursor-text text-[10px] text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4 left-1">Mobile
@@ -65,7 +65,7 @@
                             <div class="buildingDropdown flex flex-col gap-y-1">
                                 <v-select v-model="input.buildingName" id="dropdown" :options="purpose" label="label"
                                     placeholder="Building/Phase"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[173px] "></v-select>
+                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[180px] "></v-select>
                             </div>
 
                             <div class="flex flex-col gap-y-1">
@@ -80,14 +80,14 @@
 
                         </div>
 
-                        <div class="flex flex-row justify-center items-center gap-3 mb-2">
+                        <div class="flex flex-row justify-center items-center gap-3 mb-2 w-full">
                             <button type="button" :class="inputs.length == 1 ? 'bg-gray-500' : 'bg-red-500 text-white'"
-                                :disabled="inputs.length == 1" class="text-xs text-white rounded-md h-[33px] w-[155px] mt-3"
+                                :disabled="inputs.length == 1" class="text-xs text-white rounded-md h-[33px] w-full mt-3"
                                 @click="remove(k)">- Remove a
                                 location</button>
                             <button type="button" :class="inputs.length == 10 ? 'bg-gray-500' : 'bg-blue-800 text-white'"
                                 :disabled="inputs.length == 10"
-                                class="text-xs text-white rounded-md h-[33px] w-[155px] mt-3" @click="add(k)">+ Add more
+                                class="text-xs text-white rounded-md h-[33px] w-full mt-3" @click="add(k)">+ Add more
                                 location</button>
                         </div>
 
@@ -424,7 +424,7 @@ export default {
     },
 
     created() {
-        axios.get('/api/visitor-registration/' + this.id)
+        axios.get('/api/visitor-registration?buildingUUID=' + this.id)
             .then((data) => {
                 this.buildings = data.data.data;
             })
