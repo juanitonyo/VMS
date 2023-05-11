@@ -182,5 +182,13 @@
     border: none;
 }
 
+#gov_id .vs__dropdown-menu{
+    max-height: 150px;
+}
+
+.gov-ids .vs__dropdown-menu{
+    max-height: 150px;
+}
+
 
 

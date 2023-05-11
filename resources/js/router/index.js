@@ -28,6 +28,7 @@ const Deliveries = () => import("@/components/AuthenticatedPages/Deliveries.vue"
 
 // HOST REGISTRATION PAGE
 const HostRegistration = () => import("@/components/HostRegistration/HostRegistration.vue");
+const HostSuccess = () => import("@/components/HostRegistration/HostSuccess.vue");
 
 // VISITOR REGISTRATION PAGE
 const VisitorPrompt = () => import("@/components/VisitorRegistration/VisitorPrompt.vue");
@@ -324,6 +325,14 @@ const routes = [
                 name: "hostreg",
                 path: "/homeowner-registration/:id",
                 component: HostRegistration,
+                meta: {
+                    title: `VMS | Homeowner Registration`,
+                },
+            },
+            {
+                name: "hostsuccess",
+                path: "/homeowner-registration/success/:id",
+                component: HostSuccess,
                 meta: {
                     title: `VMS | Homeowner Registration`,
                 },
