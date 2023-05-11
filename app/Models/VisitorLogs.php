@@ -13,6 +13,7 @@ class VisitorLogs extends Model
         'user_id',
         'visitor_id',
         'building_id',
+        'visitPurpose_id',
         'isCheckedOut'
     ];
 }

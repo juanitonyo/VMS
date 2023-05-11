@@ -140,14 +140,17 @@ export default {
         return {
             data: {},
             length: '',
+            numVisitors: '',
             cards: [
-                { name: 'Totol Visitors', href: '#', icon: UserIcon, amount: '150' },
+                { name: 'Totol Visitors', href: '#', icon: UserIcon, amount: this.numVisitors},
                 { name: 'Totol Checked In', href: '#', icon: UserPlusIcon, amount: '140' },
                 { name: 'Totol Check Out ', href: '#', icon: UserMinusIcon, amount: '130' },
             ],
             people: [
                 { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
-            ]
+            ],
+            visitors: {},
+            numVisitors: ''
         }
     },
     methods: {
@@ -159,10 +162,19 @@ export default {
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
                 }); 
+        },
+        async getVisitors() {
+            await axios.get('/api/visitors/')
+                .then((data) => {
+                    this.visitors = data.data.data;
+                    this.numVisitors = this.visitors.total
+                }).catch((e) => {
+
+                });
         }
     },
     created() {
-
+        this.getVisitors();
     }
 }
 

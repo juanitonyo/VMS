@@ -11,6 +11,7 @@ class Visitors extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_ID',
         'building_ID',
         'email',
         'name',
@@ -19,6 +20,10 @@ class Visitors extends Model
         'validId',
         'policy',
         'status',
+    ];
+
+    protected $attributes = [
+        'user_ID' => '1'
     ];
 
     public function building(): HasOne 

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
             $table->uuid('user_ID');
-            $table->integer('building_ID');
+            $table->integer('building_ID')->nullable();
             $table->string('email');
             $table->string('name');
             $table->string('contact')->nullable();

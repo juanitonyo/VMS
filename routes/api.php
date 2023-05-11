@@ -28,8 +28,8 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('sync-visitor', 'VisitorsController@syncVisitor');
     Route::get('visitor-registration', 'BuildingController@getBuilding');
     Route::get('visitor-query', 'VisitorsController@existingVisitor');
-    Route::get('get-building-type-name/{id}', 'BuildingTypesController@getBuildingTypeName');
     Route::get('check-log', 'VisitorLogsController@queryLog');
+    Route::get('get-hosts', 'HostController@getHostQuery');
 
     Route::apiResources([
         'user' => 'UserController',

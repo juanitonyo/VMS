@@ -21,7 +21,7 @@ class VisitorLogsController extends BaseController
     }
 
     public function queryLog() {
-        $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->latest()->first();
+        $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->latest()->first()->count();
 
         return $this->sendResponse($data, "Fetched data from table.");
 
@@ -43,7 +43,8 @@ class VisitorLogsController extends BaseController
 
         $data = VisitorLogs::create([
             'visitor_id' => $request->visitor_id,
-            'building_id' => $request->building_id
+            'building_id' => $request->building_id,
+            'visitPurpose_id' => $request->visitPurpose_id
         ]);
 
         return $this->sendResponse($data, "Saved data in table")->withCookie(cookie()->forget('id'));
