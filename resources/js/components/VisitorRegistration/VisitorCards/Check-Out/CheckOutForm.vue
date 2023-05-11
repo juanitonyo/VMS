@@ -237,9 +237,7 @@ export default{
         },
 
         checkOutVisitor() {
-            this.visitor.isCheckedOut = true;
-
-            axios.put("/api/visitors/" + this.visitor.id, {
+            axios.put("/api/visitor-logs/" + this.visitor.id, {
                 params: {
                     data: this.visitor
                 }
@@ -251,7 +249,7 @@ export default{
         },
 
         async getBuildingData() {
-            await axios.get('/api/visitor-registration/' + this.id)
+            await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
                 .then((data) => {
                     this.buildings = data.data.data;
                 })

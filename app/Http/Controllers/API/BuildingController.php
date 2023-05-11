@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingRequest;
+use Illuminate\Support\Facades\Session;
 use Intervention\Image\Image;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 
 class BuildingController extends BaseController
@@ -19,10 +21,12 @@ class BuildingController extends BaseController
         return $this->sendResponse($data, "All buildings in array");
     }
 
-    public function getBuilding($id){
-        $data = Building::where('qr_id', $id)->first(['id', 'buildingName', 'address', 'logo']);
+    public function getBuilding(){
+
+        $data = Building::where('qr_id', Cookie::get('buildingUUID'))->first(['id', 'buildingName', 'address', 'logo']);
        
         return $this->sendResponse($data, "All buildings in array");
+
     }
 
     public function getBuildingsArray(){

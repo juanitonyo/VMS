@@ -74,16 +74,13 @@ export default {
         }
     },
     created() {
-        axios.get('/api/visitor-registration/' + this.id)
+        axios.get('/api/visitor-registration/')
             .then((data) => {
                 this.buildings = data.data.data;
             })
             .catch((error) => {
 
             });
-
-        this.$cookies.set('buildingUUID', this.id);
-
     },
 }
 </script>

@@ -30,9 +30,11 @@ class VisitorsController extends BaseController
     }
 
     public function syncVisitor() {
-        $data = Visitors::where('google_id', Cookie::get('asCookie'))->first();
 
-        return $this->sendResponse($data, 'Found data in table')->cookie(Cookie::forget('asCookie'));
+        $data = Visitors::where('id', Cookie::get('id'))->first();        
+
+        return $this->sendResponse($data, "Fetched data in table");
+        
     }
 
     /**
@@ -40,7 +42,7 @@ class VisitorsController extends BaseController
      */
     public function create()
     {
-        //
+        dd(true);
     }
 
     /**
@@ -48,12 +50,12 @@ class VisitorsController extends BaseController
      */
     public function store(VisitorsRequest $request)
     {
-        $buildingRefID = Building::where('qr_id', $request->get('building_ID'))->first()->id;
+        $buildingRefID = Building::where('qr_id', $request->building_ID)->first()->id;
         $validated = $request->validated();
         $validated['building_ID'] = $buildingRefID;
 
         $data = Visitors::create($validated);
-        return $this->sendResponse($data, "Data Saved.");
+        return $this->sendResponse($data, "Data Saved.")->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
     }
 
     /**

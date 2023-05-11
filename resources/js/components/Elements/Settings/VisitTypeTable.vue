@@ -280,11 +280,7 @@ export default {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
-<<<<<<< HEAD
             this.form.buildingType = { value: item.building_type_name.id, label: item.building_type_name.name }
-=======
-            this.form.buildingType = { value: item.building_type_name.id, label: item.building_type_name.name };
->>>>>>> 8dd3422ab32b52746361968133a321542938b498
         },
         forMessage() {
             return this.editMode ? ' ' : this.form.errors.get('buildingType_id')
@@ -299,7 +295,7 @@ export default {
             });
         },
         async getbuildingType_ids() {
-            await axios.get('/api/get-building-types').then((data) => {
+            await axios.get('/api/get-building-types/').then((data) => {
                 this.building_types = data.data.data
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')

@@ -274,7 +274,7 @@ export default {
         },
 
         async getData() {
-            await axios.get('/api/visitor-registration/' + this.id)
+            await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
                 .then((data) => {
                     this.buildings = data.data.data;
                 })
@@ -288,7 +288,7 @@ export default {
                 .then((data) => {
                     this.account = data.data.data;
 
-                    if (this.account != null) {
+                    if (this.account.google_id != null) {
                         this.isGoogleExist = !this.isGoogleExist;
                         this.form.name = this.account.name;
                         this.form.email = this.account.email;

@@ -43,7 +43,10 @@ export default {
         }
     },
     created() {
-        axios.get('/api/visitor-registration/' + this.id)
+        
+        document.cookie = 'buildingUUID=' + this.id + '; path=/';
+        
+        axios.get('/api/visitor-registration/')
             .then((data) => { 
                 this.buildings = data.data.data;
                 console.log(this.buildings)
@@ -51,6 +54,8 @@ export default {
             .catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
         });
+
+        
     },
 }
 
