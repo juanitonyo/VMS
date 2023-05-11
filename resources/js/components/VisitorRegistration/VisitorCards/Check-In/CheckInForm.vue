@@ -91,11 +91,11 @@
                     </div>
 
                     <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
-                        <router-link :to="enableButton ? '/visitor-registration/success/checkin/' + this.id : '/#'">
-                            <input type="submit" value="Check In" :disabled="!enableButton"
+                            <button @click.prevent="checkInVisitor()" :disabled="!enableButton"
                                 :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
                                 class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
-                        </router-link>
+                                Check In
+                            </button>
                         <router-link :to="'/visitor-registration/SignIn/checkin/' + this.id"
                             class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
                     </div>
@@ -264,7 +264,7 @@ export default {
 
         showSuccess() {
             // validate form
-            this.form.post('/api/visitors/')
+            this.form.post('/api/visitor-logs/')
                 .then((data) => {
                     this.isFormComplete = true
                 }).catch((error) => {
@@ -272,8 +272,17 @@ export default {
                 })
         },
 
+        checkInVisitor() {
+            axios.post('/api/visitor-logs?visitor_id=' + this.visitor.id + '&building_id=' + this.visitor.building_ID)
+                .then((data) => {
+                    this.$router.push('/visitor-registration/success/checkin/' + this.id);
+                }).catch((e) => {
+
+                });
+        },
+
         async getData() {
-            await axios.get('/api/visitor-registration/' + this.id)
+            await axios.get('/api/visitor-registration/')
                 .then((data) => {
                     this.buildings = data.data.data;
                 })
@@ -281,7 +290,7 @@ export default {
                     errorMessage('Opps!', e.message, 'top-right')
                 }); 
         },
-        
+
         async syncData() {
             await axios.get('/api/sync-visitor/')
                 .then((data) => {

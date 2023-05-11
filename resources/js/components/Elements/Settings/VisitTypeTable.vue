@@ -295,7 +295,7 @@ export default {
             });
         },
         async getbuildingType_ids() {
-            await axios.get('/api/get-building-types').then((data) => {
+            await axios.get('/api/get-building-types/').then((data) => {
                 this.building_types = data.data.data
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')

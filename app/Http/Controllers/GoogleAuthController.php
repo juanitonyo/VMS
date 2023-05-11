@@ -5,8 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\Visitors;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\Auth;
 
 class GoogleAuthController extends Controller
 {
@@ -23,9 +23,9 @@ class GoogleAuthController extends Controller
             $user = Visitors::where('google_id', $google_user->getId())->first();
             
             if($user) {
-                $username = $google_user->getName();
 
-                return redirect()->intended('/visitor-registration/create/'.$_COOKIE['buildingUUID'])->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
+                return redirect()->intended('/visitor-registration/checkin/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $user->id, 1440, $httpOnly = false));
+            
             }
             else {
 
@@ -35,7 +35,7 @@ class GoogleAuthController extends Controller
                     'google_id' => $google_user->getId(),
                 ]);
 
-                return redirect()->intended('/visitor-registration/create/'.$_COOKIE['buildingUUID'])->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
+                return redirect()->intended('/visitor-registration/create/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $new_user->id, 1440, $httpOnly = false));
 
             }
 

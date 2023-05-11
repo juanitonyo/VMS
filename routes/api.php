@@ -26,8 +26,8 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('get-building-types', 'BuildingTypesController@getBuildingTypeArray');
     Route::get('get-buildings', 'BuildingController@getBuildingsArray');
     Route::get('sync-visitor', 'VisitorsController@syncVisitor');
-    Route::get('visitor-registration/{id}', 'BuildingController@getBuilding');
-    Route::get('visitor-query/{email}/{refId}', 'VisitorsController@existingVisitor');
+    Route::get('visitor-registration', 'BuildingController@getBuilding');
+    Route::get('visitor-query', 'VisitorsController@existingVisitor');
     Route::get('get-building-type-name/{id}', 'BuildingTypesController@getBuildingTypeName');
 
     Route::apiResources([
@@ -38,8 +38,8 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'building' => 'BuildingController',
         'visitors' => 'VisitorsController',
         'hostreg' => 'HostController',
-        'visit-type' => 'VisitTypesController'
-        
+        'visit-type' => 'VisitTypesController',
+        'visitor-logs' => 'VisitorLogsController'
     ]);
 });
 

@@ -31,7 +31,9 @@ import 'vue3-lottie/dist/style.css'
 
 export default {
     name: 'Check In Prompt',
-
+    components: {
+            Vue3Lottie,
+        },
     props: {
         data: {
             type: Array,
@@ -55,9 +57,6 @@ export default {
             });
 
         setTimeout( () => this.$router.push({ path: '/visitor-registration/index/' + this.id}), 5000);
-    },
-    components: {
-        Vue3Lottie,
     },
 }
 </script>

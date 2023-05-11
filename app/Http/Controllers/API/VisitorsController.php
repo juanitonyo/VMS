@@ -19,20 +19,22 @@ class VisitorsController extends BaseController
         return $this->sendResponse($data, "Fetched all Visitors in Array");
     }
 
-    public function existingVisitor($email, $refId) {
+    public function existingVisitor(Request $request) {
         
         $data = Visitors::where([
-            'email' => $email,
-            'building_ID' => $refId
+            'email' => $request->email,
+            'building_ID' => $request->building_ID
         ])->latest()->first();
 
         return $this->sendResponse($data, "Found data in table")->withCookie(cookie('asCookie', $data['google_id'], 1440, $httpOnly = false));
     }
 
     public function syncVisitor() {
-        $data = Visitors::where('google_id', Cookie::get('asCookie'))->first();
 
-        return $this->sendResponse($data, 'Found data in table')->cookie(Cookie::forget('asCookie'));
+        $data = Visitors::where('id', Cookie::get('id'))->first();        
+
+        return $this->sendResponse($data, "Fetched data in table");
+        
     }
 
     /**
@@ -40,7 +42,7 @@ class VisitorsController extends BaseController
      */
     public function create()
     {
-        //
+        dd(true);
     }
 
     /**
@@ -48,12 +50,12 @@ class VisitorsController extends BaseController
      */
     public function store(VisitorsRequest $request)
     {
-        $buildingRefID = Building::where('qr_id', $request->get('building_ID'))->first()->id;
+        $buildingRefID = Building::where('qr_id', $request->building_ID)->first()->id;
         $validated = $request->validated();
         $validated['building_ID'] = $buildingRefID;
 
         $data = Visitors::create($validated);
-        return $this->sendResponse($data, "Data Saved.");
+        return $this->sendResponse($data, "Data Saved.")->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
     }
 
     /**
@@ -86,7 +88,6 @@ class VisitorsController extends BaseController
             'contact' => $request->params['data']['contact'],
             'validId' => $request->params['data']['validId'],
             'policy' => $request->params['data']['policy'],
-            'isCheckedOut' => $request->params['data']['isCheckedOut']
         ]);
         
         return $this->sendResponse($request->validated(), "Data Updated.");
