@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('buildings', function (Blueprint $table) {
             $table->id();
-            $table->uuid('qr_id')->nullable();
+            $table->uuid('qr_id');
             $table->string('buildingName', 100);
             $table->string('logo')->nullable();
             $table->longText('description');
