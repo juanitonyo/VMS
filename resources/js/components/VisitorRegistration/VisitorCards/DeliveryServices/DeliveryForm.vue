@@ -27,10 +27,10 @@
                     </label>
                 </div>
 
-                <form>
+                <form @submit.prevent="submitForm()">
 
                     <div class="relative mt-5">
-                        <input type="text" id="courierName"
+                        <input type="text" id="courierName" name="courierName"
                             class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="courierName"
@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="relative mt-5">
-                        <input type="text" id="riderName"
+                        <input type="text" id="riderName" name="riderName"
                             class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="riderName"
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="relative mt-5">
-                        <input type="tel" id="contact"
+                        <input type="tel" id="contact" name="contact"
                             class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="contact"
@@ -301,6 +301,7 @@
 
 <script>
 import axios from 'axios';
+import Form from 'vform'
 import HealthForm from '../../../Elements/Modals/HealthForm.vue';
 import Account from '../../../Elements/Modals/MyAccount.vue';
 
@@ -328,6 +329,13 @@ export default {
             goodHealth: false,
             badHealth: false,
             enableButton: false,
+            isFormComplete: false,
+            form: new Form({
+                id: '',
+                courierName: '',
+                riderName: '',
+                contact: ''
+            }),
             symptoms: [
                 {
                     image: '/hdf/Fever.png',
@@ -421,6 +429,14 @@ export default {
         isChecked() {
             this.enableButton = !this.enableButton
         },
+        submitForm(){
+            this.form.post('/api/delivery/')
+                .then((data) => {
+                    this.isFormComplete = true
+                }).catch((error) => {
+                    this.$Progress.fail();
+                })
+        }
     },
 
     created() {

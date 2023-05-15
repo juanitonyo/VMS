@@ -17,25 +17,16 @@
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Visitors</dt>
-                                    <div class="flex space-x-2">
-                                        <p class="text-lg font-medium text-indigo-900">{{ this.numVisitors }}</p>
-                                        <!-- vshow -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="green" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
-                                        </svg>
-                                    </div>
-                                    <p class="text-[11px] text-gray-400">from yesterdays: 52</p>
+                                    <p class="text-2xl font-bold text-indigo-900">{{ this.numVisitors }}</p>
                                 </dl>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-5 py-3">
+                    <!-- <div class="bg-gray-50 px-5 py-3">
                         <div class="text-xs">
                             <a href="#" class="font-medium text-gray-700 hover:text-gray-900">View all</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="overflow-hidden rounded-lg bg-white shadow-sm shadow-green-300">
@@ -51,26 +42,16 @@
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Checked In</dt>
-                                    <div class="flex space-x-2">
-                                        <p class="text-lg font-medium text-indigo-900">{{ this.numLogs }}</p>
-                                        <!-- vshow -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="red" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.25 6L9 12.75l4.286-4.286a11.948 11.948 0 014.306 6.43l.776 2.898m0 0l3.182-5.511m-3.182 5.51l-5.511-3.181" />
-                                        </svg>
-
-                                    </div>
-                                    <p class="text-[11px] text-gray-400">from yesterdays: 130</p>
+                                    <p class="text-2xl font-bold text-indigo-900">{{ this.numLogs }}</p>
                                 </dl>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-5 py-3">
+                    <!-- <div class="bg-gray-50 px-5 py-3">
                         <div class="text-xs">
                             <a href="#" class="font-medium text-gray-700 hover:text-gray-900">View all</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
 
                 <div class="overflow-hidden rounded-lg bg-white shadow-sm shadow-red-300">
@@ -86,25 +67,16 @@
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Checked Out</dt>
-                                    <div class="flex space-x-2">
-                                        <p class="text-lg font-medium text-indigo-900">{{ this.numCheckouts }}</p>
-                                        <!-- vshow -->
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                            stroke-width="1.5" stroke="green" class="w-6 h-6">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
-                                        </svg>
-                                    </div>
-                                    <p class="text-[11px] text-gray-400">from yesterdays: 102</p>
+                                    <p class="text-2xl font-bold text-indigo-900">{{ this.numCheckouts }}</p>
                                 </dl>
                             </div>
                         </div>
                     </div>
-                    <div class="bg-gray-50 px-5 py-3">
+                    <!-- <div class="bg-gray-50 px-5 py-3">
                         <div class="text-xs">
                             <a href="#" class="font-medium text-gray-700 hover:text-gray-900">View all</a>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
         </div>
@@ -132,9 +104,9 @@
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Email</th>
                                         <th scope="col"
-                                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                            class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">
                                             Name</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Checked In</th>
                                     </tr>
                                 </thead>
@@ -144,9 +116,9 @@
                                             person.visitor.email }}
                                         </td>
                                         <td
-                                            class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
+                                            class="whitespace-nowrap py-4 px-4 pr-3 text-xs font-medium text-gray-900">
                                             {{ person.visitor.name }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
+                                        <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(person.visitor.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     </tr>
                                 </tbody>
@@ -159,7 +131,7 @@
         <div class="flex items-center justify-end mt-3">
             <TailwindPagination :data="visitorLogs" @pagination-change-page="getVisitorLogs" />
         </div>
-        <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10 mt-4">
+        <div id="checkout" class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10 mt-4">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-base font-semibold leading-6 text-gray-900">Checked Out</h1>
@@ -179,7 +151,7 @@
                                         <th scope="col"
                                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                             Name</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Checked Out</th>
                                     </tr>
                                 </thead>
@@ -191,7 +163,7 @@
                                         <td
                                             class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
                                             {{ person.visitor.name }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
+                                        <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(person.visitor.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     </tr>
                                 </tbody>
@@ -273,7 +245,7 @@ export default {
             axios.get('/api/get-checkouts?page=' + page)
                 .then((data) => {
                     this.visitorCheckOuts = data.data.data;
-                    this.numCheckouts = this.visitorCheckOuts.length;
+                    this.numCheckouts = this.visitorCheckOuts.total;
                 }).catch((e) => {
 
                 });
