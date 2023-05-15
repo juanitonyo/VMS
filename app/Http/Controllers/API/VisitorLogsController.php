@@ -53,9 +53,9 @@ class VisitorLogsController extends BaseController
     /**
      * Display the specified resource.
      */
-    public function show(VisitorLogs $visitorLogs)
+    public function show(VisitorLogs $visitor_log)
     {
-        //
+        return $this->sendResponse($visitor_log, "Saved data in table");
     }
 
     /**

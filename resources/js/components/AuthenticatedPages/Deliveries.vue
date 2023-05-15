@@ -23,7 +23,7 @@
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Company</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Building</th>
+                                            Building/s</th>
                                         <th scope="col" class="px-2 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Date Created</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
@@ -36,7 +36,7 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-900"></td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">[Open]</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a

@@ -54,7 +54,7 @@
                         <div class="flex flex-col gap-y-1">
                             <label for="unitLot" class="text-gray-400 text-[10px]">Unit/Lot</label>
                             <input type="text"
-                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
+                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">    
                         </div>
                     </div>
 

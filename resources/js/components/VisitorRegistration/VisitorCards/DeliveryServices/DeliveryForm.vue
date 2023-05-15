@@ -65,7 +65,7 @@
                             <div class="buildingDropdown flex flex-col gap-y-1">
                                 <v-select v-model="input.buildingName" id="dropdown" :options="purpose" label="label"
                                     placeholder="Building/Phase"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[180px] "></v-select>
+                                    class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[180px] "></v-select>
                             </div>
 
                             <div class="flex flex-col gap-y-1">

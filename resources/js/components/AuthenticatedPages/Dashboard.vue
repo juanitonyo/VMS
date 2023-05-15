@@ -118,7 +118,7 @@
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-base font-semibold leading-6 text-gray-900">Checked In</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of all checked in users including their name,
+                    <p class="mt-2 text-sm text-gray-700">A list of 10 latest checked in users including their name,
                         email and time.</p>
                 </div>
             </div>
@@ -162,7 +162,7 @@
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-base font-semibold leading-6 text-gray-900">Checked Out</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of all checked out users including their name,
+                    <p class="mt-2 text-sm text-gray-700">A list of 10 latest checked out users including their name,
                         email and time.</p>
                 </div>
             </div>
@@ -206,11 +206,7 @@
 </template>
   
 <script>
-import { UserMinusIcon, UserPlusIcon, UserIcon } from '@heroicons/vue/24/outline';
 import axios from 'axios';
-import MobileMenu from '../Elements/Dashboard/MobileMenu.vue';
-import Sidebar from '../Elements/Dashboard/Sidebar.vue';
-import TopBar from '../Elements/Dashboard/TopBar.vue';
 
 export default {
     name: 'Dashboard',
