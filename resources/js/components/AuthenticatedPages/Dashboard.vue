@@ -118,7 +118,7 @@
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-base font-semibold leading-6 text-gray-900">Checked In</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of 10 latest checked in users including their name,
+                    <p class="mt-2 text-sm text-gray-700">A list of 5 latest checked in users including their name,
                         email and time.</p>
                 </div>
             </div>
@@ -163,7 +163,7 @@
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-base font-semibold leading-6 text-gray-900">Checked Out</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of 10 latest checked out users including their name,
+                    <p class="mt-2 text-sm text-gray-700">A list of 5 latest checked out users including their name,
                         email and time.</p>
                 </div>
             </div>
@@ -184,7 +184,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="person in this.visitorCheckOuts" :key="person.id">
+                                    <tr v-for="person in this.visitorCheckOuts.data" :key="person.id">
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
                                             person.visitor.email }}
                                         </td>
@@ -200,6 +200,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="flex items-center justify-end mt-3">
+            <TailwindPagination :data="visitorCheckOuts" @pagination-change-page="getCheckOuts" />
         </div>
     </div>
 </template>
@@ -257,17 +260,17 @@ export default {
 
                 });
         },
-        async getVisitorLogs(page = 1) {
-            await axios.get('/api/visitor-logs?page = ' + page)
+        getVisitorLogs(page = 1) {
+            axios.get('/api/visitor-logs?page=' + page)
                 .then((data) => {
                     this.visitorLogs = data.data.data;
-                    this.numLogs = this.visitorLogs.length;
+                    this.numLogs = this.visitorLogs.total;
                 }).catch((e) => {
 
                 });
         },
-        getCheckOuts() {
-            axios.get('/api/get-checkouts/')
+        getCheckOuts(page = 1) {
+            axios.get('/api/get-checkouts?page=' + page)
                 .then((data) => {
                     this.visitorCheckOuts = data.data.data;
                     this.numCheckouts = this.visitorCheckOuts.length;
