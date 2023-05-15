@@ -32,12 +32,12 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">[Open]</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
+                                    <tr v-for="item in data.data" :key="item.id">
+                                        <td class="text-center px-3 py-4 text-xs text-gray-900">{{ item.riderName }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.contact }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.courierName }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">Test</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">Test</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a
                                                 class="flex justify-center text-slate-800 hover:text-gray-500 cursor-pointer">
@@ -57,13 +57,44 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-center mt-3">
+            <!-- <div class="flex items-center justify-center mt-3">
                 <TailwindPagination :data="data" @pagination-change-page="getData" />
-            </div>
+            </div> -->
         </div>
     </div>
 </template>
 
 <script>
+import { TailwindPagination } from 'laravel-vue-pagination';
+import axios from 'axios';
 
+export default {
+
+    name: 'Delivery',
+    props: {
+        data: {
+            type: Array,
+            default: {}
+        },
+    },
+
+    components: {
+        TailwindPagination
+    },
+
+    methods: {
+        async getData() {
+            await axios.get('/api/delivery/').then((data) => {
+                this.data = data.data.data;
+                console.log(this.data)
+            }).catch((e) => {
+                this.$Progress.fail();
+            });
+        },
+    },
+
+    created() {
+        this.getData();
+    }
+}
 </script>

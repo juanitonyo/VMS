@@ -43,7 +43,8 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'visitors' => 'VisitorsController',
         'hostreg' => 'HostController',
         'visit-type' => 'VisitTypesController',
-        'visitor-logs' => 'VisitorLogsController'
+        'visitor-logs' => 'VisitorLogsController',
+        'delivery' => 'DeliveryController'
     ]);
 });
 

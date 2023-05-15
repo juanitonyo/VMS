@@ -27,10 +27,10 @@
                     </label>
                 </div>
 
-                <form>
+                <form @submit.prevent="submitForm()">
 
                     <div class="relative mt-5">
-                        <input type="text" id="courierName"
+                        <input type="text" id="courierName" name="courierName" v-model="form.courierName"
                             class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="courierName"
@@ -39,7 +39,7 @@
                     </div>
 
                     <div class="relative mt-5">
-                        <input type="text" id="riderName"
+                        <input type="text" id="riderName" name="riderName" v-model="form.riderName"
                             class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="riderName"
@@ -48,7 +48,7 @@
                     </div>
 
                     <div class="relative mt-5">
-                        <input type="tel" id="contact"
+                        <input type="tel" id="contact" name="contact" v-model="form.contact"
                             class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="contact"
@@ -135,9 +135,9 @@
                         <router-link :to="'/visitor-registration/SignIn/delivery/' + this.id"
                             class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
                         <router-link :to="enableButton ? '/visitor-registration/success/delivery/' + this.id : '/#'">
-                            <input type="submit" value="Next" :disabled="!enableButton"
+                            <button type="submit" :disabled="!enableButton"
                                 :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
-                                class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">
+                                class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                         </router-link>
                     </div>
                 </form>
@@ -301,6 +301,7 @@
 
 <script>
 import axios from 'axios';
+import Form from 'vform'
 import HealthForm from '../../../Elements/Modals/HealthForm.vue';
 import Account from '../../../Elements/Modals/MyAccount.vue';
 
@@ -328,6 +329,13 @@ export default {
             goodHealth: false,
             badHealth: false,
             enableButton: false,
+            isFormComplete: false,
+            form: new Form({
+                id: '',
+                courierName: '',
+                riderName: '',
+                contact: ''
+            }),
             symptoms: [
                 {
                     image: '/hdf/Fever.png',
@@ -421,6 +429,16 @@ export default {
         isChecked() {
             this.enableButton = !this.enableButton
         },
+        submitForm(){
+            this.$Progress.start();
+            this.form.post('/api/delivery/')
+                .then((data) => {
+                    this.$Progress.finish();
+                    this.isFormComplete = true
+                }).catch((error) => {
+                    this.$Progress.fail();
+                })
+        }
     },
 
     created() {

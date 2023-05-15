@@ -31,9 +31,9 @@
                         <v-select v-model="selectedPurpose" id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
                             :options="visitType" label="label"
                             class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
-                        <!-- implode the companions -->
-                        <input type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
-                            class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-3 pt-1 pb-[80px] w-80">
+                        <!-- split the companions -->
+                        <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
+                            class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
                     </div>
 
                     <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
@@ -279,7 +279,6 @@ export default {
 
         checkInVisitor() {
             console.log(this.selectedPurpose);
-        
             axios.post('/api/visitor-logs?visitor_id=' + this.visitor.id + '&building_id=' + this.visitor.building_ID + '&visitPurpose_id=' + this.selectedPurpose.value)
                 .then((data) => {
                     this.$router.push('/visitor-registration/success/checkin/' + this.id);
