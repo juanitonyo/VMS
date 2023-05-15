@@ -40,14 +40,14 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="item in data.data" :key="item.id">
-                                        <td class="text-left px-3 py-4 text-xs text-gray-900">{{ item.name }}</td>
+                                    <tr v-for="item in this.data.data" :key="item.id">
+                                        <td class="text-left px-3 py-4 text-xs text-gray-900">{{ item.visitor.name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.buildingName }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status ? 'Approved'
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visitor.status ? 'Approved'
                                             : 'Pending Approval' }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.visitor.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.isCheckedOut ? moment(item.visitor.updated_at).format('MMMM Do YYYY, h:mm:ss a') : "Not Yet" }}</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a @click.prevent="editVisitors(item)"
                                                 class="flex justify-center text-slate-800 hover:text-gray-500 cursor-pointer">
@@ -175,9 +175,8 @@ export default {
             this.open = !this.open;
         },
         async getData(page = 1) {
-            await axios.get('/api/visitors?page=' + page).then((data) => {
+            await axios.get('/api/get-logs?page=' + page).then((data) => {
                 this.data = data.data.data;
-                console.log(this.data);
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')
             });

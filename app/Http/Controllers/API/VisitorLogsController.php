@@ -32,6 +32,13 @@ class VisitorLogsController extends BaseController
         return $this->sendResponse($data, "Fetched check outs in table");
     }
 
+    public function getVisitorLogs()
+    {
+        $data = VisitorLogs::with('visitor', 'building', 'visitType')->paginate(10);
+
+        return $this->sendResponse($data, "All Visitor Logs in Table");
+    }
+
     /**
      * Show the form for creating a new resource.
      */

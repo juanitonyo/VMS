@@ -22,4 +22,14 @@ class VisitorLogs extends Model
     {
         return $this->belongsTo(Visitors::class, 'visitor_id');
     }
+
+    public function building(): BelongsTo
+    {
+        return $this->belongsTo(Building::class, 'building_id');
+    }
+
+    public function visitType(): BelongsTo
+    {
+        return $this->belongsTo(VisitTypes::class, 'visitPurpose_id');
+    }
 }
