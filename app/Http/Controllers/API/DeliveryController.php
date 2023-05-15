@@ -29,7 +29,7 @@ class DeliveryController extends BaseController
      */
     public function store(DeliveryRequest $request)
     {
-        $data = Delivery::create($request->all());
+        $data = Delivery::create($request->validated());
         return $this->sendResponse($data, "Saved");
     }
 

@@ -28,7 +28,7 @@ class DeliveryRequest extends FormRequest
         return [
             'courierName' => 'required',
             'riderName' => 'required',
-            'contact' => 'required|unique:email_templates|max:100',
+            'contact' => 'required|unique:deliveries|max:100',
 
         ];
     }
@@ -37,7 +37,7 @@ class DeliveryRequest extends FormRequest
         return [
             'params.data.courierName' => 'required',
             'params.data.riderName' => 'required',
-            'params.data.contact' => 'required'
+            'params.data.contact' => 'required|max:100|unique:deliveries,id,'.$this->get('id')
         ];
     }
 }

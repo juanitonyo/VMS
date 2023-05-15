@@ -134,11 +134,9 @@
                     <div class="flex flex-row justify-center items-center gap-3 mb-10 mt-5">
                         <router-link :to="'/visitor-registration/SignIn/delivery/' + this.id"
                             class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                        <router-link :to="enableButton ? '/visitor-registration/success/delivery/' + this.id : '/#'">
-                            <button type="submit" :disabled="!enableButton"
-                                :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
-                                class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
-                        </router-link>
+                        <button type="submit" :disabled="!enableButton"
+                            :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
+                            class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                     </div>
                 </form>
             </div>
@@ -331,7 +329,6 @@ export default {
             enableButton: false,
             isFormComplete: false,
             form: new Form({
-                id: '',
                 courierName: '',
                 riderName: '',
                 contact: ''
@@ -434,7 +431,7 @@ export default {
             this.form.post('/api/delivery/')
                 .then((data) => {
                     this.$Progress.finish();
-                    this.isFormComplete = true
+                    this.$router.push('/visitor-registration/success/delivery/' + this.id);
                 }).catch((error) => {
                     this.$Progress.fail();
                 })
