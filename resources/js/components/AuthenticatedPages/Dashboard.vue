@@ -141,15 +141,15 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="item in data.data" :key="item.visitor.id">
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ console.log(item.visitor.email) }}
+                                    <tr v-for="person in this.visitorCheckOuts" :key="person.id">
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.visitor.email }}
                                         </td>
                                         <td
                                             class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
-                                            {{ item.visitor.name }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">Last Name
+                                            {{ person.visitor.name }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.visitor.title }}
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ moment(item.visitor.created_at) }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ moment(person.visitor.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -186,14 +186,14 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="person in this.visitorCheckOuts" :key="person.id">
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.email }}
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.visitor.email }}
                                         </td>
                                         <td
                                             class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
-                                            {{ person.name }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.title }}
+                                            {{ person.visitor.name }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.visitor.title }}
                                         </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.role }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ moment(person.visitor.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -221,20 +221,21 @@ export default {
             default: {}
         }
     },
+    components: {
+        moment,
+    },
     data() {
         return {
             data: {},
             length: '',
-            // cards: [
-            //     { name: 'Totol Visitors', href: '#', icon: UserIcon, amount: '150' },
-            //     { name: 'Totol Checked In', href: '#', icon: UserPlusIcon, amount: '140' },
-            //     { name: 'Totol Check Out ', href: '#', icon: UserMinusIcon, amount: '130' },
-            // ],
             people: [
-                { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
+                { visitor: {
+                    name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member'
+                } },
             ],
             visitors: {},
-            visitorLogs: {},
+            visitorLogs: [],
+            visitorData: {},
             visitorCheckOuts: {},
             accountsCheckIn: {},
             numVisitors: '',
@@ -243,6 +244,11 @@ export default {
         }
     },
     methods: {
+
+        showThis(item) {
+            console.log(item)
+        },
+
         async getData() {
             await axios.get('/api/visitor-registration/')
                 .then((data) => {
@@ -252,8 +258,8 @@ export default {
                     errorMessage('Opps!', e.message, 'top-right')
                 }); 
         },
-        async getVisitors() {
-            await axios.get('/api/visitors/')
+        getVisitors() {
+            axios.get('/api/visitors/')
                 .then((data) => {
                     this.visitors = data.data.data;
                     this.numVisitors = this.visitors.total;
@@ -270,8 +276,8 @@ export default {
 
                 });
         },
-        async getCheckOuts() {
-            await axios.get('/api/get-checkouts/')
+        getCheckOuts() {
+            axios.get('/api/get-checkouts/')
                 .then((data) => {
                     this.visitorCheckOuts = data.data.data;
                     this.numCheckouts = this.visitorCheckOuts.length
@@ -281,10 +287,10 @@ export default {
         }
     },
     created() {
-        this.getVisitors();
         this.getVisitorLogs();
+        this.getVisitors();
         this.getCheckOuts();
-        this.moment = moment
+        this.moment = moment;
     }
 }
 
