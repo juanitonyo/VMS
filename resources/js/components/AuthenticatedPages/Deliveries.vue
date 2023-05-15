@@ -73,23 +73,27 @@ export default {
     name: 'Delivery',
     props: {
         data: {
-            type: Array,
+            type: Object,
             default: {}
         },
     },
-
+    data() {
+        return {
+            data: {}
+        }
+    },
     components: {
         TailwindPagination
     },
 
     methods: {
         async getData() {
-            await axios.get('/api/delivery/').then((data) => {
-                this.data = data.data.data;
-                console.log(this.data)
-            }).catch((e) => {
-                this.$Progress.fail();
-            });
+            await axios.get('/api/delivery/')
+                .then((data) => {
+                    this.data = data.data.data;
+                }).catch((e) => {
+                    this.$Progress.fail();
+                });
         },
     },
 
