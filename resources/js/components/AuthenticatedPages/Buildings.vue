@@ -383,7 +383,6 @@ export default {
         async getData(page = 1) {
             await axios.get('/api/building?page=' + page).then((data) => {
                 this.data = data.data.data;
-                console.log(data.data);
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });

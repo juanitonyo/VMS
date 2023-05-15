@@ -15,7 +15,7 @@ class VisitorLogsController extends BaseController
      */
     public function index()
     {
-        $data = VisitorLogs::paginate(10);
+        $data = VisitorLogs::with('visitor')->paginate(1);
 
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
@@ -25,6 +25,11 @@ class VisitorLogsController extends BaseController
 
         return $this->sendResponse($data, "Fetched data from table.");
 
+    }
+
+    public function totalCheckOut() {
+        $data = VisitorLogs::with('visitor')->where('isCheckedOut', 1)->get();
+        return $this->sendResponse($data, "Fetched check outs in table");
     }
 
     /**
@@ -43,7 +48,8 @@ class VisitorLogsController extends BaseController
 
         $data = VisitorLogs::create([
             'visitor_id' => $request->visitor_id,
-            'building_id' => $request->building_id
+            'building_id' => $request->building_id,
+            'visitPurpose_id' => $request->visitPurpose_id
         ]);
 
         return $this->sendResponse($data, "Saved data in table")->withCookie(cookie()->forget('id'));

@@ -29,6 +29,7 @@ class VisitorLogsRequests extends FormRequest
             'user_id' => 'required',
             'visitor_id' => 'required',
             'building_id' => 'required',
+            'visitPurpose_id' => 'required',
             'isCheckedOut' => 'required'
         ];
     }
@@ -38,6 +39,7 @@ class VisitorLogsRequests extends FormRequest
             'params.data.user_id' => 'required',
             'params.data.visitor_id' => 'required',
             'params.data.building_id' => 'required',
+            'params.data.visitPurpose_id' => 'required',
             'params.data.isCheckedOut' => 'required'
         ];
     }

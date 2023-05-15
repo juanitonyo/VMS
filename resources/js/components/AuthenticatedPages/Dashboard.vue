@@ -18,7 +18,7 @@
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Visitors</dt>
                                     <div class="flex space-x-2">
-                                        <p class="text-lg font-medium text-indigo-900">100</p>
+                                        <p class="text-lg font-medium text-indigo-900">{{ this.numVisitors }}</p>
                                         <!-- vshow -->
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="green" class="w-6 h-6">
@@ -52,7 +52,7 @@
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Checked In</dt>
                                     <div class="flex space-x-2">
-                                        <p class="text-lg font-medium text-indigo-900">113</p>
+                                        <p class="text-lg font-medium text-indigo-900">{{ this.numLogs }}</p>
                                         <!-- vshow -->
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="red" class="w-6 h-6">
@@ -87,7 +87,7 @@
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Checked Out</dt>
                                     <div class="flex space-x-2">
-                                        <p class="text-lg font-medium text-indigo-900">120</p>
+                                        <p class="text-lg font-medium text-indigo-900">{{ this.numCheckouts }}</p>
                                         <!-- vshow -->
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                             stroke-width="1.5" stroke="green" class="w-6 h-6">
@@ -133,23 +133,21 @@
                                             Email</th>
                                         <th scope="col"
                                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                            First Name</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                            Last Name</th>
+                                            Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Checked In</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="person in this.people" :key="person.email">
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.email }}
+                                    <tr v-for="person in this.visitorLogs.data" :key="person.id">
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
+                                            person.visitor.email }}
                                         </td>
                                         <td
                                             class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
-                                            {{ person.name }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.title }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.role }}</td>
+                                            {{ person.visitor.name }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
+                                            moment(person.visitor.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -157,6 +155,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="flex items-center justify-end mt-3">
+            <TailwindPagination :data="visitorLogs" @pagination-change-page="getVisitorLogs" />
         </div>
         <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10 mt-4">
             <div class="sm:flex sm:items-center">
@@ -177,23 +178,21 @@
                                             Email</th>
                                         <th scope="col"
                                             class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
-                                            First Name</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                            Last Name</th>
+                                            Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Checked Out</th>
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="person in this.people" :key="person.email">
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.email }}
+                                    <tr v-for="person in this.visitorCheckOuts" :key="person.id">
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
+                                            person.visitor.email }}
                                         </td>
                                         <td
                                             class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
-                                            {{ person.name }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.title }}
-                                        </td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.role }}</td>
+                                            {{ person.visitor.name }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
+                                            moment(person.visitor.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -207,6 +206,8 @@
   
 <script>
 import axios from 'axios';
+import moment from 'moment';
+import { TailwindPagination } from 'laravel-vue-pagination';
 
 export default {
     name: 'Dashboard',
@@ -216,21 +217,28 @@ export default {
             default: {}
         }
     },
+    components: {
+        moment, TailwindPagination
+    },
     data() {
         return {
             data: {},
-            length: '',
-            // cards: [
-            //     { name: 'Totol Visitors', href: '#', icon: UserIcon, amount: '150' },
-            //     { name: 'Totol Checked In', href: '#', icon: UserPlusIcon, amount: '140' },
-            //     { name: 'Totol Check Out ', href: '#', icon: UserMinusIcon, amount: '130' },
-            // ],
-            people: [
-                { name: 'Lindsay Walton', title: 'Front-end Developer', email: 'lindsay.walton@example.com', role: 'Member' },
-            ]
+            visitors: {},
+            visitorLogs: [],
+            visitorData: {},
+            visitorCheckOuts: {},
+            accountsCheckIn: {},
+            numVisitors: '',
+            numLogs: '',
+            numCheckouts: ''
         }
     },
     methods: {
+
+        showThis(item) {
+            console.log(item)
+        },
+
         async getData() {
             await axios.get('/api/visitor-registration/')
                 .then((data) => {
@@ -239,10 +247,40 @@ export default {
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
                 });
+        },
+        getVisitors() {
+            axios.get('/api/visitors/')
+                .then((data) => {
+                    this.visitors = data.data.data;
+                    this.numVisitors = this.visitors.total;
+                }).catch((e) => {
+
+                });
+        },
+        async getVisitorLogs(page = 1) {
+            await axios.get('/api/visitor-logs?page = ' + page)
+                .then((data) => {
+                    this.visitorLogs = data.data.data;
+                    this.numLogs = this.visitorLogs.length;
+                }).catch((e) => {
+
+                });
+        },
+        getCheckOuts() {
+            axios.get('/api/get-checkouts/')
+                .then((data) => {
+                    this.visitorCheckOuts = data.data.data;
+                    this.numCheckouts = this.visitorCheckOuts.length;
+                }).catch((e) => {
+
+                });
         }
     },
     created() {
-
+        this.getVisitorLogs();
+        this.getVisitors();
+        this.getCheckOuts();
+        this.moment = moment;
     }
 }
 

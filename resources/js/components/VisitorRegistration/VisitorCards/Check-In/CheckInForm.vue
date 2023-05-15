@@ -28,7 +28,7 @@
 
                 <form @submit.prevent="showSuccess()">
                     <div class="check_purpose space-y-3 mt-5">
-                        <v-select id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
+                        <v-select v-model="selectedPurpose" id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
                             :options="visitType" label="label"
                             class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                         <!-- implode the companions -->
@@ -251,6 +251,8 @@ export default {
             visitType: [],
             user: [],
             purpose: [],
+            hosts: [],
+            selectedPurpose: '',
             enableButton: false,
             isFormComplete: false,
             status: 'Pending Approval',
@@ -278,7 +280,9 @@ export default {
         },
 
         checkInVisitor() {
-            axios.post('/api/visitor-logs?visitor_id=' + this.visitor.id + '&building_id=' + this.visitor.building_ID)
+            console.log(this.selectedPurpose);
+        
+            axios.post('/api/visitor-logs?visitor_id=' + this.visitor.id + '&building_id=' + this.visitor.building_ID + '&visitPurpose_id=' + this.selectedPurpose.value)
                 .then((data) => {
                     this.$router.push('/visitor-registration/success/checkin/' + this.id);
                 }).catch((e) => {
@@ -314,13 +318,24 @@ export default {
                 .catch((e) => {
 
                 });
-        }
+        },
+
+        // async syncHosts() {
+        //     await axios.get('/api/get-hosts')
+        //         .then((data) => {
+        //             this.hosts = data.data.data;
+        //         })
+        //         .catch((e) => {
+
+        //         });
+        // }
     },
 
     created() {
         this.syncData();
         this.getData();
         this.syncVisitType();
+        // this.syncHost();
     },
 }
 </script>
