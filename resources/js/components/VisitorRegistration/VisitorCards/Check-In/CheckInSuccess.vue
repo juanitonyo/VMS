@@ -10,7 +10,7 @@
                 </div>
                 <div class="text-[10px] text-blue-900 flex flex-col text-center">
                     <p>Time recorded</p>
-                    <p >{{ moment(this.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
+                    <p >{{ moment(this.time).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                 </div>
 
                 <div class="text-[10px] text-blue-900 flex flex-col text-center w-48">
@@ -53,19 +53,9 @@ export default {
 
     methods: {
         async getData() {
-            await axios.get('/api/visitor-registration/' + this.id)
+            await axios.get('/api/get-visitor-log/')
                 .then((data) => {
-                    this.buildings = data.data.data;
-                })
-                .catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
-                });
-        },
-        async syncData() {
-            await axios.get('/api/visitor-logs/')
-                .then((data) => {
-                    this.visitor = data.data.data;
-                    console.log(this.visitor);
+                    this.time = data.data.data.created_at;
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
@@ -74,10 +64,9 @@ export default {
     },
 
     created() {
-        this.syncData();
         this.getData();
         this.moment = moment;
-        // setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 5000);
+        setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 5000);
     }
 }
 </script>

@@ -30,7 +30,7 @@
 
                             <div class="flex flex-row items-center justify-between">
                                 <label for="visitType" class="text-[10px] text-gray-500">Visit Type</label>
-                                <input type="text" disabled
+                                <input v-model="visitType" type="text" disabled
                                     class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[210px]">
                             </div>
 
@@ -221,6 +221,7 @@ export default{
             buildings: {},
             visitor: {},
             purpose: [],
+            visitType: '',
             enableButton: false,
             status: true,
             show: false,
@@ -259,16 +260,26 @@ export default{
             await axios.get('/api/sync-visitor/')
                 .then((data) => {
                     this.visitor = data.data.data;
-                    console.log(this.visitor)
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
                 }); 
         },
+
+        async checkLog() {
+            await axios.get('/api/check-log/')
+                .then((data) => {
+                    this.log = data.data.data;
+                    this.visitType = this.log.visit_type.name
+                }).catch((e) => {
+
+                });
+        },
     },
     created() {
         this.getBuildingData();
         this.syncData();
+        this.checkLog();
     },
 }
 </script>

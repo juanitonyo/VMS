@@ -218,8 +218,6 @@
 import axios from 'axios';
 import Form from 'vform';
 import Account from '../../../Elements/Modals/MyAccount.vue';
-import { VueCookies } from 'vue-cookies';
-
 
 export default {
     name: 'Check In Form',

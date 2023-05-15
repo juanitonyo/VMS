@@ -20,8 +20,14 @@ class VisitorLogsController extends BaseController
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
+    public function getVisitorLog() {
+        $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->latest()->first(['created_at', 'updated_at']);
+
+        return $this->sendResponse($data, "Fetched data from table.")->withCookie(cookie()->forget('id'));
+    }
+
     public function queryLog() {
-        $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->latest()->first();
+        $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->with('visitor', 'building', 'visitType')->latest()->first();
 
         return $this->sendResponse($data, "Fetched data from table.");
 
@@ -59,7 +65,7 @@ class VisitorLogsController extends BaseController
             'visitPurpose_id' => $request->visitPurpose_id
         ]);
 
-        return $this->sendResponse($data, "Saved data in table")->withCookie(cookie()->forget('id'));
+        return $this->sendResponse($data, "Saved data in table");
 
     }
 
@@ -88,7 +94,7 @@ class VisitorLogsController extends BaseController
             'isCheckedOut' => 1,
         ]);
 
-        return $this->sendResponse($data, "Checked Out Visitor")->withCookie(cookie()->forget('id'));
+        return $this->sendResponse($data, "Checked Out Visitor");
     }
 
     /**
