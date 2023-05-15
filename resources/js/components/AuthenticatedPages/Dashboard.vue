@@ -118,7 +118,7 @@
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-base font-semibold leading-6 text-gray-900">Checked In</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of 10 latest checked in users including their name,
+                    <p class="mt-2 text-sm text-gray-700">A list of 5 latest checked in users including their name,
                         email and time.</p>
                 </div>
             </div>
@@ -163,7 +163,7 @@
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-base font-semibold leading-6 text-gray-900">Checked Out</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of 10 latest checked out users including their name,
+                    <p class="mt-2 text-sm text-gray-700">A list of 5 latest checked out users including their name,
                         email and time.</p>
                 </div>
             </div>
@@ -257,11 +257,11 @@ export default {
 
                 });
         },
-        async getVisitorLogs(page = 1) {
-            await axios.get('/api/visitor-logs?page = ' + page)
+        getVisitorLogs(page = 1) {
+            axios.get('/api/visitor-logs?page=' + page)
                 .then((data) => {
                     this.visitorLogs = data.data.data;
-                    this.numLogs = this.visitorLogs.length;
+                    this.numLogs = this.visitorLogs.total;
                 }).catch((e) => {
 
                 });

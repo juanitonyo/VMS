@@ -15,7 +15,7 @@ class VisitorLogsController extends BaseController
      */
     public function index()
     {
-        $data = VisitorLogs::with('visitor')->paginate(1);
+        $data = VisitorLogs::with('visitor')->paginate(5);
 
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
