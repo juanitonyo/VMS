@@ -28,7 +28,7 @@ class VisitorLogsController extends BaseController
     }
 
     public function totalCheckOut() {
-        $data = VisitorLogs::with('visitor')->where('isCheckedOut', 1)->get();
+        $data = VisitorLogs::with('visitor')->where('isCheckedOut', 1)->paginate(5);
         return $this->sendResponse($data, "Fetched check outs in table");
     }
 

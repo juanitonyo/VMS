@@ -184,7 +184,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="person in this.visitorCheckOuts" :key="person.id">
+                                    <tr v-for="person in this.visitorCheckOuts.data" :key="person.id">
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
                                             person.visitor.email }}
                                         </td>
@@ -200,6 +200,9 @@
                     </div>
                 </div>
             </div>
+        </div>
+        <div class="flex items-center justify-end mt-3">
+            <TailwindPagination :data="visitorCheckOuts" @pagination-change-page="getCheckOuts" />
         </div>
     </div>
 </template>
@@ -266,8 +269,8 @@ export default {
 
                 });
         },
-        getCheckOuts() {
-            axios.get('/api/get-checkouts/')
+        getCheckOuts(page = 1) {
+            axios.get('/api/get-checkouts?page=' + page)
                 .then((data) => {
                     this.visitorCheckOuts = data.data.data;
                     this.numCheckouts = this.visitorCheckOuts.length;
