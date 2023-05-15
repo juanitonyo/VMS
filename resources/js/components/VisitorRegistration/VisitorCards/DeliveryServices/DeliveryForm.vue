@@ -137,7 +137,7 @@
                         <router-link :to="enableButton ? '/visitor-registration/success/delivery/' + this.id : '/#'">
                             <button type="submit" :disabled="!enableButton"
                                 :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
-                                class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
+                                class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Submit</button>
                         </router-link>
                     </div>
                 </form>
@@ -311,7 +311,7 @@ export default {
     props: {
         data: {
             type: Array,
-            default: []
+            default: {}
         },
     },
 
@@ -329,9 +329,7 @@ export default {
             goodHealth: false,
             badHealth: false,
             enableButton: false,
-            isFormComplete: false,
             form: new Form({
-                id: '',
                 courierName: '',
                 riderName: '',
                 contact: ''
@@ -434,7 +432,6 @@ export default {
             this.form.post('/api/delivery/')
                 .then((data) => {
                     this.$Progress.finish();
-                    this.isFormComplete = true
                 }).catch((error) => {
                     this.$Progress.fail();
                 })

@@ -50,7 +50,7 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
 
-        setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 5000);
+        // setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 5000);
     },
     components: {
         Vue3Lottie,

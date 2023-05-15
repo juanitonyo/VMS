@@ -12,6 +12,6 @@ class Delivery extends Model
     protected $fillable = [
         'courierName',
         'riderName',
-        'contactName',
+        'contact',
     ];
 }
