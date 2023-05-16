@@ -134,18 +134,16 @@
                     <div class="flex flex-row justify-center items-center gap-3 mb-10 mt-5">
                         <router-link :to="'/visitor-registration/SignIn/delivery/' + this.id"
                             class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                        <router-link :to="enableButton ? '/visitor-registration/success/delivery/' + this.id : '/#'">
-                            <button type="submit" :disabled="!enableButton"
-                                :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
-                                class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Submit</button>
-                        </router-link>
+                        <button type="submit" :disabled="!enableButton"
+                            :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
+                            class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <HealthForm :isOpen="pop" :Title="'Health Declaration'">
+    <FormDialog :isOpen="pop" :Title="'Health Declaration'">
         <template v-slot:body>
             <form>
                 <p class="text-[10px] text-center">Are you currently experiencing or have experienced any of these symptoms
@@ -187,15 +185,15 @@
                     </button>
                     <button
                         class="mt-1 inline-flex w-full justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-400/90"
-                        @click="isOpen" type="button">
+                        @click="pop = !pop" type="button">
                         Close
                     </button>
                 </div>
             </form>
         </template>
-    </HealthForm>
+    </FormDialog>
 
-    <Account :isPop="show" :Title="'My Account'">
+    <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
 
             <div class="flex justify-center items-center">
@@ -290,20 +288,18 @@
                 </button>
                 <button
                     class="mt-1 inline-flex w-full justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-400/90"
-                    @click="isPop" type="button">
+                    @click="show = !show" type="button">
                     Close
                 </button>
             </div>
-
         </template>
-    </Account>
+    </FormDialog>
 </template>
 
 <script>
 import axios from 'axios';
 import Form from 'vform'
-import HealthForm from '../../../Elements/Modals/HealthForm.vue';
-import Account from '../../../Elements/Modals/MyAccount.vue';
+import FormDialog from '../../../Elements/Modals/FormDialog.vue';
 
 export default {
 
@@ -316,7 +312,7 @@ export default {
     },
 
     components: {
-        HealthForm, Account,
+        FormDialog
     },
     data() {
         return {
@@ -432,6 +428,7 @@ export default {
             this.form.post('/api/delivery/')
                 .then((data) => {
                     this.$Progress.finish();
+                    this.$router.push('/visitor-registration/success/delivery/' + this.id);
                 }).catch((error) => {
                     this.$Progress.fail();
                 })

@@ -84,16 +84,13 @@
               leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100"
               leave-to-class="transform opacity-0 scale-95">
               <MenuItems
-                class="absolute right-0 z-10 mt-2.5 w-32 origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                class="absolute right-0 z-10 mt-2.5 w-full origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
-                <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Your
-                  Profile</a>
+                <button @click.prevent="pop = true" :class="[active ? 'bg-gray-100' : '', 'w-full px-4 py-2 text-sm text-gray-700']">Profile Settings</button>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Settings</a>
-                </MenuItem>
-                <MenuItem v-slot="{ active }">
-                <a href="#" :class="[active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700']">Logout</a>
+                <button @click.prevent="logout"
+                  :class="[active ? 'bg-gray-100' : '', 'w-full px-4 py-2 text-sm text-gray-700']">Logout</button>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -102,12 +99,30 @@
       </div>
     </div>
   </div>
+
+  <DialogVue :isOpen="pop" :dialogTitle="'Profile'" id="profile">
+    <template v-slot:dialogBody>
+      henlo
+      <button @click="pop = false" class="bg-red-600">close</button>
+    </template>
+  </DialogVue>
+
+  <DialogVue :isOpen="open" :dialogTitle="'Settings'" id="settings">
+    <template v-slot:dialogBody>
+      hihihih
+
+      <button @click="open = false" class="bg-blue-600">close</button>
+    </template>
+  </DialogVue>
 </template>
 
 <script setup>
 import { ref } from 'vue';
 import { userAuthStore } from '@/store/auth';
 import { useRouter, useRoute } from 'vue-router'
+import axios from 'axios';
+import DialogVue from '@/components/Elements/Modals/Dialog.vue'
+
 
 import {
   Dialog,
@@ -146,6 +161,24 @@ const sideBarSecondaryNavigation = [
 ]
 
 const user_full_name = ref(userAuthStore().user.name);
+const pop = ref(false)
+const open = ref(false)
 const sidebarOpen = ref(false)
+const router = useRouter();
+
+async function logout() {
+  // Call the logout API endpoint to invalidate the user session
+  await axios.post('/logout')
+    .then(() => {
+      // Remove the user token from local storage
+      localStorage.removeItem('userAuth');
+      // Redirect the user to the login page
+      router.push({name:"login"}).then(() => { router.go() })
+      // this.$router.push('/login');
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+}
 
 </script>

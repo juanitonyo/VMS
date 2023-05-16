@@ -37,7 +37,7 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.contact }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.courierName }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">Test</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">Test</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a
                                                 class="flex justify-center text-slate-800 hover:text-gray-500 cursor-pointer">
@@ -67,6 +67,8 @@
 <script>
 import { TailwindPagination } from 'laravel-vue-pagination';
 import axios from 'axios';
+import moment from 'moment';
+
 
 export default {
 
@@ -78,7 +80,14 @@ export default {
         },
     },
 
+    data() {
+        return {
+            data: {}
+        }
+    },
+
     components: {
+        moment,
         TailwindPagination
     },
 
@@ -95,6 +104,7 @@ export default {
 
     created() {
         this.getData();
+        this.moment = moment;
     }
 }
 </script>

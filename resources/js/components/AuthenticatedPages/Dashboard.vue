@@ -163,7 +163,7 @@
                                         <td
                                             class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
                                             {{ person.visitor.name }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
+                                        <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(person.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     </tr>
                                 </tbody>

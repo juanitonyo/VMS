@@ -417,11 +417,6 @@ router.beforeEach((to, from, next) => {
             next({ name: "dashboard" });
         }
         next();
-    } else if (to.meta.middleware == 'vqr') {
-        // if(to.params.id != this.id){
-        //     next({name: "404"});
-        // }
-        next();
     } else {
         next();
     }

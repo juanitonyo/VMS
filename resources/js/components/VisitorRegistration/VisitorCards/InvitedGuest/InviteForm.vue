@@ -114,7 +114,7 @@
         </div>
     </div>
 
-    <HealthForm :isOpen="pop" :Title="'Health Declaration'">
+    <FormDialog :isOpen="pop" :Title="'Health Declaration'">
         <template v-slot:body>
             <form>
                 <p class="text-[10px] text-center">Are you currently experiencing or have experienced any of these symptoms
@@ -162,9 +162,9 @@
                 </div>
             </form>
         </template>
-    </HealthForm>
+    </FormDialog>
 
-    <Account :isPop="show" :Title="'My Account'">
+    <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
 
             <div class="flex justify-center items-center">
@@ -265,13 +265,12 @@
             </div>
 
         </template>
-    </Account>
+    </FormDialog>
 </template>
 
 <script>
 import axios from 'axios';
-import HealthForm from '../../../Elements/Modals/HealthForm.vue';
-import Account from '../../../Elements/Modals/MyAccount.vue';
+import FormDialog from '../../../Elements/Modals/FormDialog.vue';
 
 export default {
     name: 'Invite Form',
@@ -283,7 +282,7 @@ export default {
     },
 
     components: {
-        HealthForm, Account,
+        FormDialog
     },
 
     data() {

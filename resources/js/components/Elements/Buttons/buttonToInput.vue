@@ -15,7 +15,7 @@
 
     </div>
 
-    <Account :isPop="show" :Title="'Scan QR'">
+    <FormDialog :isOpen="show" :Title="'Scan QR'">
         <template v-slot:body>
             <div>
 
@@ -58,13 +58,13 @@
                 </div>
             </div>
         </template>
-    </Account>
+    </FormDialog>
 </template>
 
 <script>
 
 import axios from 'axios';
-import Account from '../Modals/MyAccount.vue';
+import FormDialog from '../Modals/FormDialog.vue';
 import { QrcodeStream } from 'vue3-qrcode-reader'
 export default {
     name: 'buttonToInput',
@@ -77,7 +77,7 @@ export default {
     },
 
     components: {
-        Account,
+        FormDialog,
     },
     props: {
         isButton: {

@@ -42,12 +42,18 @@
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in this.data.data" :key="item.id">
                                         <td class="text-left px-3 py-4 text-xs text-gray-900">{{ item.visitor.name }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.buildingName }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visitor.status ? 'Approved'
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.buildingName
+                                        }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}
+                                        </td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visitor.status ?
+                                            'Approved'
                                             : 'Pending Approval' }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.visitor.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.isCheckedOut ? moment(item.visitor.updated_at).format('MMMM Do YYYY, h:mm:ss a') : "Not Yet" }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{
+                                            moment(item.visitor.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.isCheckedOut ?
+                                            moment(item.visitor.updated_at).format('MMMM Do YYYY, h:mm:ss a') : "Not Yet" }}
+                                        </td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a @click.prevent="editVisitors(item)"
                                                 class="flex justify-center text-slate-800 hover:text-gray-500 cursor-pointer">
@@ -73,69 +79,104 @@
         </div>
     </div>
 
-    <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Visitors'"
-        :description="'Log of all visitors in the database'">
+    <SliderVue :setOpen="open" :title="(editMode ? 'View ' : 'Add ') + 'Visitors'"
+        :description="'A visitor in the database'">
         <template v-slot:slider-body>
-            <form>
-                <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
-                    <div class="my-4 grid grid-cols-1">
+            <div class="relative flex-1 py-2 sm:px-4 space-y-5">
 
-                        <div class="sm:col-span-3 mt-3">
-                            <label for="name" class="text-sm">Visitor Name</label>
-                            <input v-model="this.name" disabled id="name" type="text"
-                                class="mt-2 bg-gray-100 block w-full px-3 rounded-md border py-1.5 shadow-sm ring-gray-300 ring-1 ring-inset sm:text-sm sm:leading-6" />
+                <div class="flex items-center justify-center mt-6">
+                    <img src="" class="relative w-[100px] h-[100px] border border-black rounded-full">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="w-6 h-6 absolute">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
+                    </svg>
+                </div>
+                <p class="italic text-xs text-center">Visitor Details</p>
+                <div class="my-3 mx-5 grid grid-cols-1">
+                    <div class="grid grid-cols-2 text-xs">
+                        <div class="col-span-1 font-bold text-gray-800">
+                            <p>Name of Visitor:</p>
+                            <p>Type of Registration:</p>
+                            <p>Location:</p>
+                            <p>Identification:</p>
+                            <p>Person To Visit:</p>
+                            <p>Person To Visit Email:</p>
+                            <p>Reference Code:</p>
+                            <p>Building:</p>
+                            <p>Type of Visit:</p>
+                            <p>Checked in at:</p>
+                            <p>Checked in by:</p>
+                            <p>Checked out at:</p>
+                            <p>Checked out by:</p>
+                            <p>Approved by:</p>
+                            <p>Rating:</p>
+                            <p>No. of visits in this building:</p>
+                            <p>Remarks:</p>
+                            <p>Health Form:</p>
+                            <p>Temperature:</p>
                         </div>
-
-                        <div class="sm:col-span-3 mt-2">
-                            <div class="sm:col-span-3 mt-3">
-                                <label for="building" class="text-sm">Visitor building</label>
-                                <input v-model="buildingName" disabled id="building" type="text"
-                                    class="mt-2 bg-gray-100 block w-full px-3 rounded-md border py-1.5 shadow-sm ring-gray-300 ring-1 ring-inset sm:text-sm sm:leading-6" />
-                            </div>
+                        <div class="col-span-1 justify-self-end italic text-gray-500">
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
+                            <p>N/A</p>
                         </div>
-
-                        <div class="sm:col-span-3 mt-2">
-                            <label for="visitType" class="text-sm">Visit Type</label>
-                            <input v-model="visitType" disabled id="vvisitType" type="text"
-                                class="mt-2 bg-gray-100 block w-full px-3 rounded-md border py-1.5 sm:text-sm ring-gray-300 ring-1 ring-inset   sm:leading-6" />
-                        </div>
-
+                    </div>
+                    <form>
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
                                         Status</SwitchLabel>
                                 </span>
-                                <Switch v-model="status"
+                                <Switch v-model="form.status"
                                     :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
                         </div>
-                    </div>
+                    </form>
                 </div>
-                <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
-                    <button type="button"
-                        class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                        @click="setOpen">Cancel</button>
-                    <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
-                            editMode
-                            ? 'Update' : 'Save' }}</button>
-                </div>
-            </form>
+            </div>
+            <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
+                <button type="button"
+                    class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
+                    @click="setOpen">Cancel</button>
+                <button type="submit"
+                    class="ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
+                        editMode
+                        ? 'Update' : 'Save' }}</button>
+            </div>
         </template>
     </SliderVue>
 </template>
 
 <script>
 import axios from 'axios';
-import { Form } from 'vform';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
 import moment from 'moment';
+import { Form } from 'vform';
 
 export default {
     name: 'VisitorLogs',
@@ -153,7 +194,9 @@ export default {
             name: '',
             buildingName: '',
             visitType: '',
-            status: false
+            form: new Form ({
+                status: false
+            })
         }
     },
 

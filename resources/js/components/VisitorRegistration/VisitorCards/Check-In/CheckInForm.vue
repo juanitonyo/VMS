@@ -110,7 +110,7 @@
         </div>
     </div>
 
-    <Account :isPop="show" :Title="'My Account'">
+    <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
 
             <div class="flex justify-center items-center">
@@ -211,13 +211,13 @@
             </div>
 
         </template>
-    </Account>
+    </FormDialog>
 </template>
 
 <script>
 import axios from 'axios';
 import Form from 'vform';
-import Account from '../../../Elements/Modals/MyAccount.vue';
+import FormDialog from '../../../Elements/Modals/FormDialog.vue';
 
 export default {
     name: 'Check In Form',
@@ -228,7 +228,7 @@ export default {
         },
     },
     components: {
-        Account
+        FormDialog
     },
     data() {
         return {
