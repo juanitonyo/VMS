@@ -33,7 +33,7 @@
                     <div class="flex items-center mt-6 relative">
                         <div class="flex flex-row items-center">
                             <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
-                            <input v-model="form.email" type="email" :disabled="isGoogleExist" placeholder="juan@email.com"
+                            <input v-model="form.email" type="email" :disabled="isGoogleExist" placeholder="example@email.com"
                                 :class="form.errors.has('email') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
                             <p v-show="form.errors.has('email')"
                                 class="text-[10px] items-center absolute bottom-[-15px] ml-24 w-max text-red-500">{{

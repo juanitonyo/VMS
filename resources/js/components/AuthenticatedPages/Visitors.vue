@@ -50,9 +50,9 @@
                                             'Approved'
                                             : 'Pending Approval' }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{
-                                            moment(item.visitor.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                            moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.isCheckedOut ?
-                                            moment(item.visitor.updated_at).format('MMMM Do YYYY, h:mm:ss a') : "Not Yet" }}
+                                            moment(item.updated_at).format('MMMM Do YYYY, h:mm:ss a') : "Not Yet" }}
                                         </td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">
                                             <a @click.prevent="editVisitors(item)"
@@ -118,17 +118,17 @@
                             <p>Health Form:</p>
                             <p>Temperature:</p>
                         </div>
-                        <div class="col-span-1 justify-self-end italic text-gray-500">
+                        <div class="col-span-1 justify-self-end italic text-right text-gray-500">
+                            <p>{{ this.account.visitor.name }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
-                            <p>N/A</p>
-                            <p>N/A</p>
-                            <p>N/A</p>
-                            <p>N/A</p>
+                            <p>{{ this.account.building.buildingName }}</p>
+                            <p>{{ this.account.visit_type.name }}</p>
+                            <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a')  }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
@@ -197,7 +197,9 @@ export default {
                 buildingName: '',
                 visitType: '',
                 status: false,
-            })
+            }),
+
+            account: {}
         }
     },
 
@@ -208,10 +210,7 @@ export default {
         editVisitors(item) {
             this.editMode = true
             this.open = !this.open
-            this.form.name = item.visitor.name
-            this.form.buildingName = item.building.buildingName
-            this.form.visitType = item.visit_type.name
-            console.log(this.form);
+            this.account = item
         },
         setOpen() {
             this.editMode = false;
