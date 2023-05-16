@@ -191,11 +191,12 @@ export default {
             data: {},
             editMode: false,
             open: false,
-            name: '',
-            buildingName: '',
-            visitType: '',
-            form: new Form ({
-                status: false
+            
+            form: new Form({
+                name: '',
+                buildingName: '',
+                visitType: '',
+                status: false,
             })
         }
     },
@@ -207,7 +208,10 @@ export default {
         editVisitors(item) {
             this.editMode = true
             this.open = !this.open
-            console.log(item)
+            this.form.name = item.visitor.name
+            this.form.buildingName = item.building.buildingName
+            this.form.visitType = item.visit_type.name
+            console.log(this.form);
         },
         setOpen() {
             this.editMode = false;

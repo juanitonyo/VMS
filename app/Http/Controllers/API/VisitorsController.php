@@ -7,6 +7,7 @@ use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\VisitorsRequest;
 use Illuminate\Support\Facades\Cookie;
+use Intervention\Image\Image;
 
 class VisitorsController extends BaseController
 {
@@ -20,13 +21,17 @@ class VisitorsController extends BaseController
     }
 
     public function existingVisitor(Request $request) {
-        
+
         $data = Visitors::where([
             'email' => $request->email,
             'building_ID' => $request->building_ID
         ])->latest()->first();
 
-        return $this->sendResponse($data, "Found data in table")->withCookie(cookie('asCookie', $data['google_id'], 1440, $httpOnly = false));
+        if($data != null) {
+            return $this->sendResponse($data, "Found data in table")->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
+        }
+
+        return $this->sendResponse($data, "Found data in table");
     }
 
     public function syncVisitor() {
@@ -51,8 +56,33 @@ class VisitorsController extends BaseController
     public function store(VisitorsRequest $request)
     {
         $buildingRefID = Building::where('qr_id', $request->building_ID)->first()->id;
+
+        $profile_link = "";
+        if($request->profilePhoto) {
+            $profile_binary = $request->profilePhoto;
+            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles/'.$profile_link)->destroy();
+        }
+
+        $frontID_link = "";
+        if($request->front_id) {
+            $frontID_binary = $request->front_id;
+            $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
+            \Image::make($frontID_binary)->fit(200, 200)->save('uploads/ids/'.$frontID_link)->destroy();
+        }
+
+        $backID_link = "";
+        if($request->back_id) {
+            $backID_binary = $request->back_id;
+            $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
+            \Image::make($backID_binary)->fit(200, 200)->save('uploads/ids/'.$backID_link)->destroy();
+        }
+
         $validated = $request->validated();
         $validated['building_ID'] = $buildingRefID;
+        $validated['profilePhoto'] = $profile_link;
+        $validated['front_id'] = $frontID_link;
+        $validated['back_id'] = $backID_link;
 
         $data = Visitors::create($validated);
         return $this->sendResponse($data, "Data Saved.")->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
@@ -81,12 +111,56 @@ class VisitorsController extends BaseController
     {
         $buildingRefID = Building::where('qr_id', Cookie::get('buildingUUID'))->first()->id;
 
+        $profile_link = "";
+        $frontID_link = "";
+        $backID_link = "";
+        $profile_binary = $request->params['data']['profilePhoto'];
+        $frontID_binary = $request->params['data']['front_id'];
+        $backID_binary = $request->params['data']['back_id'];
+        $data = Visitors::findOrFail($id);
+
+        if($profile_binary && $data->profilePhoto == null){
+            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles/'.$profile_link)->destroy();
+        }
+
+        else if(('uploads/profiles/'.$data->profilePhoto) != null){
+            unlink('uploads/images/'.$data->profilePhoto);
+            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles/'.$profile_link)->destroy();
+        }
+
+        if($frontID_binary && $data->front_id == null){
+            $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
+            \Image::make($frontID_binary)->fit(200, 200)->save('uploads/profiles/'.$frontID_link)->destroy();
+        }
+
+        else if(('uploads/ids/'.$data->front_id) != null){
+            unlink('uploads/ids/'.$data->front_id);
+            $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
+            \Image::make($frontID_binary)->fit(200, 200)->save('uploads/profiles/'.$frontID_link)->destroy();
+        }
+
+        if($backID_binary && $data->back_id == null){
+            $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
+            \Image::make($backID_binary)->fit(200, 200)->save('uploads/profiles/'.$backID_link)->destroy();
+        }
+
+        else if(('uploads/ids/'.$data->back_id) != null){
+            unlink('uploads/ids/'.$data->back_id);
+            $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
+            \Image::make($backID_binary)->fit(200, 200)->save('uploads/profiles/'.$backID_link)->destroy();
+        }
+
         $data = Visitors::findOrFail($id)->update([
             'building_ID' => $buildingRefID,
             'email' => $request->params['data']['email'],
             'name' => $request->params['data']['name'],
             'contact' => $request->params['data']['contact'],
             'validId' => $request->params['data']['validId'],
+            'profilePhoto' => $profile_link,
+            'front_id' => $frontID_link,
+            'back_id' => $backID_link,
             'policy' => $request->params['data']['policy'],
         ]);
         

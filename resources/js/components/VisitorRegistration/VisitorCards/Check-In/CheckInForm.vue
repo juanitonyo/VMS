@@ -113,7 +113,7 @@
     <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
 
-            <div class="flex justify-center items-center">
+            <div class="flex justify-center items-center ">
                 <div class="w-[80px] flex flex-col gap-y-1">
                     <label for="dropzone-file" :style="{ 'background-image': `url(${profile_url})` }"
                         @click="$refs.profile.click()"

@@ -31,6 +31,8 @@ class VisitorsRequest extends FormRequest
             'email' => 'required',
             'contact' => 'required',
             'validId' => 'required',
+            'front_id' => 'required',
+            'back_id' => 'required',
             'policy' => 'required'
         ];
     }
@@ -42,6 +44,8 @@ class VisitorsRequest extends FormRequest
             'params.data.email' => 'required',
             'params.data.contact' => 'required',
             'params.data.validId' => 'required',
+            'params.data.front_id' => 'required',
+            'params.data.back_id' => 'required',
             'params.data.policy' => 'required'
         ];
     }
