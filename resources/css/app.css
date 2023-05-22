@@ -181,13 +181,42 @@
     border: none;
 }
 
+#gov_id{
+    padding-left: 8px;
+    padding-right: 8px;
+}
+
+#gov_id .vs__selected{
+    margin: 0;
+    padding: 0;
+    margin-left: 4px;
+}
+
 #gov_id .vs__dropdown-menu{
-    max-height: 150px;
+    max-height: 100px;
+}
+
+#gov_id .vs__search{
+    margin: 0;
+    padding: 0;
+    padding-left: 4px;
+}
+
+#gov_id .vs__search{
+    margin: 0;
+}
+#gov_id .vs__actions{
+    padding: 0;
+}
+
+#gov_id .vs__dropdown-toggle{
+    border: none;
 }
 
 .gov-ids .vs__dropdown-menu{
     max-height: 150px;
 }
+
 .host .v-select{
     color: black;
 }
@@ -233,6 +262,11 @@
     height: 28px; 
     border: none;
 }
+
+#dropdown .vs__search{
+    padding-left: 7px;
+}
+
 
 
 

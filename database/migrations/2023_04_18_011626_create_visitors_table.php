@@ -21,8 +21,8 @@ return new class extends Migration
             $table->string('validId')->nullable();
             $table->string('google_id')->nullable();
             $table->string('profilePhoto')->nullable();
-            $table->string('front_id');
-            $table->string('back_id');
+            $table->string('front_id')->nullable();;
+            $table->string('back_id')->nullable();;
             $table->boolean('status')->default(false);
             $table->boolean('policy')->default(false);
             $table->timestamps();

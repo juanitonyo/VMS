@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot as="template" :show="sidebarOpen">
-    <Dialog as="div" class="relative z-50 lg:hidden" @close="sidebarOpen = false">
+    <Dialog as="div" class="relative lg:hidden" @close="sidebarOpen = false">
       <TransitionChild as="template" enter="transition-opacity ease-linear duration-300" enter-from="opacity-0"
         enter-to="opacity-100" leave="transition-opacity ease-linear duration-300" leave-from="opacity-100"
         leave-to="opacity-0">
@@ -59,7 +59,7 @@
 
   <div class="lg:pl-72">
     <div
-      class="top-0 z-40 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
+      class="top-0 flex h-16 shrink-0 items-center gap-x-4 border-b border-gray-200 bg-white px-4 shadow-sm sm:gap-x-6 sm:px-6 lg:px-8">
       <button type="button" class="-m-2.5 p-2.5 text-gray-700 lg:hidden" @click="sidebarOpen = true">
         <span class="sr-only">Open sidebar</span>
         <Bars3CenterLeftIcon class="h-6 w-6" aria-hidden="true" />
@@ -84,14 +84,14 @@
               leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100"
               leave-to-class="transform opacity-0 scale-95">
               <MenuItems
-                class="absolute right-0 z-10 mt-2.5 w-full origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                class="absolute right-0 mt-2.5 w-full origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
-                <button @click.prevent="pop = true"
+                <button @click="pop = true"
                   :class="[active ? 'bg-gray-100' : '', 'w-full px-4 py-2 text-sm text-gray-700']">Profile
                   Settings</button>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
-                <button @click.prevent="logout"
+                <button @click="logout"
                   :class="[active ? 'bg-gray-100' : '', 'w-full px-4 py-2 text-sm text-gray-700']">Logout</button>
                 </MenuItem>
               </MenuItems>
@@ -102,18 +102,166 @@
     </div>
   </div>
 
-  <DialogVue :isOpen="pop" :dialogTitle="'Profile'" id="profile">
+  <DialogVue :show="pop" :dialogTitle="changePass ? 'Change Password' : 'Update Profile'" id="profile"
+    :modalWidth="'max-w-4xl'" :modalHeight="'h-[400px]'">
     <template v-slot:dialogBody>
-      henlo
-      <button @click="pop = false" class="bg-red-600">close</button>
-    </template>
-  </DialogVue>
+      <div v-show="!changePass" class="container mx-auto">
+        <form>
+          <div class="grid text-sm grid-cols-3">
+            <div class="text-gray-600">
+              <div class="flex justify-center items-center flex-col lg:mt-16 my-4">
+                <div class="lg:w-40 w-28">
+                  <label for="profile"
+                    class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 opacity-60 rounded-full justify-center items-center cursor-pointer transition duration-500">
+                    <img class="lg:w-8 w-6 mt-3 lg:mt-0" src="https://www.svgrepo.com/show/33565/upload.svg" />
+                    <input id="profile" type="file" class="flex items-center h-5 border rounded px-4 w-full opacity-0">
+                  </label>
+                </div>
+                <p class="text-[10px]">Change Photo</p>
+              </div>
+            </div>
 
-  <DialogVue :isOpen="open" :dialogTitle="'Settings'" id="settings">
-    <template v-slot:dialogBody>
-      hihihih
+            <div class="lg:col-span-2">
+              <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+                <div class="md:col-span-5 relative">
+                  <div class="flex justify-between">
+                    <label for="firstName" class="text-xs">First Name</label>
+                  </div>
+                  <input type="text" name="firstName" id="firstName" placeholder="Juan"
+                    class="text-xs border rounded px-4 mt-1 h-8 w-full" />
+                </div>
 
-      <button @click="open = false" class="bg-blue-600">close</button>
+                <div class="md:col-span-5 relative">
+                  <div class="flex justify-between">
+                    <label for="lastName" class="text-xs">Last Name</label>
+                  </div>
+                  <input type="text" name="lastName" id="lastName" placeholder="Dela Cruz"
+                    class="text-xs border rounded px-4 mt-1 h-8 w-full" />
+                </div>
+
+                <div class="md:col-span-3 relative">
+                  <div class="flex justify-between">
+                    <label for="email" class="text-xs">Email Address</label>
+                  </div>
+                  <input type="text" name="email" id="email" class="text-xs border rounded px-4 mt-1 h-8 w-full"
+                    placeholder="example@domain.com" autocomplete="off" />
+                </div>
+
+                <div class="md:col-span-2 relative">
+                  <div class="flex justify-between">
+                    <label for="password" class="text-xs">Password</label>
+                  </div>
+                  <button @click.prevent="changePassword()"
+                    class="flex items-center justify-center mt-1 h-8 w-full space-x-1 border rounded hover:bg-blue-100/90">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                      stroke="currentColor" class="w-4 h-4">
+                      <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M15.75 5.25a3 3 0 013 3m3 0a6 6 0 01-7.029 5.912c-.563-.097-1.159.026-1.563.43L10.5 17.25H8.25v2.25H6v2.25H2.25v-2.818c0-.597.237-1.17.659-1.591l6.499-6.499c.404-.404.527-1 .43-1.563A6 6 0 1121.75 8.25z" />
+                    </svg>
+                    <p class="text-xs">Change Password</p>
+                  </button>
+                </div>
+
+                <div class="md:col-span-3 relative">
+                  <div class="flex justify-between">
+                    <label for="location" class="text-xs">Unit Number / Location</label>
+                  </div>
+                  <input type="text" name="location" id="location" placeholder="Enter Unit / Location"
+                    class="text-xs border rounded px-4 mt-1 h-8 w-full" />
+                </div>
+
+                <div class="md:col-span-2 relative">
+                  <div class="flex justify-between">
+                    <label for="contact" class="text-xs">Mobile Number</label>
+                  </div>
+                  <input type="tel" name="contact" id="contact" placeholder="09*********"
+                    class=" text-xs border rounded px-4 mt-1 h-8 w-full" />
+                </div>
+
+                <div class="md:col-span-3 relative">
+                  <div class="flex justify-between">
+                    <label for="gov_id" class="text-xs">Government - Issued Valid ID</label>
+                  </div>
+                  <div class="valid_ids flex items-center mt-1">
+                    <v-select id="gov_id" :options="gov_id" :placeholder="'Valid ID'"
+                      class="text-xs border rounded px-4 mt-1 h-8 w-full">
+                    </v-select>
+                  </div>
+                </div>
+
+                <div class="md:col-span-1">
+                  <p class="text-xs">Front</p>
+                  <label for="frontId"
+                    class="mt-1 flex flex-col items-center justify-center w-full h-[73px] border rounded-md cursor-pointer hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                    <div class="flex flex-col items-center justify-center pt-6 pb-6">
+                      <img src="/Visitor_Homepage_Assets/frontID.png">
+                    </div>
+                    <input id="frontId" ref="front" type="file"
+                      class="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50 opacity-0"
+                      @input="" />
+                  </label>
+                </div>
+
+                <div class="md:col-span-1">
+                  <p class="text-xs">Back</p>
+                  <label for="backId"
+                    class="mt-1 flex flex-col items-center justify-center w-full h-[73px] border rounded-md cursor-pointer hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                    <div class="flex flex-col items-center justify-center pt-6 pb-6">
+                      <img src="/Visitor_Homepage_Assets/backID.png">
+                    </div>
+                    <input id="backId" ref="front" type="file"
+                      class="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50 opacity-0"
+                      @input="" />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+
+        <div class="space-x-3 flex mt-5">
+          <button @click="pop = false" class="w-full h-8 border border-black rounded-md font-semibold tracking-wide">Close</button>
+          <button class="w-full h-8 bg-gray-900 text-white rounded-md font-semibold tracking-wide">Update</button>
+        </div>
+
+      </div>
+
+
+      <div v-show="changePass" class="">
+        <div class="h-[300px] flex flex-col items-center justify-center">
+
+          <form class="flex flex-col items-center">
+
+            <div class="w-[400px]">
+              <label for="" class="text-xs">Current Password</label>
+              <input type="text" name="" id="" placeholder=""
+                class="text-xs border rounded mt-1 px-4 h-8 w-full focus:outline-none" />
+            </div>
+
+            <div class="w-[400px]">
+              <label for="" class="text-xs">New Password</label>
+              <input type="text" name="" id="" placeholder=""
+                class="text-xs border rounded mt-1 px-4 h-8 w-full focus:outline-none" />
+            </div>
+
+            <div class="w-[400px]">
+              <label for="" class="text-xs">Confirm Password</label>
+              <input type="text" name="" id="" placeholder=""
+                class="text-xs border rounded mt-1 px-4 h-8 w-full focus:outline-none" />
+            </div>
+
+          </form>
+        </div>
+
+        <div class="flex space-x-3 mt-[53px]">
+          <button @click="changePass = false" class="w-full h-8 border border-black rounded-md font-semibold tracking-wide">Back</button>
+          <button class="w-full h-8 bg-gray-900 text-white rounded-md font-semibold tracking-wide">Save</button>
+        </div>
+
+
+
+      </div>
+
     </template>
   </DialogVue>
 </template>
@@ -124,7 +272,6 @@ import { userAuthStore } from '@/store/auth';
 import { useRouter, useRoute } from 'vue-router'
 import axios from 'axios';
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
-
 
 import {
   Dialog,
@@ -162,9 +309,25 @@ const sideBarSecondaryNavigation = [
   { name: 'Maintenance', href: '/app/settings', icon: CogIcon },
 ]
 
+const gov_id = [
+  "Digitalized BIR Taxpayer's ID",
+  'Digitized Postal ID',
+  'Diplomat ID',
+  "Driver's License",
+  'GSIS Card',
+  'IBP ID',
+  'OFW ID',
+  'OWWA ID',
+  'Passport',
+  'PRC ID',
+  "Senior Citizen's ID Card",
+  'SSS Card',
+  'UMID Card',
+  "Voter's ID"
+]
+
 const user_full_name = ref(userAuthStore().user.name);
 const pop = ref(false)
-const open = ref(false)
 const sidebarOpen = ref(false)
 const router = useRouter();
 
@@ -175,4 +338,19 @@ const logout = async () => {
   });
 };
 
+</script>
+
+<script>
+export default {
+  data() {
+    return {
+      changePass: false
+    }
+  },
+  methods: {
+    changePassword() {
+      this.changePass = !this.changePass
+    }
+  }
+}
 </script>

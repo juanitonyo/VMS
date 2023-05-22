@@ -9,14 +9,14 @@
       <div class="bg-white py-8 px-4 shadow sm:rounded-lg sm:px-10">
         <form class="space-y-6" @submit.prevent="handleLogin()">
           <div>
-            <label for="email" class="block text-sm font-medium leading-6 text-gray-900">Email address</label>
+            <label for="email" class="block text-xs font-medium leading-6 text-gray-900">Email address</label>
             <div class="mt-2">
               <input v-model="form.email" id="email" name="email" type="email" autocomplete="email" placeholder="example@email.com" class="block pl-2 text-xs w-full rounded-md border py-1.5 text-gray-900 placeholder:text-gray-400 focus:outline-none sm:leading-6" />
             </div>
           </div>
 
           <div>
-            <label for="password" class="block text-sm font-medium leading-6 text-gray-900">Password</label>
+            <label for="password" class="block text-xs font-medium leading-6 text-gray-900">Password</label>
             <div class="mt-2">
               <input v-model="form.password" id="password" name="password" type="password" autocomplete="current-password" placeholder="••••••••" class="block pl-2 text-xs w-full rounded-md border py-1.5 text-gray-900 placeholder:text-gray-400 focus:outline-none sm:leading-6" />
             </div>

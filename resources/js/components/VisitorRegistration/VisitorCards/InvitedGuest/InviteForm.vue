@@ -28,13 +28,13 @@
                     <div class="check_purpose space-y-3 mt-5">
                         <v-select id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
                             :options="purpose" label="label"
-                            class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80"></v-select>
+                            class="text-[10px] border border-blue-700 rounded-[3px] pl-1 h-[28px] w-80"></v-select>
                         <input type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
                             class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-3 pt-1 pb-[80px] w-80">
                     </div>
 
                     <p class="text-sm text-blue-900 font-semibold leading-[20px] mt-5">Person To Visit</p>
-
+                    
                     <div class="space-y-3">
                         <div class="flex flex-col mt-4 gap-y-3">
 

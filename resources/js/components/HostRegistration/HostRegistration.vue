@@ -17,8 +17,7 @@
                                         class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 opacity-60 rounded-full justify-center items-center cursor-pointer transition duration-500">
                                         <img class="lg:w-8 w-6 mt-3 lg:mt-0"
                                             src="https://www.svgrepo.com/show/33565/upload.svg" />
-                                        <input id="profile" type="file"
-                                            class="flex items-center h-5 border rounded px-4 w-full opacity-0">
+                                        <input id="profile" type="file" class="opacity-0">
                                     </label>
                                 </div>
                                 <p class="text-[10px]">Upload Photo</p>
@@ -209,7 +208,6 @@ export default {
             id: window.location.href.split('/').pop(),
             buildings: {},
             showPassword: false,
-            setShowPassword: false,
             checkPolicy: false,
             isFormComplete: false,
             profile: '',

@@ -1,6 +1,6 @@
 <template>
   <TransitionRoot appear :show="isOpen" as="template">
-    <Dialog as="div" @close="closeModal" class="relative z-10">
+    <Dialog as="div" @close="closeModal" class="relative z-1000">
       <TransitionChild as="template" enter="duration-100 ease-out" enter-from="opacity-0" enter-to="opacity-100"
         leave="duration-100 ease-in" leave-from="opacity-100" leave-to="opacity-0">
         <div class="fixed inset-0 bg-black bg-opacity-25" />
@@ -11,13 +11,13 @@
           <TransitionChild as="template" enter="duration-200 ease-out" enter-from="opacity-0 scale-95"
             enter-to="opacity-100 scale-100" leave="duration-200 ease-in" leave-from="opacity-100 scale-100"
             leave-to="opacity-0 scale-95">
-            <DialogPanel
-              class="w-full max-w-2xl transform overflow-hidden rounded-xl bg-white p-6 text-left align-middle shadow-xl transition-all">
+            <DialogPanel :class="modalWidth"
+              class="w-full transform overflow-hidden rounded-xl bg-white p-6 text-left align-middle shadow-xl transition-all">
               <DialogTitle as="h3" class="text-xl font-bold leading-6 text-gray-900 ">
                 {{ dialogTitle }}
               </DialogTitle>
 
-              <div class="mt-2">
+              <div class="mt-2" :class="modalHeight">
                 <!-- <hr class="my-2"> -->
                 <p class="text-sm text-gray-900">
                   <slot name="dialogBody"></slot>
@@ -49,6 +49,15 @@ export default {
       type: String,
       default: 'Title'
     },
+    modalWidth: {
+      type: String,
+      default: 'max-w-2xl'
+    },
+    modalHeight: {
+      type: String,
+      default: ''
+    },
+
 
   },
   components: {

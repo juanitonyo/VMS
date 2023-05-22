@@ -181,7 +181,7 @@
         </template>
     </SliderVue>
 
-    <DialogVue :isOpen="pop" :dialogTitle="mode + ' QR | ' + form.buildingName">
+    <DialogVue :isOpen="pop" :dialogTitle="mode + ' QR | ' + form.buildingName" :modalWidth="'max-w-3xl'">
         <template v-slot:dialogBody>
 
             <div class="overflow-hidden shadow shadow-slate-400 sm:rounded-lg p-5 mt-4">

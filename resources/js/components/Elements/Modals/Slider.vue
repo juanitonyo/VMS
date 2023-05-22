@@ -1,6 +1,6 @@
 <template>
     <TransitionRoot as="template" :show="setOpen">
-      <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen">
+      <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen = false">
         <div class="fixed inset-0 bg-black bg-opacity-50 " />
         <div class="fixed inset-0 overflow-hidden">
           <div class="absolute inset-0 overflow-hidden">
@@ -37,10 +37,6 @@
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
 export default {
   props: {
-    setOpen: {
-      type: Boolean,
-      default: 'false',
-    },
     setOpen: {
       type: Boolean,
       default: 'false',
