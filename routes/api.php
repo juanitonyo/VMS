@@ -21,7 +21,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::post('login', 'AuthController@login');
-    Route::post('logout', 'AuthController@logout');
 
     Route::get('get-visit-types', 'VisitTypesController@getVisitTypeArray');
     Route::get('get-building-types', 'BuildingTypesController@getBuildingTypeArray');

@@ -176,7 +176,6 @@ import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
 import moment from 'moment';
-import { Form } from 'vform';
 
 export default {
     name: 'VisitorLogs',
@@ -216,6 +215,9 @@ export default {
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
+        },
+        isChange(){
+            
         }
     },
     created() {

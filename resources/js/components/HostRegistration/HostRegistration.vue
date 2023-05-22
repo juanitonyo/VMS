@@ -195,7 +195,7 @@ import axios from 'axios';
 import Form from 'vform';
 
 export default {
-    name: 'Visitor Prompt',
+    name: 'Host Registration',
     props: {
         data: {
             type: Array,
