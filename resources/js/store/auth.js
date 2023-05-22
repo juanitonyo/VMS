@@ -7,15 +7,12 @@ export const userAuthStore = defineStore("userAuth", {
     state: () => ({
         authenticated: false,
         user: {},
-        roles: {
-            name: null,
-            permissions: {},
-        },
+        role: {},
     }),
     getters: {
         getUser: (state) => state.user,
         getAuthentition: (state) => state.authenticated,
-        getRoleAndPermission: (state) => state.roles,
+        getRoleAndPermission: (state) => state.role,
     },
     actions: {
         async getToken() {
@@ -24,6 +21,7 @@ export const userAuthStore = defineStore("userAuth", {
         async signOut() {
             this.authenticated = false;
             this.user = {};
+            this.role = {};
         },
         async login(formData) {
             this.getToken();
@@ -31,7 +29,8 @@ export const userAuthStore = defineStore("userAuth", {
                 .post("/api/login", formData.value)
                 .then((data) => {
                     this.authenticated = data.data.success;
-                    this.user = data.data.data;
+                    this.user = data.data.data.user;
+                    this.role = data.data.data.role;
                     router.push({ name: "dashboard" });
                 })
                 .catch((error) => {
