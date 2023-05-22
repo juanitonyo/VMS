@@ -141,28 +141,28 @@
                             <p>N/A</p>
                         </div>
                     </div>
-
-                    <div class="sm:col-span-3 mt-3">
-                        <SwitchGroup as="div" class="flex items-center justify-between">
-                            <span class="flex flex-grow flex-col">
-                                <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
-                                    Status</SwitchLabel>
-                            </span>
-                            <Switch v-model="this.account.visitor.status" @click="this.isChanged = !this.isChanged"
-                                :class="[this.account.visitor.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
-                                <span aria-hidden="true"
-                                    :class="[this.account.visitor.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                            </Switch>
-                        </SwitchGroup>
-                    </div>
-
+                    <form>
+                        <div class="sm:col-span-3 mt-3">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+                                        Status</SwitchLabel>
+                                </span>
+                                <Switch v-model="this.status"
+                                    :class="[this.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[this.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
+                    </form>
                 </div>
             </div>
             <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
                 <button type="button"
                     class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                     @click="setOpen">Cancel</button>
-                <button type="submit" :disabled="this.isChanged ? false : true" @click.prevent="updateVisitor()"
+                <button type="submit" @click.prevent="updateVisitor()"
                     :class="[this.isChanged ? 'hover:bg-gray-500' : '', 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm']">
                     Save</button>
             </div>
@@ -204,10 +204,12 @@ export default {
             this.editMode = true
             this.open = !this.open
             this.account = item
+            this.status = this.account.visitor.status
         },
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
+            this.status = false;
         },
         async getData(page = 1) {
             await axios.get('/api/get-logs?page=' + page).then((data) => {
@@ -216,12 +218,8 @@ export default {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        isChange() {
-
-        },
-
         updateVisitor() {
-            this.account.visitor.status = 1
+            this.account.visitor.status = this.status
             axios.put("/api/visitors/" + this.account.visitor.id, {
                 params: {
                     data: this.account.visitor

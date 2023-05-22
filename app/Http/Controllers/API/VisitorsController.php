@@ -60,7 +60,6 @@ class VisitorsController extends BaseController
     public function store(VisitorsRequest $request)
     {
         $buildingRefID = Building::where('qr_id', $request->building_ID)->first()->id;
-        // $approval = VisitTypes::where('')
 
         $profile_link = "";
         if($request->profilePhoto) {
@@ -125,38 +124,38 @@ class VisitorsController extends BaseController
         $backID_binary = $request->params['data']['back_id'];
         $data = Visitors::findOrFail($id);
 
-        // if($profile_binary && $data->profilePhoto == null){
-        //     $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
-        //     \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
-        // }
+        if($profile_binary && $data->profilePhoto == null){
+            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
+        }
 
-        // else if(('uploads/profiles-visitor/'.$data->profilePhoto) != null && ){
-        //     unlink('uploads/profiles-visitor/'.$data->profilePhoto);
-        //     $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
-        //     \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
-        // }
+        else if(('uploads/profiles-visitor/'.$data->profilePhoto) != null && $data->profilePhoto != $request->params['data']['profilePhoto']){
+            unlink('uploads/profiles-visitor/'.$data->profilePhoto);
+            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
+        }
 
-        // if($frontID_binary && $data->front_id == null){
-        //     $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
-        //     \Image::make($frontID_binary)->fit(200, 200)->save('uploads/frontID/'.$frontID_link)->destroy();
-        // }
+        if($frontID_binary && $data->front_id == null){
+            $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
+            \Image::make($frontID_binary)->fit(200, 200)->save('uploads/frontID/'.$frontID_link)->destroy();
+        }
 
-        // else if(('uploads/frontID/'.$data->front_id) != null){
-        //     unlink('uploads/frontID/'.$data->front_id);
-        //     $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
-        //     \Image::make($frontID_binary)->fit(200, 200)->save('uploads/frontID/'.$frontID_link)->destroy();
-        // }
+        else if(('uploads/frontID/'.$data->front_id) != null && $data->front_id != $request->params['data']['front_id']){
+            unlink('uploads/frontID/'.$data->front_id);
+            $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
+            \Image::make($frontID_binary)->fit(200, 200)->save('uploads/frontID/'.$frontID_link)->destroy();
+        }
 
-        // if($backID_binary && $data->back_id == null){
-        //     $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
-        //     \Image::make($backID_binary)->fit(200, 200)->save('uploads/backID/'.$backID_link)->destroy();
-        // }
+        if($backID_binary && $data->back_id == null){
+            $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
+            \Image::make($backID_binary)->fit(200, 200)->save('uploads/backID/'.$backID_link)->destroy();
+        }
 
-        // else if(('uploads/backID/'.$data->back_id) != null){
-        //     unlink('uploads/backID/'.$data->back_id);
-        //     $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
-        //     \Image::make($backID_binary)->fit(200, 200)->save('uploads/backID/'.$backID_link)->destroy();
-        // }
+        else if(('uploads/backID/'.$data->back_id) != null && $data->back_id != $request->params['data']['back_id']){
+            unlink('uploads/backID/'.$data->back_id);
+            $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
+            \Image::make($backID_binary)->fit(200, 200)->save('uploads/backID/'.$backID_link)->destroy();
+        }
 
         $data = Visitors::findOrFail($id)->update([
             'building_ID' => $buildingRefID,
@@ -164,9 +163,9 @@ class VisitorsController extends BaseController
             'name' => $request->params['data']['name'],
             'contact' => $request->params['data']['contact'],
             'validId' => $request->params['data']['validId'],
-            // 'profilePhoto' => $profile_link,
-            // 'front_id' => $frontID_link,
-            // 'back_id' => $backID_link,
+            'profilePhoto' => $profile_link,
+            'front_id' => $frontID_link,
+            'back_id' => $backID_link,
             'status' => $request->params['data']['status'],
             'policy' => $request->params['data']['policy'],
         ]);
