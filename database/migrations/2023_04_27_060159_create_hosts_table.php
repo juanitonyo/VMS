@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('password');
             $table->string('contact')->unique();
             $table->string('location');
+            $table->string('profilePhoto');
             $table->string('gov_id');
             $table->string('frontId');
             $table->string('backId');

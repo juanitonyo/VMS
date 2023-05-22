@@ -12,10 +12,10 @@
                 <div class="flex flex-col items-center justify-center w-[100px]">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
                         class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
-                        <div v-show="form.profilePhoto == '' ? true : false" class="flex flex-col items-center justify-center pt-10 pb-6" :class="{ 'hidden': hideLabel_profile }">
+                        <div v-show="form.profilePhoto == null ? true : false" class="flex flex-col items-center justify-center pt-10 pb-6" :class="{ 'hidden': hideLabel_profile }">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
-                        <input type="file" ref="profile" class="opacity-0 w-full h-full cursor-pointer" @input="uploadProfilePhoto" accept="image/png, image/jpeg, image/jpg, image/svg" />
+                        <input type="file" ref="profile" class="opacity-0" @input="uploadProfilePhoto" accept="image/png, image/jpeg, image/jpg, image/svg" />
                     </label>
                     <p class="text-[10px] text-gray-400 mt-1">Upload Photo</p>
 
@@ -70,7 +70,7 @@
                         <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
                         <label for="front-id" :style="{ 'background-image': `url(${front_url})` }"
                             class="flex flex-col items-center justify-center w-[70px] h-[55px] border-2 border-blue-700 rounded-md bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
-                            <div v-show="form.front_id == '' ? true : false" class="flex flex-col items-center justify-center pt-5 pb-6"
+                            <div v-show="form.front_id == null ? true : false" class="flex flex-col items-center justify-center pt-5 pb-6"
                                 :class="{ 'hidden': hideLabel_front }">
                                 <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
                             </div>
@@ -82,7 +82,7 @@
                         <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
                         <label for="back-id" :style="{ 'background-image': `url(${back_url})` }"
                             class="flex flex-col items-center justify-center w-[70px] h-[55px] border-2 border-blue-700 rounded-md bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
-                            <div v-show="form.back_id == '' ? true : false" class="flex flex-col items-center justify-center pt-5 pb-6"
+                            <div v-show="form.back_id == null ? true : false" class="flex flex-col items-center justify-center pt-5 pb-6"
                                 :class="{ 'hidden': hideLabel_back }">
                                 <img src="/Visitor_Homepage_Assets/backID.png" alt="">
                             </div>
@@ -165,9 +165,9 @@ export default {
                 building_ID: window.location.href.split('/').pop(),
                 email: '',
                 name: '',
-                profilePhoto: '',
-                front_id: '',
-                back_id: '',
+                profilePhoto: null,
+                front_id: null,
+                back_id: null,
                 contact: '',
                 validId: '',
                 policy: false

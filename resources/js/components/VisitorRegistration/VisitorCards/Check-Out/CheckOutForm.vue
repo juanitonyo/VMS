@@ -15,13 +15,13 @@
                 </div>
 
                 <div class="flex flex-row mt-4 gap-x-5">
-                    <img :src="'/uploads/profiles/' +  this.visitor.profilePhoto" alt="Photo not available"
+                    <img :src="'/uploads/profiles-visitor/' +  this.visitor.profilePhoto" alt="Photo not available"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
                     <div class="flex flex-col justify-center pl-2 w-36">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
                         }}</p>
                         <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
-                        <p class="text-[9px] text-blue-800 font-light">Status: Status Here</p>
+                        <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
                     </div>
                 </div>
                 <div>
@@ -107,8 +107,8 @@
                 </div>
 
                 <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
-                    <button @click.prevent="checkOutVisitor()"
-                        :class="[this.status ? 'bg-[#890707] hover:bg-[#750505]' : 'bg-[#B3B3B3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer']">{{
+                    <button @click.prevent="checkOutVisitor()" :disabled="!this.visitor.status"
+                        :class="[this.visitor.status ? 'bg-[#890707] hover:bg-[#750505] cursor-pointer' : 'bg-[#B3B3B3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center']">{{
                             this.status ? 'Checkout' : 'Close' }}
                     </button>
                 </div>

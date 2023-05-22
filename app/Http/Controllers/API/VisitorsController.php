@@ -6,16 +6,17 @@ use App\Models\Visitors;
 use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\VisitorsRequest;
+use App\Models\VisitTypes;
 use Illuminate\Support\Facades\Cookie;
 use Intervention\Image\Image;
+use Illuminate\Support\Str;
 
 class VisitorsController extends BaseController
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
-    {
+    public function index() {
         $data = Visitors::with('building')->paginate(10);
         return $this->sendResponse($data, "Fetched all Visitors in Array");
     }
@@ -23,7 +24,10 @@ class VisitorsController extends BaseController
     public function existingVisitor(Request $request) {
 
         $data = Visitors::where([
-            'email' => $request->email,
+            'email' => $request->given,
+            'building_ID' => $request->building_ID
+        ])->orWhere([
+            'refCode' => $request->given,
             'building_ID' => $request->building_ID
         ])->latest()->first();
 
@@ -47,7 +51,7 @@ class VisitorsController extends BaseController
      */
     public function create()
     {
-        dd(true);
+
     }
 
     /**
@@ -56,12 +60,13 @@ class VisitorsController extends BaseController
     public function store(VisitorsRequest $request)
     {
         $buildingRefID = Building::where('qr_id', $request->building_ID)->first()->id;
+        $approval = VisitTypes::where('')
 
         $profile_link = "";
         if($request->profilePhoto) {
             $profile_binary = $request->profilePhoto;
             $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
-            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles/'.$profile_link)->destroy();
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
         }
 
         $frontID_link = "";
@@ -83,6 +88,7 @@ class VisitorsController extends BaseController
         $validated['profilePhoto'] = $profile_link;
         $validated['front_id'] = $frontID_link;
         $validated['back_id'] = $backID_link;
+        $validated['refCode'] = Str::random(6);
 
         $data = Visitors::create($validated);
         return $this->sendResponse($data, "Data Saved.")->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
@@ -121,13 +127,13 @@ class VisitorsController extends BaseController
 
         if($profile_binary && $data->profilePhoto == null){
             $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
-            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles/'.$profile_link)->destroy();
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
         }
 
-        else if(('uploads/profiles/'.$data->profilePhoto) != null){
-            unlink('uploads/images/'.$data->profilePhoto);
+        else if(('uploads/profiles-visitor/'.$data->profilePhoto) != null){
+            unlink('uploads/profiles-visitor/'.$data->profilePhoto);
             $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
-            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles/'.$profile_link)->destroy();
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
         }
 
         if($frontID_binary && $data->front_id == null){
