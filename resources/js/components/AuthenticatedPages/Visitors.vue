@@ -147,10 +147,10 @@
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
                                         Status</SwitchLabel>
                                 </span>
-                                <Switch v-model="status" @click="this.isChanged = !this.isChanged"
-                                    :class="[status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                <Switch v-model="this.status"
+                                    :class="[this.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
-                                        :class="[status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                        :class="[this.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
                         </div>
@@ -161,7 +161,7 @@
                 <button type="button"
                     class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                     @click="setOpen">Cancel</button>
-                <button type="submit" :disabled="this.isChanged ? false : true"
+                <button type="submit" @click.prevent="updateVisitor()"
                     :class="[this.isChanged ? 'hover:bg-gray-500' : '', 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm']">
                 
                 Save</button>
@@ -190,7 +190,7 @@ export default {
             data: {},
             editMode: false,
             open: false,
-            status: true,
+            status: false,
             isChanged: false,
             account: {}
         }
@@ -204,10 +204,12 @@ export default {
             this.editMode = true
             this.open = !this.open
             this.account = item
+            this.status = this.account.visitor.status
         },
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
+            this.status = false;
         },
         async getData(page = 1) {
             await axios.get('/api/get-logs?page=' + page).then((data) => {
@@ -216,9 +218,33 @@ export default {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        isChange(){
-            
-        }
+        updateVisitor() {
+            this.account.visitor.status = this.status
+            axios.put("/api/visitors/" + this.account.visitor.id, {
+                params: {
+                    data: this.account.visitor
+                }
+            }).then((data) => {
+                this.editMode = false;
+                this.$Progress.finish();
+                this.getData();
+                this.open = !this.open;
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been updated.'
+                },
+                    {
+                        position: 'top-left',
+                        showIcon: 'true',
+                        type: 'success',
+                        toastBackgroundColor: '#00bcd4',
+                        hideProgressBar: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                    })
+            }).catch((error) => {
+                this.$Progress.fail();
+            })
+        },
     },
     created() {
         this.getData()
