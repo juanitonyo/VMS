@@ -15,6 +15,7 @@ class RolesSeeder extends Seeder
     {
         $arrayOfRoles = [
             'system-admin' => 'System Administrator',
+            'system-tester' => 'System Tester'
         ];
 
         foreach ($arrayOfRoles as $name => $title) {

@@ -10,16 +10,18 @@
       <nav class="flex flex-1 flex-col justify-between" aria-label="Sidebar">
         <div class="-mx-2 space-y-2">
           <div class="text-xs font-semibold leading-6 text-indigo-200">VMS Tabs</div>
-          <router-link v-for="item in sidebarNavigation" :key="item.name" :to="item.href"
-            :class="[useRoute().path == item.href ? 'bg-gray-700 text-white' : 'text-gray-200 hover:text-white hover:bg-gray-700', 'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal']"
-            :aria-current="item.current ? 'page' : undefined">
-            <component :is="item.icon" class="mr-4 h-6 w-6 flex-shrink-0 text-gray-200" aria-hidden="true" />
-            {{ item.name }}
-          </router-link>
+          <div v-for="item in sidebarNavigation" v-if="permissions">
+            <router-link :key="item.name" :to="item.href" v-if="item.access"
+              :class="[useRoute().path == item.href ? 'bg-gray-700 text-white' : 'text-gray-200 hover:text-white hover:bg-gray-700', 'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal']"
+              :aria-current="item.current ? 'page' : undefined">
+              <component :is="item.icon" class="mr-4 h-6 w-6 flex-shrink-0 text-gray-200" aria-hidden="true" />
+              {{ item.name }}
+            </router-link>
+          </div>
         </div>
 
         <div class="mt-6 pt-6">
-          <div class="-mx-2 space-y-2">
+          <div class="-mx-2 space-y-2" v-if="permissions.settings">
             <div class="text-xs font-semibold leading-6 text-indigo-200">VMS Settings</div>
             <router-link v-for="item in sideBarSecondaryNavigation" :key="item.name" :to="item.href"
               :class="[useRoute().path == item.href ? 'bg-gray-700 text-white' : 'text-gray-200 hover:text-white hover:bg-gray-700', 'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal']">
@@ -34,6 +36,7 @@
 </template>
 
 <script setup>
+import { userAuthStore } from "@/store/auth";
 import { useRouter, useRoute } from 'vue-router'  
 import {
   CogIcon,
@@ -44,17 +47,17 @@ import {
   TruckIcon,
 } from '@heroicons/vue/24/outline'
 
+let permissions = userAuthStore().role.permissions;
+
 const sidebarNavigation = [
-  { name: 'Dashboard', href: '/app/dashboard', icon: RectangleStackIcon },
-  { name: 'Users', href: '/app/users', icon: UsersIcon },
-  { name: 'Buildings', href: '/app/buildings', icon: BuildingOffice2Icon },
-  { name: 'Visitors', href: '/app/visitors', icon: UserGroupIcon },
-  { name: 'Deliveries', href: '/app/deliveries', icon: TruckIcon },
+  { name: 'Dashboard', href: '/app/dashboard', icon: RectangleStackIcon, access: permissions.dashboard ?? false },
+  { name: 'Users', href: '/app/users', icon: UsersIcon, access: permissions.users ?? false },
+  { name: 'Buildings', href: '/app/buildings', icon: BuildingOffice2Icon, access: permissions.buildings ?? false },
+  { name: 'Visitors', href: '/app/visitors', icon: UserGroupIcon, access: permissions.visitors ?? false },
+  { name: 'Deliveries', href: '/app/deliveries', icon: TruckIcon, access: permissions.deliveries ?? false },
 ]
 
 const sideBarSecondaryNavigation = [
-  { name: 'Maintenance', href: '/app/settings', icon: CogIcon },
+  { name: 'Maintenance', href: '/app/settings', icon: CogIcon, access: permissions.settings ?? false },
 ]
-
-
 </script>

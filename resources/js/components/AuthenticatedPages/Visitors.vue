@@ -8,13 +8,14 @@
                 </div>
 
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                    <button type="button"
+                    <button 
+                        type="button"
                         class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Send
                         Invitation</button>
                 </div>
 
             </div>
-            <div class="mt-8 flow-root">
+            <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
@@ -172,6 +173,7 @@
 
 <script>
 import axios from 'axios';
+import { userAuthStore } from "@/store/auth";
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
@@ -187,6 +189,7 @@ export default {
     },
     data() {
         return {
+            permissions: {},
             data: {},
             editMode: false,
             open: false,
@@ -224,6 +227,13 @@ export default {
         this.getData()
         this.moment = moment;
     },
+    beforeMount() {
+        this.permissions = {
+            view: userAuthStore().role.permissions.visitors.includes('view') ?? false,
+            create: userAuthStore().role.permissions.visitors.includes('create') ?? false,
+            update: userAuthStore().role.permissions.visitors.includes('update') ?? false
+        }
+    }
 }
 
 </script>
