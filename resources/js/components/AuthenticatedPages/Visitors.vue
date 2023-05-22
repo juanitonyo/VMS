@@ -86,9 +86,10 @@
             <div class="relative flex-1 py-2 sm:px-4 space-y-5">
 
                 <div class="flex items-center justify-center mt-6">
-                    <img :src="this.account.visitor.profilePhoto != '' ? '/uploads/profiles/' + this.account.visitor.profilePhoto : ''" class="relative w-[100px] h-[100px] border border-black rounded-full">
-                    <svg v-show="this.account.visitor.profilePhoto == '' ? true : false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6 absolute">
+                    <img :src="this.account.visitor.profilePhoto != '' ? '/uploads/profiles/' + this.account.visitor.profilePhoto : ''"
+                        class="relative w-[100px] h-[100px] border border-black rounded-full">
+                    <svg v-show="this.account.visitor.profilePhoto == '' ? true : false" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -126,10 +127,10 @@
                             <p>{{ this.account.visitor.validId }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
-                            <p>N/A</p>
+                            <p>{{ this.account.visitor.refCode }}</p>
                             <p>{{ this.account.building.buildingName }}</p>
                             <p>{{ this.account.visit_type.name }}</p>
-                            <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a')  }}</p>
+                            <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
@@ -148,10 +149,10 @@
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
                                         Status</SwitchLabel>
                                 </span>
-                                <Switch v-model="status" @click="this.isChanged = !this.isChanged"
-                                    :class="[status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                <Switch v-model="this.status"
+                                    :class="[this.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
-                                        :class="[status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                        :class="[this.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
                         </div>
@@ -162,10 +163,9 @@
                 <button type="button"
                     class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                     @click="setOpen">Cancel</button>
-                <button type="submit" :disabled="this.isChanged ? false : true"
+                <button type="submit" @click.prevent="updateVisitor()"
                     :class="[this.isChanged ? 'hover:bg-gray-500' : '', 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm']">
-                
-                Save</button>
+                    Save</button>
             </div>
         </template>
     </SliderVue>
@@ -193,7 +193,7 @@ export default {
             data: {},
             editMode: false,
             open: false,
-            status: true,
+            status: false,
             isChanged: false,
             account: {}
         }
@@ -207,10 +207,12 @@ export default {
             this.editMode = true
             this.open = !this.open
             this.account = item
+            this.status = this.account.visitor.status
         },
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
+            this.status = false;
         },
         async getData(page = 1) {
             await axios.get('/api/get-logs?page=' + page).then((data) => {
@@ -219,9 +221,33 @@ export default {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        isChange(){
-            
-        }
+        updateVisitor() {
+            this.account.visitor.status = this.status
+            axios.put("/api/visitors/" + this.account.visitor.id, {
+                params: {
+                    data: this.account.visitor
+                }
+            }).then((data) => {
+                this.editMode = false;
+                this.$Progress.finish();
+                this.getData();
+                this.open = !this.open;
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been updated.'
+                },
+                    {
+                        position: 'top-left',
+                        showIcon: 'true',
+                        type: 'success',
+                        toastBackgroundColor: '#00bcd4',
+                        hideProgressBar: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                    })
+            }).catch((error) => {
+                this.$Progress.fail();
+            })
+        },
     },
     created() {
         this.getData()
