@@ -179,7 +179,7 @@
 
 
                 <div class="mt-5">
-                    <button @click="isBad" type="button"
+                    <button @click="saveState" type="button"
                         class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
                         Submit
                     </button>
@@ -301,6 +301,7 @@ import axios from 'axios';
 import Form from 'vform'
 import FormDialog from '../../../Elements/Modals/FormDialog.vue';
 
+
 export default {
 
     name: 'Delivery Form',
@@ -333,56 +334,67 @@ export default {
             symptoms: [
                 {
                     image: '/hdf/Fever.png',
+                    state: false,
                     eng: 'Fever',
                     tag: 'Lagnat'
                 },
                 {
                     image: '/hdf/Cough.png',
+                    state: false,
                     eng: 'Dry Cough',
                     tag: 'Tuyong Ubo'
                 },
                 {
                     image: '/hdf/Sore Throat.png',
+                    state: false,
                     eng: 'Sore Throat',
                     tag: 'Namamagang Lalamunan'
                 },
                 {
                     image: '/hdf/Breathlessness.png',
+                    state: false,
                     eng: 'Shortness of Breath',
                     tag: 'Hirap sa Paghinga'
                 },
                 {
                     image: '/hdf/No Smell.png',
+                    state: false,
                     eng: 'Loss of Smell / Taste',
                     tag: 'Pagkawala ng Pang-Amoy o Panglasa'
                 },
                 {
                     image: '/hdf/Colds.png',
+                    state: false,
                     eng: 'Runny Nose',
                     tag: 'Sipon'
                 },
                 {
                     image: '/hdf/Fatigue.png',
+                    state: false,
                     eng: 'Fatigue',
                     tag: 'Pagkapagod'
                 },
                 {
                     image: '/hdf/Aches.png',
+                    state: false,
                     eng: 'Aches and Pain',
                     tag: 'Pananakit ng Katawan'
                 },
                 {
                     image: '/hdf/Diarrhea.png',
+                    state: false,
                     eng: 'Diarrhea',
                     tag: 'Pagdudumi'
                 },
                 {
                     image: '/hdf/Headache.png',
+                    state: false,
                     eng: 'Headache',
                     tag: 'Pananakit ng Ulo'
                 },
                 {
                     image: '/hdf/None.png',
+                    state: false,
                     eng: 'None of the Above',
                     tag: 'Wala sa mga Nabanggit'
                 },
@@ -411,6 +423,10 @@ export default {
         },
         isBad() {
             this.badHealth = true
+            this.pop = !this.pop; 
+        },
+        saveState() {
+            localStorage.setItem('state', JSON.parse(this.symptoms));
             this.pop = !this.pop;
         },
         isOpen() {

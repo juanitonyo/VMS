@@ -86,7 +86,9 @@
               <MenuItems
                 class="absolute right-0 z-10 mt-2.5 w-full origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
-                <button @click.prevent="pop = true" :class="[active ? 'bg-gray-100' : '', 'w-full px-4 py-2 text-sm text-gray-700']">Profile Settings</button>
+                <button @click.prevent="pop = true"
+                  :class="[active ? 'bg-gray-100' : '', 'w-full px-4 py-2 text-sm text-gray-700']">Profile
+                  Settings</button>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                 <button @click.prevent="logout"
@@ -166,19 +168,11 @@ const open = ref(false)
 const sidebarOpen = ref(false)
 const router = useRouter();
 
-async function logout() {
-  // Call the logout API endpoint to invalidate the user session
-  await axios.post('/logout')
-    .then(() => {
-      // Remove the user token from local storage
-      localStorage.removeItem('userAuth');
-      // Redirect the user to the login page
-      router.push({name:"login"}).then(() => { router.go() })
-      // this.$router.push('/login');
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-}
+const logout = async () => {
+  await axios.post('/logout').then(({ data }) => {
+    userAuthStore().signOut();
+    router.push({ name: 'login' })
+  });
+};
 
 </script>

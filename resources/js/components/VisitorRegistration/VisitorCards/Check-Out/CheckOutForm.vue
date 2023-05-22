@@ -43,7 +43,7 @@
                         </div>
                     </div>
 
-                    <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-5">Person To Visit</p>
+                    <p class="text-sm text-blue-900 font-semibold leading-[20px] mt-5">Person To Visit</p>
 
                     <div class="space-y-3">
                         <div class="flex flex-col mt-8 gap-y-3">
@@ -80,6 +80,29 @@
                             </div>
 
                         </div>
+                    </div>
+
+                    <div class="mt-8">
+                        <p class="text-sm text-blue-900 font-semibold leading-[20px] my-3">How are you feeling today?</p>
+
+                        <div class="flex gap-x-3">
+
+                            <button
+                                class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
+                                @click="isGood" type="button">
+                                <img src="/Visitor_Homepage_Assets/happy.png" class="w-[36px] h-[35px]">
+                                <span class="text-[10px] text-gray-500">I am prefectly fine</span>
+                            </button>
+
+                            <button
+                                class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
+                                @click.prevent="isOpen()">
+                                <img src="/Visitor_Homepage_Assets/sad.png" class="w-[36px] h-[35px]">
+                                <span class="text-[10px] text-gray-500">I feel not so good today</span>
+                            </button>
+
+                        </div>
+
                     </div>
                 </div>
 

@@ -23,11 +23,4 @@ class AuthController extends BaseController
             return $this->sendError("Error in Authenticating User.");
         }
     }
-
-    public function logout(Request $request)
-    {
-        $request->user()->tokens()->delete();
-        return response()->json(['message' => 'Logged out successfully']);
-    }
-
 }

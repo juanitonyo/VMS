@@ -114,12 +114,6 @@ export default {
             }
         }
     },
-    watch: {
-
-    },
-    props: {
-
-    },
     created() {
         axios.get('/api/building-types').then((data) => {
             this.building_types = data.data.data;
