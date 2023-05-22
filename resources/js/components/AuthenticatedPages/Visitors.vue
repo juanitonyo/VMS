@@ -147,10 +147,10 @@
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
                                         Status</SwitchLabel>
                                 </span>
-                                <Switch v-model="form.status"
-                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                <Switch v-model="status" @click="this.isChanged = !this.isChanged"
+                                    :class="[status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
-                                        :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                        :class="[status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
                         </div>
@@ -161,10 +161,10 @@
                 <button type="button"
                     class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                     @click="setOpen">Cancel</button>
-                <button type="submit"
-                    class="ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
-                        editMode
-                        ? 'Update' : 'Save' }}</button>
+                <button type="submit" :disabled="this.isChanged ? false : true"
+                    :class="[this.isChanged ? 'hover:bg-gray-500' : '', 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm']">
+                
+                Save</button>
             </div>
         </template>
     </SliderVue>
@@ -191,14 +191,8 @@ export default {
             data: {},
             editMode: false,
             open: false,
-            
-            form: new Form({
-                name: '',
-                buildingName: '',
-                visitType: '',
-                status: false,
-            }),
-
+            status: true,
+            isChanged: false,
             account: {}
         }
     },

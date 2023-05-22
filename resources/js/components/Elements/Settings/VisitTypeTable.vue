@@ -6,7 +6,7 @@
         </div>
 
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-            <button @click.prevent="setOpen" type="button"
+            <button @click="setOpen" type="button"
                 class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
                 Entry</button>
         </div>
@@ -224,6 +224,7 @@ export default {
                 autoApprove: false,
                 status: false,
             })
+            this.getbuildingType_ids();
         },
         saveVisitType() {
             this.form.buildingType = this.form.buildingType.value;
@@ -286,16 +287,16 @@ export default {
             return this.editMode ? ' ' : this.form.errors.get('buildingType_id')
         },
 
-        async getData(page = 1) {
-            await axios.get('/api/visit-type?page=' + page).then((data) => {
+        getData(page = 1) {
+            axios.get('/api/visit-type?page=' + page).then((data) => {
                 this.data = data.data.data;
-                console.log(data.data);
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
         },
+
         async getbuildingType_ids() {
-            await axios.get('/api/get-building-types/').then((data) => {
+            await axios.get('/api/get-building-types').then((data) => {
                 this.building_types = data.data.data
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
