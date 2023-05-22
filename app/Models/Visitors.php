@@ -20,6 +20,7 @@ class Visitors extends Model
         'front_id',
         'back_id',
         'google_id',
+        'refCode',
         'validId',
         'policy',
         'status',

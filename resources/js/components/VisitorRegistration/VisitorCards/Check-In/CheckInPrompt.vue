@@ -86,7 +86,7 @@ export default {
         async isExisting() {
             console.log(this.buildings.id);
 
-            await axios.get('/api/visitor-query?email=' + this.email + '&building_ID=' + this.buildings.id)
+            await axios.get('/api/visitor-query?given=' + this.email + '&building_ID=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
 

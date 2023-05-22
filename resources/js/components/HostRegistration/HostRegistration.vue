@@ -13,11 +13,11 @@
 
                             <div class="flex justify-center items-center flex-col lg:mt-16 my-4">
                                 <div class="lg:w-40 w-28">
-                                    <label for="profile"
+                                    <label :style="{ 'background-image': `url(${profile_url})` }"
                                         class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 opacity-60 rounded-full justify-center items-center cursor-pointer transition duration-500">
-                                        <img class="lg:w-8 w-6 mt-3 lg:mt-0"
+                                        <img v-show="hideLabel_profile" class="lg:w-8 w-6 mt-3 lg:mt-0"
                                             src="https://www.svgrepo.com/show/33565/upload.svg" />
-                                        <input id="profile" type="file" class="opacity-0">
+                                        <input type="file" ref="profile" class="opacity-0" @input="uploadProfilePhoto" accept="image/png, image/jpeg, image/jpg, image/svg">
                                     </label>
                                 </div>
                                 <p class="text-[10px]">Upload Photo</p>
@@ -210,7 +210,8 @@ export default {
             showPassword: false,
             checkPolicy: false,
             isFormComplete: false,
-            profile: '',
+            profile_url: '',
+            hideLabel_profile: false,
             frontId: '',
             backId: '',
             gov_id: [
@@ -235,8 +236,10 @@ export default {
                 email: '',
                 password: '',
                 location: '',
-                contact: '',
-                gov_id: '',
+                contact: nul,
+                front_id: '',
+                back_id: '',
+                profilePhoto: '',
                 policy: true,
                 role: 'host'
             }),
@@ -263,6 +266,21 @@ export default {
         },
         checkForm() {
             this.isFormComplete = !this.isFormComplete
+        },
+
+        uploadProfilePhoto() {
+            this.hideLabel_profile = true;
+            let input = this.$refs.profile;
+            let file = input.files;
+            if (file && file[0]) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.profile_url = e.target.result;
+                    this.form.profilePhoto = e.target.result;
+                };
+                reader.readAsDataURL(file[0]);
+                this.$emit("input", file[0]);
+            }
         }
     },
 
