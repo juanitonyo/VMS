@@ -267,6 +267,38 @@
     padding-left: 7px;
 }
 
+.sliderPurpose .vs__search::placeholder{
+    font-size: 12px;
+    color: #808080;
+}
+
+.sliderPurpose .vs__search:focus{
+    font-size: 12px;
+    height: 25px;
+
+}
+
+.sliderPurpose .vs__search{
+    height: 25px;
+}
+
+.sliderPurpose .vs__dropdown-option{
+    font-size: 13px;
+}
+
+.sliderPurpose .vs__selected{
+    font-size: 12px;
+    height: 25px;
+}
+
+.sliderPurpose .vs__dropdown-toggle{
+    border: 1px solid #cbc7c7;
+}
+
+
+
+
+
 
 
 

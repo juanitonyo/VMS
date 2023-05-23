@@ -112,15 +112,17 @@
                             </div>
                         </div>
 
-                        <div class="sm:col-span-3 mt-3 text-sm">
-                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
-                                Building Type</label>
-
+                        <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
+                            <div class="flex justify-between">
+                                <label for="email_subj"
+                                    class="block text-sm font-medium leading-6 text-gray-900">Choose
+                                    Purpose</label>
+                                <span v-show="this.editMode ? false : form.errors.has('buildingType')"
+                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                            </div>
                             <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
                                 label="label"
                                 :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
-                            <span v-show="this.editMode ? false : form.errors.has('buildingType')"
-                                class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                         </div>
                         <!-- <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('buildingTypes')"  v-html="this.editMode ? false : form.errors.get('buildingTypes')" /> -->
 
@@ -173,7 +175,7 @@
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                         @click="setOpen">Cancel</button>
                     <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
                             editMode
                             ? 'Update' : 'Save' }}</button>
                 </div>

@@ -208,9 +208,10 @@ export default {
                     data: this.form
                 }
             }).then((data) => {
-                this.$Progress.finish();
                 this.editMode = false;
+                this.$Progress.finish();
                 this.getData();
+                this.form = new Form({})
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',
@@ -228,8 +229,8 @@ export default {
 
             })
         },
-        async getData() {
-            await axios.get('/api/building-types').then((data) => {
+        async getData(page = 1) {
+            await axios.get('/api/building-types?page=' + page).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')

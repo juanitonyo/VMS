@@ -100,7 +100,7 @@ class BuildingController extends BaseController
             \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
         }
 
-        else if(('uploads/images/'.$data->logo) != null){
+        else if(('uploads/images/'.$data->logo) != null && $data->logo != $request->params['data']['logo']){
             unlink('uploads/images/'.$data->logo);
             $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
             \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
