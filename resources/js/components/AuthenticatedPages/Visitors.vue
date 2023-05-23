@@ -8,13 +8,14 @@
                 </div>
 
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                    <button type="button"
+                    <button 
+                        type="button"
                         class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Send
                         Invitation</button>
                 </div>
 
             </div>
-            <div class="mt-8 flow-root">
+            <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
@@ -85,9 +86,10 @@
             <div class="relative flex-1 py-2 sm:px-4 space-y-5">
 
                 <div class="flex items-center justify-center mt-6">
-                    <img :src="this.account.visitor.profilePhoto != '' ? '/uploads/profiles/' + this.account.visitor.profilePhoto : ''" class="relative w-[100px] h-[100px] border border-black rounded-full">
-                    <svg v-show="this.account.visitor.profilePhoto == '' ? true : false" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-6 h-6 absolute">
+                    <img :src="this.account.visitor.profilePhoto != '' ? '/uploads/profiles/' + this.account.visitor.profilePhoto : ''"
+                        class="relative w-[100px] h-[100px] border border-black rounded-full">
+                    <svg v-show="this.account.visitor.profilePhoto == '' ? true : false" xmlns="http://www.w3.org/2000/svg"
+                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -125,10 +127,10 @@
                             <p>{{ this.account.visitor.validId }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
-                            <p>N/A</p>
+                            <p>{{ this.account.visitor.refCode }}</p>
                             <p>{{ this.account.building.buildingName }}</p>
                             <p>{{ this.account.visit_type.name }}</p>
-                            <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a')  }}</p>
+                            <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
@@ -163,8 +165,7 @@
                     @click="setOpen">Cancel</button>
                 <button type="submit" @click.prevent="updateVisitor()"
                     :class="[this.isChanged ? 'hover:bg-gray-500' : '', 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm']">
-                
-                Save</button>
+                    Save</button>
             </div>
         </template>
     </SliderVue>
@@ -172,6 +173,7 @@
 
 <script>
 import axios from 'axios';
+import { userAuthStore } from "@/store/auth";
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
@@ -187,6 +189,7 @@ export default {
     },
     data() {
         return {
+            permissions: {},
             data: {},
             editMode: false,
             open: false,
@@ -250,6 +253,13 @@ export default {
         this.getData()
         this.moment = moment;
     },
+    beforeMount() {
+        this.permissions = {
+            view: userAuthStore().role.permissions.visitors.includes('view') ?? false,
+            create: userAuthStore().role.permissions.visitors.includes('create') ?? false,
+            update: userAuthStore().role.permissions.visitors.includes('update') ?? false
+        }
+    }
 }
 
 </script>

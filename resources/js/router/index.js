@@ -413,12 +413,14 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title;
     if (to.meta.middleware == "guest") {
-        if (userAuthStore().authenticated) {
-            next({ name: "dashboard" });
-        }
-        next();
+        userAuthStore().authenticated ? next({ name: "dashboard" }) : next()
     } else {
-        next();
+        if (userAuthStore().authenticated && to.meta.middleware == "auth") {
+            userAuthStore().role.permissions[to.name] ? next() : router.push('/404') // 'redirect to HTTP 403 Forbidden page'
+        }
+        else {
+            next();
+        }
     }
 });
 
