@@ -212,6 +212,7 @@ export default {
                 this.editMode = false;
                 this.getData();
                 this.open = !this.open;
+                this.form = new Form({});
                 createToast({
                     title: 'Success!',
                     description: 'Data has been updated.'
@@ -228,8 +229,8 @@ export default {
 
             })
         },
-        async getData() {
-            await axios.get('/api/building-types').then((data) => {
+        async getData(page = 1) {
+            await axios.get('/api/building-types?page=' + page).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')

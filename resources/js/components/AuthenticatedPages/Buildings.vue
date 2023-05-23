@@ -334,7 +334,7 @@ export default {
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    this.hideLabel = false,
+                    this.hideLabel = false;
                     this.open = !this.open;
                     createToast({
                         title: 'Success!',
@@ -362,6 +362,7 @@ export default {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
+                this.form = new Form({});
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',
@@ -395,8 +396,8 @@ export default {
             return this.url + this.proxyURL + this.hostRoute + uuid;
         },
 
-        getBuildingTypes() {
-            axios.get('/api/get-building-types').then((data) => {
+        async getBuildingTypes() {
+            await axios.get('/api/get-building-types').then((data) => {
                 this.building_types = data.data.data
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')

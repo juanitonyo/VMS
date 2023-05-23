@@ -75,7 +75,7 @@
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Visit Type'"
         :description="'List of all User Visit Types'">
         <template v-slot:slider-body>
-            <form @submit.prevent="editMode ? updateVisitType() : saveVisitType()">
+            <form ref="thisForm" @submit.prevent="editMode ? updateVisitType() : saveVisitType()">
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
@@ -215,15 +215,6 @@ export default {
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
-            this.form = new Form({
-                name: '',
-                buildingType: '',
-                description: '',
-                personToVisit: false,
-                visitApproval: false,
-                autoApprove: false,
-                status: false,
-            })
             this.getbuildingType_ids();
         },
         saveVisitType() {
@@ -235,6 +226,7 @@ export default {
                     this.$Progress.finish();
                     this.getData();
                     this.open = !this.open;
+                    this.$refs.thisForm.reset();
                     createToast({
                         title: 'Success!',
                         description: 'Data has been saved.'
@@ -252,6 +244,7 @@ export default {
                 })
         },
         updateVisitType() {
+            this.form.buildingType = this.form.buildingType.value;
             axios.put("/api/visit-type/" + this.form.id, {
                 params: {
                     data: this.form
@@ -261,6 +254,7 @@ export default {
                 this.$Progress.finish();
                 this.getData();
                 this.open = !this.open;
+                this.form = new Form({});
                 createToast({
                     title: 'Success!',
                     description: 'Data has been updated.'
@@ -287,8 +281,8 @@ export default {
             return this.editMode ? ' ' : this.form.errors.get('buildingType_id')
         },
 
-        getData(page = 1) {
-            axios.get('/api/visit-type?page=' + page).then((data) => {
+        async getData(page = 1) {
+            await axios.get('/api/visit-type?page=' + page).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')
