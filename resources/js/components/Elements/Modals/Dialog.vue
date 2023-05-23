@@ -3,7 +3,7 @@
     <Dialog as="div" @close="closeModal" class="relative z-1000">
       <TransitionChild as="template" enter="duration-100 ease-out" enter-from="opacity-0" enter-to="opacity-100"
         leave="duration-100 ease-in" leave-from="opacity-100" leave-to="opacity-0">
-        <div class="fixed inset-0 bg-black bg-opacity-25" />
+        <div class="fixed inset-0 bg-black backdrop-filter backdrop-blur-sm bg-opacity-75" />
       </TransitionChild>
 
       <div class="fixed inset-0 overflow-y-auto">

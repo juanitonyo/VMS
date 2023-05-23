@@ -76,14 +76,16 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
-                        <div class="sm:col-span-3 mt-3 text-sm">
-                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
-                                Purpose</label>
-
-                            <v-select v-model="form.purpose" placeholder="search" :options="option" label="label"
-                                :class="this.editMode ? ' ' : forClass()"></v-select>
-                            <span v-show="this.editMode ? false : form.errors.has('purpose')"
-                                class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                        <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
+                            <div class="flex justify-between">
+                                <label for="email_subj"
+                                    class="block text-sm font-medium leading-6 text-gray-900">Choose
+                                    Purpose</label>
+                                <span v-show="this.editMode ? false : form.errors.has('purpose')"
+                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                            </div>
+                            <v-select v-model="form.purpose" placeholder="Search" :options="option" label="label"
+                                :class="this.editMode ? '' : forClass()"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -94,7 +96,7 @@
 
                         <div class="editor sm:col-span-3 mt-3">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Body</label>
-                            <div class="mt-2">
+                            <div>
                                 <ckeditor v-model="form.body" :editor="editor" :config="editorConfig"></ckeditor>
                             </div>
                         </div>
@@ -263,14 +265,7 @@ export default {
                 this.$Progress.finish();
                 this.open = !this.open;
                 this.getData();
-                this.form = new Form({
-                    id: '',
-                    purpose: '',
-                    subject: '',
-                    body: '',
-                    description: '',
-                    status: true,
-                });
+                this.form = new Form({})
                 createToast({
                     title: 'Success!',
                     description: 'Data has been updated.'
@@ -300,7 +295,7 @@ export default {
             });
         },
         forClass() {
-            return this.form.errors.has('purpose') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' '
+            return this.form.errors.has('purpose') ? 'bg-red-50 border rounded-md border-red-500 text-red-900 placeholder-red-700' : ''
         },
         forMessage() {
             return this.editMode ? ' ' : this.form.errors.get('purpose')

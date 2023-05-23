@@ -208,9 +208,10 @@ export default {
                     data: this.form
                 }
             }).then((data) => {
-                this.$Progress.finish();
                 this.editMode = false;
+                this.$Progress.finish();
                 this.getData();
+                this.form = new Form({})
                 this.open = !this.open;
                 this.form = new Form({});
                 createToast({
