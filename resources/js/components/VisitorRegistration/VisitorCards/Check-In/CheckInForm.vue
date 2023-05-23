@@ -15,7 +15,7 @@
                 </div>
 
                 <div class="flex flex-row mt-4 gap-x-5">
-                    <img :src="'/uploads/profiles-visitor/' +  this.visitor.profilePhoto" alt="Photo not available"
+                    <img :src="'/uploads/profiles-visitor/' + this.visitor.profilePhoto" alt="Photo not available"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
                     <div class="flex flex-col justify-center pl-2 w-36">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
