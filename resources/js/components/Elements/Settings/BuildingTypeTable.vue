@@ -67,7 +67,7 @@
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Building Type'"
         :description="'A roster of all building types associated with your account, including their category, description and location.'">
         <template v-slot:slider-body>
-            <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
+            <form @submit="editMode ? updateBuilding() : saveBuilding()">
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
@@ -228,8 +228,8 @@ export default {
 
             })
         },
-        async getData() {
-            await axios.get('/api/building-types').then((data) => {
+        async getData(page = 1) {
+            await axios.get('/api/building-types?page=' + page).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')

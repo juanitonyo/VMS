@@ -252,6 +252,7 @@ export default {
     created() {
         this.getData()
         this.moment = moment;
+        console.log(this.permissions)
     },
     beforeMount() {
         this.permissions = {

@@ -72,7 +72,7 @@
         </div>
     </div>
 
-    <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Visit Type'"
+    <SliderVue :setOpen="this.open" :title="(editMode ? 'Update ' : 'Add ') + 'Visit Type'"
         :description="'List of all User Visit Types'">
         <template v-slot:slider-body>
             <form @submit.prevent="editMode ? updateVisitType() : saveVisitType()">
@@ -185,7 +185,7 @@ export default {
     name: "VisitType",
     props: {
         data: {
-            type: Array,
+            type: Object,
             default: {},
         },
     },
@@ -198,6 +198,7 @@ export default {
             building_types: [],
             editMode: false,
             open: false,
+            visitTypes: {},
             form: new Form({
                 name: '',
                 buildingType: '',
@@ -207,8 +208,6 @@ export default {
                 autoApprove: false,
                 status: false,
             }),
-            building_types: {},
-            visitTypes: {}
         }
     },
     methods: {
@@ -252,6 +251,8 @@ export default {
                 })
         },
         updateVisitType() {
+            this.form.buildingType = this.form.buildingType.value;
+
             axios.put("/api/visit-type/" + this.form.id, {
                 params: {
                     data: this.form
