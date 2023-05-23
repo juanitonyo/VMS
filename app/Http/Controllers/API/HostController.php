@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\Settings\HostRequest;
+use App\Models\Building;
 use App\Models\Host;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 
 class HostController extends BaseController
@@ -15,6 +17,19 @@ class HostController extends BaseController
     {
         $data = Host::paginate(10);
         return $this->sendResponse($data, "Fetched all Host in Array");
+    }
+
+    public function getHostQuery() {
+        $data = Host::where('building_id', Cookie::get('buildingUUID'))->get();
+        $arr = [];
+        foreach($data as $item) {
+            $arr[] = [
+                'value' => $item->id,
+                'label' => $item->firstName.' '.$item->lastName
+            ];
+        }
+
+        return $this->sendResponse($arr, "Fetched hosts in table");
     }
 
     /**
@@ -30,7 +45,11 @@ class HostController extends BaseController
      */
     public function store(HostRequest $request)
     {
-        $data = Host::create($request->validated());
+        $building_id = Building::where('qr_id', Cookie::get('buildingUUID'))->first()->id;
+        $validated = $request->validated();
+        $validated['building_id'] = $building_id;
+
+        $data = Host::create($validated);
         return $this->sendResponse($data, "Saved Data");
     }
 
@@ -56,8 +75,8 @@ class HostController extends BaseController
     public function update(HostRequest $request, $id)
     {
         $data = Host::findOrFail($id)->update([
-            'fname' => $request->params['data']['fname'],
-            'lname' => $request->params['data']['lname'],
+            'firstName' => $request->params['data']['firstName'],
+            'lastName' => $request->params['data']['lastName'],
             'email' => $request->params['data']['email'],
             'password' => $request->params['data']['password'],
             'location' => $request->params['data']['location'],

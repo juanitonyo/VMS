@@ -4,15 +4,18 @@ import { userAuthStore } from "@/store/auth";
 
 /* Layouts */
 const AuthenticatedLayout = () => import("@/components/Layouts/AuthenticatedLayout.vue");
+const HomeownerLayout = () => import("@/components/Layouts/HomeownerLayout.vue");
 const GuestLayout = () => import("@/components/Layouts/GuestLayout.vue");
 const VisitorQRLayout = () => import("@/components/Layouts/VisitorQRLayout.vue");
 const HostQRLayout = () => import("@/components/Layouts/HostQRLayout.vue");
 /* Layouts */
 
+// PAGE NOT FOUND
+const PageNotFound = () => import("@/components/PageNotFound/PageNotFound.vue");
+
 // GUEST PAGES
 const Home = () => import("@/components/GuestPages/Home.vue");
 const Login = () => import("@/components/GuestPages/Login.vue");
-
 
 // AUTHETICATED PAGES
 const Dashboard = () => import("@/components/AuthenticatedPages/Dashboard.vue");
@@ -21,9 +24,11 @@ const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
 const Testing = () => import("@/components/AuthenticatedPages/testing.vue");
+const Deliveries = () => import("@/components/AuthenticatedPages/Deliveries.vue");
 
 // HOST REGISTRATION PAGE
 const HostRegistration = () => import("@/components/HostRegistration/HostRegistration.vue");
+const HostSuccess = () => import("@/components/HostRegistration/HostSuccess.vue");
 
 // VISITOR REGISTRATION PAGE
 const VisitorPrompt = () => import("@/components/VisitorRegistration/VisitorPrompt.vue");
@@ -52,6 +57,12 @@ const InviteSuccess = () => import("@/components/VisitorRegistration/VisitorCard
 const DeliveryPrompt = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliveryPrompt.vue");
 const DeliveryForm = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliveryForm.vue");
 const DeliverySuccess = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliverySuccess.vue");
+
+// HOMEOWNER PAGES
+const hDashboard = () => import("@/components/HomeownerPages/hDashboard.vue");
+
+//TERMS AND CONDITION x PRIVACY POLICY
+const Terms = () => import("@/components/VisitorRegistration/TermsPrivacy.vue");
 
 const routes = [
     {
@@ -137,7 +148,7 @@ const routes = [
             {
                 name: "deliveries",
                 path: "/app/deliveries",
-                component: Visitors,
+                component: Deliveries,
                 meta: {
                     title: `VMS | Deliveries`,
                     ability: "",
@@ -190,7 +201,7 @@ const routes = [
             },            
             {
                 name: "regprompt",
-                path: "/visitor-registration/SignIn/reg/:id",
+                path: "/visitor-registration/signIn/reg/:id",
                 component: RegPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -206,7 +217,7 @@ const routes = [
             },
             {
                 name: "checkinprompt",
-                path: "/visitor-registration/SignIn/checkin/:id",
+                path: "/visitor-registration/signIn/checkin/:id",
                 component: CheckInPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -230,7 +241,7 @@ const routes = [
             },
             {
                 name: "checkoutprompt",
-                path: "/visitor-registration/SignIn/checkout/:id",
+                path: "/visitor-registration/signIn/checkout/:id",
                 component: CheckOutPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -254,7 +265,7 @@ const routes = [
             },
             {
                 name: "deliveryprompt",
-                path: "/visitor-registration/SignIn/delivery/:id",
+                path: "/visitor-registration/signIn/delivery/:id",
                 component: DeliveryPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -278,7 +289,7 @@ const routes = [
             },
             {
                 name: "inviteprompt",
-                path: "/visitor-registration/SignIn/invite/:id",
+                path: "/visitor-registration/signIn/invite/:id",
                 component: InvitePrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -318,9 +329,24 @@ const routes = [
                     title: `VMS | Homeowner Registration`,
                 },
             },
+            {
+                name: "hostsuccess",
+                path: "/homeowner-registration/success/:id",
+                component: HostSuccess,
+                meta: {
+                    title: `VMS | Homeowner Registration`,
+                },
+            },
         ],
     },
-
+    {
+        path: "/Terms-and-Condition",
+        component: Terms,
+        meta: {
+            middleware: "terms",
+            title: `VMS | Terms and Conditions`,
+        },
+    },
     {
         path: "/testing",
         component: Testing,
@@ -329,6 +355,44 @@ const routes = [
             title: `Test`,
         },
     },
+    {
+        name: 'userpage',
+        path: "/homeowner",
+        component: HomeownerLayout,
+        redirect: "/homeowner/dashboard",
+        meta: {
+            middleware: "user",
+            title: `VMS | Homeowner`,
+        },
+        children:[
+            {
+                name: "hDashboard",
+                path: "/homeowner/dashboard",
+                component: hDashboard,
+                meta: {
+                    title: `VMS | Dashboard`,
+                },
+            }
+        ],
+    },
+
+    {
+        name: '404',
+        path: "/404",
+        component: PageNotFound,
+        meta: {
+            middleware: "notfound",
+            title: `Page Not Found`,
+        },
+    },
+    {
+        path: "/:pathMatch(.*)*",
+        redirect: '404'
+    },
+    {
+        path: "/:catchAll(.*)",
+        redirect: '404'
+    }
 ];
 
 const router = createRouter({
@@ -345,7 +409,6 @@ const router = createRouter({
         document.getElementById("app").scrollIntoView();
     },
 });
-
 
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title;

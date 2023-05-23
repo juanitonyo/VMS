@@ -1,5 +1,5 @@
 <template>
-  <div class="hidden lg:fixed lg:inset-y-0 lg:z-50 lg:flex lg:w-72 lg:flex-col">
+  <div class="hidden lg:fixed lg:inset-y-0  lg:flex lg:w-72 lg:flex-col">
 
     <div class="flex grow flex-col gap-y-10 overflow-y-auto bg-gray-900 px-6 pb-4">
       <div class="flex h-16 shrink-0 items-center">
@@ -51,8 +51,10 @@ const sidebarNavigation = [
   { name: 'Visitors', href: '/app/visitors', icon: UserGroupIcon },
   { name: 'Deliveries', href: '/app/deliveries', icon: TruckIcon },
 ]
+
 const sideBarSecondaryNavigation = [
   { name: 'Maintenance', href: '/app/settings', icon: CogIcon },
 ]
+
 
 </script>

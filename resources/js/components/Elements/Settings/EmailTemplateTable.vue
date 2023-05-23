@@ -202,7 +202,7 @@ export default {
 
             placeholder: 'Choose a purpose: ',
 
-            option: ['Register', 'Reset Password'],
+            option: ['Register', 'Reset Password', 'invitation'],
         }
     },
     methods: {

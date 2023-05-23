@@ -10,17 +10,17 @@ class AuthController extends BaseController
 {
 
 
-   public function login(Request $request){
+    public function login(Request $request)
+    {
         $request->validate([
             'email' => 'required|email',
             'password' => 'required'
         ]);
         $credentials = $request->only('email', 'password');
-        if(Auth::attempt($credentials)){
+        if (Auth::attempt($credentials)) {
             return $this->sendResponse(auth()->user(), "Current user data");
-        }else{
+        } else {
             return $this->sendError("Error in Authenticating User.");
         }
-   }
-
+    }
 }

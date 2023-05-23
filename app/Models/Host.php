@@ -10,8 +10,9 @@ class Host extends Model
     use HasFactory;
 
     protected $fillable = [
-        'fname',
-        'lname',
+        'building_id',
+        'firstName',
+        'lastName',
         'email',
         'password',
         'location',

@@ -5,7 +5,9 @@ namespace App\Http\Controllers\API;
 use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingRequest;
+use Illuminate\Support\Facades\Session;
 use Intervention\Image\Image;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 
 class BuildingController extends BaseController
@@ -19,10 +21,12 @@ class BuildingController extends BaseController
         return $this->sendResponse($data, "All buildings in array");
     }
 
-    public function getBuilding($id){
-        $data = Building::where('qr_id', $id)->first(['id', 'buildingName', 'address', 'logo']);
+    public function getBuilding(){
+
+        $data = Building::where('qr_id', Cookie::get('buildingUUID'))->first(['id', 'buildingName', 'address', 'logo']);
        
         return $this->sendResponse($data, "All buildings in array");
+
     }
 
     public function getBuildingsArray(){
@@ -90,13 +94,17 @@ class BuildingController extends BaseController
         $logo_link = "";
         $logo_binary = $request->params['data']['logo'];
         $data = Building::findOrFail($id);
-        if($logo_binary){
+
+        if($logo_binary && $data->logo == null){
+            $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
+            \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+        }
+
+        else if(('uploads/images/'.$data->logo) != null){
             unlink('uploads/images/'.$data->logo);
             $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
             \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
         }
-        
-        
 
         $data->update([
             'buildingName' => $request->params['data']['buildingName'],

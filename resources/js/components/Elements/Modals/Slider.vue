@@ -1,6 +1,6 @@
 <template>
     <TransitionRoot as="template" :show="setOpen">
-      <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen">
+      <Dialog as="div" class="relative z-10 font-poppins" @close="setOpen = false">
         <div class="fixed inset-0 bg-black bg-opacity-50 " />
         <div class="fixed inset-0 overflow-hidden">
           <div class="absolute inset-0 overflow-hidden">
@@ -35,7 +35,6 @@
   
 <script>
 import { Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot } from '@headlessui/vue'
-import { XMarkIcon } from '@heroicons/vue/24/outline'
 export default {
   props: {
     setOpen: {
@@ -57,7 +56,7 @@ export default {
 
   },
   components: {
-    Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot, XMarkIcon
+    Dialog, DialogPanel, DialogTitle, TransitionChild, TransitionRoot
   },
 
 }

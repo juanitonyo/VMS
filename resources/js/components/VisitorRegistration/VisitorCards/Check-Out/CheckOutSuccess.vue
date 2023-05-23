@@ -4,12 +4,12 @@
             <div class="flex flex-col items-center justify-center w-full min-h-screen gap-y-8">
 
                 <div class="text-[10px] text-blue-900 flex flex-col items-center text-center gap-y-3">
-                    <img src="/Visitor_Homepage_Assets/successIcon.png" class="w-24 h-24">
+                    <Vue3Lottie animationLink="https://assets1.lottiefiles.com/packages/lf20_rc5d0f61.json" :loop="false" :width="150" :height="150"/>
                     <p class="text-base tracking-wide text-green-500 font-bold">Check out Successful</p>
                 </div>
                 <div class="text-[10px] text-blue-900 flex flex-col text-center mb-10">
                     <p>Time recorded</p>
-                    <p>MMMM DD, YYYY, 0:00 PM</p>
+                    <p>{{ moment(this.time).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                 </div>
 
                 <router-link :to="'/visitor-registration/index/' + this.id">
@@ -22,6 +22,9 @@
 
 <script>
 import axios from 'axios';
+import { Vue3Lottie } from 'vue3-lottie'
+import 'vue3-lottie/dist/style.css'
+import moment from 'moment';
 
 export default {
     name: 'Check Out Success',
@@ -32,6 +35,9 @@ export default {
             default: []
         },
     },
+    components: {
+        Vue3Lottie,
+    },
     data() {
         return {
             data: {},
@@ -39,16 +45,23 @@ export default {
             buildings: {},
         }
     },
-    created() {
-        axios.get('/api/visitor-registration/' + this.id)
-            .then((data) => {
-                this.buildings = data.data.data;
-            })
-            .catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
-
-        setTimeout( () => this.$router.push({ path: '/visitor-registration/index/' + this.id}), 3000);
+    methods: {
+        async getData() {
+            await axios.get('/api/get-visitor-log/')
+                .then((data) => {
+                    this.time = data.data.data.updated_at;
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+        },
     },
+
+    created() {
+        this.getData();
+        this.moment = moment;
+        setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 5000);
+    }
+    
 }
 </script>

@@ -22,11 +22,17 @@ use Illuminate\Support\Facades\Route;
 Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::post('login', 'AuthController@login');
 
+    Route::get('get-visit-types', 'VisitTypesController@getVisitTypeArray');
     Route::get('get-building-types', 'BuildingTypesController@getBuildingTypeArray');
     Route::get('get-buildings', 'BuildingController@getBuildingsArray');
     Route::get('sync-visitor', 'VisitorsController@syncVisitor');
-    Route::get('visitor-registration/{id}', 'BuildingController@getBuilding');
-    Route::get('visitor-query/{email}/{refId}', 'VisitorsController@existingVisitor');
+    Route::get('visitor-registration', 'BuildingController@getBuilding');
+    Route::get('visitor-query', 'VisitorsController@existingVisitor');
+    Route::get('check-log', 'VisitorLogsController@queryLog');
+    Route::get('get-hosts', 'HostController@getHostQuery');
+    Route::get('get-checkouts', 'VisitorLogsController@totalCheckOut');
+    Route::get('get-logs', 'VisitorLogsController@getVisitorLogs');
+    Route::get('get-visitor-log', 'VisitorLogsController@getVisitorLog');
 
     Route::apiResources([
         'user' => 'UserController',
@@ -36,7 +42,9 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'building' => 'BuildingController',
         'visitors' => 'VisitorsController',
         'hostreg' => 'HostController',
-        
+        'visit-type' => 'VisitTypesController',
+        'visitor-logs' => 'VisitorLogsController',
+        'delivery' => 'DeliveryController'
     ]);
 });
 

@@ -5,8 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\Visitors;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class GoogleAuthController extends Controller
 {
@@ -19,23 +20,24 @@ class GoogleAuthController extends Controller
       
         try {
             $google_user = Socialite::driver('google')->user();
-            
+            // dd($google_user);
             $user = Visitors::where('google_id', $google_user->getId())->first();
             
             if($user) {
-                $username = $google_user->getName();
 
-                return redirect()->intended('/visitor-registration/create/'.Cookie::get('buildingUUID'))->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
+                return redirect()->intended('/visitor-registration/checkin/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $user->id, 1440, $httpOnly = false));
+            
             }
             else {
 
                 $new_user = Visitors::create([
                     'name' => $google_user->getName(),
                     'email' => $google_user->getEmail(),
-                    'google_id' => $google_user->getId()
+                    'google_id' => $google_user->getId(),
+                    'refCode' => Str::random(6)
                 ]);
 
-                return redirect()->intended('/visitor-registration/create/'.Cookie::get('buildingUUID'))->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
+                return redirect()->intended('/visitor-registration/create/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $new_user->id, 1440, $httpOnly = false));
 
             }
 

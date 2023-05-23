@@ -5,7 +5,7 @@
             <div class="flex flex-col items-center gap-y-5">
                 <div class="flex justify-end items-center w-[360px] h-10 mt-8">
                     <button @click.prevent="isPop()">
-                        <img src="/Visitor_Homepage_Assets/hamburgerMenu.png" alt="No Photo">
+                        <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
                     </button>
                 </div>
 
@@ -15,22 +15,25 @@
                 </div>
 
                 <div class="flex flex-row mt-4 gap-x-5">
-                    <img src="https://picsum.photos/400/400" alt="No Photo"
-                        class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200">
+                    <img :src="'/uploads/profiles-visitor/' +  this.visitor.profilePhoto" alt="Photo not available"
+                        class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
                     <div class="flex flex-col justify-center pl-2 w-36">
-                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name }}</p>
+                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
+                        }}</p>
                         <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
-                        <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
+                        <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' :
+                            'Pending Approval' }}</p>
                     </div>
                 </div>
 
                 <form @submit.prevent="showSuccess()">
                     <div class="check_purpose space-y-3 mt-5">
-                        <v-select id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
-                            :options="purpose" label="label"
-                            class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80"></v-select>
-                        <input type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
-                            class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-3 pt-1 pb-[80px] w-80">
+                        <v-select v-model="selectedPurpose" id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
+                            :options="visitType" label="label"
+                            class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
+                        <!-- split the companions -->
+                        <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
+                            class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
                     </div>
 
                     <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
@@ -51,22 +54,24 @@
                         <div class="flex flex-col gap-y-1">
                             <label for="unitLot" class="text-gray-400 text-[10px]">Unit/Lot</label>
                             <input type="text"
-                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
+                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">    
                         </div>
                     </div>
 
-                    <div class="flex flex-col space-y-2 mt-3">
+                    <div class="host flex flex-col space-y-2 mt-3">
                         <input type="text" disabled value="" placeholder="Principal buyer's details"
                             class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
                         <input type="text" disabled value="" placeholder="Principal buyer’s contact number"
                             class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
                         <label for="visitName" class="text-gray-400 text-[10px]">
-                            <input type="text" placeholder="Who will you visit? Enter the host’s name heree"
-                                class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80">
+                            <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
+                                class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80"> -->
+                            <v-select :options="user" label="label" :placeholder="'Who will you visit? Enter the host’s name here'"
+                                class="text-[10px] border border-blue-700 rounded-[3px] h-7 w-full"></v-select>
                         </label>
                         <label for="visitContact" class="text-gray-400 text-[10px]">
                             <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
-                                class="text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80">
+                                class="text-[9px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80">
                         </label>
                     </div>
 
@@ -90,11 +95,11 @@
                     </div>
 
                     <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
-                        <router-link :to="enableButton ? '/visitor-registration/success/checkin/' + this.id : '/#'">
-                            <input type="submit" value="Check In" :disabled="!enableButton"
-                                :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
-                                class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
-                        </router-link>
+                        <button @click.prevent="checkInVisitor()" :disabled="!enableButton"
+                            :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
+                            class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
+                            Check In
+                        </button>
                         <router-link :to="'/visitor-registration/SignIn/checkin/' + this.id"
                             class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
                     </div>
@@ -105,10 +110,10 @@
         </div>
     </div>
 
-    <Account :isPop="show" :Title="'My Account'">
+    <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
 
-            <div class="flex justify-center items-center">
+            <div class="flex justify-center items-center ">
                 <div class="w-[80px] flex flex-col gap-y-1">
                     <label for="dropzone-file" :style="{ 'background-image': `url(${profile_url})` }"
                         @click="$refs.profile.click()"
@@ -206,15 +211,13 @@
             </div>
 
         </template>
-    </Account>
+    </FormDialog>
 </template>
 
 <script>
 import axios from 'axios';
 import Form from 'vform';
-import Account from '../../../Elements/Modals/MyAccount.vue';
-import { VueCookies } from 'vue-cookies';
-
+import FormDialog from '../../../Elements/Modals/FormDialog.vue';
 
 export default {
     name: 'Check In Form',
@@ -224,8 +227,8 @@ export default {
             default: []
         },
     },
-    components:{
-        Account
+    components: {
+        FormDialog
     },
     data() {
         return {
@@ -243,7 +246,11 @@ export default {
             }),
             buildings: {},
             visitor: {},
+            visitType: [],
+            user: [],
             purpose: [],
+            hosts: [],
+            selectedPurpose: '',
             enableButton: false,
             isFormComplete: false,
             status: 'Pending Approval',
@@ -262,7 +269,7 @@ export default {
 
         showSuccess() {
             // validate form
-            this.form.post('/api/visitors/')
+            this.form.post('/api/visitor-logs/')
                 .then((data) => {
                     this.isFormComplete = true
                 }).catch((error) => {
@@ -270,30 +277,62 @@ export default {
                 })
         },
 
+        checkInVisitor() {
+            console.log(this.selectedPurpose);
+            axios.post('/api/visitor-logs?visitor_id=' + this.visitor.id + '&building_id=' + this.visitor.building_ID + '&visitPurpose_id=' + this.selectedPurpose.value)
+                .then((data) => {
+                    this.$router.push('/visitor-registration/success/checkin/' + this.id);
+                }).catch((e) => {
+
+                });
+        },
+
         async getData() {
-            await axios.get('/api/visitor-registration/' + this.id)
+            await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
                 .then((data) => {
                     this.buildings = data.data.data;
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
-                }); 
+                });
         },
+
         async syncData() {
             await axios.get('/api/sync-visitor/')
                 .then((data) => {
                     this.visitor = data.data.data;
-                    this.$cookies.remove("asCookie");
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
-                }); 
-        }
+                });
+        },
+
+        async syncVisitType() {
+            await axios.get('/api/get-visit-types/')
+                .then((data) => {
+                    this.visitType = data.data.data;
+                })
+                .catch((e) => {
+
+                });
+        },
+
+        // async syncHosts() {
+        //     await axios.get('/api/get-hosts')
+        //         .then((data) => {
+        //             this.hosts = data.data.data;
+        //         })
+        //         .catch((e) => {
+
+        //         });
+        // }
     },
 
     created() {
         this.syncData();
         this.getData();
+        this.syncVisitType();
+        // this.syncHost();
     },
 }
 </script>

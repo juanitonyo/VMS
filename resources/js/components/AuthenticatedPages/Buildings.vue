@@ -50,10 +50,10 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-900">
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Visitor', item)"
-                                                class="border border-gray-900 rounded-md py-1.5 px-3 mx-1 hover:bg-gray-300">Visitor</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 mx-1']">Visitor</button>
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Host', item)"
-                                                class="border border-gray-900 rounded-md py-1.5 px-4 hover:bg-gray-300">Host</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 mx-1']">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>
@@ -139,15 +139,14 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">Upload
-                                Logo</label>
+                            <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">{{ (editMode ? 'Edit' : 'Upload') + ' Logo'}}</label>
                             <div class="flex flex-col items-center justify-center mt-2">
                                 <div class="flex justify-center mt-3">
                                     <div>
                                         <div class="flex items-center justify-center w-full">
                                             <label :style="{ 'background-image': `url(${image_url})` }"
-                                                class="flex flex-col justify-center  w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-cover bg-no-repeat">
-                                                <div class="flex flex-col items-center" :class="{ 'hidden': hideLabel }">
+                                                class="flex flex-col justify-center cursor-pointer w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-center bg-cover bg-no-repeat">
+                                                <div v-show="form.logo == '' ? true : false"  class="flex flex-col items-center" :class="{ 'hidden': hideLabel }">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-12 h-12 text-gray-600 group-hover:text-black"
                                                         viewBox="0 0 20 20" fill="currentColor">
@@ -159,7 +158,7 @@
                                                         class="pt-1 text-sm tracking-wider text-black group-hover:text-black">
                                                         Select a photo</p>
                                                 </div>
-                                                <input type="file" ref="buildingLogo" class="opacity-0"
+                                                <input type="file" ref="buildingLogo" class="opacity-0" accept="image/png, image/jpeg, image/jpg, image/svg"
                                                     @input="uploadImage" />
                                             </label>
                                         </div>
@@ -182,13 +181,13 @@
         </template>
     </SliderVue>
 
-    <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR | ' + form.buildingName">
+    <DialogVue :isOpen="pop" :dialogTitle="mode + ' QR | ' + form.buildingName" :modalWidth="'max-w-3xl'">
         <template v-slot:dialogBody>
 
             <div class="overflow-hidden shadow shadow-slate-400 sm:rounded-lg p-5 mt-4">
                 <div class="flex justify-center items-center flex-col p-10">
-                    <div v-if="vMode == 'Visitor'" class="flex flex-row justify-center items-center gap-10">
-                        <img :src="qrName(vMode, form.qr_id)" class="mt-5 w-40 h-40" />
+                    <div v-if="mode == 'Visitor'" class="flex flex-row justify-center items-center gap-10">
+                        <img :src="qrName(mode, form.qr_id)" class="mt-5 w-40 h-40" />
 
                         <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
                         <a target="_blank" :href="this.proxyURL + this.visitorRoute + form.qr_id"
@@ -198,7 +197,7 @@
                     </div>
 
                     <div v-else class="flex flex-row justify-center items-center gap-10 ">
-                        <img :src="qrName(vMode, form.qr_id)" class="mt-5 w-40 h-40" />
+                        <img :src="qrName(mode, form.qr_id)" class="mt-5 w-40 h-40" />
                         <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
                         <a target="_blank" :href="this.proxyURL + this.hostRoute + form.qr_id"
                             class="text-black bg-white w-36 h-8 border border-black hover:scale-105 duration-100 flex justify-center items-center rounded-md">Go
@@ -263,7 +262,7 @@ export default {
             editMode: false,
             open: false,
             pop: false,
-            vMode: '',
+            mode: '',
             form: new Form({
                 buildingName: '',
                 address: '',
@@ -295,24 +294,21 @@ export default {
                 logo: '',
                 status: false,
             })
+            this.image_url = '';
         },
 
-        isOpen(mode, item) {
+        isOpen(thisMode, item) {
             this.pop = !this.pop;
-            this.vMode = mode;
+            this.mode = thisMode;
             this.form = item;
             this.hideLabel = false;
-
-            if(!this.editMode) {
-                this.image_url = '';
-            }
         },
 
         editBuilding(item) {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
-            this.image_url = this.form.logo;
+            this.image_url = '/uploads/images//' + this.form.logo;
             console.log(this.form.logo);
             this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
         },
@@ -336,18 +332,9 @@ export default {
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
-                    console.log(data);
                     this.$Progress.finish();
                     this.getData();
-                    this.form = new Form({
-                        buildingName: '',
-                        address: '',
-                        description: '',
-                        buildingType: '',
-                        status: false,
-                    });
-                    this.image_url = '',
-                        this.hideLabel = false
+                    this.hideLabel = false,
                     this.open = !this.open;
                     createToast({
                         title: 'Success!',
@@ -375,14 +362,6 @@ export default {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
-                this.form = new Form({
-                    buildingName: '',
-                    address: '',
-                    description: '',
-                    buildingType: '',
-                    logo: '',
-                    status: false,
-                });
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',
@@ -397,7 +376,7 @@ export default {
                         toastBackgroundColor: '#00bcd4',
                     })
             }).catch((error) => {
-
+                this.$Progress.fail();
             })
         },
 
@@ -409,10 +388,10 @@ export default {
             });
         },
 
-        qrName(vMode, uuid) {
-            if (vMode == 'Visitor')
+        qrName(mode, uuid) {
+            if (mode == 'Visitor')
                 return this.url + this.proxyURL + this.visitorRoute + uuid;
-            else (vMode == 'Host')
+            else (mode == 'Host')
             return this.url + this.proxyURL + this.hostRoute + uuid;
         },
 
@@ -425,10 +404,11 @@ export default {
         },
 
         forClass() {
-            return this.form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' '
+            return this.form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''
         },
+
         forMessage() {
-            return this.editMode ? ' ' : this.form.errors.get('buildingType')
+            return this.editMode ? '' : this.form.errors.get('buildingType')
         }
     },
 

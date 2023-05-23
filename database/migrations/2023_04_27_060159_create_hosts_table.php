@@ -13,12 +13,14 @@ return new class extends Migration
     {
         Schema::create('hosts', function (Blueprint $table) {
             $table->id();
-            $table->string('fname');
-            $table->string('lname');    
+            $table->integer('building_id');
+            $table->string('firstName');
+            $table->string('lastName');    
             $table->string('email');
             $table->string('password');
             $table->string('contact')->unique();
             $table->string('location');
+            $table->string('profilePhoto');
             $table->string('gov_id');
             $table->string('frontId');
             $table->string('backId');

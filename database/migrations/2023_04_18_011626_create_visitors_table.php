@@ -13,13 +13,17 @@ return new class extends Migration
     {
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
-            $table->uuid('user_ID')->nullable();
+            $table->uuid('user_ID');
             $table->integer('building_ID')->nullable();
             $table->string('email');
             $table->string('name');
             $table->string('contact')->nullable();
             $table->string('validId')->nullable();
             $table->string('google_id')->nullable();
+            $table->string('profilePhoto')->nullable();
+            $table->string('refCode')->nullable();
+            $table->string('front_id')->nullable();
+            $table->string('back_id')->nullable();
             $table->boolean('status')->default(false);
             $table->boolean('policy')->default(false);
             $table->timestamps();

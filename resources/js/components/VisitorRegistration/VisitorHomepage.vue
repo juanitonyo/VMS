@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center">
 
-        <div class="w-[420px] md:w-[780px] lg:w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen pt-10">
+        <div class="w-[420px] md:w-[780px] lg:w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen flex justify-center">
             <div class="flex flex-col items-center justify-center gap-y-5">
 
                 <div class="flex flex-col gap-y-2 items-center justify-center">
@@ -19,7 +19,7 @@
                         </div>
 
                         <div class="flex flex-col justify-center pl-4">
-                            <h3 class="w-52 leading-5 text-base font-bold text-blue-700">Guest <br>New Registration</h3>
+                            <h3 class="w-52 text-base font-bold text-blue-700">Guest <br>New Registration</h3>
                             <p class="text-[10px] text-gray-500">Create New Account</p>
                         </div>
                     </a>
@@ -104,7 +104,7 @@ export default {
         }
     },
     created() {
-        axios.get('/api/visitor-registration/' + this.id)
+        axios.get('/api/visitor-registration?buildingUUID=' + this.id)
             .then((data) => {
                 this.buildings = data.data.data;
             })

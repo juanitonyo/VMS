@@ -1,7 +1,7 @@
 <template>
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-            <h1 class="text-2xl font-extrabold leading-6 text-gray-900">Building Type</h1>
+            <h1 class="text-2xl font-extrabold leading-6 text-gray-900">Building Type Table</h1>
             <p class="mt-2 text-xs text-gray-700">A roster of all building types associated with your account, including
                 their category, description and location.</p>
         </div>
@@ -180,13 +180,6 @@ export default {
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    this.form = new Form({
-                        id: '',
-                        name: '',
-                        description: '',
-                        delivery_form: false,
-                        status: false,
-                    });
                     this.open = !this.open;
                     createToast({
                         title: 'Success!',
@@ -215,16 +208,9 @@ export default {
                     data: this.form
                 }
             }).then((data) => {
-                this.editMode = false;
                 this.$Progress.finish();
+                this.editMode = false;
                 this.getData();
-                this.form = new Form({
-                    id: '',
-                    name: '',
-                    description: '',
-                    delivery_form: false,
-                    status: false,
-                });
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',
