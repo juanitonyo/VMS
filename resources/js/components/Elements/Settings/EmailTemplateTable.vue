@@ -187,7 +187,7 @@ export default {
                 subject: '',
                 body: '',
                 description: '',
-                status: true,
+                status: false,
             }),
 
             editor: ClassicEditor,
@@ -217,7 +217,7 @@ export default {
                 subject: '',
                 body: '',
                 description: '',
-                status: true,
+                status: false,
             })
         },
         isOpen(item) {

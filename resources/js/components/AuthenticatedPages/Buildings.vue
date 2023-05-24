@@ -8,13 +8,13 @@
                 </div>
 
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                    <button @click.prevent="setOpen" type="button"
+                    <button @click.prevent="setOpen" type="button" v-if="permissions.create"
                         class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
                         Building</button>
                 </div>
 
             </div>
-            <div class="mt-8 flow-root">
+            <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-auto shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
@@ -59,8 +59,8 @@
                                             'Active' : 'Inactive' }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
-                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs">
-                                            <a @click.prevent="editBuilding(item)" href="#"
+                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs" v-if="permissions.update">
+                                            <a @click.prevent="editBuilding(item)" href="#" 
                                                 class="flex justify-center text-slate-800 hover:text-indigo-900">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                     fill="currentColor" class="w-5 h-5">
@@ -234,6 +234,7 @@ import { createToast } from 'mosha-vue-toastify';
 import moment from 'moment';
 import axios from "axios";
 import Form from "vform";
+import { userAuthStore } from "@/store/auth";
 
 
 export default {
@@ -261,6 +262,7 @@ export default {
     data() {
         return {
             data: {},
+            permissions: {},
             editMode: false,
             open: false,
             pop: false,
@@ -419,6 +421,13 @@ export default {
         this.getData();
         this.getBuildingTypes();
         this.moment = moment;
+    },
+    beforeMount() {
+        this.permissions = {
+            view: userAuthStore().role.permissions.buildings.includes('view') ?? false,
+            create: userAuthStore().role.permissions.buildings.includes('create') ?? false,
+            update: userAuthStore().role.permissions.buildings.includes('update') ?? false
+        }
     }
 }
 

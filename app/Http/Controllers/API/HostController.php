@@ -46,8 +46,17 @@ class HostController extends BaseController
     public function store(HostRequest $request)
     {
         $building_id = Building::where('qr_id', Cookie::get('buildingUUID'))->first()->id;
+
+        $profile_link = "";
+        if($request->profilePhoto) {
+            $profile_binary = $request->profilePhoto;
+            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
+        }
+
         $validated = $request->validated();
         $validated['building_id'] = $building_id;
+        $validated['profilePhoto'] = $profile_link;
 
         $data = Host::create($validated);
         return $this->sendResponse($data, "Saved Data");

@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center">
 
-        <div class="w-[420px] md:w-[780px] lg:w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen flex justify-center">
+        <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen flex justify-center">
             <div class="flex flex-col items-center justify-center gap-y-5">
 
                 <div class="flex flex-col gap-y-2 items-center justify-center">
