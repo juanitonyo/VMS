@@ -399,10 +399,10 @@ const routes = [
         path: "/:pathMatch(.*)*",
         redirect: '404'
     },
-    // {
-    //     path: "/:catchAll(.*)",
-    //     redirect: '404'
-    // }
+    {
+        path: "/:catchAll(.*)",
+        redirect: '404'
+    }
 ];
 
 const router = createRouter({
@@ -426,7 +426,7 @@ router.beforeEach((to, from, next) => {
         userAuthStore().authenticated ? next({ name: "dashboard" }) : next()
     } else {
         if (userAuthStore().authenticated && to.meta.middleware == "auth") {
-            userAuthStore().role.permissions[to.name] ? next() : router.push('/403') // 'redirect to HTTP 403 Forbidden page'
+            userAuthStore().role.permissions[to.name] ? next() : router.push('/forbidden') // 'redirect to HTTP 403 Forbidden page'
         }
         else {
             next();

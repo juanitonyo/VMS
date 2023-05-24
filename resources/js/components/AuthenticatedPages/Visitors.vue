@@ -8,8 +8,7 @@
                 </div>
 
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none" v-if="permissions.create">
-                    <button 
-                        type="button"
+                    <button type="button" @click.prevent="setPop()"
                         class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Send
                         Invitation</button>
                 </div>
@@ -169,6 +168,65 @@
             </div>
         </template>
     </SliderVue>
+
+    <SliderVue :setOpen="pop" :title="'Send Invitation'" :description="'Invite someone to your location'">
+        <template v-slot:slider-body>
+            <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
+                <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
+                    <div class="my-4 grid grid-cols-1">
+
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.name" label="Building Type" id="building-name"
+                                :hasError="this.editMode ? false : form.errors.has('name')"
+                                :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.description" label="Description" id="building-name"
+                                :hasError="this.editMode ? false : form.errors.has('description')"
+                                :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-5">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Add
+                                        Delivery Health Form</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.delivery_form"
+                                    :class="[form.delivery_form ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.delivery_form ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+                                        Status</SwitchLabel>
+                                </span>
+                                <Switch v-model.lazy="form.status"
+                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
+                    <button type="button"
+                        class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
+                        @click="setOpen">Cancel</button>
+                    <button type="submit"
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"></button>
+                </div>
+            </form>
+        </template>
+    </SliderVue>
 </template>
 
 <script>
@@ -193,6 +251,7 @@ export default {
             data: {},
             editMode: false,
             open: false,
+            pop: false,
             status: false,
             isChanged: false,
             account: {}
@@ -213,6 +272,9 @@ export default {
             this.editMode = false;
             this.open = !this.open;
             this.status = false;
+        },
+        setPop() {
+            this.pop = !this.pop;
         },
         async getData(page = 1) {
             await axios.get('/api/get-logs?page=' + page).then((data) => {

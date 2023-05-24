@@ -213,7 +213,6 @@ export default {
                 this.getData();
                 this.form = new Form({})
                 this.open = !this.open;
-                this.form = new Form({});
                 createToast({
                     title: 'Success!',
                     description: 'Data has been updated.'
