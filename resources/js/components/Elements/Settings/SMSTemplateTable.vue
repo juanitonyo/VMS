@@ -141,7 +141,7 @@ export default {
                 id: '',
                 message: '',
                 description: '',
-                status: true,
+                status: false,
             }),
         }
     },
@@ -153,7 +153,7 @@ export default {
                 id: '',
                 message: '',
                 description: '',
-                status: true,
+                status: false,
             })
         },
         saveSMS() {

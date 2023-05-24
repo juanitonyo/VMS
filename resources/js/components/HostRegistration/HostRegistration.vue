@@ -14,8 +14,8 @@
                             <div class="flex justify-center items-center flex-col lg:mt-16 my-4">
                                 <div class="lg:w-40 w-28">
                                     <label :style="{ 'background-image': `url(${profile_url})` }"
-                                        class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 opacity-60 rounded-full justify-center items-center cursor-pointer transition duration-500">
-                                        <img v-show="hideLabel_profile" class="lg:w-8 w-6 mt-3 lg:mt-0"
+                                        class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 rounded-full justify-center items-center cursor-pointer transition duration-500 bg-cover bg-center">
+                                        <img v-show="!hideLabel_profile" class="lg:w-8 w-6 mt-3 lg:mt-0"
                                             src="https://www.svgrepo.com/show/33565/upload.svg" />
                                         <input type="file" ref="profile" class="opacity-0" @input="uploadProfilePhoto" accept="image/png, image/jpeg, image/jpg, image/svg">
                                     </label>
@@ -112,7 +112,7 @@
                                             class="text-[10px] items-center w-max text-red-500">
                                             {{ form.errors.get('contact') }}</span>
                                     </div>
-                                    <input type="tel" name="contact" id="contact" placeholder="09*********"
+                                    <input type="tel" name="contact" id="contact" placeholder="09*********" maxlength="11"
                                         :class="form.errors.has('contact') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
                                         v-model="form.contact" />
                                 </div>
@@ -236,7 +236,7 @@ export default {
                 email: '',
                 password: '',
                 location: '',
-                contact: nul,
+                contact: null,
                 front_id: '',
                 back_id: '',
                 profilePhoto: '',
@@ -292,6 +292,8 @@ export default {
             .catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
+
+            document.cookie = 'buildingUUID=' + this.id + '; path=/';
     },
 }
 </script>

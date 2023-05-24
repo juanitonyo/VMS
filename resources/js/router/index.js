@@ -12,6 +12,7 @@ const HostQRLayout = () => import("@/components/Layouts/HostQRLayout.vue");
 
 // PAGE NOT FOUND
 const PageNotFound = () => import("@/components/PageNotFound/PageNotFound.vue");
+const Forbidden = () => import("@/components/PageNotFound/Forbidden.vue");
 
 // GUEST PAGES
 const Home = () => import("@/components/GuestPages/Home.vue");
@@ -378,7 +379,7 @@ const routes = [
 
     {
         name: '404',
-        path: "/404",
+        path: "/pagenotfound",
         component: PageNotFound,
         meta: {
             middleware: "notfound",
@@ -386,13 +387,22 @@ const routes = [
         },
     },
     {
+        name: '403',
+        path: "/forbidden",
+        component: Forbidden,
+        meta: {
+            middleware: "forbidden",
+            title: `Forbidden`,
+        },
+    },
+    {
         path: "/:pathMatch(.*)*",
         redirect: '404'
     },
-    {
-        path: "/:catchAll(.*)",
-        redirect: '404'
-    }
+    // {
+    //     path: "/:catchAll(.*)",
+    //     redirect: '404'
+    // }
 ];
 
 const router = createRouter({
@@ -416,7 +426,7 @@ router.beforeEach((to, from, next) => {
         userAuthStore().authenticated ? next({ name: "dashboard" }) : next()
     } else {
         if (userAuthStore().authenticated && to.meta.middleware == "auth") {
-            userAuthStore().role.permissions[to.name] ? next() : router.push('/404') // 'redirect to HTTP 403 Forbidden page'
+            userAuthStore().role.permissions[to.name] ? next() : router.push('/403') // 'redirect to HTTP 403 Forbidden page'
         }
         else {
             next();
