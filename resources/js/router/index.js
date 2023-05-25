@@ -91,7 +91,19 @@ const routes = [
             }
         ],
     },
-
+    {
+        name: "404",
+        path: "/404",
+        component: PageNotFound,
+        meta: {
+            title: `Page Not Found`,
+        }
+    },
+    {
+        // path: "*",
+        path: "/:catchAll(.*)",
+        redirect: { name: "404" }
+    },
     {
         path: "/app",
         component: AuthenticatedLayout,
@@ -164,7 +176,10 @@ const routes = [
                     ability: "",
                 },
             },
-            
+            {
+                path: '/:pathMatch(.*)',
+                redirect: { name: "404" }
+            },
         ],
     },
 
@@ -314,6 +329,7 @@ const routes = [
             },
         ],
     },
+    
     {
         path: "/homeowner-registration",
         component: HostQRLayout,

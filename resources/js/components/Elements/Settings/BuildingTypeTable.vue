@@ -67,7 +67,7 @@
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Building Type'"
         :description="'A roster of all building types associated with your account, including their category, description and location.'">
         <template v-slot:slider-body>
-            <form @submit="editMode ? updateBuilding() : saveBuilding()">
+            <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
@@ -176,7 +176,7 @@ export default {
         },
         saveBuilding() {
             this.$Progress.start();
-            this.form.post('/api/building-types')
+            this.form.post('/api/building-types/')
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();

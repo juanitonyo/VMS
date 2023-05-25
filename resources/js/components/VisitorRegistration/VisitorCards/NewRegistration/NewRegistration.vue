@@ -168,7 +168,8 @@ export default {
                 back_id: null,
                 contact: '',
                 validId: '',
-                policy: false
+                policy: false,
+                status: '',
             }),
             email: '',
             buildings: {},

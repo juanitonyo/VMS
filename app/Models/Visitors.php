@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
 
 class Visitors extends Model
@@ -32,6 +33,11 @@ class Visitors extends Model
 
     public function building(): HasOne 
     {
-        return $this->hasOne(Building::class, 'id', 'building_ID')->select(['id','buildingName']);
+        return $this->hasOne(Building::class, 'id', 'building_id')->select(['id','buildingName']);
+    }
+
+    public function latestLog(): HasOne
+    {
+        return $this->hasOne(VisitorLogs::class, 'visitor_id', 'id')->latestOfMany();
     }
 }

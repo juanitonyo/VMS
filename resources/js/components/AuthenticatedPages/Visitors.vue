@@ -85,7 +85,7 @@
             <div class="relative flex-1 py-2 sm:px-4 space-y-5">
 
                 <div class="flex items-center justify-center mt-6">
-                    <img :src="this.account.visitor.profilePhoto != '' ? '/uploads/profiles/' + this.account.visitor.profilePhoto : ''"
+                    <img :src="this.account.visitor.profilePhoto != '' ? '/uploads/profiles-visitor/' + this.account.visitor.profilePhoto : ''"
                         class="relative w-[100px] h-[100px] border border-black rounded-full">
                     <svg v-show="this.account.visitor.profilePhoto == '' ? true : false" xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute">
@@ -121,7 +121,7 @@
                         </div>
                         <div class="col-span-1 justify-self-end italic text-right text-gray-500">
                             <p>{{ this.account.visitor.name }}</p>
-                            <p>N/A</p>
+                            <p>{{ this.account.logType }}</p>
                             <p>N/A</p>
                             <p>{{ this.account.visitor.validId }}</p>
                             <p>N/A</p>
@@ -132,7 +132,7 @@
                             <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
-                            <p>N/A</p>
+                            <p>{{ this.account.created_at == this.account.updated_at ? 'Not Yet' : moment(this.account.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>

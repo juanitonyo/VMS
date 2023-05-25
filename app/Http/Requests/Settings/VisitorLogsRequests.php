@@ -26,21 +26,19 @@ class VisitorLogsRequests extends FormRequest
 
     public function createRules() :array {
         return [
-            'user_id' => 'required',
             'visitor_id' => 'required',
             'building_id' => 'required',
             'visitPurpose_id' => 'required',
-            'isCheckedOut' => 'required'
+            'logType' => 'required'
         ];
     }
 
     public function updateRules(){
         return [
-            'params.data.user_id' => 'required',
             'params.data.visitor_id' => 'required',
             'params.data.building_id' => 'required',
             'params.data.visitPurpose_id' => 'required',
-            'params.data.isCheckedOut' => 'required'
+            'params.data.logType' => 'required'
         ];
     }
 }

@@ -217,9 +217,9 @@ export default {
             this.editMode = false;
             this.open = !this.open;
             this.getbuildingType_ids();
+            this.form = new Form({});
         },
         saveVisitType() {
-            this.form.buildingType = this.form.buildingType.value;
             this.$Progress.start();
             this.form.post('/api/visit-type')
                 .then((data) => {
@@ -244,8 +244,6 @@ export default {
                 })
         },
         updateVisitType() {
-            this.form.buildingType = this.form.buildingType.value;
-
             axios.put("/api/visit-type/" + this.form.id, {
                 params: {
                     data: this.form
@@ -256,7 +254,6 @@ export default {
                 this.getData();
                 this.form = new Form({});
                 this.open = !this.open;
-                this.form = new Form({});
                 createToast({
                     title: 'Success!',
                     description: 'Data has been updated.'

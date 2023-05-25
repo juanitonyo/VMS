@@ -42,6 +42,8 @@ class VisitTypesController extends BaseController
      */
     public function store(VisitTypesRequest $request)
     {
+        $request['buildingType'] = $request["buildingType"]['value'];
+
         $data = VisitTypes::create($request->all());
         return $this->sendResponse($data, "Saved");
     }
