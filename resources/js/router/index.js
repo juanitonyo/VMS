@@ -395,14 +395,10 @@ const routes = [
             title: `Forbidden`,
         },
     },
-    {
-        path: "/:pathMatch(.*)*",
-        redirect: '404'
-    },
-    {
-        path: "/:catchAll(.*)",
-        redirect: '404'
-    }
+    // {
+    //     path: "/:catchAll(.*)",
+    //     redirect: {name: '404'}
+    // }
 ];
 
 const router = createRouter({

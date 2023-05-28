@@ -54,7 +54,7 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.isCheckedOut ?
                                             moment(item.updated_at).format('MMMM Do YYYY, h:mm:ss a') : "Not Yet" }}
                                         </td>
-                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs">
+                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs" v-if="permissions.update">
                                             <a @click.prevent="editVisitors(item)"
                                                 class="flex justify-center text-slate-800 hover:text-gray-500 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -171,49 +171,85 @@
 
     <SliderVue :setOpen="pop" :title="'Send Invitation'" :description="'Invite someone to your location'">
         <template v-slot:slider-body>
-            <form @submit.prevent="editMode ? updateBuilding() : saveBuilding()">
+            <form>
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.name" label="Building Type" id="building-name"
-                                :hasError="this.editMode ? false : form.errors.has('name')"
-                                :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
+                            <NormalInput label="Email" id="email"
+                                :hasError="this.editMode ? false : form.errors.has('email')"
+                                :errorMessage="this.editMode ? false : form.errors.get('email')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.description" label="Description" id="building-name"
-                                :hasError="this.editMode ? false : form.errors.has('description')"
-                                :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
+                            <NormalInput label="First Name" id="fname"
+                                :hasError="this.editMode ? false : form.errors.has('fname')"
+                                :errorMessage="this.editMode ? false : form.errors.get('fname')"></NormalInput>
                         </div>
 
-                        <div class="sm:col-span-3 mt-5">
-                            <SwitchGroup as="div" class="flex items-center justify-between">
-                                <span class="flex flex-grow flex-col">
-                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Add
-                                        Delivery Health Form</SwitchLabel>
-                                </span>
-                                <Switch v-model="form.delivery_form"
-                                    :class="[form.delivery_form ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
-                                    <span aria-hidden="true"
-                                        :class="[form.delivery_form ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                                </Switch>
-                            </SwitchGroup>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput label="Last Name" id="lname"
+                                :hasError="this.editMode ? false : form.errors.has('lname')"
+                                :errorMessage="this.editMode ? false : form.errors.get('lname')"></NormalInput>
+                        </div>
+
+                        <div class="sliderPurpose sm:col-span-3 mt-3">
+                            <div class="flex justify-between">
+                                <label for="building"
+                                    class="block text-sm font-medium leading-6 text-gray-900">Building</label>
+                                <span v-show="this.editMode ? false : form.errors.has('building')"
+                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forBuilding() }}</span>
+                            </div>
+                            <v-select placeholder="Search" :options="building" label="label"
+                                :class="this.editMode ? ' ' : [form.errors.has('building') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                        </div>
+
+                        <div class="sliderPurpose sm:col-span-3 mt-3">
+                            <div class="flex justify-between">
+                                <label for="visitType" class="block text-sm font-medium leading-6 text-gray-900">Purpose of Visit</label>
+                                <span v-show="this.editMode ? false : form.errors.has('visitType')"
+                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forVisitType() }}</span>
+                            </div>
+                            <v-select placeholder="Search" :options="visitType" label="label"
+                                :class="this.editMode ? ' ' : [form.errors.has('visitType') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <SwitchGroup as="div" class="flex items-center justify-between">
-                                <span class="flex flex-grow flex-col">
-                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
-                                        Status</SwitchLabel>
-                                </span>
-                                <Switch v-model.lazy="form.status"
-                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
-                                    <span aria-hidden="true"
-                                        :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                                </Switch>
-                            </SwitchGroup>
+                            <NormalInput label="Location" id="location"
+                                :hasError="this.editMode ? false : form.errors.has('location')"
+                                :errorMessage="this.editMode ? false : form.errors.get('location')"></NormalInput>
                         </div>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput label="Contact" id="contact"
+                                :hasError="this.editMode ? false : form.errors.has('contact')"
+                                :errorMessage="this.editMode ? false : form.errors.get('contact')"></NormalInput>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <div class="flex justify-between">
+                                <label class="block text-sm font-medium leading-6 text-gray-900">Companion/s</label>
+                                <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
+                                    v-if="form.errors.has('companion')" v-html="form.errors.get('companion')" />
+                            </div>
+                            <textarea
+                                :class="this.editMode ? ' ' : [form.errors.has('companion') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white', 'focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300']"></textarea>
+                                <p class="text-gray-500 text-[10px] text-left italic font-light">Note: Please type the name/s of the companion. If multiple names, seperate each with a comma ( , ).</p>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <!-- <NormalInput label="Target Date / Time" id="dateTime"
+                                :hasError="this.editMode ? false : form.errors.has('dateTime')"
+                                :errorMessage="this.editMode ? false : form.errors.get('dateTime')"></NormalInput> -->
+                            <div class="flex justify-between">
+                                <label class="block text-sm font-medium leading-6 text-gray-900">Target Date</label>
+                                <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
+                                    v-if="form.errors.has('date')" v-html="form.errors.get('date')" />
+                            </div>
+                            <input type="date" :class="this.editMode ? ' ' : [form.errors.has('date') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white', 'focus:outline-none px-3 py-2 text-xs w-full rounded-md border border-gray-300']" />
+                        </div>
+
 
                     </div>
                 </div>
@@ -222,7 +258,7 @@
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                         @click="setOpen">Cancel</button>
                     <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"></button>
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">Send</button>
                 </div>
             </form>
         </template>
@@ -236,6 +272,7 @@ import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
 import moment from 'moment';
+import Form from 'vform';
 
 export default {
     name: 'VisitorLogs',
@@ -254,7 +291,20 @@ export default {
             pop: false,
             status: false,
             isChanged: false,
-            account: {}
+            account: {},
+            form: new Form({
+                email: '',
+                fname: '',
+                lname: '',
+                building: '',
+                visitType: '',
+                location: '',
+                contact: '',
+                companion: '',
+                date: ''
+            }),
+            visitType: [],
+            building: []
         }
     },
 
@@ -283,6 +333,29 @@ export default {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
         },
+        saveInvitation() {
+            this.form.post('/api/')
+                .then((data) => {
+                    this.$Progress.finish();
+                    this.getData();
+                    this.pop = !this.pop;
+                    createToast({
+                        title: 'Success!',
+                        description: 'Data has been saved.'
+                    },
+                        {
+                            position: 'top-left',
+                            showIcon: 'true',
+                            type: 'success',
+                            toastBackgroundColor: '#00bcd4',
+                            hideProgressBar: 'true',
+                            toastBackgroundColor: '#00bcd4',
+                        })
+                }).catch((error) => {
+                    this.$Progress.fail();
+                })
+        },
+
         updateVisitor() {
             this.account.visitor.status = this.status
             axios.put("/api/visitors/" + this.account.visitor.id, {
@@ -310,10 +383,39 @@ export default {
                 this.$Progress.fail();
             })
         },
+        forBuilding() {
+            return this.editMode ? ' ' : this.form.errors.get('building')
+        },
+
+        forVisitType() {
+            return this.editMode ? ' ' : this.form.errors.get('visitType')
+        },
+
+        async syncVisitType() {
+            await axios.get('/api/get-visit-types/')
+                .then((data) => {
+                    this.visitType = data.data.data;
+                })
+                .catch((e) => {
+
+                });
+        },
+
+        async syncBuilding() {
+            await axios.get('/api/get-buildings/')
+                .then((data) => {
+                    this.building = data.data.data;
+                })
+                .catch((e) => {
+
+                });
+        },
     },
     created() {
         this.getData()
         this.moment = moment;
+        this.syncVisitType();
+        this.syncBuilding();
     },
     beforeMount() {
         this.permissions = {

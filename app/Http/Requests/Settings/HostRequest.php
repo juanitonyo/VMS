@@ -32,7 +32,7 @@ class HostRequest extends FormRequest
             'password' => 'required',
             'location' => 'required',
             'contact' => 'required',
-            'gov_id' => 'required',
+            'govs_id' => 'required',
             'policy' => 'required',
         ];
     }

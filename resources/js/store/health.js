@@ -1,6 +1,6 @@
 import { defineStore } from "pinia";
 
-export const userAuthStore = defineStore("userHealth", {
+export const userHealthStore = defineStore("userHealth", {
     state: () => ({
         healthStatus: false,
         isChecked: false

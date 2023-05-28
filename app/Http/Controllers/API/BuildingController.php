@@ -64,7 +64,7 @@ class BuildingController extends BaseController
         }
 
         $validated = $request->validated();
-        $validated['logo']   = $logo_link;
+        $validated['logo'] = $logo_link;
 
         $data = Building::create($validated);
         return $this->sendResponse($logo_link, "Saved Data");
