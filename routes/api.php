@@ -33,6 +33,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('get-checkouts', 'VisitorLogsController@totalCheckOut');
     Route::get('get-logs', 'VisitorLogsController@getVisitorLogs');
     Route::get('get-visitor-log', 'VisitorLogsController@getVisitorLog');
+    Route::get('get-roles', 'RolesController@getRoles');
 
     Route::apiResources([
         'user' => 'UserController',
@@ -44,7 +45,8 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'hostreg' => 'HostController',
         'visit-type' => 'VisitTypesController',
         'visitor-logs' => 'VisitorLogsController',
-        'delivery' => 'DeliveryController'
+        'delivery' => 'DeliveryController',
+        'roles' => 'RolesController'
     ]);
 });
 

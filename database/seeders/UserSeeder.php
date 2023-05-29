@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
             'email' => 'sysadmin@gmail.com',
             'password' => Hash::make('sysadmin'),
             'email_verified_at' => date('Y-m-d h:i:s'),
+            'status' => true,
             'created_at' => date('Y-m-d h:i:s'),
         ]);
     }
