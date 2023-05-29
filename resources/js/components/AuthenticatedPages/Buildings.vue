@@ -116,7 +116,7 @@
                             <div class="flex justify-between">
                                 <label for="email_subj"
                                     class="block text-sm font-medium leading-6 text-gray-900">Choose
-                                    Purpose</label>
+                                    Building Types</label>
                                 <span v-show="this.editMode ? false : form.errors.has('buildingType')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                             </div>
@@ -313,7 +313,6 @@ export default {
             this.open = !this.open;
             this.form = item;
             this.image_url = '/uploads/images//' + this.form.logo;
-            console.log(this.form.logo);
             this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
         },
 

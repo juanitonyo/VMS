@@ -43,6 +43,10 @@ export default {
             type: String,
             default: ''
         },
+        height: {
+            type: String,
+            default: ''
+        },
     },
 }
 

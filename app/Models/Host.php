@@ -17,7 +17,7 @@ class Host extends Model
         'password',
         'location',
         'contact',
-        'gov_id',
+        'govs_id',
         'profilePhoto',
         'frontId',
         'backId',

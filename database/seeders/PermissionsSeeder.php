@@ -16,7 +16,7 @@ class PermissionsSeeder extends Seeder
         $arrayOfPermissions = [
             'dashboard' => ['view' => 'View'],
             'users' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
-            'user_roles' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
+            'roles' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
             'settings' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
             'buildings' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
             'visitors' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],

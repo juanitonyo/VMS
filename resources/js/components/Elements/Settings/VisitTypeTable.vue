@@ -226,7 +226,6 @@ export default {
                     this.$Progress.finish();
                     this.getData();
                     this.open = !this.open;
-                    this.$refs.thisForm.reset();
                     createToast({
                         title: 'Success!',
                         description: 'Data has been saved.'
