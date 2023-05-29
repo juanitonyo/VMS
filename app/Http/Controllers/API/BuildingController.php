@@ -24,7 +24,7 @@ class BuildingController extends BaseController
     public function getBuilding(){
 
         $data = Building::where('qr_id', Cookie::get('buildingUUID'))->first(['id', 'buildingName', 'address', 'logo']);
-       
+
         return $this->sendResponse($data, "All buildings in array");
 
     }

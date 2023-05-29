@@ -5,7 +5,6 @@
       <div class="flex h-16 shrink-0 items-center">
         <img class="h-8 w-auto" src="https://visitor.globalland.com.ph/vendor/adminlte/dist/img/AdminLTELogo.png"
           alt="VMS" />
-        <span class="p-2 font-semibold text-gray-300 text-xs">Visitor Management System</span>
       </div>
       <nav class="flex flex-1 flex-col justify-between" aria-label="Sidebar">
         <div class="-mx-2 space-y-2">

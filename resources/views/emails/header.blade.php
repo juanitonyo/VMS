@@ -15,7 +15,6 @@
 			<div style="font-size: 24px; font-weight: bold; color: #000000;">
 				<center>
 					Visitor Management
-				</center>
 				
-			</div>
-			<div style="padding: 20px;">
+					<div style="padding: 20px;">
+			

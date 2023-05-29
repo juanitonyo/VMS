@@ -1,9 +1,5 @@
-<!DOCTYPE html>
-<head>
-    <title>Registration Password</title>
-</head>
-<body>
-    {{ $mailData['body'] }}
+@include('emails.header')
 
-    <p>{{ $mailData['pass'] }}</p>
-</body>
+@include('emails.body')
+
+@include('emails.footer')
