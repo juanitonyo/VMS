@@ -18,7 +18,10 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $data = User::whereHas('userBuilding')->with('userBuilding.building')->latest()->paginate(100);
+        $data = User::whereHas('userBuilding')
+            ->with(['userBuilding.building', 'role'])
+            ->latest()
+            ->paginate(100);
 
         return $this->sendResponse($data, "All users in array");
     }
@@ -36,30 +39,39 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
-        $pass = Str::random(6);
-        $hashPass = Hash::make($pass);
+       
+        $emailPurpose = EmailTemplate::where('purpose', 'Register')->first();
+        
+        if($emailPurpose != null) {
+            
+            $hashPass = Hash::make('sysadmin');
+            $request['password'] = $hashPass;
+            dd($request['role_id']);
+            $request['role_id'] = $request['role_id']['value'];
+            $data = User::create($request->all());
+    
+            if ($request->building) {
 
-        $request['password'] = $hashPass;
-        $data = User::create($request->all());
 
-        if ($request->building) {
-            UserBuildings::create([
-                'user_id' => $data->id,
-                'building_id' => $request->building['value']
-            ]);
+                UserBuildings::create([
+                    'user_id' => $data->id,
+                    'building_id' => $request->building['value']
+                ]);
+            }
+    
+    
+            $mailData = [
+                'title' => 'Registration Password',
+                'body' => $emailPurpose['body'],
+            ];
+    
+            Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
+
+            return $this->sendResponse($data, "Saved Data");
+
         }
 
-        $emailPurpose = EmailTemplate::where('purpose', 'Register')->first();
-
-        $mailData = [
-            'title' => 'Registration Password',
-            'body' => $emailPurpose['body'],
-            'pass' => $pass
-        ];
-
-        Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
-
-        return $this->sendResponse($data, "Saved Data");
+        return null;
     }
 
     /**
@@ -81,16 +93,18 @@ class UserController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, User $user)
+    {   
+        $user->update($request->params['data']);
 
-        $data = User::findOrFail($id)->update([
-            'name' => $request->params['data']['name'],
-            'email' => $request->params['data']['email'],
-        ]);
+        if ($request->params['data']['role']) {
+            $user->update([
+                'role_id' => $request->params['data']['role']['id']
+            ]);
+        }
 
         if ($request->params['data']['building']) {
-            UserBuildings::where('user_id', $id)->update([
+            UserBuildings::where('user_id', $user->id)->update([
                 'building_id' => $request->params['data']['building']['value']
             ]);
         }
