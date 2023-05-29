@@ -121,15 +121,14 @@
     <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
 
-            <div class="flex justify-center items-center">
+            <div class="flex justify-center items-center w-full ">
                 <div class="w-[80px] flex flex-col gap-y-1">
-                    <label for="dropzone-file" :style="{ 'background-image': `url(${profile_url})` }"
-                        @click="$refs.profile.click()"
-                        class="flex flex-col items-center justify-center w-full h-[80px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-7 pb-6" :class="{ 'hidden': hideLabel }">
+                    <label :style="{ 'background-image': `url(${profile_url})` }"
+                        class="flex flex-col items-center justify-center w-full h-[80px] border-2 border-blue-700 rounded-full cursor-pointer hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                        <div class="flex flex-col items-center justify-center pt-7 pb-6" :class="{ 'hidden': hideLabel_profile }">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
-                        <input id="dropzone-file" ref="profile" type="file" class="opacity-0" @input="uploadImage" />
+                        <input ref="profile" type="file" class="opacity-0 w-full h-full cursor-pointer" accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
                     </label>
                     <p class="text-[10px] text-gray-400 flex justify-center">Replace Photo</p>
                 </div>
@@ -138,71 +137,69 @@
             <div class="flex flex-col mt-8 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
-                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input v-model="visitor.name" type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="email" class="text-[10px] text-gray-500 mr-6">Email Address</label>
-                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input v-model="visitor.email" type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="contact" class="text-[10px] text-gray-500 mr-4">Mobile Number</label>
-                    <input type="tel" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input v-model="visitor.contact" type="tel" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="id" class="text-[10px] text-gray-500 mr-14">Valid ID</label>
-                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input v-model="visitor.validId" type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
 
             <div class="mt-5 flex flex-row justify-end mr-3">
                 <div class="flex flex-row items-center">
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
-                    <label for="dropzone-file" :style="{ 'background-image': `url(${front_url})` }"
-                        @click="$refs.front.click()"
+                    <label :style="{ 'background-image': `url(${front_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel }">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_front }">
                             <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
                         </div>
-                        <input id="dropzone-file" ref="front" type="file" class="opacity-0" @input="uploadImage" />
+                        <input ref="front" type="file" class="opacity-0 w-full h-full cursor-pointer" accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadFront" />
                     </label>
                 </div>
 
                 <div class="flex flex-row items-center ml-2">
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
-                    <label for="dropzone-file" :style="{ 'background-image': `url(${back_url})` }"
-                        @click="$refs.back.click()"
+                    <label :style="{ 'background-image': `url(${back_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel }">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_back }">
                             <img src="/Visitor_Homepage_Assets/backID.png" alt="">
                         </div>
-                        <input id="dropzone-file" ref="back" type="file" class="opacity-0" @change="uploadImage" />
+                        <input ref="back" type="file" class="opacity-0 w-full h-full cursor-pointer" accept="image/png, image/jpeg, image/jpg, image/svg" @change="uploadBack" />
                     </label>
                 </div>
             </div>
             <p class="text-blue-800 text-base font-semibold mt-5">Last Activity</p>
 
             <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="fullname" class="text-[10px] text-gray-500 mr-[70px]">Type</label>
-                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                <div class="flex flex-row items-center justify-left">
+                    <label for="fullname" class="text-[10px] text-gray-500 ml-3">Type</label>
+                    <p class="text-[10px] ml-[69px]">{{ this.permission != null ? 'Invitee' : 'Walk-In' }}</p>
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="email" class="text-[10px] text-gray-500 mr-[53px]">Check In</label>
-                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px]  h-[28px] w-[230px]">
+                <div class="flex flex-row justify-left items-center">
+                    <label for="email" class="text-[10px] text-gray-500 ml-3">Check In</label>
+                    <p class="text-[10px] ml-[50px]">{{ this.visitor.latest_log == null ? 'N/A' : moment(this.visitor.latest_log.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="contact" class="text-[10px] text-gray-500 mr-[45px]">Approved</label>
-                    <input type="tel" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                <div class="flex flex-row justify-left items-center">
+                    <label for="contact" class="text-[10px] text-gray-500 ml-3">Approved</label>
+                    <p class="text-[10px] ml-[45px]">{{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
                 </div>
             </div>
 
@@ -225,6 +222,7 @@
 <script>
 import axios from 'axios';
 import FormDialog from '../../../Elements/Modals/FormDialog.vue';
+import moment from 'moment';
 
 export default{
     name: 'Check Out Form',
@@ -236,6 +234,7 @@ export default{
     },
     components: {
         FormDialog,
+        moment
     },
     data() {
         return {
@@ -244,11 +243,15 @@ export default{
             buildings: {},
             visitor: {},
             purpose: [],
-            visitType: '',
+            hideLabel_profile: false,
+            hideLabel_front: false,
+            hideLabel_back: false,
+            profile_url: '',
+            front_url: '',
+            back_url: '',
             enableButton: false,
             status: true,
-            show: false,
-            pop: false,
+            show: false
         }
     },
     methods: {
@@ -283,10 +286,17 @@ export default{
             await axios.get('/api/sync-visitor/')
                 .then((data) => {
                     this.visitor = data.data.data;
+
+                    this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
+                    this.hideLabel_profile = true;
+                    this.front_url = '/uploads/frontID/' + this.visitor.front_id
+                    this.hideLabel_front = true;
+                    this.back_url = '/uploads/backID/' + this.visitor.back_id
+                    this.hideLabel_back = true
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
-                }); 
+                });
         },
 
         async checkLog() {
@@ -303,6 +313,7 @@ export default{
         this.getBuildingData();
         this.syncData();
         this.checkLog();
+        this.moment = moment;
     },
 }
 </script>
