@@ -73,7 +73,7 @@
         </div>
     </div>
 
-    <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Visit Type'"
+    <SliderVue :setOpen="this.open" :title="(editMode ? 'Update ' : 'Add ') + 'Visit Type'"
         :description="'List of all User Visit Types'">
         <template v-slot:slider-body>
             <form ref="thisForm" @submit.prevent="editMode ? updateVisitType() : saveVisitType()">
@@ -187,7 +187,7 @@ export default {
     name: "VisitType",
     props: {
         data: {
-            type: Array,
+            type: Object,
             default: {},
         },
     },
@@ -200,6 +200,7 @@ export default {
             building_types: [],
             editMode: false,
             open: false,
+            visitTypes: {},
             form: new Form({
                 name: '',
                 buildingType: '',
@@ -209,8 +210,6 @@ export default {
                 autoApprove: false,
                 status: false,
             }),
-            building_types: {},
-            visitTypes: {}
         }
     },
     methods: {
@@ -218,9 +217,9 @@ export default {
             this.editMode = false;
             this.open = !this.open;
             this.getbuildingType_ids();
+            this.form = new Form({});
         },
         saveVisitType() {
-            this.form.buildingType = this.form.buildingType.value;
             this.$Progress.start();
             this.form.post('/api/visit-type')
                 .then((data) => {
@@ -244,7 +243,6 @@ export default {
                 })
         },
         updateVisitType() {
-            this.form.buildingType = this.form.buildingType.value;
             axios.put("/api/visit-type/" + this.form.id, {
                 params: {
                     data: this.form
@@ -255,7 +253,6 @@ export default {
                 this.getData();
                 this.form = new Form({});
                 this.open = !this.open;
-                this.form = new Form({});
                 createToast({
                     title: 'Success!',
                     description: 'Data has been updated.'

@@ -42,6 +42,7 @@
 
 <script>
 import axios from "axios";
+import { userAuthStore } from "@/store/auth";
 import BuildingTypeTable from '@/components/Elements/Settings/BuildingTypeTable.vue'
 import SMSTemplateTable from '@/components/Elements/Settings/SMSTemplateTable.vue'
 import EmailTemplateTable from '@/components/Elements/Settings/EmailTemplateTable.vue'
@@ -61,6 +62,7 @@ export default {
             email_templates: {},
             sms_templates: {},
             visit_type: {},
+            permissions: {}
 
         }
     },
@@ -120,8 +122,15 @@ export default {
         }).catch((e) => {
             // errorMessage('Opps!', e.message, 'top-right')
         });
-
+        
     },
+    beforeMount() {
+        this.permissions = {
+            view: userAuthStore().role.permissions.visitors.includes('view') ?? false,
+            create: userAuthStore().role.permissions.visitors.includes('create') ?? false,
+            update: userAuthStore().role.permissions.visitors.includes('update') ?? false
+        }
+    }
 
 }
 

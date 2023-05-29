@@ -176,7 +176,7 @@ export default {
         },
         saveBuilding() {
             this.$Progress.start();
-            this.form.post('/api/building-types')
+            this.form.post('/api/building-types/')
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();

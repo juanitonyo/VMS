@@ -5,6 +5,11 @@ namespace App\Http\Controllers\API;
 use App\Models\User;
 use App\Models\UserBuildings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRegistrationPassword;
+use App\Models\EmailTemplate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends BaseController
 {
@@ -31,6 +36,10 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
+        $pass = Str::random(6);
+        $hashPass = Hash::make($pass);
+
+        $request['password'] = $hashPass;
         $data = User::create($request->all());
 
         if ($request->building) {
@@ -39,6 +48,16 @@ class UserController extends BaseController
                 'building_id' => $request->building['value']
             ]);
         }
+
+        $emailPurpose = EmailTemplate::where('purpose', 'Register')->first();
+
+        $mailData = [
+            'title' => 'Registration Password',
+            'body' => $emailPurpose['body'],
+            'pass' => $pass
+        ];
+
+        Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
 
         return $this->sendResponse($data, "Saved Data");
     }

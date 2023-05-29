@@ -56,14 +56,10 @@ class VisitorLogsController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(VisitorLogsRequests $request)
     {
 
-        $data = VisitorLogs::create([
-            'visitor_id' => $request->visitor_id,
-            'building_id' => $request->building_id,
-            'visitPurpose_id' => $request->visitPurpose_id
-        ]);
+        $data = VisitorLogs::create($request->validated());
 
         return $this->sendResponse($data, "Saved data in table");
 

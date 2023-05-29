@@ -45,7 +45,7 @@
                 <div class="flex flex-col">
                     <div class="flex flex-row items-center">
                         <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
-                        <input v-model="form.contact" type="text" placeholder="09*********"
+                        <input v-model="form.contact" type="text" placeholder="09*********" maxlength="11"
                             :class="form.errors.has('contact') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
                     </div>
                     <p v-show="form.errors.has('contact')" class="text-[10px] items-center ml-24 w-max text-red-500">{{
@@ -168,7 +168,8 @@ export default {
                 back_id: null,
                 contact: '',
                 validId: '',
-                policy: false
+                policy: false,
+                status: '',
             }),
             email: '',
             buildings: {},

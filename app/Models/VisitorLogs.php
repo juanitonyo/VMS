@@ -15,7 +15,12 @@ class VisitorLogs extends Model
         'visitor_id',
         'building_id',
         'visitPurpose_id',
-        'isCheckedOut'
+        'isCheckedOut',
+        'logType'
+    ];
+
+    protected $attributes = [
+        'user_id' => 1
     ];
 
     public function visitor(): BelongsTo

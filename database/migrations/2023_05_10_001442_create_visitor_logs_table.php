@@ -17,6 +17,7 @@ return new class extends Migration
             $table->integer('user_id')->nullable();
             $table->integer('building_id');
             $table->integer('visitPurpose_id');
+            $table->string('logType');
             $table->boolean('isCheckedOut')->default(false);
             $table->timestamps();
         });
