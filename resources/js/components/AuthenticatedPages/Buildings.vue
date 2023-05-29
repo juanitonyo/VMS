@@ -313,7 +313,6 @@ export default {
             this.open = !this.open;
             this.form = item;
             this.image_url = '/uploads/images//' + this.form.logo;
-            console.log(this.form.logo);
             this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
         },
 
