@@ -25,10 +25,12 @@ class Visitors extends Model
         'validId',
         'policy',
         'status',
+        'remember-otp'
     ];
 
     protected $attributes = [
-        'user_ID' => '1'
+        'user_ID' => '1',
+        'remember-otp' => '000000'
     ];
 
     public function building(): HasOne 

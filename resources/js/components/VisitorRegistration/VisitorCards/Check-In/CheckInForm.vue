@@ -116,11 +116,11 @@
             <div class="flex justify-center items-center w-full ">
                 <div class="w-[80px] flex flex-col gap-y-1">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
-                        class="flex flex-col items-center justify-center w-full h-[80px] border-2 border-blue-700 rounded-full cursor-pointer hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-7 pb-6" :class="{ 'hidden': hideLabel_profile }">
+                        class="flex flex-col items-center justify-center w-[92px] h-[80px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                        <div v-if="this.profilePhoto == ''" class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_profile }">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
-                        <input ref="profile" type="file" class="opacity-0 w-full h-full cursor-pointer" accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
+                        <input type="file" ref="profile" class="opacity-0" accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
                     </label>
                     <p class="text-[10px] text-gray-400 flex justify-center">Replace Photo</p>
                 </div>
@@ -134,13 +134,13 @@
             </div>
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
-                    <label for="email" class="text-[10px] text-gray-500 mr-6">Email Address</label>
+                    <label for="email" class="text-[10px] text-gray-500 mr-7">Email Address</label>
                     <input v-model="visitor.email" type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
-                    <label for="contact" class="text-[10px] text-gray-500 mr-4">Mobile Number</label>
+                    <label for="contact" class="text-[10px] text-gray-500 mr-5">Mobile Number</label>
                     <input v-model="visitor.contact" type="tel" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
@@ -157,9 +157,9 @@
                     <label :style="{ 'background-image': `url(${front_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
                         <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_front }">
-                            <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
+                            <img src="/Visitor_Homepage_Assets/frontID.png" alt="Photo not Available">
                         </div>
-                        <input ref="front" type="file" class="opacity-0 w-full h-full cursor-pointer" accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadFront" />
+                        <input ref="front" type="file" class="opacity-0" @input="uploadFrontID" accept="image/png, image/jpeg, image/jpg, image/svg" />
                     </label>
                 </div>
 
@@ -170,7 +170,7 @@
                         <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_back }">
                             <img src="/Visitor_Homepage_Assets/backID.png" alt="">
                         </div>
-                        <input ref="back" type="file" class="opacity-0 w-full h-full cursor-pointer" accept="image/png, image/jpeg, image/jpg, image/svg" @change="uploadBack" />
+                        <input ref="back" type="file" class="opacity-0" @input="uploadBackID" accept="image/png, image/jpeg, image/jpg, image/svg" />
                     </label>
                 </div>
             </div>
@@ -196,7 +196,7 @@
             </div>
 
             <div class="mt-5">
-                <button type="button"
+                <button @click.prevent="updateVisitorInfo" type="button"
                     class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
                     Update
                 </button>
@@ -265,7 +265,6 @@ export default {
             selectedPurpose: '',
             enableButton: false,
             isFormComplete: false,
-            status: 'Pending Approval',
             show: false,
             permission: userAuthStore(),
         }
@@ -290,6 +289,51 @@ export default {
                 })
         },
 
+        uploadProfilePhoto() {
+            this.hideLabel_profile = true;
+            let input = this.$refs.profile;
+            let file = input.files;
+            if (file && file[0]) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.profile_url = e.target.result;
+                    this.visitor.profilePhoto = e.target.result;
+                };
+                reader.readAsDataURL(file[0]);
+                this.$emit("input", file[0]);
+            }
+        },
+
+        uploadFrontID() {
+            this.hideLabel_front = true;
+            let input = this.$refs.front;
+            let file = input.files;
+            if (file && file[0]) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.front_url = e.target.result;
+                    this.visitor.front_id = e.target.result;
+                };
+                reader.readAsDataURL(file[0]);
+                this.$emit("input", file[0]);
+            }
+        },
+
+        uploadBackID() {
+            this.hideLabel_back = true;
+            let input = this.$refs.back;
+            let file = input.files;
+            if (file && file[0]) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.back_url = e.target.result;
+                    this.visitor.back_id = e.target.result;
+                };
+                reader.readAsDataURL(file[0]);
+                this.$emit("input", file[0]);
+            }
+        },
+
         checkInVisitor() {
             this.form.visitor_id = this.visitor.id
             this.form.building_id = this.visitor.building_ID
@@ -302,6 +346,18 @@ export default {
                 }).catch((e) => {
 
                 });
+        },
+
+        updateVisitorInfo() {
+            axios.put('/api/visitors/' + this.visitor.id, {
+                params: {
+                    data: this.visitor
+                }
+            }).then((data) => {
+                this.show = !this.show
+            }).catch((e) => {
+
+            });
         },
 
         async getData() {
@@ -319,12 +375,18 @@ export default {
                 .then((data) => {
                     this.visitor = data.data.data;
 
-                    this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
-                    this.hideLabel_profile = true;
-                    this.front_url = '/uploads/frontID/' + this.visitor.front_id
-                    this.hideLabel_front = true;
-                    this.back_url = '/uploads/backID/' + this.visitor.back_id
-                    this.hideLabel_back = true
+                    if(this.visitor.profilePhoto != "" || this.visitor.profilePhoto != null) {
+                        this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
+                        this.hideLabel_profile = true;
+                    }
+                    if(this.visitor.front_id != "" || this.visitor.front_id != null) {
+                        this.front_url = '/uploads/frontID/' + this.visitor.front_id
+                        this.hideLabel_front = true;
+                    }
+                    if(this.visitor.back_id != "" || this.visitor.back_id != null) {
+                        this.back_url = '/uploads/backID/' + this.visitor.back_id
+                        this.hideLabel_back = true
+                    }
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')

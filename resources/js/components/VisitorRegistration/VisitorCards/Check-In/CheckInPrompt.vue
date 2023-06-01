@@ -25,7 +25,7 @@
                             d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z">
                         </path>
                     </svg>
-                    Sign up with Google
+                    Sign in with Google
                 </a>
                 <!-- bg-red-500 hover:bg-red-500/90 focus:ring-2 focus:outline-none focus:ring-red-500/50 -->
                 <button type="button"
@@ -36,7 +36,7 @@
                             d="M279.1 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.4 0 225.4 0c-73.22 0-121.1 44.38-121.1 124.7v70.62H22.89V288h81.39v224h100.2V288z">
                         </path>
                     </svg>
-                    Sign up with Facebook
+                    Sign in with Facebook
                 </button>
                 <div class="my-8 relative">
                     <hr class="w-64 h-px bg-gray-300">
@@ -84,8 +84,6 @@ export default {
     methods: {
 
         async isExisting() {
-            console.log(this.buildings.id);
-
             await axios.get('/api/visitor-query?given=' + this.email + '&building_ID=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;

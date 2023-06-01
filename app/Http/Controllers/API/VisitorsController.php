@@ -4,12 +4,16 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Visitors;
 use App\Models\Building;
+use App\Models\VisitTypes;
+use App\Models\VisitorLogs;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\VisitorsRequest;
-use App\Models\VisitTypes;
 use Illuminate\Support\Facades\Cookie;
-use Intervention\Image\Image;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRegistrationPassword;
+use Illuminate\Support\Carbon;
+use Intervention\Image\Image;
 
 class VisitorsController extends BaseController
 {
@@ -24,15 +28,33 @@ class VisitorsController extends BaseController
     public function existingVisitor(Request $request) {
 
         $data = Visitors::where([
-            'email' => $request->given,
+            'contact' => $request->given,
             'building_ID' => $request->building_ID
         ])->orWhere([
             'refCode' => $request->given,
             'building_ID' => $request->building_ID
         ])->latest()->first();
 
+        
         if($data != null) {
-            return $this->sendResponse($data, "Found data in table")->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
+            if($data->contact == $request->given) {
+                $pass = random_int(000000, 999999);
+                
+                Visitors::findOrFail($data['id'])->update([
+                    'remember-otp' => $pass,
+                    'otp_expiry_date' => Carbon::now()->addMinute(5)
+                ]);
+                
+                $mailData = [
+                    'title' => "One-Time Password",
+                    'email' => $data['email'],
+                    'password' => $pass
+                ];
+
+                Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
+
+                dd("success");
+            }
         }
 
         return $this->sendResponse($data, "Found data in table");
@@ -44,6 +66,19 @@ class VisitorsController extends BaseController
 
         return $this->sendResponse($data, "Fetched data in table");
         
+    }
+
+    public function checkOTP(Request $request) {
+        $data = Visitors::where([
+            'remember-otp' => $request->otp,
+            'email' => $request->email
+            ])->first();
+
+        if($data != null) {
+            return redirect()->intended('/api/check-log/')->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
+        }
+
+        return null;
     }
 
     /**

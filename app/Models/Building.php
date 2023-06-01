@@ -22,6 +22,6 @@ class Building extends Model
 
     public function buildingType(): HasOne
     {
-        return $this->hasOne(BuildingTypes::class, 'id', 'buildingType')->select(['id','name']);
+        return $this->hasOne(BuildingTypes::class, 'id', 'buildingType')->select(['id','name', 'delivery_form', 'health_form']);
     }
 }
