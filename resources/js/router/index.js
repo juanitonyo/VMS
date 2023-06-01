@@ -43,6 +43,7 @@ const RegSuccess = () => import("@/components/VisitorRegistration/VisitorCards/N
 const CheckInPrompt = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInPrompt.vue");
 const CheckInForm = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInForm.vue");
 const CheckInSuccess = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInSuccess.vue");
+const OTP = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/OTP.vue");
 
 // VISITOR CHECK OUT
 const CheckOutPrompt = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutPrompt.vue");
@@ -261,6 +262,14 @@ const routes = [
                 name: "checkinsuccess",
                 path: "/visitor-registration/success/checkin/:id",
                 component: CheckInSuccess,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "otp",
+                path: "/visitor-registration/otp",
+                component: OTP,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },
