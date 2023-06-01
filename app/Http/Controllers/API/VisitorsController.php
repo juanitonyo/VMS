@@ -75,7 +75,6 @@ class VisitorsController extends BaseController
             ])->first();
 
         if($data != null) {
-            
 
             return redirect()->intended('/api/check-log/')->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
         }
