@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\Settings\UserRequest;
 use App\Models\User;
 use App\Models\UserBuildings;
 use Illuminate\Http\Request;
@@ -37,39 +38,25 @@ class UserController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-       
-        $emailPurpose = EmailTemplate::where('purpose', 'Register')->first();
-        
-        if($emailPurpose != null) {
-            
-            $hashPass = Hash::make('sysadmin');
-            $request['password'] = $hashPass;
-            $data = User::create($request->all());
-    
-            if ($request->building) {
 
+        $validated = $request->validated();
+
+        $hashPass = Hash::make('sysadmin');
+        $validated['password'] = $hashPass;
+        $validated['role_id'] = $request->role['id'];
+        $data = User::create($validated);
+       
+        if ($request->building) {
 
                 UserBuildings::create([
                     'user_id' => $data->id,
                     'building_id' => $request->building['value']
                 ]);
             }
-    
-    
-            $mailData = [
-                'title' => 'Registration Password',
-                'body' => $emailPurpose['body'],
-            ];
-    
-            Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
 
-            return $this->sendResponse($data, "Saved Data");
-
-        }
-
-        return null;
+        return $this->sendResponse($data, "Saved data to table.");
     }
 
     /**

@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('user_buildings', function (Blueprint $table) {
             $table->id();
             $table->integer('user_id');
-            $table->integer('building_id');
-            $table->integer('status');
+            $table->integer('building_id')->nullable();
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

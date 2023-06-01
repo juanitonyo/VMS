@@ -30,7 +30,6 @@ class VisitorLogsController extends BaseController
         $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->with('visitor', 'building', 'visitType')->latest()->first();
 
         return $this->sendResponse($data, "Fetched data from table.");
-
     }
 
     public function totalCheckOut() {

@@ -338,6 +338,7 @@ export default {
                 email: "",
                 role: "",
                 building: "",
+                password: "",
                 status: "",
             }),
             roles: Object,
@@ -381,11 +382,7 @@ export default {
         editUser(item) {
             this.editMode = true;
             this.open = !this.open;
-            this.form.id = item.id;
-            this.form.name = item.name;
-            this.form.email = item.email;
-            this.form.status = item.status;
-            this.form.role = item.role;
+            this.form = item
             this.form.building = {
                 value: item.user_building.building.id,
                 label: item.user_building.building.buildingName,

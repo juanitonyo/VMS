@@ -27,11 +27,12 @@
                         </div>
                     </router-link>
 
-                    <router-link :to="'/visitor-registration/delivery/' + this.id">
+                    <router-link :to="this.isDeliveryAllowed ? '/visitor-registration/delivery/' + this.id : '/#'">
                         <div
-                            class=" relative w-[300px] h-[180px] border-2 border-red-700 rounded-xl flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-150 shadow-md shadow-slate-300 ">
-                            <p class="text-xs text-red-600 absolute top-3">Are you a delivery crew/ rider? Tap here</p>
-                            <img src="/Visitor_Homepage_Assets/delivery.png" alt="No Photo" class="mt-5">
+                            :class="[this.isDeliveryAllowed ? 'hover:scale-105 ease-in-out duration-150 shadow-md shadow-slate-300 border-red-700' : 'border-gray-700' ,'relative w-[300px] h-[180px] border-2 rounded-xl flex flex-col justify-center items-center gap-y-2']">
+                            <p :class="[this.isDeliveryAllowed ? 'text-red-600' : 'text-gray-600 opacity 70', 'text-xs absolute top-3']">Are you a delivery crew/ rider? Tap here</p>
+                            <img src="/Visitor_Homepage_Assets/delivery.png" alt="No Photo" :class="[this.isDeliveryAllowed ? '' : 'opacity-70', 'mt-5']">
+                            <span v-if="!this.isDeliveryAllowed" class="w-full bg-gray-200 justify-center text-xs text-center text-gray-600 absolute p-2">Not Allowed</span>
                         </div>
                     </router-link>
 
@@ -48,8 +49,26 @@ export default{
     name: 'Success',
     data() {
         return {
-            id: window.location.href.split('/').pop(),        
+            id: window.location.href.split('/').pop(),
+            isDeliveryAllowed: false,
+            building: {}    
         }
     },
+    methods: {
+        async getData() {
+            await axios.get('/api/visitor-registration')
+                .then((data) => {
+                    this.building = data.data.data;
+                    this.isDeliveryAllowed = this.building.building_type.delivery_form
+                })
+                .catch((error) => {
+
+                });
+        },
+    },
+
+    created() {
+        this.getData();
+    }
 }
 </script>
