@@ -102,21 +102,21 @@ export default {
                 });
         },
 
-        checkLog() {
-            axios.get('/api/check-log/')
-                .then((data) => {
-                    this.log = data.data.data;
+        // checkLog() {
+        //     axios.get('/api/check-log/')
+        //         .then((data) => {
+        //             this.log = data.data.data;
 
-                    if(this.log == null || this.log.isCheckedOut) {
-                        this.$router.push('/visitor-registration/checkin/' + this.id);
-                    }
-                    else {
-                        this.$router.push('/visitor-registration/checkout/' + this.id);
-                    }
-                }).catch((e) => {
+        //             if(this.log == null || this.log.isCheckedOut) {
+        //                 this.$router.push('/visitor-registration/checkin/' + this.id);
+        //             }
+        //             else {
+        //                 this.$router.push('/visitor-registration/checkout/' + this.id);
+        //             }
+        //         }).catch((e) => {
 
-                });
-        },
+        //         });
+        // },
 
         async getData() {
             await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
