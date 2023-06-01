@@ -39,39 +39,32 @@ class UserController extends BaseController
      */
     public function store(Request $request)
     {
-       
-        $emailPurpose = EmailTemplate::where('purpose', 'Register')->first();
-        
-        if($emailPurpose != null) {
-            
-            $hashPass = Hash::make('sysadmin');
-            $request['password'] = $hashPass;
-            dd($request['role_id']);
-            $request['role_id'] = $request['role_id']['value'];
-            $data = User::create($request->all());
-    
-            if ($request->building) {
+        $pass = Str::random(6);
+        $hashPass = Hash::make($pass);
 
+        $request['password'] = $hashPass;
+        $request['role_id'] = $request->role['id'];
 
-                UserBuildings::create([
-                    'user_id' => $data->id,
-                    'building_id' => $request->building['value']
-                ]);
-            }
-    
-    
-            $mailData = [
-                'title' => 'Registration Password',
-                'body' => $emailPurpose['body'],
-            ];
-    
-            Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
+        $data = User::create($request->all());
 
-            return $this->sendResponse($data, "Saved Data");
-
+        if ($request->building) {
+            UserBuildings::create([
+                'user_id' => $data->id,
+                'building_id' => $request->building['value']
+            ]);
         }
 
-        return null;
+        $emailPurpose = EmailTemplate::where('purpose', 'Register')->first();
+
+        $mailData = [
+            'title' => 'Registration Password',
+            'body' => $emailPurpose['body'],
+            'pass' => $pass
+        ];
+
+        Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
+
+        return $this->sendResponse($data, "Saved Data");
     }
 
     /**

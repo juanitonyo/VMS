@@ -95,97 +95,84 @@
                 </div>
             </div>
 
-            <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'User'"
-                :description="'A list of all the users in your account including their name, title, email and role.'">
-                <template v-slot:slider-body>
-                    <form @submit.prevent="editMode ? updateUser() : saveUser()">
-                        <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
-                            <div class="my-4 grid grid-cols-1">
-                                <div class="sm:col-span-3 mt-3">
-                                    <NormalInput v-model="form.name" label="Name" id="user-name" :hasError="this.editMode
-                                            ? false
-                                            : form.errors.has('name')
-                                        " :errorMessage="this.editMode
-            ? false
-            : form.errors.get('name')
-        "></NormalInput>
-                                </div>
-                                <div class="sm:col-span-3 mt-3">
-                                    <NormalInput v-model="form.email" label="Email" id="user-email" :hasError="this.editMode
-                                            ? false
-                                            : form.errors.has('email')
-                                        " :errorMessage="this.editMode
-            ? false
-            : form.errors.get('email')
-        ">
-                                    </NormalInput>
-                                </div>
-                                <div class="sm:col-span-3 mt-3 text-sm">
-                                    <label for="select-roles"
-                                        class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose Role</label>
-                                    <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search"
-                                        :class="form.errors.has('role_id')
-                                                ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
-                                                : ''
-                                            "></v-select>
-                                    <span v-show="form.errors.has('role_id')"
-                                        class="text-xs/2 text-red-600 dark:text-red-500">{{
-}}</span>
-                                </div>
-                                <div class="sm:col-span-3 mt-3 text-sm">
-                                    <label for="email_subj"
-                                        class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
-                                        Buildings</label>
-
-                                    <v-select v-model="form.building" :options="buildings" label="label"
-                                        placeholder="search" :class="form.errors.has('building')
-                                                ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
-                                                : ''
-                                            "></v-select>
-                                    <span v-show="form.errors.has('building')"
-                                        class="text-xs/2 text-red-600 dark:text-red-500">{{
-}}</span>
-                                </div>
-                                <div class="sm:col-span-3 mt-3">
-                                    <SwitchGroup as="div" class="flex items-center justify-between">
-                                        <span class="flex flex-grow flex-col">
-                                            <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900"
-                                                passive>
-                                                Status</SwitchLabel>
-                                        </span>
-                                        <Switch v-model="form.status" :class="[
-                                            form.status
-                                                ? 'bg-gray-600'
-                                                : 'bg-gray-200',
-                                            'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2',
-                                        ]">
-                                            <span aria-hidden="true" :class="[
-                                                form.status
-                                                    ? 'translate-x-5'
-                                                    : 'translate-x-0',
-                                                'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
-                                            ]"></span>
-                                        </Switch>
-                                    </SwitchGroup>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-shrink-0 justify-end px-4 py-4">
-                            <button type="button"
-                                class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                                @click="setOpen">
-                                Cancel
-                            </button>
-                            <button type="submit"
-                                class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
-                                {{ editMode ? "Update" : "Save" }}
-                            </button>
-                        </div>
-                    </form>
-                </template>
-            </SliderVue>
         </div>
     </div>
+    <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'User'"
+        :description="'A list of all the users in your account including their name, title, email and role.'">
+        <template v-slot:slider-body>
+            <form @submit.prevent="editMode ? updateUser() : saveUser()">
+                <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
+                    <div class="my-4 grid grid-cols-1">
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.name" label="Name" id="user-name" :hasError="this.editMode
+                                ? false
+                                : form.errors.has('name')
+                                " :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
+                        </div>
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.email" label="Email" id="user-email" :hasError="this.editMode
+                                ? false
+                                : form.errors.has('email')
+                                " :errorMessage="this.editMode ? false : form.errors.get('email') ">
+                            </NormalInput>
+                        </div>
+                        <div class="sm:col-span-3 mt-3 text-sm">
+                            <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
+                                Role</label>
+                            <v-select v-model="form.role" :options="roles" label="title" placeholder="search" :class="form.errors.has('role')
+                                ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
+                                : ''
+                                "></v-select>
+                            <span v-show="form.errors.has('role')" class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
+                        </div>
+                        <div class="sm:col-span-3 mt-3 text-sm">
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
+                                Buildings</label>
+
+                            <v-select v-model="form.building" :options="buildings" label="label" placeholder="search"
+                                :class="form.errors.has('building')
+                                    ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
+                                    : ''
+                                    "></v-select>
+                            <span v-show="form.errors.has('building')" class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
+                        </div>
+                        <div class="sm:col-span-3 mt-3">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+                                        Status</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.status" :class="[
+                                    form.status
+                                        ? 'bg-gray-600'
+                                        : 'bg-gray-200',
+                                    'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2',
+                                ]">
+                                    <span aria-hidden="true" :class="[
+                                        form.status
+                                            ? 'translate-x-5'
+                                            : 'translate-x-0',
+                                        'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                                    ]"></span>
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-shrink-0 justify-end px-4 py-4">
+                    <button type="button"
+                        class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
+                        @click="setOpen">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
+                        {{ editMode ? "Update" : "Save" }}
+                    </button>
+                </div>
+            </form>
+        </template>
+    </SliderVue>
 </template>
 
 <script>
@@ -220,7 +207,7 @@ export default {
                 id: "",
                 name: "",
                 email: "",
-                role_id: "",
+                role: "",
                 building: "",
                 status: "",
             }),

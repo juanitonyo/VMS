@@ -1,10 +1,10 @@
 <template>
   <div class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col border-r">
     <div class="flex grow flex-col gap-y-10 overflow-y-auto bg-white px-6 pb-4">
-      <div class="flex h-16 shrink-0 items-center pt-5 px-2">
+      <a href="/app/dashboard" class="cursor-pointer flex h-16 shrink-0 items-center pt-5 px-2">
         <img class="h-[70px] w-[200px]" src="/logo/vms_logo.png"
           alt="VMS" />
-      </div>
+      </a>
       <nav class="flex flex-1 flex-col justify-between" aria-label="Sidebar">
         <div class="-mx-2 space-y-2">
           <div class="text-xs font-semibold leading-6 text-blue-800">

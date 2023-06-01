@@ -1,8 +1,8 @@
 <template>
   <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 font-poppins">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
-      <img class="mx-auto h-12 w-auto" src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=600" alt="Your Company" />
-      <h2 class="mt-6 text-center text-2xl font-bold tracking-tight text-gray-900">Visitor Management System</h2>
+      <img class="mx-auto h-12 w-auto" src="/logo/logo_icon.png" alt="Your Company" />
+      <h2 class="mt-6 text-center text-2xl text-transparent font-bold bg-clip-text bg-gradient-to-r from-indigo-950 via-slate-600 to-blue-600 tracking-tight text-gray-900">Visitor Management<br>System</h2>
     </div>
 
     <div class="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
