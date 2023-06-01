@@ -38,11 +38,11 @@ class VisitorsController extends BaseController
         
         if($data != null) {
             if($data->contact == $request->given) {
-                $pass = random_int(000000, 999999);
+                $pass = random_int(0000, 9999);
                 
                 Visitors::findOrFail($data['id'])->update([
                     'remember-otp' => $pass,
-                    'otp_expiry_date' => Carbon::now()->addMinute(5)
+                    'otp_expiry_date' => Carbon::now()->addMinutes(5)
                 ]);
                 
                 $mailData = [
@@ -75,7 +75,6 @@ class VisitorsController extends BaseController
             ])->first();
 
         if($data != null) {
-
             return redirect()->intended('/api/check-log/')->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
         }
 
@@ -103,23 +102,21 @@ class VisitorsController extends BaseController
         ])->first();
 
         $profile_link = "";
-        if($request->profilePhoto) {
+        if($request->profilePhoto && 'uploads/profiles-visitor/'.$request->profilePhoto == null) {
             $profile_binary = $request->profilePhoto;
             $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
             \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
-            
         }
 
-
         $frontID_link = "";
-        if($request->front_id) {
+        if($request->front_id && 'uploads/frontID/'.$request->front_id == null) {
             $frontID_binary = $request->front_id;
             $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
             \Image::make($frontID_binary)->fit(200, 200)->save('uploads/frontID/'.$frontID_link)->destroy();
         }
 
         $backID_link = "";
-        if($request->back_id) {
+        if($request->back_id && 'uploads/backID/'.$request->back_id == null) {
             $backID_binary = $request->back_id;
             $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
             \Image::make($backID_binary)->fit(200, 200)->save('uploads/backID/'.$backID_link)->destroy();
