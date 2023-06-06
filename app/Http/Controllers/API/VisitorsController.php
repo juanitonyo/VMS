@@ -37,8 +37,11 @@ class VisitorsController extends BaseController
 
         
         if($data != null) {
-            if($data->contact == $request->given) {
-                $pass = random_int(0000, 9999);
+            if($request->given == $data['refCode']) {
+                return redirect('/visitor-registration/checkin/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $data['id'], 1440, $httpOnly = false));
+            }
+            else if($request->given == $data['contact']) {
+                $pass = random_int(000000, 999999);
                 
                 Visitors::findOrFail($data['id'])->update([
                     'remember-otp' => $pass,
@@ -48,16 +51,21 @@ class VisitorsController extends BaseController
                 $mailData = [
                     'title' => "One-Time Password",
                     'email' => $data['email'],
-                    'password' => $pass
+                    'password' => $pass,
+                    'uuid' => $request->building_ID
                 ];
 
-                Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
+                // Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
 
-                dd("success");
+                return redirect()->json(['route' => '/visitor-registration/otp'])->withCookie(cookie('id', $data['id'], 1440, $httpOnly = false));
             }
         }
 
-        return $this->sendResponse($data, "Found data in table");
+        else if ($data == null) {
+            return redirect('/visitor-registration/SignIn/reg/'.Cookie::get('buildingUUID'));
+        }
+
+        return $this->sendError($data, "Data not found in table");
     }
 
     public function syncVisitor() {
