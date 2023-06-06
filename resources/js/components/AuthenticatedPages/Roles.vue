@@ -75,13 +75,13 @@
                                                 {{ item.name }}
                                             </td>
                                             <td class="text-center w-72 break-all px-6 py-4 text-xs text-gray-500">
-                                                <input type="checkbox" checked> <!-- view -->
+                                                <input type="checkbox" checked>
                                             </td>
                                             <td class="text-center w-72 break-all px-6 py-4 text-xs text-gray-500">
-                                                <input type="checkbox" checked> <!-- create -->
+                                                <input type="checkbox" checked>
                                             </td>
                                             <td class="text-center w-72 break-all px-6 py-4 text-xs text-gray-500">
-                                                <input type="checkbox" checked> <!-- update -->
+                                                <input type="checkbox" checked>
                                             </td>
                                         </tr>
                                     </tbody>

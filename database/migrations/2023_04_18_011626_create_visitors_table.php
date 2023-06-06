@@ -24,7 +24,7 @@ return new class extends Migration
             $table->string('refCode')->nullable();
             $table->string('front_id')->nullable();
             $table->string('back_id')->nullable();
-            $table->boolean('status')->default(false);
+            $table->boolean('status');
             $table->boolean('policy')->default(false);
             $table->integer('remember-otp');
             $table->dateTime('otp_expiry_date')->nullable();

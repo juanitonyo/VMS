@@ -38,7 +38,7 @@ class VisitorsController extends BaseController
         
         if($data != null) {
             if($data->contact == $request->given) {
-                $pass = random_int(00000, 99999);
+                $pass = random_int(000000, 999999);
                 
                 Visitors::findOrFail($data['id'])->update([
                     'remember-otp' => $pass,
@@ -217,6 +217,7 @@ class VisitorsController extends BaseController
             'profilePhoto' => $profile_link,
             'front_id' => $frontID_link,
             'back_id' => $backID_link,
+            'status' => $request->params['data']['status'],
             'policy' => $request->params['data']['policy'],
         ]);
         

@@ -18,27 +18,27 @@
                 <div class="flex flex-col border p-6 rounded-xl w-full space-y-5">
                     <div class="flex space-x-2">
                         <input type="text"
-                            class="border focus:outline-none w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
+                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
                             maxlength="1"
                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
                         <input type="text"
-                            class="border focus:outline-none w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
+                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
                             maxlength="1"
                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
                         <input type="text"
-                            class="border focus:outline-none w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
+                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
                             maxlength="1"
                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
                         <input type="text"
-                            class="border focus:outline-none w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
+                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
                             maxlength="1"
                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
                         <input type="text"
-                            class="border focus:outline-none w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
+                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
                             maxlength="1"
                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
                         <input type="text"
-                            class="border focus:outline-none w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
+                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
                             maxlength="1"
                             oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
                     </div>
