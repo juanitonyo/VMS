@@ -8,6 +8,7 @@ use App\Http\Requests\Settings\BuildingRequest;
 use Illuminate\Support\Facades\Session;
 use Intervention\Image\Image;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class BuildingController extends BaseController
@@ -57,6 +58,7 @@ class BuildingController extends BaseController
     public function store(BuildingRequest $request)
     {
         $logo_link = "";
+
         if($request->logo){
             $logo_binary = $request->logo;
             $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
@@ -92,31 +94,44 @@ class BuildingController extends BaseController
     public function update(BuildingRequest $request, $id)
     {
         $logo_link = "";
-        $logo_binary = $request->params['data']['logo'];
         $data = Building::findOrFail($id);
 
-        if($logo_binary && $data->logo == null){
-            $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
-            \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+        if($request->params['data']['logo']){
+            $logo_binary = $request->params['data']['logo'];
+
+            if($data->logo != $request->params['data']['logo']) {
+                $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
+            }
+            else {
+                $logo_link = $request->params['data']['logo'];
+            }
+
+            if(!File::exists('uploads/images/'.$logo_link)) { //does not exists
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+                $data->update([
+                    'logo' => $logo_link,
+                ]);
+            }
+
+            else if($data->logo != $logo_link) { // is existing
+                unlink('uploads/images/'.$data->logo);
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+                $data->update([
+                    'logo' => $logo_link,
+                ]);
+            }
         }
 
-        else if(('uploads/images/'.$data->logo) != null && $data->logo != $request->params['data']['logo']){
-            unlink('uploads/images/'.$data->logo);
-            $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
-            \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
-        }
-
-        $data->update([
-            'buildingName' => $request->params['data']['buildingName'],
-            'description' => $request->params['data']['description'],
-            'address' => $request->params['data']['address'],
-            'logo' => $logo_link,
-            'buildingType' => $request->params['data']['buildingType']['value'],
-            'status' => $request->params['data']['status'],
-          ]);
+        // $data->update([
+        //     'buildingName' => $request->params['data']['buildingName'],
+        //     'description' => $request->params['data']['description'],
+        //     'address' => $request->params['data']['address'],
+        //     'buildingType' => $request->params['data']['buildingType']['value'],
+        //     'status' => $request->params['data']['status'],
+        //   ]);
          
         
-           return $this->sendResponse($request->validated(), "Updated Data");
+        return $this->sendResponse($request->validated(), "Updated Data");
     }
 
     /**

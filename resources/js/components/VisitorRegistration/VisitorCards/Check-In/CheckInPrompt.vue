@@ -86,43 +86,17 @@ export default {
         async isExisting() {
             await axios.get('/api/visitor-query?given=' + this.email + '&building_ID=' + this.buildings.id)
                 .then((data) => {
-                    this.account = data.data.data;
-
-                    if(this.account == null) {
-                        this.$router.push('/visitor-registration/SignIn/reg/' + this.id);
-
-                    }
-                    else {
-                        document.cookie = "id=" + this.account.id + "; path=/";
-                        this.checkLog();
-                    }
+                    
                 })
                 .catch((e) => {
 
                 });
         },
 
-        // checkLog() {
-        //     axios.get('/api/check-log/')
-        //         .then((data) => {
-        //             this.log = data.data.data;
-
-        //             if(this.log == null || this.log.isCheckedOut) {
-        //                 this.$router.push('/visitor-registration/checkin/' + this.id);
-        //             }
-        //             else {
-        //                 this.$router.push('/visitor-registration/checkout/' + this.id);
-        //             }
-        //         }).catch((e) => {
-
-        //         });
-        // },
-
         async getData() {
             await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
                 .then((data) => {
                     this.buildings = data.data.data;
-                    console.log(this.buildings);
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')

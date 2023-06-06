@@ -148,7 +148,7 @@
                                         <div class="flex items-center justify-center w-full">
                                             <label :style="{ 'background-image': `url(${image_url})` }"
                                                 class="flex flex-col justify-center cursor-pointer w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-center bg-cover bg-no-repeat">
-                                                <div v-show="form.logo == '' ? true : false"  class="flex flex-col items-center" :class="{ 'hidden': hideLabel }">
+                                                <div v-show="this.form.logo == null ? true : false"  class="flex flex-col items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-12 h-12 text-gray-600 group-hover:text-black"
                                                         viewBox="0 0 20 20" fill="currentColor">
@@ -272,7 +272,7 @@ export default {
                 address: '',
                 description: '',
                 buildingType: '',
-                logo: '',
+                logo: null,
                 status: false,
                 errors: []
             }),
@@ -295,7 +295,7 @@ export default {
                 address: '',
                 description: '',
                 buildingType: '',
-                logo: '',
+                logo: null,
                 status: false,
             })
             this.image_url = '';
@@ -314,6 +314,7 @@ export default {
             this.form = item;
             this.image_url = '/uploads/images/' + this.form.logo;
             this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
+            console.log(this.form)
         },
 
         uploadImage() {
