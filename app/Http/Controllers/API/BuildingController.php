@@ -5,11 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingRequest;
-use Illuminate\Support\Facades\Session;
-use Intervention\Image\Image;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Str;
 
 class BuildingController extends BaseController
 {
@@ -22,14 +18,16 @@ class BuildingController extends BaseController
         return $this->sendResponse($data, "All buildings in array");
     }
 
-    public function getBuilding(){
+    // get specific building
+    public function getBuilding(Request $request){
 
-        $data = Building::with('buildingType')->where('qr_id', Cookie::get('buildingUUID'))->first();
+        $data = Building::with('buildingType')->where('qr_id', $request->buildingUUID)->first();
        
         return $this->sendResponse($data, "All buildings in array");
 
     }
 
+    // get active buildings
     public function getBuildingsArray(){
         $data = Building::where('status', 1)->get();
 
@@ -58,15 +56,18 @@ class BuildingController extends BaseController
     public function store(BuildingRequest $request)
     {
         $logo_link = "";
+        $validated = $request->validated();
 
         if($request->logo){
             $logo_binary = $request->logo;
             $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
-            \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+            
+            if(!File::exists('uploads/images/'.$logo_link)) {
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+            }
+            
+            $validated['logo'] = $logo_link;
         }
-
-        $validated = $request->validated();
-        $validated['logo'] = $logo_link;
 
         $data = Building::create($validated);
         return $this->sendResponse($logo_link, "Saved Data");
@@ -122,13 +123,13 @@ class BuildingController extends BaseController
             }
         }
 
-        // $data->update([
-        //     'buildingName' => $request->params['data']['buildingName'],
-        //     'description' => $request->params['data']['description'],
-        //     'address' => $request->params['data']['address'],
-        //     'buildingType' => $request->params['data']['buildingType']['value'],
-        //     'status' => $request->params['data']['status'],
-        //   ]);
+        $data->update([
+            'buildingName' => $request->params['data']['buildingName'],
+            'description' => $request->params['data']['description'],
+            'address' => $request->params['data']['address'],
+            'buildingType' => $request->params['data']['buildingType']['value'],
+            'status' => $request->params['data']['status'],
+          ]);
          
         
         return $this->sendResponse($request->validated(), "Updated Data");

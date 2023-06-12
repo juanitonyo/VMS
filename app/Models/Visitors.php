@@ -35,7 +35,7 @@ class Visitors extends Model
 
     public function building(): HasOne 
     {
-        return $this->hasOne(Building::class, 'id', 'building_id')->select(['id','buildingName']);
+        return $this->hasOne(Building::class, 'id', 'building_ID')->select(['id', 'qr_id','buildingName']);
     }
 
     public function latestLog(): HasOne

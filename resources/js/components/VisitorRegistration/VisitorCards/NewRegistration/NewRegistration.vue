@@ -8,7 +8,7 @@
                     <h4 class="text-gray-400 text-[10px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                 </div>
-
+                
                 <div class="flex flex-col items-center justify-center w-[100px]">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
                         class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
@@ -19,50 +19,60 @@
                     </label>
                     <p class="text-[10px] text-gray-400 mt-1">Upload Photo</p>
                 </div>
-                
+            
                 <div class="flex flex-col mt-3">
                     <div class="flex flex-row items-center ">
                         <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
-                        <input v-model="form.name" type="text" :disabled="isGoogleExist" placeholder="Juan Dela Cruz"
-                            :class="form.errors.has('name') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                        <div class="flex flex-col">
+                            <input v-model="form.name" type="email" :disabled="isGoogleExist" placeholder="Juan Dela Cruz"
+                            :class="this.errors.name ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                            <span v-show="this.errors.name"
+                                            class="text-[10px] items-center w-max text-red-500">
+                                            The name field is required.</span>
+                        </div>
                     </div>
-                    <p v-show="form.errors.has('name')" class="text-[10px] items-center ml-24 w-max text-red-500 mb-0 ">{{
-                        form.errors.get('name') }}</p>
-
                 </div>
 
                 <div class="flex flex-col">
                     <div class="flex flex-row items-center">
                         <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
-                        <input v-model="form.email" type="email" :disabled="isGoogleExist" placeholder="example@email.com"
-                            :class="form.errors.has('email') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                        <div class="flex flex-col">
+                            <input v-model="form.email" type="email" :disabled="isGoogleExist" placeholder="example@email.com"
+                            :class="this.errors.email ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                            <span v-show="this.errors.email"
+                                            class="text-[10px] items-center w-max text-red-500">
+                                            The email field is required.</span>
+                        </div>
                     </div>
-                    <p v-show="form.errors.has('email')"
-                        class="text-[10px] items-center bottom-[-15px] ml-24 w-max text-red-500">{{
-                            form.errors.get('email') }}</p>
                 </div>
 
                 <div class="flex flex-col">
                     <div class="flex flex-row items-center">
                         <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
-                        <input v-model="form.contact" type="text" placeholder="09*********" maxlength="11"
-                            :class="form.errors.has('contact') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                        <div class="flex flex-col">
+                            <input v-model="form.contact" type="text" placeholder="09*********" maxlength="11"
+                            :class="this.errors.contact ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
+                            <span v-show="this.errors.contact"
+                                            class="text-[10px] items-center w-max text-red-500">
+                                            The contact field is required.</span>
+                        </div>
                     </div>
-                    <p v-show="form.errors.has('contact')" class="text-[10px] items-center ml-24 w-max text-red-500">{{
-                        form.errors.get('contact') }}</p>
                 </div>
 
                 <div class="flex flex-col">
                     <div class="gov-ids flex flex-row items-center">
                         <label for="valid_id" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
-                        <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label"
+                        <div class="flex flex-col">
+                            <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label"
                             :placeholder="'Valid ID'"
-                            :class="form.errors.has('validId') ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[230px]'"></v-select>
+                            :class="this.errors.validId ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[230px]'"></v-select>
+                            <span v-show="this.errors.validId"
+                                            class="text-[10px] items-center w-max text-red-500">
+                                            The valid ID field is required.</span>
+                        </div>
                     </div>
-                    <p v-show="form.errors.has('validId')" class="text-[10px] items-center ml-24 w-max text-red-500">{{
-                        form.errors.get('validId') }}</p>
                 </div>
-                
+            
                 <div class="flex gap-x-2 w-full justify-end">
                     <div class="flex items-center">
                         <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
@@ -93,10 +103,12 @@
 
                 <div class="flex mt-10 justify-between gap-x-2 w-full">
                     <a :href="'/visitor-registration/SignIn/reg/' + this.id"
-                        class="w-full h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</a>
+                        class="w-full h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">
+                        Close</a>
                     <button
-                        @click="isGoogleExist ? this.isFormComplete = !this.isFormComplete : this.isFormComplete = !this.isFormComplete"
-                        class="w-full h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
+                        @click.prevent="validateForm()"
+                        class="w-full h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">
+                        Next</button>
                 </div>
             </div>
 
@@ -105,9 +117,8 @@
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                     <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
-                    <form @submit.prevent="submitForm()">
-                        <div
-                            class="relative flex flex-row items-center justify-center w-[340px] text-gray-600 font-extralight mt-10 gap-x-3">
+                    <div>
+                        <div class="relative flex flex-row items-center justify-center w-[340px] text-gray-600 font-extralight mt-10 gap-x-3">
                             <input v-model="form.policy" type="checkbox" class="absolute top-0 left-0 w-5 h-5"
                                 @change="isChecked()">
                             <span class="ml-10 text-xs leading-5">By supplying the information on VMS registration form, I
@@ -129,15 +140,14 @@
                         <div class="flex flex-row mt-10 justify-center gap-x-2">
                             <button @click="isFormComplete = false" type="button"
                                 class="w-full h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Back</button>
-                            <button type="submit" :disabled="!enableButton"
+                            <button @click.prevent="submitForm()" :disabled="!enableButton"
                                 :class="[enableButton ? 'bg-blue-700' : 'bg-gray-600']"
                                 class="w-full h-[33px] bg-blue-700 rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
                                 Submit
                             </button>
                         </div>
-                    </form>
+                    </div>
                 </div>
-
             </div>
         </div>
     </div>
@@ -146,6 +156,9 @@
 <script>
 import axios from 'axios';
 import Form from 'vform';
+import { useStore } from '../../../../store/visitor';
+
+const store = useStore();
 
 export default {
     name: "Visitor Registration Form",
@@ -171,7 +184,12 @@ export default {
                 policy: false,
                 status: '',
             }),
-            email: '',
+            errors: {
+                name: false,
+                email: false,
+                contact: false,
+                validId: false
+            },
             buildings: {},
             account: {},
             profile_url: null,
@@ -179,9 +197,6 @@ export default {
             back_url: null,
             isFormComplete: false,
             enableButton: false,
-            hideLabel_profile: false,
-            hideLabel_front: false,
-            hideLabel_back: false,
             isGoogleExist: false,
 
             valid_id: [
@@ -205,7 +220,6 @@ export default {
     methods: {
 
         uploadProfilePhoto() {
-            this.hideLabel_profile = true;
             let input = this.$refs.profile;
             let file = input.files;
             if (file && file[0]) {
@@ -220,7 +234,6 @@ export default {
         },
 
         uploadFrontID() {
-            this.hideLabel_front = true;
             let input = this.$refs.front;
             let file = input.files;
             if (file && file[0]) {
@@ -235,7 +248,6 @@ export default {
         },
 
         uploadBackID() {
-            this.hideLabel_back = true;
             let input = this.$refs.back;
             let file = input.files;
             if (file && file[0]) {
@@ -249,6 +261,40 @@ export default {
             }
         },
 
+        validateForm() {
+            if(this.form.name == '') {
+                this.errors.name = true;
+            }
+            else {
+                this.errors.name = false;
+            }
+            if(this.form.contact == '') {
+                this.errors.contact = true;
+            }
+            else {
+                this.errors.contact = false;
+            }
+            if(this.form.email == '') {
+                this.errors.email = true;
+            }
+            else {
+                this.errors.email = false;
+            }
+            if(this.form.validId == '') {
+                this.errors.validId = true;
+            }
+            else {
+                this.errors.validId = false;
+            }
+
+            if(this.errors.name || this.errors.email || this.errors.contact || this.errors.validId) {
+                this.isFormComplete = false;
+            }
+            else {
+                this.isFormComplete = true;
+            }
+        },
+
         submitForm() {
             this.$Progress.start();
             if (this.isGoogleExist) {
@@ -257,7 +303,10 @@ export default {
                         data: this.form
                     }
                 }).then((data) => {
+                    this.account = data.data.data;
+
                     this.$Progress.finish();
+                    store.setHiddenParam(this.account.id);
                     this.$router.push('/visitor-registration/success/' + this.id);
                 }).catch((error) => {
 
@@ -266,31 +315,15 @@ export default {
             else {
                 this.form.post('/api/visitors')
                     .then((data) => {
+                        this.account = data.data.data;
+
                         this.$Progress.finish();
+                        store.setHiddenParam(this.account.id);
                         this.$router.push('/visitor-registration/success/' + this.id);
                     }).catch((error) => {
 
                     })
             }
-        },
-
-        submitPolicy(email) {
-            axios.get('/api/visitor-query/' + email + '/' + this.buildings.id)
-                .then((data) => {
-                    this.account = data.data.data;
-
-                    if (this.account.policy == 1) {
-                        this.$router.push('/visitor-registration/Signin/checkin/' + this.id);
-                    }
-
-                    else {
-                        this.isFormComplete = !this.isFormComplete;
-                    }
-
-                })
-                .catch((error) => {
-
-                });
         },
 
         isChecked() {

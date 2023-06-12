@@ -17,6 +17,7 @@ class BuildingTypesController extends BaseController
         return $this->sendResponse($data, "All building types in array");
     }
 
+    // get active building types
     public function getBuildingTypeArray(){
         $data = BuildingTypes::where('status', 1)->get();
         $arr = [];
