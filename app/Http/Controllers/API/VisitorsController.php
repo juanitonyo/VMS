@@ -65,7 +65,7 @@ class VisitorsController extends BaseController
             return redirect('/visitor-registration/SignIn/reg/'.Cookie::get('buildingUUID'));
         }
 
-        return $this->sendError($data, "Data not found in table");
+        return $this->sendResponse($data, "Data not found in table");
     }
 
     public function syncVisitor() {

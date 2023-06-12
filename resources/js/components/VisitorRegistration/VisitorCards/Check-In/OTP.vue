@@ -17,39 +17,38 @@
 
                 <div class="flex flex-col border p-6 rounded-xl w-full space-y-5">
                     <div class="flex space-x-2">
-                        <input type="text"
-                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
-                            maxlength="1"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
-                        <input type="text"
-                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
-                            maxlength="1"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
-                        <input type="text"
-                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
-                            maxlength="1"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
-                        <input type="text"
-                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
-                            maxlength="1"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
-                        <input type="text"
-                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
-                            maxlength="1"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
-                        <input type="text"
-                            class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
-                            maxlength="1"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*)\./g, '$1')">
+                        <div v-for="(input, index) in inputs" :key="index">
+                            <input type="text" v-model="inputs[index]"
+                                class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
+                                maxlength="1"
+                                onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
+                        </div>
                     </div>
-                    <button class="w-full h-8 rounded-full bg-indigo-600 text-white text-xs">
+                    <button @click.prevent="getInputValues" class="w-full h-8 rounded-full bg-indigo-600 text-white text-xs">
                         Verify
                     </button>
                     <div class="text-center">
-                        <button class="text-indigo-600 text-center text-[10px]">Resend New Code</button>
+                        <button class="text-indigo-600 text-center text-[10px]">Resend New
+                            Code</button>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </template>
+<script>
+
+export default {
+    data() {
+        return {
+            inputs: ['', '', '', '', '', ''],
+            
+        }
+    },
+    methods: {
+        getInputValues() {
+            console.log(this.inputs.join('').toString());
+        }
+    }
+}
+</script>

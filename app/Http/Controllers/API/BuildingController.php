@@ -58,15 +58,18 @@ class BuildingController extends BaseController
     public function store(BuildingRequest $request)
     {
         $logo_link = "";
+        $validated = $request->validated();
 
         if($request->logo){
             $logo_binary = $request->logo;
             $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
-            \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+            
+            if(!File::exists('uploads/images/'.$logo_link)) {
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+            }
+            
+            $validated['logo'] = $logo_link;
         }
-
-        $validated = $request->validated();
-        $validated['logo'] = $logo_link;
 
         $data = Building::create($validated);
         return $this->sendResponse($logo_link, "Saved Data");

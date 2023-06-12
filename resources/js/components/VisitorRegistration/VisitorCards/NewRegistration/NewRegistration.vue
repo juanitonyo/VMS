@@ -106,8 +106,7 @@
                     <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                     <form @submit.prevent="submitForm()">
-                        <div
-                            class="relative flex flex-row items-center justify-center w-[340px] text-gray-600 font-extralight mt-10 gap-x-3">
+                        <div class="relative flex flex-row items-center justify-center w-[340px] text-gray-600 font-extralight mt-10 gap-x-3">
                             <input v-model="form.policy" type="checkbox" class="absolute top-0 left-0 w-5 h-5"
                                 @change="isChecked()">
                             <span class="ml-10 text-xs leading-5">By supplying the information on VMS registration form, I
@@ -137,7 +136,6 @@
                         </div>
                     </form>
                 </div>
-
             </div>
         </div>
     </div>
