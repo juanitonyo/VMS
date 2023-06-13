@@ -223,6 +223,9 @@
 import axios from 'axios';
 import FormDialog from '../../../Elements/Modals/FormDialog.vue';
 import moment from 'moment';
+import { useStore } from '../../../../store/visitor';
+
+const store = useStore();
 
 export default{
     name: 'Check Out Form',
@@ -283,7 +286,7 @@ export default{
         },
         
         async syncData() {
-            await axios.get('/api/sync-visitor/')
+            await axios.get('/api/sync-visitor?id=' + store.hiddenID)
                 .then((data) => {
                     this.visitor = data.data.data;
 

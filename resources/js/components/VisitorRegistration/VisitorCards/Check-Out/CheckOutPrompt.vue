@@ -44,7 +44,7 @@
                 </div>
 
                 <!-- <buttonToInput is-button :label="'Create Account'"></buttonToInput> -->
-                <buttonToInput v-model="this.email" :is-button="false"></buttonToInput>
+                <buttonToInput v-model="this.given" :is-button="false"></buttonToInput>
                 <button @click.prevent="isExisting()"
                     class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mt-3 w-[330px] cursor-pointer">
                     Submit
@@ -57,6 +57,9 @@
 <script>
 import axios from 'axios';
 import buttonToInput from '../../../Elements/Buttons/buttonToInput.vue'
+import { useStore } from '../../../../store/visitor';
+
+const store = useStore();
 
 export default {
     name: 'Check In Prompt',
@@ -74,7 +77,7 @@ export default {
         return {
             data: {},
             id: window.location.href.split('/').pop(),
-            email: '',
+            given: '',
             account: {},
             log: {},
             buildings: {},
@@ -82,18 +85,9 @@ export default {
     },
     methods: {
         async isExisting() {
-            await axios.get('/api/visitor-query?given=' + this.email + '&building_ID=' + this.buildings.id)
+            await axios.get('/api/visitor-query?given=' + this.given + '&building_ID=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
-
-                    if (this.account == null) {
-                        this.$router.push('/visitor-registration/SignIn/reg/' + this.id);
-                    }
-                    else {
-                        document.cookie = "id=" + this.account.id + "; path=/";
-                        this.checkLog();
-                    }
-
 
                 })
                 .catch((e) => {

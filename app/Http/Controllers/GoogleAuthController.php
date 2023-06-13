@@ -23,7 +23,7 @@ class GoogleAuthController extends Controller
         try {
             $google_user = Socialite::driver('google')->user();
             // dd($google_user);
-            $user = Visitors::where('google_id', $google_user->getId())->first();
+            $user = Visitors::where('email', $google_user->getEmail())->first();
             
             if($user) {
 

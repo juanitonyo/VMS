@@ -90,19 +90,35 @@ export default {
             await axios.get('/api/visitor-query?given=' + this.given + '&building_ID=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
+                    console.log(this.account)
 
                     if(this.account == null) { 
                         this.$router.push('/visitor-registration/signIn/reg/' + this.id);
                     }
 
-                    else{
-                        if (this.account.refCode == this.given){
-                            this.$router.push('/visitor-registration/checkin/' + this.id);
+                    if(this.account.status) {
+                        store.setHiddenParam(this.account.id);
+
+                        if (this.account.refCode == this.given || this.account.email == this.given){
+                            if(this.account.latest_log.isCheckedOut) {
+                                this.$router.push('/visitor-registration/checkin/' + this.id);
+                            }
+                            else {
+                                this.$router.push('/visitor-registration/checkout/' + this.id);
+                            }
                         }
                         else if (this.account.contact == this.given) {
-                            store.setHiddenParam(this.id);
-                            this.$router.push('/visitor-registration/otp');
+                            if(this.account.isCheckedOut) {
+                                this.$router.push('/visitor-registration/otp');
+                            }
+                            else {
+                                this.$router.push('/visitor-registration/checkout/' + this.id);
+                            }
                         }
+                    }
+
+                    else {
+                        console.log("Account status is waiting for admin's approval")
                     }
                 
                 })
