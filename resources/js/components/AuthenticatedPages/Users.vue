@@ -113,19 +113,20 @@
                             <NormalInput v-model="form.email" label="Email" id="user-email" :hasError="this.editMode
                                 ? false
                                 : form.errors.has('email')
-                                " :errorMessage="this.editMode ? false : form.errors.get('email') ">
+                                " :errorMessage="this.editMode ? false : form.errors.get('email')">
                             </NormalInput>
                         </div>
-                        <div class="sm:col-span-3 mt-3 text-sm">
+                        <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Role</label>
                             <v-select v-model="form.role" :options="roles" label="title" placeholder="search" :class="form.errors.has('role')
                                 ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
                                 : ''
                                 "></v-select>
-                            <span v-show="form.errors.has('role')" class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
+                            <span v-show="form.errors.has('role')"
+                                class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
                         </div>
-                        <div class="sm:col-span-3 mt-3 text-sm">
+                        <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Buildings</label>
 
@@ -134,7 +135,8 @@
                                     ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
                                     : ''
                                     "></v-select>
-                            <span v-show="form.errors.has('building')" class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
+                            <span v-show="form.errors.has('building')"
+                                class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
                         </div>
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -210,7 +212,7 @@ export default {
                 role: "",
                 building: "",
                 password: "",
-                status: "",
+                status: false,
             }),
             roles: Object,
             buildings: Object,
@@ -297,7 +299,7 @@ export default {
                 email: "",
                 role: "",
                 building: "",
-                status: "",
+                status: false,
             });
         },
         async getData() {
@@ -312,8 +314,7 @@ export default {
         },
 
         getRoles() {
-            axios
-                .get("/api/get-roles")
+            axios.get("/api/get-roles")
                 .then((data) => {
                     this.roles = data.data.data;
                 })
@@ -323,8 +324,7 @@ export default {
         },
 
         getBuildings() {
-            axios
-                .get("/api/get-buildings")
+            axios.get("/api/get-buildings")
                 .then((data) => {
                     this.buildings = data.data.data;
                 })

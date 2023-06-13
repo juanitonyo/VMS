@@ -22,7 +22,7 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col"
-                                            class="w-56 px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900 sm:pl-6">
                                             Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Building</th>
@@ -41,7 +41,7 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in this.data.data" :key="item.id">
-                                        <td class="text-left px-3 py-4 text-xs text-gray-900">{{ item.visitor.name }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-56">{{ item.visitor.name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.buildingName
                                         }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}
@@ -132,7 +132,8 @@
                             <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
-                            <p>{{ this.account.created_at == this.account.updated_at ? 'Not Yet' : moment(this.account.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
+                            <p>{{ this.account.created_at == this.account.updated_at ? 'Not Yet' :
+                                moment(this.account.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
@@ -141,7 +142,7 @@
                             <p>N/A</p>
                         </div>
                     </div>
-                    <form>
+                    <form @submit.prevent="updateVisitor">
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
@@ -155,16 +156,16 @@
                                 </Switch>
                             </SwitchGroup>
                         </div>
+                        <div class="flex justify-end py-4 ">
+                            <button type="button"
+                                class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
+                                @click="setOpen">Cancel</button>
+                            <button type="submit" @click.prevent="updateVisitor()"
+                                :class="[this.isChanged ? 'hover:bg-gray-500' : '', 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm']">
+                                Save</button>
+                        </div>
                     </form>
                 </div>
-            </div>
-            <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
-                <button type="button"
-                    class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                    @click="setOpen">Cancel</button>
-                <button type="submit" @click.prevent="updateVisitor()"
-                    :class="[this.isChanged ? 'hover:bg-gray-500' : '', 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm']">
-                    Save</button>
             </div>
         </template>
     </SliderVue>
@@ -207,7 +208,8 @@
 
                         <div class="sliderPurpose sm:col-span-3 mt-3">
                             <div class="flex justify-between">
-                                <label for="visitType" class="block text-sm font-medium leading-6 text-gray-900">Purpose of Visit</label>
+                                <label for="visitType" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
+                                    Visit</label>
                                 <span v-show="this.editMode ? false : form.errors.has('visitType')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forVisitType() }}</span>
                             </div>
@@ -233,9 +235,10 @@
                                 <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
                                     v-if="form.errors.has('companion')" v-html="form.errors.get('companion')" />
                             </div>
-                            <textarea
-                                :class="this.editMode ? ' ' : [form.errors.has('companion') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white', 'focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300']"></textarea>
-                                <p class="text-gray-500 text-[10px] text-left italic font-light">Note: Please type the name/s of the companion. If multiple names, seperate each with a comma ( , ).</p>
+                            <textarea class="focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300"
+                                :class="this.editMode ? ' ' : [form.errors.has('companion') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white']"></textarea>
+                            <p class="text-gray-500 text-[10px] text-left italic font-light">Note: Please type the name/s of
+                                the companion. If multiple names, seperate each with a comma ( , ).</p>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -244,10 +247,11 @@
                                 :errorMessage="this.editMode ? false : form.errors.get('dateTime')"></NormalInput> -->
                             <div class="flex justify-between">
                                 <label class="block text-sm font-medium leading-6 text-gray-900">Target Date</label>
-                                <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
-                                    v-if="form.errors.has('date')" v-html="form.errors.get('date')" />
+                                <div class="text-[10px] text-red-600 dark:text-red-500 mt-1" v-if="form.errors.has('date')"
+                                    v-html="form.errors.get('date')" />
                             </div>
-                            <input type="date" :class="this.editMode ? ' ' : [form.errors.has('date') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white', 'focus:outline-none px-3 py-2 text-xs w-full rounded-md border border-gray-300']" />
+                            <input type="date"
+                                :class="this.editMode ? ' ' : [form.errors.has('date') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white', 'focus:outline-none px-3 py-2 text-xs w-full rounded-md border border-gray-300']" />
                         </div>
 
 
@@ -256,7 +260,7 @@
                 <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
                     <button type="button"
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                        @click="setOpen">Cancel</button>
+                        @click="setPop">Cancel</button>
                     <button type="submit"
                         class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">Send</button>
                 </div>
@@ -316,12 +320,11 @@ export default {
             this.editMode = true
             this.open = !this.open
             this.account = item
-            this.status = this.account.visitor.status
+            this.status = this.account.visitor.status;
         },
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
-            this.status = false;
         },
         setPop() {
             this.pop = !this.pop;
@@ -383,6 +386,7 @@ export default {
                 this.$Progress.fail();
             })
         },
+
         forBuilding() {
             return this.editMode ? ' ' : this.form.errors.get('building')
         },
@@ -412,9 +416,11 @@ export default {
         },
     },
     created() {
-        this.getData()
+        this.getData();
+        this.syncVisitType();
+        this.syncBuilding();
         this.moment = moment;
-        console.log(this.permissions)
+        // console.log(this.permissions)
     },
     beforeMount() {
         this.permissions = {

@@ -29,6 +29,7 @@ class VisitorsController extends BaseController
     public function existingVisitor(Request $request) {
 
         $data = Visitors::with('latestLog')->where([
+        $data = Visitors::with("latestLog")->where([
             ['contact', $request->given],
             ['building_ID', $request->building_ID]
         ])->orWhere([
@@ -37,7 +38,7 @@ class VisitorsController extends BaseController
         ])->orWhere([
             ['email', $request->given],
             ['building_ID', $request->building_ID]
-        ])->latest()->first();
+        ])->first();
 
         if($data->status && $data->latestLog->isCheckedOut) {
             if($request->given == $data['email']) {
@@ -52,7 +53,13 @@ class VisitorsController extends BaseController
                     'title' => "One-Time Password",
                     'email' => $data['email'],
                     'password' => $pass,
-                    'uuid' => $request->building_ID
+                    'uuid' => $request->building_ID,
+                    'name' => $data['name'],
+                    'refCode' => $data['refCode'],
+                    'contact' => $data['contact'],
+                    'buildingName' => $building->buildingName,
+                    'buildingAddress' => $building->address,
+                    'checkedIn' => $data->latestLog->created_at
                 ];
 
                 Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
@@ -90,7 +97,6 @@ class VisitorsController extends BaseController
 
         return $this->sendResponse($data, "Data found in table");
     }
-
     public function checkExist(Request $request) {
         $buildingRefID = Building::where('qr_id', $request->buildingUUID)->first()->id;
 
@@ -263,6 +269,7 @@ class VisitorsController extends BaseController
             'profilePhoto' => $profile_link,
             'front_id' => $frontID_link,
             'back_id' => $backID_link,
+            'status' => $request->params['data']['status'],
             'policy' => $request->params['data']['policy'],
         ]);
         
