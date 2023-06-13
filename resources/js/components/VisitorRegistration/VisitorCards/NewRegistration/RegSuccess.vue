@@ -59,7 +59,7 @@ export default{
     },
     methods: {
         async getData() {
-            await axios.get('/api/visitor-registration')
+            await axios.get('/api/visitor-registration?buildingUUID='+ this.id)
                 .then((data) => {
                     this.building = data.data.data;
                     this.isDeliveryAllowed = this.building.building_type.delivery_form
@@ -71,7 +71,6 @@ export default{
     },
 
     created() {
-        console.log(store.hiddenID);
         this.getData();
     }
 }

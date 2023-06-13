@@ -38,6 +38,7 @@ const VisitorHomepage = () => import("@/components/VisitorRegistration/VisitorHo
 const NewRegistration = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/NewRegistration.vue");
 const RegPrompt = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/RegPrompt.vue");
 const RegSuccess = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/RegSuccess.vue");
+const Approval = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/Approval.vue");
 
 // VISITOR CHECK IN
 const CheckInPrompt = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInPrompt.vue");
@@ -238,6 +239,14 @@ const routes = [
                 name: "regsuccess",
                 path: "/visitor-registration/success/:id",
                 component: RegSuccess,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
+                name: "regapproval",
+                path: "/visitor-registration/approval",
+                component: Approval,
                 meta: {
                     title: `VMS | Visitor Registration`,
                 },

@@ -28,15 +28,18 @@ class VisitorsController extends BaseController
 
     public function existingVisitor(Request $request) {
 
-        $data = Visitors::where([
+        $data = Visitors::with("latestLog")->where([
             ['contact', $request->given],
             ['building_ID', $request->building_ID]
         ])->orWhere([
             ['refCode', $request->given],
             ['building_ID', $request->building_ID]
+        ])->orWhere([
+            ['email', $request->given],
+            ['building_ID', $request->building_ID]
         ])->first();
 
-        $buildingUUID = Cookie::get('buildingUUID');
+        $building = Building::where('id', $request->building_ID)->first();
 
         if($data != null) {
             if($request->given == $data['email']) {
@@ -51,10 +54,15 @@ class VisitorsController extends BaseController
                     'title' => "One-Time Password",
                     'email' => $data['email'],
                     'password' => $pass,
-                    'uuid' => $request->building_ID
+                    'uuid' => $request->building_ID,
+                    'name' => $data['name'],
+                    'refCode' => $data['refCode'],
+                    'contact' => $data['contact'],
+                    'buildingName' => $building->buildingName,
+                    'buildingAddress' => $building->address,
+                    'checkedIn' => $data->latestLog->created_at
                 ];
-
-                // Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
+                Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
 
             }
 
@@ -127,7 +135,7 @@ class VisitorsController extends BaseController
             $profilePhoto_link = time().'.' . explode('/', explode(':', substr($profilePhoto_binary, 0, strpos($profilePhoto_binary, ';')))[1])[1];
             
             if(!File::exists('uploads/profiles-visitor/'.$profilePhoto_link)) {
-                \Image::make($profilePhoto_binary)->fit(200, 200)->save('uploads/frontID/'.$profilePhoto_link)->destroy();
+                \Image::make($profilePhoto_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profilePhoto_link)->destroy();
             }
             
             $validated['profilePhoto'] = $profilePhoto_link;
