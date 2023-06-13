@@ -26,7 +26,6 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('get-building-types', 'BuildingTypesController@getBuildingTypeArray');
     Route::get('get-buildings', 'BuildingController@getBuildingsArray');
     Route::get('sync-visitor', 'VisitorsController@syncVisitor');
-    Route::get('check-visitor', 'VisitorsController@checkExist');
     Route::get('visitor-registration', 'BuildingController@getBuilding');
     Route::get('visitor-query', 'VisitorsController@existingVisitor');
     Route::get('validate-form', 'VisitorsController@validateForm');

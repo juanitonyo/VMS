@@ -28,7 +28,6 @@ class VisitorsController extends BaseController
 
     public function existingVisitor(Request $request) {
 
-        $data = Visitors::with('latestLog')->where([
         $data = Visitors::with("latestLog")->where([
             ['contact', $request->given],
             ['building_ID', $request->building_ID]
@@ -39,6 +38,8 @@ class VisitorsController extends BaseController
             ['email', $request->given],
             ['building_ID', $request->building_ID]
         ])->first();
+
+        $building = Building::where('id', $request->building_ID)->first();
 
         if($data->status && $data->latestLog->isCheckedOut) {
             if($request->given == $data['email']) {
@@ -96,11 +97,6 @@ class VisitorsController extends BaseController
         }
 
         return $this->sendResponse($data, "Data found in table");
-    }
-    public function checkExist(Request $request) {
-        $buildingRefID = Building::where('qr_id', $request->buildingUUID)->first()->id;
-
-
     }
     
     public function syncVisitor(Request $request) {
@@ -212,63 +208,54 @@ class VisitorsController extends BaseController
      */
     public function update(VisitorsRequest $request, $id)
     {
-        $buildingRefID = Building::where('qr_id', Cookie::get('buildingUUID'))->first()->id;
 
-        $autoApproval = VisitTypes::where([
-            'id' => $buildingRefID,
-            'visitApproval' => true
-        ])->first();
-
-        $profile_link = "";
-        $frontID_link = "";
-        $backID_link = "";
-        $profile_binary = $request->params['data']['profilePhoto'];
-        $frontID_binary = $request->params['data']['front_id'];
-        $backID_binary = $request->params['data']['back_id'];
         $data = Visitors::findOrFail($id);
-
-        if($profile_binary && $data->profilePhoto == null){
-            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
-            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
-        }
-
-        else if(('uploads/profiles-visitor/'.$data->profilePhoto) != null && $data->profilePhoto != $request->params['data']['profilePhoto']){
+        
+        if($data->profilePhoto != $request->params['data']['profilePhoto']) {
             unlink('uploads/profiles-visitor/'.$data->profilePhoto);
-            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
-            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
+            $profilePhoto_binary = $request->params['data']['profilePhoto'];
+            $profilePhoto_link = time().'.' . explode('/', explode(':', substr($profilePhoto_binary, 0, strpos($profilePhoto_binary, ';')))[1])[1];
+                
+            \Image::make($profilePhoto_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profilePhoto_link)->destroy();
+            
+        }
+        else {
+            $profilePhoto_link = $request->params['data']['profilePhoto'];
         }
 
-        if($frontID_binary && $data->front_id == null){
-            $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
-            \Image::make($frontID_binary)->fit(200, 200)->save('uploads/frontID/'.$frontID_link)->destroy();
-        }
-
-        else if(('uploads/frontID/'.$data->front_id) != null && $data->front_id != $request->params['data']['front_id']){
+        if($data->front_id != $request->params['data']['front_id']) {
             unlink('uploads/frontID/'.$data->front_id);
-            $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
-            \Image::make($frontID_binary)->fit(200, 200)->save('uploads/frontID/'.$frontID_link)->destroy();
+            $front_id_binary = $request->params['data']['front_id'];
+            $front_id_link = time().'.' . explode('/', explode(':', substr($front_id_binary, 0, strpos($front_id_binary, ';')))[1])[1];
+                
+            \Image::make($front_id_binary)->fit(200, 200)->save('uploads/frontID/'.$front_id_link)->destroy();
+            
+        }
+        else {
+            $front_id_link = $request->params['data']['front_id'];
         }
 
-        if($backID_binary && $data->back_id == null){
-            $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
-            \Image::make($backID_binary)->fit(200, 200)->save('uploads/backID/'.$backID_link)->destroy();
-        }
-
-        else if(('uploads/backID/'.$data->back_id) != null && $data->back_id != $request->params['data']['back_id']){
+        if($data->back_id != $request->params['data']['back_id']) {
             unlink('uploads/backID/'.$data->back_id);
-            $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
-            \Image::make($backID_binary)->fit(200, 200)->save('uploads/backID/'.$backID_link)->destroy();
+            $back_id_binary = $request->params['data']['back_id'];
+            $back_id_link = time().'.' . explode('/', explode(':', substr($back_id_binary, 0, strpos($back_id_binary, ';')))[1])[1];
+                
+            \Image::make($back_id_binary)->fit(200, 200)->save('uploads/backID/'.$back_id_link)->destroy();
+            
+        }
+        else {
+            $back_id_link = $request->params['data']['back_id'];
         }
 
-        $data = Visitors::findOrFail($id)->update([
-            'building_ID' => $buildingRefID,
+        $data->update([
+            'building_ID' => $request->params['data']['building_ID'],
             'email' => $request->params['data']['email'],
             'name' => $request->params['data']['name'],
             'contact' => $request->params['data']['contact'],
             'validId' => $request->params['data']['validId'],
-            'profilePhoto' => $profile_link,
-            'front_id' => $frontID_link,
-            'back_id' => $backID_link,
+            'profilePhoto' => $profilePhoto_link,
+            'front_id' => $front_id_link,
+            'back_id' => $back_id_link,
             'status' => $request->params['data']['status'],
             'policy' => $request->params['data']['policy'],
         ]);

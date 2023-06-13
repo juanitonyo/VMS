@@ -356,8 +356,8 @@ export default {
                         store.setHiddenParam(this.account.id);
                         this.$router.push('/visitor-registration/success/' + this.id);
                     }).catch((error) => {
+                        this.$Progress.fail();
                         this.existingAccount = error.response.data.data;
-
                         this.compareExistToForm(this.existingAccount);
                     })
             }

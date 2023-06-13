@@ -118,7 +118,7 @@ export default {
                     }
 
                     else {
-                        console.log("Account status is waiting for admin's approval")
+                        this.$router.push('/visitor-registration/approval');
                     }
                 
                 })
