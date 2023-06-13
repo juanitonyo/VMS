@@ -15,8 +15,8 @@ return new class extends Migration
             $table->id();
             $table->uuid('user_ID');
             $table->integer('building_ID')->nullable();
-            $table->string('email');
-            $table->string('name');
+            $table->string('email')->nullable();
+            $table->string('name')->nullable();
             $table->string('contact')->nullable();
             $table->string('validId')->nullable();
             $table->string('google_id')->nullable();
