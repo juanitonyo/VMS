@@ -20,24 +20,14 @@ class VisitorLogsController extends BaseController
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
-    public function getVisitorLog() {
-        $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->latest()->first(['created_at', 'updated_at']);
+    public function getVisitorLog(Request $request) {
+        $data = VisitorLogs::where('visitor_id', $request->id)->latest()->first(['created_at', 'updated_at']);
 
         return $this->sendResponse($data, "Fetched data from table.")->withCookie(cookie()->forget('id'));
     }
 
-    public function queryLog() {
-        $data = VisitorLogs::where('visitor_id', Cookie::get('id'))->latest()->first();
-        // dd($data);
-        if($data == null) {
-            return redirect()->intended('/visitor-registration/checkin/'.Cookie::get('buildingUUID'));
-        }
-        else if($data['isCheckedOut']){
-            return redirect()->intended('/visitor-registration/checkout/'.Cookie::get('buildingUUID'));
-        }
-        else {
-            return redirect()->intended('/visitor-registration/checkin/'.Cookie::get('buildingUUID'));
-        }
+    public function queryLog(Request $request) {
+        $data = VisitorLogs::where('visitor_id', $request->id)->latest()->first();
 
         return $this->sendResponse($data, "Fetched data from table.");
     }

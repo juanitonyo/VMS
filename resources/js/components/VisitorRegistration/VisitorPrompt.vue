@@ -43,10 +43,7 @@ export default {
         }
     },
     created() {
-        
-        document.cookie = 'buildingUUID=' + this.id + '; path=/';
-        
-        axios.get('/api/visitor-registration/')
+        axios.get('/api/visitor-registration?buildingUUID=' + this.id)
             .then((data) => { 
                 this.buildings = data.data.data;
             })

@@ -30,6 +30,9 @@ import axios from 'axios';
 import { Vue3Lottie } from 'vue3-lottie'
 import 'vue3-lottie/dist/style.css'
 import moment from 'moment';
+import { useStore } from '../../../../store/visitor';
+
+const store = useStore();
 
 export default {
     name: 'Check In Prompt',
@@ -53,7 +56,7 @@ export default {
 
     methods: {
         async getData() {
-            await axios.get('/api/get-visitor-log/')
+            await axios.get('/api/get-visitor-log?id=' + store.hiddenID)
                 .then((data) => {
                     this.time = data.data.data.created_at;
                 })

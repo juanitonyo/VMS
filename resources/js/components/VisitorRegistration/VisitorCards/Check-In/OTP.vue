@@ -24,7 +24,7 @@
                                 onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                         </div>
                     </div>
-                    <button @click.prevent="getInputValues" class="w-full h-8 rounded-full bg-indigo-600 text-white text-xs">
+                    <button @click.prevent="checkLogs" class="w-full h-8 rounded-full bg-indigo-600 text-white text-xs">
                         Verify
                     </button>
                     <div class="text-center">
@@ -37,18 +37,36 @@
     </div>
 </template>
 <script>
+import { useStore } from '../../../../store/visitor';
+import axios from 'axios';
+
+const store = useStore();
 
 export default {
     data() {
         return {
             inputs: ['', '', '', '', '', ''],
-            
+            id: '',
+            account: {}
         }
     },
     methods: {
-        getInputValues() {
-            console.log(this.inputs.join('').toString());
+        checkLogs() {
+            axios.get('/api/check-otp?otp=' + this.inputs.join('').toString())
+                .then((data) => {
+                    this.account = data.data.data
+
+                    if(this.account != null) {
+                        store.setHiddenParam(this.account.id);
+                        this.$router.push('/visitor-registration/checkin/' + this.account.building.qr_id)
+                    }
+                }).catch((e) => {
+
+                })
         }
+    },
+    created() {
+        this.id = store.hiddenID;
     }
 }
 </script>

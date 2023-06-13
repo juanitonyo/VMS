@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegistrationPassword;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Carbon;
 use Intervention\Image\Image;
 
@@ -28,19 +29,17 @@ class VisitorsController extends BaseController
     public function existingVisitor(Request $request) {
 
         $data = Visitors::where([
-            'contact' => $request->given,
-            'building_ID' => $request->building_ID
+            ['contact', $request->given],
+            ['building_ID', $request->building_ID]
         ])->orWhere([
-            'refCode' => $request->given,
-            'building_ID' => $request->building_ID
-        ])->latest()->first();
+            ['refCode', $request->given],
+            ['building_ID', $request->building_ID]
+        ])->first();
 
-        
+        $buildingUUID = Cookie::get('buildingUUID');
+
         if($data != null) {
-            if($request->given == $data['refCode']) {
-                return redirect('/visitor-registration/checkin/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $data['id'], 1440, $httpOnly = false));
-            }
-            else if($request->given == $data['contact']) {
+            if($request->given == $data['email']) {
                 $pass = random_int(000000, 999999);
                 
                 Visitors::findOrFail($data['id'])->update([
@@ -57,36 +56,54 @@ class VisitorsController extends BaseController
 
                 // Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
 
-                return redirect()->json(['route' => '/visitor-registration/otp'])->withCookie(cookie('id', $data['id'], 1440, $httpOnly = false));
+            }
+
+            else if($request->given == $data['contact']) {
+                // $pass = random_int(000000, 999999);
+
+                // $curl = curl_init();
+                // curl_setopt_array($curl, array(
+                // CURLOPT_URL => 'https://sms.gets.ph/api/sms-push',
+                // CURLOPT_RETURNTRANSFER => true,
+                // CURLOPT_ENCODING => '',
+                // CURLOPT_MAXREDIRS => 10,
+                // CURLOPT_TIMEOUT => 0,
+                // CURLOPT_FOLLOWLOCATION => true,
+                // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                // CURLOPT_CUSTOMREQUEST => 'POST',
+                // CURLOPT_POSTFIELDS => array('number' => $request->given,'message' => 'Your PropTech One-Time PIN is '.$pass.'. Please do not share OTP with anyone.'),
+                // CURLOPT_HTTPHEADER => array(
+                //     'Authorization: Bearer 2|6IjBwPqcZgSeYzrlZK3UKP7T64jhumjL71w7zCIb'
+                // ),
+                // ));
+                // $response = curl_exec($curl);
+
+                // curl_close($curl);
+                // return response()->json([
+                //     'success' => true,
+                //     'message' => $response,
+                //     'code' => $pass
+                // ]);
             }
         }
 
-        else if ($data == null) {
-            return redirect('/visitor-registration/SignIn/reg/'.Cookie::get('buildingUUID'));
-        }
-
-        return $this->sendResponse($data, "Data not found in table");
+        return $this->sendResponse($data, "Data found in table");
     }
 
-    public function syncVisitor() {
+    public function syncVisitor(Request $request) {
 
-        $data = Visitors::with('latestLog')->where('id', Cookie::get('id'))->first();        
+        $data = Visitors::with('latestLog')->where('id', $request->id)->first();        
 
         return $this->sendResponse($data, "Fetched data in table");
         
     }
 
     public function checkOTP(Request $request) {
-        $data = Visitors::where([
+        $data = Visitors::with('building')->where([
             'remember-otp' => $request->otp,
-            'email' => $request->email
             ])->first();
 
-        if($data != null) {
-            return redirect()->intended('/api/check-log/')->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
-        }
-
-        return null;
+        return $this->sendResponse($data, "Fetched data");
     }
 
     /**
@@ -102,48 +119,49 @@ class VisitorsController extends BaseController
      */
     public function store(VisitorsRequest $request)
     {
-        $buildingRefID = Building::where('qr_id', $request->building_ID)->first(['id', 'buildingType']);
-
-        $autoApproval = VisitTypes::where([
-            'id' => $buildingRefID['id'],
-            'visitApproval' => true
-        ])->first();
-
-        $profile_link = "";
-        if($request->profilePhoto && 'uploads/profiles-visitor/'.$request->profilePhoto == null) {
-            $profile_binary = $request->profilePhoto;
-            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
-            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
-        }
-
-        $frontID_link = "";
-        if($request->front_id && 'uploads/frontID/'.$request->front_id == null) {
-            $frontID_binary = $request->front_id;
-            $frontID_link = time().'.' . explode('/', explode(':', substr($frontID_binary, 0, strpos($frontID_binary, ';')))[1])[1];
-            \Image::make($frontID_binary)->fit(200, 200)->save('uploads/frontID/'.$frontID_link)->destroy();
-        }
-
-        $backID_link = "";
-        if($request->back_id && 'uploads/backID/'.$request->back_id == null) {
-            $backID_binary = $request->back_id;
-            $backID_link = time().'.' . explode('/', explode(':', substr($backID_binary, 0, strpos($backID_binary, ';')))[1])[1];
-            \Image::make($backID_binary)->fit(200, 200)->save('uploads/backID/'.$backID_link)->destroy();
-        }
-
+        $buildingRefID = Building::where('qr_id', $request->building_ID)->first()->id;
         $validated = $request->validated();
-        $validated['building_ID'] = $buildingRefID['id'];
-        $validated['profilePhoto'] = $profile_link;
-        $validated['front_id'] = $frontID_link;
-        $validated['back_id'] = $backID_link;
-        $validated['refCode'] = Str::random(6);
-        if($autoApproval != null) {
-            $validated['status'] = true;
+        
+        if($request->profilePhoto){
+            $profilePhoto_binary = $request->profilePhoto;
+            $profilePhoto_link = time().'.' . explode('/', explode(':', substr($profilePhoto_binary, 0, strpos($profilePhoto_binary, ';')))[1])[1];
+            
+            if(!File::exists('uploads/profiles-visitor/'.$profilePhoto_link)) {
+                \Image::make($profilePhoto_binary)->fit(200, 200)->save('uploads/frontID/'.$profilePhoto_link)->destroy();
+            }
+            
+            $validated['profilePhoto'] = $profilePhoto_link;
         }
 
-        $data = Visitors::create($validated);
-        return $this->sendResponse($data, "Data Saved.")->withCookie(cookie('id', $data->id, 1440, $httpOnly = false));
-    }
+        if($request->front_id){
+            $front_id_binary = $request->front_id;
+            $front_id_link = time().'.' . explode('/', explode(':', substr($front_id_binary, 0, strpos($front_id_binary, ';')))[1])[1];
+            
+            if(!File::exists('uploads/frontID/'.$front_id_link)) {
+                \Image::make($front_id_binary)->fit(200, 200)->save('uploads/frontID/'.$front_id_link)->destroy();
+            }
+            
+            $validated['front_id'] = $front_id_link;
+        }
 
+        if($request->back_id){
+            $back_id_binary = $request->back_id;
+            $back_id_link = time().'.' . explode('/', explode(':', substr($back_id_binary, 0, strpos($back_id_binary, ';')))[1])[1];
+            
+            if(!File::exists('uploads/backID/'.$back_id_link)) {
+                \Image::make($back_id_binary)->fit(200, 200)->save('uploads/backID/'.$back_id_link)->destroy();
+            }
+            
+            $validated['back_id'] = $back_id_link;
+        }
+        
+        $validated['building_ID'] = $buildingRefID;
+        $validated['refCode'] = Str::random(6);
+        
+        $data = Visitors::create($validated);
+        return $this->sendResponse($data, "Data Saved.");
+    }
+    
     /**
      * Display the specified resource.
      */

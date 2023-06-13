@@ -1,6 +1,5 @@
 <template>
     <div class="flex justify-center items-center">
-
         <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
             <div class="flex flex-col items-center gap-y-5">
                 <div class="flex justify-end items-center w-[360px] h-10 mt-8">
@@ -103,9 +102,7 @@
                         <router-link :to="'/visitor-registration/SignIn/checkin/' + this.id"
                             class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
                     </div>
-
                 </form>
-
             </div>
         </div>
     </div>
@@ -216,7 +213,10 @@ import axios from 'axios';
 import Form from 'vform';
 import FormDialog from '../../../Elements/Modals/FormDialog.vue';
 import { userAuthStore } from "@/store/auth";
+import { useStore } from '@/store/visitor';
 import moment from 'moment';
+
+const store = useStore();
 
 export default {
     name: 'Check In Form',
@@ -234,16 +234,6 @@ export default {
         return {
             data: {},
             id: window.location.href.split('/').pop(),
-            // form: new Form({
-            //     id: '',
-            //     refId: window.location.href.split('/').pop(),
-            //     purpose: '',
-            //     companions: '',
-            //     buildingName: '',
-            //     flrBlk: '',
-            //     unitLot: '',
-            //     policy: false,
-            // }),
             form: new Form({
                 visitor_id: '',
                 building_id: '',
@@ -277,16 +267,6 @@ export default {
 
         isPop() {
             this.show = !this.show;
-        },
-
-        showSuccess() {
-            // validate form
-            this.form.post('/api/visitor-logs/')
-                .then((data) => {
-                    this.isFormComplete = true
-                }).catch((error) => {
-                    this.$Progress.fail();
-                })
         },
 
         uploadProfilePhoto() {
@@ -342,6 +322,8 @@ export default {
 
             this.form.post('/api/visitor-logs/')
                 .then((data) => {
+                    store.setHiddenParam
+
                     this.$router.push('/visitor-registration/success/checkin/' + this.id);
                 }).catch((e) => {
 
@@ -370,8 +352,8 @@ export default {
                 });
         },
 
-        async syncData() {
-            await axios.get('/api/sync-visitor/')
+        async syncData(id) {
+            await axios.get('/api/sync-visitor?id=' + id)
                 .then((data) => {
                     this.visitor = data.data.data;
 
@@ -415,10 +397,13 @@ export default {
     },
 
     created() {
-        this.syncData();
+        this.syncData(store.hiddenID);
         this.getData();
         this.syncVisitType();
         this.moment = moment;
+        if(store.hiddenID == null) {
+            this.$router.push('/visitor-registration/index/' + this.id);
+        }
     },
 }
 </script>

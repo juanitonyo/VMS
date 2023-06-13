@@ -44,6 +44,9 @@
 
 <script>
 import axios from 'axios';
+import { useStore } from '../../../../store/visitor';
+
+const store = useStore();
 
 export default{
     name: 'Success',
@@ -68,6 +71,7 @@ export default{
     },
 
     created() {
+        console.log(store.hiddenID);
         this.getData();
     }
 }

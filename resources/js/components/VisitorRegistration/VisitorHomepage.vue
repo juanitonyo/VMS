@@ -87,6 +87,9 @@
 
 <script>
 import axios from 'axios';
+import { useStore } from '../../store/visitor';
+
+const store = useStore();
 
 export default {
     name: 'Visitor Homepage',
@@ -111,6 +114,7 @@ export default {
             .catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
+
     },
 }
 </script>
