@@ -22,54 +22,55 @@
                     <p class="text-[10px] text-gray-400 mt-1">Upload Photo</p>
                 </div>
 
-                <div class="flex flex-col mt-3">
+                <div class="relative flex flex-col mt-3 mb-2">
                     <div class="flex flex-row items-center ">
                         <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
                         <div class="flex flex-col">
                             <input v-model="form.name" type="email" :disabled="isGoogleExist" placeholder="Juan Dela Cruz"
                                 :class="this.errors.name.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
-                            <span v-show="this.errors.name.error" class="text-[10px] items-center w-max text-red-500">
-                                {{ this.errors.name.label }}</span>
                         </div>
                     </div>
+                    <span v-show="this.errors.name.error"
+                        class="absolute -bottom-3.5 left-24 text-[9px] w-max text-red-500">
+                        {{ this.errors.name.label }}</span>
                 </div>
 
-                <div class="flex flex-col">
+                <div class="relative flex flex-col mb-2">
                     <div class="flex flex-row items-center">
                         <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
                         <div class="flex flex-col">
                             <input v-model="form.email" type="email" :disabled="isGoogleExist"
                                 placeholder="example@email.com"
                                 :class="this.errors.email.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
-                            <span v-show="this.errors.email.error" class="text-[10px] items-center w-max text-red-500">
-                                {{ this.errors.email.label }}</span>
                         </div>
                     </div>
+                    <span v-show="this.errors.email.error" class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
+                        {{ this.errors.email.label }}</span>
                 </div>
 
-                <div class="flex flex-col">
+                <div class="relative flex flex-col mb-2">
                     <div class="flex flex-row items-center">
                         <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
                         <div class="flex flex-col">
                             <input v-model="form.contact" type="text" placeholder="09*********" maxlength="11"
                                 :class="this.errors.contact.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
-                            <span v-show="this.errors.contact.error" class="text-[10px] items-center w-max text-red-500">
-                                {{ this.errors.contact.label }}</span>
                         </div>
                     </div>
+                    <span v-show="this.errors.contact.error" class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
+                        {{ this.errors.contact.label }}</span>
                 </div>
 
-                <div class="flex flex-col">
+                <div class="relative flex flex-col mb-2">
                     <div class="gov-ids flex flex-row items-center">
                         <label for="valid_id" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
                         <div class="flex flex-col">
                             <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label"
                                 :placeholder="'Valid ID'"
                                 :class="this.errors.validId.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[230px]'"></v-select>
-                            <span v-show="this.errors.validId.error" class="text-[10px] items-center w-max text-red-500">
-                                {{ this.errors.validId.label }}</span>
                         </div>
                     </div>
+                    <span v-show="this.errors.validId.error" class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
+                        {{ this.errors.validId.label }}</span>
                 </div>
 
                 <div class="flex gap-x-2 w-full justify-end">
@@ -301,28 +302,28 @@ export default {
         },
 
         compareExistToForm(existingData) {
-            if(existingData.name == this.form.name) {
+            if (existingData.name == this.form.name) {
                 this.errors.name.error = true;
                 this.errors.name.label = 'The name is already taken.';
             }
             else {
                 this.errors.name.error = false;
             }
-            if(existingData.email == this.form.email) {
+            if (existingData.email == this.form.email) {
                 this.errors.email.error = true;
                 this.errors.email.label = 'The email is already taken.';
             }
             else {
                 this.errors.email.error = false;
             }
-            if(existingData.contact == this.form.contact) {
+            if (existingData.contact == this.form.contact) {
                 this.errors.contact.error = true;
                 this.errors.contact.label = 'The contact is already taken.';
             }
             else {
                 this.errors.contact.error = false;
             }
-            if(this.errors.name.error || this.errors.email.error || this.errors.contact.error) {
+            if (this.errors.name.error || this.errors.email.error || this.errors.contact.error) {
                 this.isFormComplete = false;
             }
             else {

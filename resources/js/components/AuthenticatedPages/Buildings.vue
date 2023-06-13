@@ -47,13 +47,13 @@
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type.name
                                         }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900">
+                                        <td class="text-center px-3 py-4 text-xs text-gray-900 flex space-x-1.5">
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Visitor', item)"
-                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 mx-1']">Visitor</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 w-full']">Visitor</button>
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Host', item)"
-                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 mx-1']">Host</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 w-full']">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>

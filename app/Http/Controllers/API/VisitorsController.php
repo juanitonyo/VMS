@@ -28,7 +28,7 @@ class VisitorsController extends BaseController
 
     public function existingVisitor(Request $request) {
 
-        $data = Visitors::with("latestLog")->where([
+        $data = Visitors::with('latestLog')->where([
             ['contact', $request->given],
             ['building_ID', $request->building_ID]
         ])->orWhere([

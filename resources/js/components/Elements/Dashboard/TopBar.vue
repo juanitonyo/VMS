@@ -22,29 +22,55 @@
               </div>
             </TransitionChild>
             <!-- Sidebar component, swap this element with another sidebar if you like -->
-            <div class="flex grow flex-col gap-y-10 overflow-y-auto bg-gray-900 px-6 pb-4">
-              <div class="flex h-16 shrink-0 items-center">
-                <img class="h-8 w-auto" src="https://visitor.globalland.com.ph/vendor/adminlte/dist/img/AdminLTELogo.png"
-                  alt="VMS" />
-                <span class="p-2 font-semibold text-gray-300 text-xs">Visitor Management System</span>
-              </div>
+            <div class="flex grow flex-col gap-y-10 overflow-y-auto bg-white px-6 pb-4 font-poppins">
+              <a href="/app/dashboard" class="cursor-pointer flex h-16 shrink-0 items-center pt-5 px-2">
+                <img class="h-[70px] w-[200px]" src="/logo/vms_logo.png" alt="VMS" />
+              </a>
               <nav class="flex flex-1 flex-col justify-between" aria-label="Sidebar">
                 <div class="-mx-2 space-y-2">
-                  <div class="text-xs font-semibold leading-6 text-indigo-200">VMS Tabs</div>
-                  <router-link v-for="item in sidebarNavigation" :key="item.name" :to="item.href"
-                    :class="[useRoute().path == item.href ? 'bg-gray-700 text-white' : 'text-gray-200 hover:text-white hover:bg-gray-700', 'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal']"
-                    :aria-current="item.current ? 'page' : undefined">
-                    <component :is="item.icon" class="mr-4 h-6 w-6 flex-shrink-0 text-gray-200" aria-hidden="true" />
-                    {{ item.name }}
-                  </router-link>
+                  <div class="text-xs font-semibold leading-6 text-blue-800">
+                    VMS Tabs
+                  </div>
+                  <div v-for="item in sidebarNavigation" v-if="permissions">
+                    <router-link v-if="item.access" @click="item.dropdown = !item.dropdown" :key="item.name"
+                      :to="item.href" :class="[
+                        useRoute().path == item.href
+                          ? 'bg-gray-50 text-gray-700'
+                          : 'text-gray-700 hover:bg-gray-50',
+                        'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal',
+                      ]" :aria-current="item.current ? 'page' : undefined">
+                      <component :is="item.icon" class="mr-4 h-6 w-6 flex-shrink-0 text-blue-500" aria-hidden="true" />
+                      {{ item.name }}
+                    </router-link>
+                    <ul v-if="item.subMenu" v-for="sub in item.subMenu" :key="sub.name" v-show="item.dropdown"
+                      class="mt-2">
+                      <li>
+                        <router-link v-if="sub.access" :to="sub.href" :class="[
+                          useRoute().path == sub.href
+                            ? 'bg-gray-50 text-gray-700'
+                            : 'text-gray-700 hover:bg-gray-50',
+                          'flex rounded-md py-2 pr-2 pl-9 text-sm leading-6 ',
+                        ]">
+                          <ChevronRightIcon class="mr-4 mt-1 h-4 w-6 flex-shrink-0 text-blue-800" aria-hidden="true" />
+                          {{ sub.name }}
+                        </router-link>
+                      </li>
+                    </ul>
+                  </div>
                 </div>
 
                 <div class="mt-6 pt-6">
-                  <div class="-mx-2 space-y-2">
-                    <div class="text-xs font-semibold leading-6 text-indigo-200">VMS Settings</div>
-                    <router-link v-for="item in sideBarSecondaryNavigation" :key="item.name" :to="item.href"
-                      :class="[useRoute().path == item.href ? 'bg-gray-700 text-white' : 'text-gray-200 hover:text-white hover:bg-gray-700', 'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal']">
-                      <component :is="item.icon" class="mr-4 h-6 w-6 text-gray-200" aria-hidden="true" />
+                  <div class="-mx-2 space-y-2" v-if="permissions.settings">
+                    <div class="text-xs font-semibold leading-6 text-blue-800">
+                      VMS Settings
+                    </div>
+                    <router-link v-for="item in sideBarSecondaryNavigation" :key="item.name" :to="item.href" :class="[
+                      useRoute().path == item.href
+                        ? 'bg-gray-50 text-gray-700'
+                        : 'text-gray-700 hover:bg-gray-50',
+                      'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal',
+                    ]">
+                      <component :is="item.icon" class="mr-4 h-6 w-6 text-blue-500" aria-hidden="true" />
                       {{ item.name }}
                     </router-link>
                   </div>
@@ -84,15 +110,15 @@
               leave-active-class="transition ease-in duration-75" leave-from-class="transform opacity-100 scale-100"
               leave-to-class="transform opacity-0 scale-95">
               <MenuItems
-                class="absolute right-0 mt-2.5 w-full origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
+                class="absolute right-0 z-10 mt-2.5 w-[150px] origin-top-right rounded-md bg-white py-2 shadow-lg ring-1 ring-gray-900/5 focus:outline-none">
                 <MenuItem v-slot="{ active }">
                 <button @click="pop = true"
-                  :class="[active ? 'bg-gray-100' : '', 'w-full px-4 py-2 text-sm text-gray-700']">Profile
+                  :class="[active ? 'bg-gray-100' : '', 'block w-full px-4 py-2 text-sm text-gray-700']">Profile
                   Settings</button>
                 </MenuItem>
                 <MenuItem v-slot="{ active }">
                 <button @click="logout"
-                  :class="[active ? 'bg-gray-100' : '', 'w-full px-4 py-2 text-sm text-gray-700']">Logout</button>
+                  :class="[active ? 'bg-gray-100' : '', 'block w-full px-4 py-2 text-sm text-gray-700']">Logout</button>
                 </MenuItem>
               </MenuItems>
             </transition>
@@ -220,7 +246,8 @@
         </form>
 
         <div class="space-x-3 flex mt-5">
-          <button @click="pop = false" class="w-full h-8 border border-black rounded-md font-semibold tracking-wide">Close</button>
+          <button @click="pop = false"
+            class="w-full h-8 border border-black rounded-md font-semibold tracking-wide">Close</button>
           <button class="w-full h-8 bg-gray-900 text-white rounded-md font-semibold tracking-wide">Update</button>
         </div>
 
@@ -254,22 +281,20 @@
         </div>
 
         <div class="flex space-x-3 mt-[53px]">
-          <button @click="changePass = false" class="w-full h-8 border border-black rounded-md font-semibold tracking-wide">Back</button>
+          <button @click="changePass = false"
+            class="w-full h-8 border border-black rounded-md font-semibold tracking-wide">Back</button>
           <button class="w-full h-8 bg-gray-900 text-white rounded-md font-semibold tracking-wide">Save</button>
         </div>
-
-
-
       </div>
-
     </template>
   </DialogVue>
 </template>
 
 <script setup>
 import { ref } from 'vue';
-import { userAuthStore } from '@/store/auth';
-import { useRouter, useRoute } from 'vue-router'
+import { reactive } from "vue";
+import { userAuthStore } from "@/store/auth";
+import { useRoute, useRouter } from "vue-router";
 import axios from 'axios';
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 
@@ -293,21 +318,68 @@ import {
   UsersIcon,
   BuildingOffice2Icon,
   TruckIcon,
+  ChevronRightIcon,
 } from '@heroicons/vue/24/outline'
 import {
   ChevronDownIcon,
 } from '@heroicons/vue/20/solid'
 
-const sidebarNavigation = [
-  { name: 'Dashboard', href: '/app/dashboard', icon: RectangleStackIcon },
-  { name: 'Users', href: '/app/users', icon: UsersIcon },
-  { name: 'Buildings', href: '/app/buildings', icon: BuildingOffice2Icon },
-  { name: 'Visitors', href: '/app/visitors', icon: UserGroupIcon },
-  { name: 'Deliveries', href: '/app/deliveries', icon: TruckIcon },
-]
+let permissions = userAuthStore().role.permissions;
+
+const sidebarNavigation = reactive([
+  {
+    name: "Dashboard",
+    href: "/app/dashboard",
+    icon: RectangleStackIcon,
+    access: permissions.dashboard ?? false,
+  },
+  {
+    name: "Manage Users",
+    href: "#",
+    icon: UsersIcon,
+    access: (permissions.users || permissions.roles) ?? false,
+    dropdown: false,
+    subMenu: [
+      {
+        name: "List",
+        href: "/app/users",
+        access: permissions.users ?? false,
+      },
+      {
+        name: "Roles",
+        href: "/app/roles",
+        access: permissions.roles ?? false,
+      },
+    ],
+  },
+  {
+    name: "Buildings",
+    href: "/app/buildings",
+    icon: BuildingOffice2Icon,
+    access: permissions.buildings ?? false,
+  },
+  {
+    name: "Visitors",
+    href: "/app/visitors",
+    icon: UserGroupIcon,
+    access: permissions.visitors ?? false,
+  },
+  {
+    name: "Deliveries",
+    href: "/app/deliveries",
+    icon: TruckIcon,
+    access: permissions.deliveries ?? false,
+  },
+]);
+
 const sideBarSecondaryNavigation = [
-  { name: 'Maintenance', href: '/app/settings', icon: CogIcon },
-]
+  {
+    name: "Maintenance",
+    href: "/app/settings",
+    icon: CogIcon,
+    access: permissions.settings ?? false,
+  },
+];
 
 const gov_id = [
   "Digitalized BIR Taxpayer's ID",
