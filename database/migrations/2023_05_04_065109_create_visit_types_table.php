@@ -19,7 +19,7 @@ return new class extends Migration
             $table->boolean('personToVisit');
             $table->boolean('visitApproval');
             $table->boolean('autoApprove');
-            $table->boolean('status');
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

@@ -371,7 +371,6 @@ export default {
                     }
                 })
                 .catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
                 });
         },
 
