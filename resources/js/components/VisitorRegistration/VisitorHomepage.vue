@@ -66,7 +66,7 @@
                         </div>
                     </a>
 
-                    <a :href="'/visitor-registration/SignIn/delivery/' + this.id"
+                    <a v-if="this.isAllowed" :href="'/visitor-registration/SignIn/delivery/' + this.id"
                         class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                         <div class="block sm:shrink-0">
@@ -104,17 +104,23 @@ export default {
             data: {},
             id: window.location.href.split('/').pop(),
             buildings: {},
+            isAllowed: true
+        }
+    },
+    methods: {
+        async getData() {
+            await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
+                .then((data) => {
+                    this.buildings = data.data.data;
+                    this.isAllowed = this.buildings.building_type.delivery_form
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
         }
     },
     created() {
-        axios.get('/api/visitor-registration?buildingUUID=' + this.id)
-            .then((data) => {
-                this.buildings = data.data.data;
-            })
-            .catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
-
+        this.getData();
     },
 }
 </script>

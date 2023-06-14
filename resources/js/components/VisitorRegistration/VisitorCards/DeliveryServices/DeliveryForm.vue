@@ -86,8 +86,8 @@
                                 @click="remove(k)">- Remove a
                                 location</button>
                             <button type="button" :class="inputs.length == 10 ? 'bg-gray-500' : 'bg-blue-800 text-white'"
-                                :disabled="inputs.length == 10"
-                                class="text-xs text-white rounded-md h-[33px] w-full mt-3" @click="add(k)">+ Add more
+                                :disabled="inputs.length == 10" class="text-xs text-white rounded-md h-[33px] w-full mt-3"
+                                @click="add(k)">+ Add more
                                 location</button>
                         </div>
 
@@ -173,7 +173,8 @@
                         </div>
                         <input type="text"
                             class="peer bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md w-full pl-10 p-1.5"
-                            placeholder="--.- °C" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1').replace(/^0[^.]/, '0');">
+                            placeholder="--.- °C"
+                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1').replace(/^0[^.]/, '0');">
                     </div>
                 </div>
 
@@ -210,28 +211,29 @@
                 </div>
             </div>
 
-            <div class="flex flex-col mt-8 relative">
+
+            <div class="flex flex-col mt-8 w-full">
                 <div class="flex flex-row items-center justify-center">
                     <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
-                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-full">
+                </div>
+            </div>
+            <div class="flex flex-col mt-3 w-full">
+                <div class="flex flex-row items-center">
+                    <label for="email" class="text-[10px] text-gray-500 mr-[46px]">Email Address</label>
+                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-full">
+                </div>
+            </div>
+            <div class="flex flex-col mt-3 w-full">
+                <div class="flex flex-row items-center">
+                    <label for="contact" class="text-[10px] text-gray-500 mr-[40px]">Mobile Number</label>
+                    <input type="tel" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-full">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="email" class="text-[10px] text-gray-500 mr-6">Email Address</label>
-                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
-                </div>
-            </div>
-            <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="contact" class="text-[10px] text-gray-500 mr-4">Mobile Number</label>
-                    <input type="tel" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
-                </div>
-            </div>
-            <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="id" class="text-[10px] text-gray-500 mr-14">Valid ID</label>
-                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                <div class="flex flex-row items-center">
+                    <label for="id" class="text-[10px] text-gray-500 w-12 mr-[55px]">Valid ID</label>
+                    <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-full">
                 </div>
             </div>
 
@@ -275,7 +277,7 @@
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row r justify-center">
+                <div class="flex flex-row justify-center">
                     <label for="deliveryHistory" class="text-[10px] text-gray-500 mr-[55px]">Delivery</label>
                     <input type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[68px] w-[231px]">
                 </div>
@@ -292,6 +294,7 @@
                     Close
                 </button>
             </div>
+
         </template>
     </FormDialog>
 </template>
@@ -423,7 +426,7 @@ export default {
         },
         isBad() {
             this.badHealth = true
-            this.pop = !this.pop; 
+            this.pop = !this.pop;
         },
         saveState() {
             localStorage.setItem('state', JSON.parse(this.symptoms));
@@ -439,7 +442,7 @@ export default {
         isChecked() {
             this.enableButton = !this.enableButton
         },
-        submitForm(){
+        submitForm() {
             this.$Progress.start();
             this.form.post('/api/delivery/')
                 .then((data) => {
