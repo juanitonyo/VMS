@@ -27,7 +27,7 @@ class VisitorLogsController extends BaseController
     }
 
     public function queryLog(Request $request) {
-        $data = VisitorLogs::where('visitor_id', $request->id)->latest()->first();
+        $data = VisitorLogs::with('visitType')->where('visitor_id', $request->id)->latest()->first();
 
         return $this->sendResponse($data, "Fetched data from table.");
     }

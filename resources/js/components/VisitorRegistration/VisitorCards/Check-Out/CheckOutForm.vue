@@ -30,7 +30,7 @@
 
                             <div class="flex flex-row items-center justify-between">
                                 <label for="visitType" class="text-[10px] text-gray-500">Visit Type</label>
-                                <input v-model="visitType" type="text" disabled
+                                <input v-model="this.visitType" type="text" disabled
                                     class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[210px]">
                             </div>
 
@@ -125,8 +125,8 @@
                 <div class="w-[80px] flex flex-col gap-y-1">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
                         class="flex flex-col items-center justify-center w-full h-[80px] border-2 border-blue-700 rounded-full cursor-pointer hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-7 pb-6" :class="{ 'hidden': hideLabel_profile }">
-                            <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
+                        <div class="flex flex-col items-center justify-center pt-7 pb-6">
+                            <img v-if="this.visitor.profilePhoto == null" src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
                         <input ref="profile" type="file" class="opacity-0 w-full h-full cursor-pointer" accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
                     </label>
@@ -164,8 +164,8 @@
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
                     <label :style="{ 'background-image': `url(${front_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_front }">
-                            <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <img v-if="this.visitor.front_id == null" src="/Visitor_Homepage_Assets/frontID.png" alt="">
                         </div>
                         <input ref="front" type="file" class="opacity-0 w-full h-full cursor-pointer" accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadFront" />
                     </label>
@@ -175,8 +175,8 @@
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
                     <label :style="{ 'background-image': `url(${back_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_back }">
-                            <img src="/Visitor_Homepage_Assets/backID.png" alt="">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <img v-if="this.visitor.back_id == null" src="/Visitor_Homepage_Assets/backID.png" alt="">
                         </div>
                         <input ref="back" type="file" class="opacity-0 w-full h-full cursor-pointer" accept="image/png, image/jpeg, image/jpg, image/svg" @change="uploadBack" />
                     </label>
@@ -246,9 +246,6 @@ export default{
             buildings: {},
             visitor: {},
             purpose: [],
-            hideLabel_profile: false,
-            hideLabel_front: false,
-            hideLabel_back: false,
             profile_url: '',
             front_url: '',
             back_url: '',
@@ -290,12 +287,12 @@ export default{
                 .then((data) => {
                     this.visitor = data.data.data;
 
-                    this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
-                    this.hideLabel_profile = true;
-                    this.front_url = '/uploads/frontID/' + this.visitor.front_id
-                    this.hideLabel_front = true;
-                    this.back_url = '/uploads/backID/' + this.visitor.back_id
-                    this.hideLabel_back = true
+                    if(this.visitor.profilePhoto != null)
+                        this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
+                    if(this.visitor.front_id != null)
+                        this.front_url = '/uploads/frontID/' + this.visitor.front_id
+                    if(this.visitor.back_id != null)
+                        this.back_url = '/uploads/backID/' + this.visitor.back_id
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
@@ -303,10 +300,11 @@ export default{
         },
 
         async checkLog() {
-            await axios.get('/api/check-log/')
+            await axios.get('/api/check-log?id=' + store.hiddenID)
                 .then((data) => {
                     this.log = data.data.data;
                     this.visitType = this.log.visit_type.name
+                    console.log(this.visitType)
                 }).catch((e) => {
 
                 });
@@ -317,6 +315,9 @@ export default{
         this.syncData();
         this.checkLog();
         this.moment = moment;
+        if(store.hiddenID == null) {
+            this.$router.back();
+        }
     },
 }
 </script>

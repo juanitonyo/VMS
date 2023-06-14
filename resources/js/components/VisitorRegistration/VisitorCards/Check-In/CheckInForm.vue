@@ -357,15 +357,15 @@ export default {
                 .then((data) => {
                     this.visitor = data.data.data;
 
-                    if(this.visitor.profilePhoto != "" || this.visitor.profilePhoto != null) {
+                    if(this.visitor.profilePhoto != null) {
                         this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
                         this.hideLabel_profile = true;
                     }
-                    if(this.visitor.front_id != "" || this.visitor.front_id != null) {
+                    if(this.visitor.front_id != null) {
                         this.front_url = '/uploads/frontID/' + this.visitor.front_id
                         this.hideLabel_front = true;
                     }
-                    if(this.visitor.back_id != "" || this.visitor.back_id != null) {
+                    if(this.visitor.back_id != null) {
                         this.back_url = '/uploads/backID/' + this.visitor.back_id
                         this.hideLabel_back = true
                     }
@@ -400,9 +400,9 @@ export default {
         this.getData();
         this.syncVisitType();
         this.moment = moment;
-        // if(store.hiddenID == null) {
-        //     this.$router.push('/visitor-registration/index/' + this.id);
-        // }
+        if(store.hiddenID == null) {
+            this.$router.back();
+        }
     },
 }
 </script>
