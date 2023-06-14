@@ -2,15 +2,16 @@
     <div class="flex justify-center items-center">
 
         <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen flex justify-center">
-            <div class="flex flex-col items-center justify-center gap-y-5">
+            <div class="flex flex-col items-center justify-center gap-y-4">
 
-                <div class="flex flex-col gap-y-2 items-center justify-center">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
-                    <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
+                <img src="/logo/vms_logo.png" alt="logo" class="w-[180px]">
+
+                <div class="flex flex-col items-center justify-center">
+                    <h2 class="text-sm font-light tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h4 class="text-gray-400 text-xs text-center">{{ this.buildings.address }}</h4>
                 </div>
 
-                <div class='flex flex-col items-center justify-center gap-y-4 mt-10'>
-
+                <div class='flex flex-col items-center justify-center gap-y-4 mt-4'>
                     <a :href="'/visitor-registration/SignIn/reg/' + this.id"
                         class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105  w-[325px] h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 

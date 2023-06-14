@@ -50,17 +50,17 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 flex space-x-1.5">
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Visitor', item)"
-                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 w-full']">Visitor</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '', 'border border-gray-900 rounded-md py-1.5 px-3 w-full']">Visitor</button>
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Host', item)"
-                                                :class="[item.status ? 'hover:bg-gray-300' : '' ,'border border-gray-900 rounded-md py-1.5 px-3 w-full']">Host</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '', 'border border-gray-900 rounded-md py-1.5 px-3 w-full']">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs" v-if="permissions.update">
-                                            <a @click.prevent="editBuilding(item)" href="#" 
+                                            <a @click.prevent="editBuilding(item)" href="#"
                                                 class="flex justify-center text-slate-800 hover:text-indigo-900">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                                     fill="currentColor" class="w-5 h-5">
@@ -113,8 +113,7 @@
 
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <div class="flex justify-between">
-                                <label for="email_subj"
-                                    class="block text-sm font-medium leading-6 text-gray-900">Choose
+                                <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose
                                     Building Types</label>
                                 <span v-show="this.editMode ? false : form.errors.has('buildingType')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
@@ -123,7 +122,7 @@
                                 label="label"
                                 :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
-                        
+
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
@@ -139,14 +138,16 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">{{ (editMode ? 'Edit' : 'Upload') + ' Logo'}}</label>
+                            <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">{{ (editMode ?
+                                'Edit' : 'Upload') + ' Logo' }}</label>
                             <div class="flex flex-col items-center justify-center mt-2">
                                 <div class="flex justify-center mt-3">
                                     <div>
                                         <div class="flex items-center justify-center w-full">
                                             <label :style="{ 'background-image': `url(${image_url})` }"
                                                 class="flex flex-col justify-center cursor-pointer w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-center bg-cover bg-no-repeat">
-                                                <div v-show="this.form.logo == null ? true : false" class="flex flex-col items-center">
+                                                <div v-show="this.form.logo == null ? true : false"
+                                                    class="flex flex-col items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-12 h-12 text-gray-600 group-hover:text-black"
                                                         viewBox="0 0 20 20" fill="currentColor">
@@ -158,7 +159,8 @@
                                                         class="pt-1 text-sm tracking-wider text-black group-hover:text-black">
                                                         Select a photo</p>
                                                 </div>
-                                                <input type="file" ref="buildingLogo" class="opacity-0" accept="image/png, image/jpeg, image/jpg, image/svg"
+                                                <input type="file" ref="buildingLogo" class="opacity-0"
+                                                    accept="image/png, image/jpeg, image/jpg, image/svg"
                                                     @input="uploadImage" />
                                             </label>
                                         </div>
