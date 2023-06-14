@@ -84,7 +84,6 @@
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-5">
         <div class="flex justify-between">
             <h2 class="text-2xl font-extrabold leading-6 text-gray-900 py-4">Visitor Logs</h2>
-            <!-- <h2 class="text-2xl font-extrabold leading-6 text-gray-900 py-4">Filter Here</h2> -->
         </div>
         <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
             <div class="sm:flex sm:items-center">
@@ -209,10 +208,6 @@ export default {
         }
     },
     methods: {
-
-        showThis(item) {
-            console.log(item)
-        },
 
         async getData() {
             await axios.get('/api/visitor-registration/')

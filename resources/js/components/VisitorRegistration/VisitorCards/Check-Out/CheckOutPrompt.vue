@@ -88,29 +88,36 @@ export default {
             await axios.get('/api/visitor-query?given=' + this.given + '&building_ID=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
+                    console.log(this.account)
 
+                    if(this.account == null) { 
+                        this.$router.push('/visitor-registration/signIn/reg/' + this.id);
+                    }
+
+                    if(this.account.status) {
+                        store.setHiddenParam(this.account.id);
+
+                        if (this.account.refCode == this.given || this.account.email == this.given){
+                            if(!this.account.latest_log.isCheckedOut) {
+                                this.$router.push('/visitor-registration/checkout/' + this.id);
+                            }
+                            else {
+                                this.$router.push('/visitor-registration/checkin/' + this.id);
+                            }
+                        }
+                        else {
+                            this.$router.push('/visitor-registration/checkout/' + this.id);
+                        }
+                    }
+
+                    else {
+                        this.$router.push('/visitor-registration/approval');
+                    }
                 })
                 .catch((e) => {
 
                 });
         },
-
-        // checkLog() {
-        //     axios.get('/api/check-log/')
-        //         .then((data) => {
-        //             this.log = data.data.data;
-        //             console.log(this.log);
-
-        //             if (this.log == null || !this.log.isCheckedOut){
-        //                 this.$router.push('/visitor-registration/checkout/' + this.id);
-        //             }
-        //             else {
-        //                 this.$router.push('/visitor-registration/checkin/' + this.id);
-        //             }
-        //         }).catch((e) => {
-
-        //         });
-        // },
 
         async getBuildingData() {
             await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
