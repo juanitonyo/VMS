@@ -90,7 +90,6 @@ export default {
             await axios.get('/api/visitor-query?given=' + this.given + '&building_ID=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
-                    console.log(this.account)
 
                     if(this.account == null) { 
                         this.$router.push('/visitor-registration/signIn/reg/' + this.id);

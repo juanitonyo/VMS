@@ -1,8 +1,9 @@
 <template>
     <div class="flex justify-center items-center">
 
-        <div
-            class="flex flex-col items-center justify-center w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen space-y-32">
+        <div class="flex flex-col items-center justify-center w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
+
+            <img src="/logo/vms_logo.png" alt="logo" class="w-[180px]">
 
             <div class="flex flex-col">
                 <div class="text-center">

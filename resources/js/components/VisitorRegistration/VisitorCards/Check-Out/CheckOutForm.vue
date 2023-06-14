@@ -31,7 +31,7 @@
 
                             <div class="flex flex-row items-center justify-between">
                                 <label for="visitType" class="text-[10px] text-gray-500">Visit Type</label>
-                                <input v-model="visitType" type="text" disabled
+                                <input v-model="this.visitType" type="text" disabled
                                     class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[210px]">
                             </div>
 
@@ -126,9 +126,8 @@
                 <div class="w-[80px] flex flex-col gap-y-1">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
                         class="flex flex-col items-center justify-center w-full h-[80px] border-2 border-blue-700 rounded-full cursor-pointer hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-7 pb-6"
-                            :class="{ 'hidden': hideLabel_profile }">
-                            <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
+                        <div class="flex flex-col items-center justify-center pt-7 pb-6">
+                            <img v-if="this.visitor.profilePhoto == null" src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
                         <input ref="profile" type="file" class="opacity-0 w-full h-full cursor-pointer"
                             accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
@@ -171,9 +170,8 @@
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
                     <label :style="{ 'background-image': `url(${front_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                            :class="{ 'hidden': hideLabel_front }">
-                            <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <img v-if="this.visitor.front_id == null" src="/Visitor_Homepage_Assets/frontID.png" alt="">
                         </div>
                         <input ref="front" type="file" class="opacity-0 w-full h-full cursor-pointer"
                             accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadFront" />
@@ -184,9 +182,8 @@
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
                     <label :style="{ 'background-image': `url(${back_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                            :class="{ 'hidden': hideLabel_back }">
-                            <img src="/Visitor_Homepage_Assets/backID.png" alt="">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <img v-if="this.visitor.back_id == null" src="/Visitor_Homepage_Assets/backID.png" alt="">
                         </div>
                         <input ref="back" type="file" class="opacity-0 w-full h-full cursor-pointer"
                             accept="image/png, image/jpeg, image/jpg, image/svg" @change="uploadBack" />
@@ -240,8 +237,8 @@
                 <div class="space-y-2 my-5">
 
                     <div class="w-full flex h-[45px] gap-x-3 shadow-sm shadow-slate-400 p-2 rounded-md select-none"
-                        v-for="symptom in symptoms">
-                        <input type="checkbox" v-model="symptoms.state" v-bind:id="symptoms.id">
+                        v-for="symptom in this.symptoms">
+                        <input v-model="symptom.state" type="checkbox" v-bind:id="symptoms.id" v-on:click="saveToArray(symptom.id)">
                         <img :src="symptom.image">
                         <div class="flex flex-col">
                             <p class="text-xs font-bold">{{ symptom.eng }}</p>
@@ -267,7 +264,7 @@
 
 
                 <div class="mt-5">
-                    <button @click="saveState" type="button"
+                    <button @click.prevent="submitForm()" type="button"
                         class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
                         Submit
                     </button>
@@ -297,6 +294,10 @@ export default {
             type: Array,
             default: []
         },
+        symptoms: {
+            type: Array,
+            default: []
+        }
     },
     components: {
         FormDialog,
@@ -309,9 +310,8 @@ export default {
             buildings: {},
             visitor: {},
             purpose: [],
-            hideLabel_profile: false,
-            hideLabel_front: false,
-            hideLabel_back: false,
+            checkedIDs: [],
+            form: '',
             profile_url: '',
             front_url: '',
             back_url: '',
@@ -320,84 +320,83 @@ export default {
             show: false,
             pop: false,
             symptoms: [
-                {
-                    id: 1,
+            {
+                    id: 0,
                     image: '/hdf/Fever.png',
                     state: false,
                     eng: 'Fever',
                     tag: 'Lagnat'
                 },
                 {
-                    id: 2,
+                    id: 1,
                     image: '/hdf/Cough.png',
                     state: false,
                     eng: 'Dry Cough',
                     tag: 'Tuyong Ubo'
                 },
                 {
-                    id: 3,
+                    id: 2,
                     image: '/hdf/Sore Throat.png',
                     state: false,
                     eng: 'Sore Throat',
                     tag: 'Namamagang Lalamunan'
                 },
                 {
-                    id: 4,
+                    id: 3,
                     image: '/hdf/Breathlessness.png',
                     state: false,
                     eng: 'Shortness of Breath',
                     tag: 'Hirap sa Paghinga'
                 },
                 {
-                    id: 5,
+                    id: 4,
                     image: '/hdf/No Smell.png',
                     state: false,
                     eng: 'Loss of Smell / Taste',
                     tag: 'Pagkawala ng Pang-Amoy o Panglasa'
                 },
                 {
-                    id: 6,
+                    id: 5,
                     image: '/hdf/Colds.png',
                     state: false,
                     eng: 'Runny Nose',
                     tag: 'Sipon'
                 },
                 {
-                    id: 7,
+                    id: 6,
                     image: '/hdf/Fatigue.png',
                     state: false,
                     eng: 'Fatigue',
                     tag: 'Pagkapagod'
                 },
                 {
-                    id: 8,
+                    id: 7,
                     image: '/hdf/Aches.png',
                     state: false,
                     eng: 'Aches and Pain',
                     tag: 'Pananakit ng Katawan'
                 },
                 {
-                    id: 9,
+                    id: 8,
                     image: '/hdf/Diarrhea.png',
                     state: false,
                     eng: 'Diarrhea',
                     tag: 'Pagdudumi'
                 },
                 {
-                    id: 10,
+                    id: 9,
                     image: '/hdf/Headache.png',
                     state: false,
                     eng: 'Headache',
                     tag: 'Pananakit ng Ulo'
                 },
                 {
-                    id: 11,
+                    id: 10,
                     image: '/hdf/None.png',
                     state: false,
                     eng: 'None of the Above',
                     tag: 'Wala sa mga Nabanggit'
                 },
-
             ],
         }
     },
@@ -434,12 +433,12 @@ export default {
                 .then((data) => {
                     this.visitor = data.data.data;
 
-                    this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
-                    this.hideLabel_profile = true;
-                    this.front_url = '/uploads/frontID/' + this.visitor.front_id
-                    this.hideLabel_front = true;
-                    this.back_url = '/uploads/backID/' + this.visitor.back_id
-                    this.hideLabel_back = true
+                    if(this.visitor.profilePhoto != null)
+                        this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
+                    if(this.visitor.front_id != null)
+                        this.front_url = '/uploads/frontID/' + this.visitor.front_id
+                    if(this.visitor.back_id != null)
+                        this.back_url = '/uploads/backID/' + this.visitor.back_id
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
@@ -447,20 +446,40 @@ export default {
         },
 
         async checkLog() {
-            await axios.get('/api/check-log/')
+            await axios.get('/api/check-log?id=' + store.hiddenID)
                 .then((data) => {
                     this.log = data.data.data;
                     this.visitType = this.log.visit_type.name
+                    console.log(this.visitType)
                 }).catch((e) => {
 
                 });
         },
+
+        saveToArray(id) {
+            if(this.checkedIDs.includes(id)){
+                this.checkedIDs.pop(id);
+            }
+            else{
+                this.checkedIDs.push(id)
+            }
+
+            console.log(this.checkedIDs);
+        },
+
+        submitForm() {
+            this.form = this.checkedIDs.join(" and ");
+            console.log(this.form)
+        }
     },
     created() {
         this.getBuildingData();
         this.syncData();
         this.checkLog();
         this.moment = moment;
+        if(store.hiddenID == null) {
+            this.$router.back();
+        }
     },
 }
 </script>
