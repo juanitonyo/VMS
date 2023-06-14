@@ -26,16 +26,17 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('get-building-types', 'BuildingTypesController@getBuildingTypeArray');
     Route::get('get-buildings', 'BuildingController@getBuildingsArray');
     Route::get('sync-visitor', 'VisitorsController@syncVisitor');
+    Route::get('check-visitor', 'VisitorsController@checkExist');
     Route::get('visitor-registration', 'BuildingController@getBuilding');
     Route::get('visitor-query', 'VisitorsController@existingVisitor');
     Route::get('validate-form', 'VisitorsController@validateForm');
+    Route::get('check-otp', 'VisitorsController@checkOTP');
     Route::get('check-log', 'VisitorLogsController@queryLog');
     Route::get('get-hosts', 'HostController@getHostQuery');
     Route::get('get-checkouts', 'VisitorLogsController@totalCheckOut');
     Route::get('get-logs', 'VisitorLogsController@getVisitorLogs');
     Route::get('get-visitor-log', 'VisitorLogsController@getVisitorLog');
     Route::get('get-roles', 'RolesController@getRoles');
-    Route::get('check-otp', 'VisitorsController@checkOTP');
 
     Route::apiResources([
         'user' => 'UserController',

@@ -19,19 +19,19 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="py-3.5 px-3 text-center text-sm font-semibold text-gray-900 sm:pl-6">
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                                     Name
                                 </th>
-                                <th scope="col" class="py-3.5 px-3 text-center text-sm w-80 font-semibold text-gray-900">
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                                     Building Type</th>
-                                <th scope="col" class="py-3.5 px-3 text-center text-sm w-80 font-semibold text-gray-900">
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                                     Person to Visit</th>
-                                <th scope="col" class="py-3.5 px-3 text-center text-sm w-80 font-semibold text-gray-900">
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
                                     Visit Approval</th>
-                                <th scope="col" class="py-3.5 px-3 text-center text-sm font-semibold text-gray-900">Status
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Status
                                 </th>
-                                <th scope="col" class="py-3.5 px-3 text-sm font-semibold text-gray-900">Date Created</th>
-                                <th scope="col" class="py-3.5 px-3 text-sm font-semibold text-gray-900">Action</th>
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Date Created</th>
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white">
@@ -86,13 +86,14 @@
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3">
                             <div class="flex justify-between">
-                                <label for="buildingType"
-                                    class="block text-sm font-medium leading-6 text-gray-900">Building Type</label>
+                                <label for="buildingType" class="block text-sm font-medium leading-6 text-gray-900">Building
+                                    Type</label>
                                 <span v-show="this.editMode ? false : form.errors.has('buildingType')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                             </div>
                             <v-select v-model="form.buildingType" placeholder="Search" :options="building_types"
-                                label="label" :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                                label="label"
+                                :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">

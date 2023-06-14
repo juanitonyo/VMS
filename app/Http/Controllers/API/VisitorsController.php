@@ -28,7 +28,7 @@ class VisitorsController extends BaseController
 
     public function existingVisitor(Request $request) {
 
-        $data = Visitors::with("latestLog")->where([
+        $data = Visitors::with('latestLog')->where([
             ['contact', $request->given],
             ['building_ID', $request->building_ID]
         ])->orWhere([
@@ -37,11 +37,11 @@ class VisitorsController extends BaseController
         ])->orWhere([
             ['email', $request->given],
             ['building_ID', $request->building_ID]
-        ])->first();
+        ])->latest()->first();
 
         $building = Building::where('id', $request->building_ID)->first();
 
-        if($data != null) {
+        if($data->status && $data->latestLog->isCheckedOut) {
             if($request->given == $data['email']) {
                 $pass = random_int(000000, 999999);
                 
@@ -62,42 +62,48 @@ class VisitorsController extends BaseController
                     'buildingAddress' => $building->address,
                     'checkedIn' => $data->latestLog->created_at
                 ];
+
                 Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
 
             }
 
             else if($request->given == $data['contact']) {
-                // $pass = random_int(000000, 999999);
+                $pass = random_int(000000, 999999);
 
-                // $curl = curl_init();
-                // curl_setopt_array($curl, array(
-                // CURLOPT_URL => 'https://sms.gets.ph/api/sms-push',
-                // CURLOPT_RETURNTRANSFER => true,
-                // CURLOPT_ENCODING => '',
-                // CURLOPT_MAXREDIRS => 10,
-                // CURLOPT_TIMEOUT => 0,
-                // CURLOPT_FOLLOWLOCATION => true,
-                // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                // CURLOPT_CUSTOMREQUEST => 'POST',
-                // CURLOPT_POSTFIELDS => array('number' => $request->given,'message' => 'Your PropTech One-Time PIN is '.$pass.'. Please do not share OTP with anyone.'),
-                // CURLOPT_HTTPHEADER => array(
-                //     'Authorization: Bearer 2|6IjBwPqcZgSeYzrlZK3UKP7T64jhumjL71w7zCIb'
-                // ),
-                // ));
-                // $response = curl_exec($curl);
+                $curl = curl_init();
+                curl_setopt_array($curl, array(
+                CURLOPT_URL => 'https://sms.gets.ph/api/sms-push',
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => '',
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 0,
+                CURLOPT_FOLLOWLOCATION => true,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => 'POST',
+                CURLOPT_POSTFIELDS => array('number' => $request->given,'message' => 'Your PropTech One-Time PIN is '.$pass.'. Please do not share OTP with anyone.'),
+                CURLOPT_HTTPHEADER => array(
+                    'Authorization: Bearer 2|6IjBwPqcZgSeYzrlZK3UKP7T64jhumjL71w7zCIb'
+                ),
+                ));
+                $response = curl_exec($curl);
 
-                // curl_close($curl);
-                // return response()->json([
-                //     'success' => true,
-                //     'message' => $response,
-                //     'code' => $pass
-                // ]);
+                curl_close($curl);
+                return response()->json([
+                    'success' => true,
+                    'message' => $response,
+                    'code' => $pass
+                ]);
             }
         }
 
         return $this->sendResponse($data, "Data found in table");
     }
+    public function checkExist(Request $request) {
+        $buildingRefID = Building::where('qr_id', $request->buildingUUID)->first()->id;
 
+
+    }
+    
     public function syncVisitor(Request $request) {
 
         $data = Visitors::with('latestLog')->where('id', $request->id)->first();        
@@ -129,45 +135,61 @@ class VisitorsController extends BaseController
     {
         $buildingRefID = Building::where('qr_id', $request->building_ID)->first()->id;
         $validated = $request->validated();
-        
-        if($request->profilePhoto){
-            $profilePhoto_binary = $request->profilePhoto;
-            $profilePhoto_link = time().'.' . explode('/', explode(':', substr($profilePhoto_binary, 0, strpos($profilePhoto_binary, ';')))[1])[1];
-            
-            if(!File::exists('uploads/profiles-visitor/'.$profilePhoto_link)) {
-                \Image::make($profilePhoto_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profilePhoto_link)->destroy();
+
+        $existingData = Visitors::where([
+            ['name', $request->name],
+            ['building_ID', $buildingRefID]
+        ])->orWhere([
+            ['email', $request->email],
+            ['building_ID', $buildingRefID]
+        ])->orWhere([
+            ['contact', $request->contact],
+            ['building_ID', $buildingRefID]
+        ])->first();
+
+        if($existingData == null) {
+            if($request->profilePhoto){
+                $profilePhoto_binary = $request->profilePhoto;
+                $profilePhoto_link = time().'.' . explode('/', explode(':', substr($profilePhoto_binary, 0, strpos($profilePhoto_binary, ';')))[1])[1];
+                
+                if(!File::exists('uploads/profiles-visitor/'.$profilePhoto_link)) {
+                    \Image::make($profilePhoto_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profilePhoto_link)->destroy();
+                }
+                
+                $validated['profilePhoto'] = $profilePhoto_link;
+            }
+    
+            if($request->front_id){
+                $front_id_binary = $request->front_id;
+                $front_id_link = time().'.' . explode('/', explode(':', substr($front_id_binary, 0, strpos($front_id_binary, ';')))[1])[1];
+                
+                if(!File::exists('uploads/frontID/'.$front_id_link)) {
+                    \Image::make($front_id_binary)->fit(200, 200)->save('uploads/frontID/'.$front_id_link)->destroy();
+                }
+                
+                $validated['front_id'] = $front_id_link;
+            }
+    
+            if($request->back_id){
+                $back_id_binary = $request->back_id;
+                $back_id_link = time().'.' . explode('/', explode(':', substr($back_id_binary, 0, strpos($back_id_binary, ';')))[1])[1];
+                
+                if(!File::exists('uploads/backID/'.$back_id_link)) {
+                    \Image::make($back_id_binary)->fit(200, 200)->save('uploads/backID/'.$back_id_link)->destroy();
+                }
+                
+                $validated['back_id'] = $back_id_link;
             }
             
-            $validated['profilePhoto'] = $profilePhoto_link;
+            $validated['building_ID'] = $buildingRefID;
+            $validated['refCode'] = Str::random(6);
+            
+            $data = Visitors::create($validated);
+
+            return $this->sendResponse($data, "Data Saved.");
         }
 
-        if($request->front_id){
-            $front_id_binary = $request->front_id;
-            $front_id_link = time().'.' . explode('/', explode(':', substr($front_id_binary, 0, strpos($front_id_binary, ';')))[1])[1];
-            
-            if(!File::exists('uploads/frontID/'.$front_id_link)) {
-                \Image::make($front_id_binary)->fit(200, 200)->save('uploads/frontID/'.$front_id_link)->destroy();
-            }
-            
-            $validated['front_id'] = $front_id_link;
-        }
-
-        if($request->back_id){
-            $back_id_binary = $request->back_id;
-            $back_id_link = time().'.' . explode('/', explode(':', substr($back_id_binary, 0, strpos($back_id_binary, ';')))[1])[1];
-            
-            if(!File::exists('uploads/backID/'.$back_id_link)) {
-                \Image::make($back_id_binary)->fit(200, 200)->save('uploads/backID/'.$back_id_link)->destroy();
-            }
-            
-            $validated['back_id'] = $back_id_link;
-        }
-        
-        $validated['building_ID'] = $buildingRefID;
-        $validated['refCode'] = Str::random(6);
-        
-        $data = Visitors::create($validated);
-        return $this->sendResponse($data, "Data Saved.");
+        return $this->sendError("Some data found in table", $existingData);
     }
     
     /**
