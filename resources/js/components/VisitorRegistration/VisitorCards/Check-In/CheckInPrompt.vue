@@ -96,9 +96,8 @@ export default {
                     }
 
                     if(this.account.status) {
-                        store.setHiddenParam(this.account.id);
-
                         if (this.account.refCode == this.given || this.account.email == this.given){
+                            store.setHiddenParam(this.account.id);
                             if(this.account.latest_log.isCheckedOut) {
                                 this.$router.push('/visitor-registration/checkin/' + this.id);
                             }
@@ -107,7 +106,9 @@ export default {
                             }
                         }
                         else if (this.account.contact == this.given) {
-                            if(this.account.isCheckedOut) {
+                            store.setHiddenParam(this.account.id);
+                            store.setHiddenBuilding(this.account.building_ID)
+                            if(this.account.latest_log.isCheckedOut) {
                                 this.$router.push('/visitor-registration/otp');
                             }
                             else {
@@ -121,8 +122,8 @@ export default {
                     }
                 
                 })
-                .catch((e) => {
-
+                .catch((error) => {
+                    
                 });
         },
 

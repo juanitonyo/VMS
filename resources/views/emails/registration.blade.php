@@ -34,11 +34,5 @@
         </tbody>
     </table>
 </div>
-<div style="margin-top: 32px">
-    <a href="{{ config('app.url') }}/confirm-email?email={{ $mailData['email'] }}&otp={{ $mailData['password'] }}"
-        target="_blank"
-        style="padding: 10px 24px; background-color: slateblue; border-radius: 3px; text-decoration: none; color: white;">Click
-        to Confirm</a>
-</div>
 
 @include('emails.footer')

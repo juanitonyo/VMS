@@ -30,6 +30,8 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('visitor-query', 'VisitorsController@existingVisitor');
     Route::get('validate-form', 'VisitorsController@validateForm');
     Route::get('check-otp', 'VisitorsController@checkOTP');
+    Route::get('send-otp', 'VisitorsController@sendOTP');
+    Route::get('send-email', 'VisitorsController@sendEmail');
     Route::get('check-log', 'VisitorLogsController@queryLog');
     Route::get('get-hosts', 'HostController@getHostQuery');
     Route::get('get-checkouts', 'VisitorLogsController@totalCheckOut');
