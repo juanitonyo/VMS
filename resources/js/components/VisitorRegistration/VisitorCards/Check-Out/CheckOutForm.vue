@@ -310,7 +310,7 @@ export default {
             buildings: {},
             visitor: {},
             purpose: [],
-            checkedIDs: [],
+            health_form: [],
             form: '',
             profile_url: '',
             front_url: '',
@@ -410,8 +410,13 @@ export default {
         },
 
         checkOutVisitor() {
-            axios.put("/api/visitor-logs/" + this.visitor.id)
-                .then((data) => {
+            this.log.health_form = this.health_form
+
+            axios.put("/api/visitor-logs/" + this.visitor.id, {
+                    params: {
+                        data: this.log
+                    }
+                }).then((data) => {
                     this.$router.push('/visitor-registration/success/checkout/' + this.id);
                 }).catch((e) => {
 
@@ -450,26 +455,25 @@ export default {
                 .then((data) => {
                     this.log = data.data.data;
                     this.visitType = this.log.visit_type.name
-                    console.log(this.visitType)
                 }).catch((e) => {
 
                 });
         },
 
         saveToArray(id) {
-            if(this.checkedIDs.includes(id)){
-                this.checkedIDs.pop(id);
+            if(this.health_form.includes(id)){
+                this.health_form.pop(id);
             }
             else{
-                this.checkedIDs.push(id)
+                this.health_form.push(id)
             }
 
-            console.log(this.checkedIDs);
+            console.log(this.health_form);
         },
 
         submitForm() {
-            this.form = this.checkedIDs.join(" and ");
-            console.log(this.form)
+            this.form = this.health_form.join(" and ");
+            this.isOpen();
         }
     },
     created() {

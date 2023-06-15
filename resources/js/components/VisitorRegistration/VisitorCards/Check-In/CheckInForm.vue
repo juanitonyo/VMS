@@ -501,12 +501,22 @@ export default {
 
             this.form.post('/api/visitor-logs/')
                 .then((data) => {
-                    store.setHiddenParam
-
-                    this.$router.push('/visitor-registration/success/checkin/' + this.id);
+                    this.sendMail();
                 }).catch((e) => {
-
+                    
                 });
+            },
+
+            sendMail() {
+                axios.get('/api/send-email?id=' + this.visitor.id + '&buildingID=' + this.id)
+                .then((data) => {
+                    store.setHiddenParam(this.visitor.id);
+                    this.$router.push('/visitor-registration/success/checkin/' + this.id);
+                }).catch((error) => {
+                    createToast(
+                        
+                    );
+                })
         },
 
         updateVisitorInfo() {

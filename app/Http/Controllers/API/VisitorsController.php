@@ -26,6 +26,62 @@ class VisitorsController extends BaseController
         return $this->sendResponse($data, "Fetched all Visitors in Array");
     }
 
+    public function sendEmail(Request $request) {
+        $data = Visitors::with('latestLog')->where('id', $request->id)->first();
+
+        $building = Building::where('qr_id', $request->buildingID)->first();
+
+        $mailData = [
+            'title' => "One-Time Password",
+            'email' => $data['email'],
+            'uuid' => $request->building_ID,
+            'name' => $data['name'],
+            'refCode' => $data['refCode'],
+            'contact' => $data['contact'],
+            'buildingName' => $building->buildingName,
+            'buildingAddress' => $building->address,
+            'checkedIn' => $data->latestLog->created_at
+        ];
+
+        Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
+    }
+
+    public function sendOTP(Request $request) {
+            // $pass = random_int(000000, 999999);
+
+            // $data = Visitors::where([
+            //     ['id', $request->id],
+            //     ['building_ID', $request->buildingID]
+            // ])->first();
+
+            // Visitors::where([
+            //     ['id', $request->id],
+            //     ['building_ID', $request->buildingID]
+            // ])->update([
+            //     'remember-otp' => $pass,
+            //     'otp_expiry_date' => Carbon::now()->addMinutes(5)
+            // ]);
+
+            // $curl = curl_init();
+            // curl_setopt_array($curl, array(
+            // CURLOPT_URL => 'https://sms.gets.ph/api/sms-push',
+            // CURLOPT_RETURNTRANSFER => true,
+            // CURLOPT_ENCODING => '',
+            // CURLOPT_MAXREDIRS => 10,
+            // CURLOPT_TIMEOUT => 0,
+            // CURLOPT_FOLLOWLOCATION => true,
+            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            // CURLOPT_CUSTOMREQUEST => 'POST',
+            // CURLOPT_POSTFIELDS => array('number' => $data->contact,'message' => 'Your PropTech One-Time PIN is '.$pass.'. Please do not share OTP with anyone.'),
+            // CURLOPT_HTTPHEADER => array(
+            //     'Authorization: Bearer 2|6IjBwPqcZgSeYzrlZK3UKP7T64jhumjL71w7zCIb'
+            // ),
+            // ));
+            // $response = curl_exec($curl);
+
+            // curl_close($curl);
+    }
+
     public function existingVisitor(Request $request) {
 
         $data = Visitors::with('latestLog')->where([
@@ -38,63 +94,6 @@ class VisitorsController extends BaseController
             ['email', $request->given],
             ['building_ID', $request->building_ID]
         ])->first();
-
-        $building = Building::where('id', $request->building_ID)->first();
-
-        if($data->status && $data->latestLog->isCheckedOut) {
-            if($request->given == $data['email']) {
-                $pass = random_int(000000, 999999);
-                
-                Visitors::findOrFail($data['id'])->update([
-                    'remember-otp' => $pass,
-                    'otp_expiry_date' => Carbon::now()->addMinutes(5)
-                ]);
-                
-                $mailData = [
-                    'title' => "One-Time Password",
-                    'email' => $data['email'],
-                    'password' => $pass,
-                    'uuid' => $request->building_ID,
-                    'name' => $data['name'],
-                    'refCode' => $data['refCode'],
-                    'contact' => $data['contact'],
-                    'buildingName' => $building->buildingName,
-                    'buildingAddress' => $building->address,
-                    'checkedIn' => $data->latestLog->created_at
-                ];
-
-                Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
-
-            }
-
-            else if($request->given == $data['contact']) {
-                $pass = random_int(000000, 999999);
-
-                $curl = curl_init();
-                curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://sms.gets.ph/api/sms-push',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array('number' => $request->given,'message' => 'Your PropTech One-Time PIN is '.$pass.'. Please do not share OTP with anyone.'),
-                CURLOPT_HTTPHEADER => array(
-                    'Authorization: Bearer 2|6IjBwPqcZgSeYzrlZK3UKP7T64jhumjL71w7zCIb'
-                ),
-                ));
-                $response = curl_exec($curl);
-
-                curl_close($curl);
-                return response()->json([
-                    'success' => true,
-                    'message' => $response,
-                    'code' => $pass
-                ]);
-            }
-        }
 
         return $this->sendResponse($data, "Data found in table");
     }

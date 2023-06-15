@@ -16,6 +16,7 @@ class VisitorLogs extends Model
         'building_id',
         'visitPurpose_id',
         'isCheckedOut',
+        'health_form',
         'logType'
     ];
 

@@ -28,7 +28,7 @@
                         Verify
                     </button>
                     <div class="text-center">
-                        <button class="text-indigo-600 text-center text-[10px]">Resend New
+                        <button @click.prevent="sendOTP" class="text-indigo-600 text-center text-[10px]">Resend New
                             Code</button>
                     </div>
                 </div>
@@ -39,6 +39,7 @@
 <script>
 import { useStore } from '../../../../store/visitor';
 import axios from 'axios';
+import { createToast } from 'mosha-vue-toastify';
 
 const store = useStore();
 
@@ -52,21 +53,64 @@ export default {
     },
     methods: {
         checkLogs() {
+            this.$Progress.start();
             axios.get('/api/check-otp?otp=' + this.inputs.join('').toString())
                 .then((data) => {
                     this.account = data.data.data
-
-                    if(this.account != null) {
-                        store.setHiddenParam(this.account.id);
-                        this.$router.push('/visitor-registration/checkin/' + this.account.building.qr_id)
-                    }
+                    store.setHiddenParam(this.account.id);
+                    this.$router.push('/visitor-registration/checkin/' + this.account.building.qr_id)
                 }).catch((e) => {
+                    this.$Progress.fail()
+                    createToast(
+                        {
+                            title: "Opps!",
+                            description: "OTP does not match. Try again.",
+                        },
+                        {
+                            showIcon: "true",
+                            position: "top-right",
+                            type: "danger",
+                            hideProgressBar: "true",
+                            transition: "bounce",
+                        }
+                    );
+                })
+        },
+        sendOTP() {
+            axios.get('/api/send-otp?id=' + store.hiddenID + '&buildingID=' + store.hiddenBuilding)
+                .then((data) => {
+                    createToast({
+                        title: 'OTP sent!',
+                        description: 'Check your device to see your OTP.'
+                    },
+                    {
+                        position: 'top-left',
+                        showIcon: 'true',
+                        type: 'success',
+                        toastBackgroundColor: '#00bcd4',
+                        hideProgressBar: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                    })
+                }).catch((error) => {
+
+                })
+        },
+        syncVisitor() {
+            axios.get('/api/sync-visitor?id=' + store.hiddenID)
+                .then((data) => {
+
+                }).catch((error) => {
 
                 })
         }
     },
     created() {
-        this.id = store.hiddenID;
+        if(store.hiddenID == null) {
+            this.$router.back();
+        }
+        else {
+            this.sendOTP();
+        }
     }
 }
 </script>

@@ -83,10 +83,12 @@ class VisitorLogsController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update($id)
+    public function update(VisitorLogsRequests $request, $id)
     {
+
         $data = VisitorLogs::where('visitor_id', $id)->latest()->first()->update([
             'isCheckedOut' => 1,
+            'health_form' => $request->params['data']['health_form']
         ]);
 
         return $this->sendResponse($data, "Checked Out Visitor");
