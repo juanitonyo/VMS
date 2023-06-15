@@ -76,17 +76,17 @@ const routes = [
             middleware: "guest",
         },
         children: [
-            {
-                name: "home",
-                path: "/",
-                component: Home,
-                meta: {
-                    title: `Home`,
-                },
-            },
+            // {
+            //     name: "home",
+            //     path: "/",
+            //     component: Home,
+            //     meta: {
+            //         title: `Home`,
+            //     },
+            // },
             {
                 name: "login",
-                path: "/login",
+                path: "/",
                 component: Login,
                 meta: {
                     title: `VMS Login`,
