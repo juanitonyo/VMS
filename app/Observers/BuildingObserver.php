@@ -23,7 +23,7 @@ class BuildingObserver
     public function creating(Building $building): void
     {
         $building->qr_id = Str::uuid();
-        $building->buildingType = $this->request->buildingType['value'];
+        // $building->buildingType = $this->request->buildingType['value'];
     }
     /**
      * Handle the Building "created" event.
