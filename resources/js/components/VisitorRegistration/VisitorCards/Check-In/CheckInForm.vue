@@ -150,9 +150,9 @@
         <template v-slot:body>
 
             <div class="flex justify-center items-center w-full ">
-                <div class="w-[80px] flex flex-col gap-y-1">
+                <div class="w-full flex items-center justify-center flex-col gap-y-1">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
-                        class="flex flex-col items-center justify-center w-[92px] h-[80px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                        class="flex flex-col items-center justify-center w-[90px] h-[90px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
                         <div v-if="this.profilePhoto == ''" class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_profile }">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
@@ -215,7 +215,7 @@
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-left">
                     <label for="fullname" class="text-[10px] text-gray-500 ml-3">Type</label>
-                    <p class="text-[10px] ml-[69px]">{{ this.permission != null ? 'Invitee' : 'Walk-In' }}</p>
+                    <p class="text-[10px] ml-[67px]">{{ this.permission != null ? 'Invitee' : 'Walk-In' }}</p>
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
@@ -227,7 +227,7 @@
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row justify-left items-center">
                     <label for="contact" class="text-[10px] text-gray-500 ml-3">Approved</label>
-                    <p class="text-[10px] ml-[45px]">{{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
+                    <p class="text-[10px] ml-[42px]">{{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
                 </div>
             </div>
 
