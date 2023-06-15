@@ -27,10 +27,10 @@ class VisitorsRequest extends FormRequest
     public function createRules() :array {
         return [
             'name' => 'required',
-            'building_ID' => 'required',
+            'building_id' => 'required',
             'email' => 'required',
             'contact' => 'required',
-            'validId' => 'required',
+            'valid_id' => 'required',
             'policy' => 'required'
         ];
     }
@@ -38,10 +38,10 @@ class VisitorsRequest extends FormRequest
     public function updateRules(){
         return [
             'params.data.name' => 'required',
-            'params.data.building_ID' => 'required',
+            'params.data.building_id' => 'required',
             'params.data.email' => 'required',
             'params.data.contact' => 'required',
-            'params.data.validId' => 'required',
+            'params.data.valid_id' => 'required',
             'params.data.policy' => 'required'
         ];
     }

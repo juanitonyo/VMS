@@ -16,10 +16,10 @@ return new class extends Migration
             $table->integer('visitor_id');
             $table->integer('user_id')->nullable();
             $table->integer('building_id');
-            $table->integer('visitPurpose_id');
-            $table->string('logType');
+            $table->integer('visit_purpose_id');
+            $table->string('log_type');
             $table->string('health_form')->nullable();
-            $table->boolean('isCheckedOut')->default(false);
+            $table->boolean('is_checked_out')->default(false);
             $table->timestamps();
         });
     }

@@ -12,11 +12,11 @@ class VisitTypes extends Model
 
     protected $fillable = [
         'name',
-        'buildingType',
+        'building_type',
         'description',
-        'personToVisit',
-        'visitApproval',
-        'autoApprove',
+        'person_to_visit',
+        'visit_approval',
+        'auto_approve',
         'status',
     ];
 

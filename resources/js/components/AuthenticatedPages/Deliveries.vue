@@ -33,9 +33,9 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in data.data" :key="item.id">
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900">{{ item.riderName }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-900">{{ item.rider_name }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.contact }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.courierName }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.courier_name }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">Test</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs">

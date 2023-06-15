@@ -28,8 +28,8 @@ class VisitorLogsRequests extends FormRequest
         return [
             'visitor_id' => 'required',
             'building_id' => 'required',
-            'visitPurpose_id' => 'required',
-            'logType' => 'required'
+            'visit_purpose_id' => 'required',
+            'log_type' => 'required'
         ];
     }
 
@@ -37,8 +37,8 @@ class VisitorLogsRequests extends FormRequest
         return [
             'params.data.visitor_id' => 'required',
             'params.data.building_id' => 'required',
-            'params.data.visitPurpose_id' => 'required',
-            'params.data.logType' => 'required'
+            'params.data.visit_purpose_id' => 'required',
+            'params.data.log_type' => 'required'
         ];
     }
 }

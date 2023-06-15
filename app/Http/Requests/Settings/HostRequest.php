@@ -26,8 +26,8 @@ class HostRequest extends FormRequest
 
     public function createRules() :array {
         return [
-            'firstName' => 'required|max:50',
-            'lastName' => 'required|max:50',
+            'first_name' => 'required|max:50',
+            'last_name' => 'required|max:50',
             'email' => 'required',
             'password' => 'required',
             'location' => 'required',
@@ -39,8 +39,8 @@ class HostRequest extends FormRequest
 
     public function updateRules() :array {
         return [
-            'params.data.firstName' => 'required|max:50',
-            'params.data.lastName' => 'required|max:50',
+            'params.data.first_name' => 'required|max:50',
+            'params.data.last_name' => 'required|max:50',
             'params.data.email' => 'required',
             'params.data.password' => 'required',
             'params.data.location' => 'required',

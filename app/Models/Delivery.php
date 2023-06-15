@@ -10,8 +10,8 @@ class Delivery extends Model
     use HasFactory;
 
     protected $fillable = [
-        'courierName',
-        'riderName',
+        'courier_name',
+        'rider_name',
         'contact',
     ];
 }

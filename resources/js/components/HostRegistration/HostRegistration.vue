@@ -7,7 +7,7 @@
                         <div class="text-gray-600">
                             <div class="building text-center">
                                 <p class="text-lg font-semibold">User Registration</p>
-                                <p class="font-medium text-lg text-blue-800">{{ this.buildings.buildingName }}</p>
+                                <p class="font-medium text-lg text-blue-800">{{ this.buildings.building_name }}</p>
                                 <p class="text-[10px]">{{ this.buildings.address }}</p>
                             </div>
 
@@ -15,7 +15,7 @@
                                 <div class="lg:w-40 w-28">
                                     <label :style="{ 'background-image': `url(${profile_url})` }"
                                         class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 rounded-full justify-center items-center cursor-pointer transition duration-500 bg-cover bg-center">
-                                        <img v-show="!hideLabel_profile" class="lg:w-8 w-6 mt-3 lg:mt-0"
+                                        <img v-show="this.form.profile_photo == null" class="lg:w-8 w-6 mt-3 lg:mt-0"
                                             src="https://www.svgrepo.com/show/33565/upload.svg" />
                                         <input type="file" ref="profile" class="opacity-0" @input="uploadProfilePhoto" accept="image/png, image/jpeg, image/jpg, image/svg">
                                     </label>
@@ -29,26 +29,26 @@
                             <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
                                 <div class="md:col-span-5 relative">
                                     <div class="flex justify-between">
-                                        <label for="firstName" class="text-xs">First Name</label>
-                                        <span v-show="form.errors.has('firstName')"
+                                        <label for="first_name" class="text-xs">First Name</label>
+                                        <span v-show="form.errors.has('first_name')"
                                             class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('firstName') }}</span>
+                                            {{ form.errors.get('first_name') }}</span>
                                     </div>
-                                    <input type="text" name="firstName" id="firstName" placeholder="Juan"
-                                        :class="form.errors.has('firstName') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.firstName" />
+                                    <input type="text" name="first_name" id="first_name" placeholder="Juan"
+                                        :class="form.errors.has('first_name') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
+                                        v-model="form.first_name" />
                                 </div>
 
                                 <div class="md:col-span-5 relative">
                                     <div class="flex justify-between">
-                                        <label for="lastName" class="text-xs">Last Name</label>
-                                        <span v-show="form.errors.has('lastName')"
+                                        <label for="last_name" class="text-xs">Last Name</label>
+                                        <span v-show="form.errors.has('last_name')"
                                             class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('lastName') }}</span>
+                                            {{ form.errors.get('last_name') }}</span>
                                     </div>
-                                    <input type="text" name="lastName" id="lastName" placeholder="Dela Cruz"
-                                        :class="form.errors.has('lastName') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.lastName" />
+                                    <input type="text" name="last_name" id="last_name" placeholder="Dela Cruz"
+                                        :class="form.errors.has('last_name') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
+                                        v-model="form.last_name" />
                                 </div>
 
                                 <div class="md:col-span-3 relative">
@@ -134,27 +134,27 @@
 
                                 <div class="md:col-span-1">
                                     <p class="text-xs">Front</p>
-                                    <label for="frontId"
+                                    <label for="front-id" :style="{ 'background-image': `url(${front_url})` }"
                                         class="mt-1 flex flex-col items-center justify-center w-full h-[73px] border border-gray-200 rounded-md cursor-pointer bg-gray-50 hover:bg-blue-100/90 bg-cover bg-no-repeat">
                                         <div class="flex flex-col items-center justify-center pt-6 pb-6">
-                                            <img src="/Visitor_Homepage_Assets/frontID.png">
+                                            <img v-show="this.form.front_id == null" src="/Visitor_Homepage_Assets/frontID.png">
                                         </div>
-                                        <input id="frontId" ref="front" type="file"
+                                        <input id="front-id" ref="front" type="file"
                                             class="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50 opacity-0"
-                                            @input="uploadImage" />
+                                            @input="uploadFrontID" />
                                     </label>
                                 </div>
 
                                 <div class="md:col-span-1">
                                     <p class="text-xs">Back</p>
-                                    <label for="backId"
+                                    <label for="back-id" :style="{ 'background-image': `url(${back_url})` }"
                                         class="mt-1 flex flex-col items-center justify-center w-full h-[73px] border border-gray-200 rounded-md cursor-pointer bg-gray-50 hover:bg-blue-100/90 bg-cover bg-no-repeat">
                                         <div class="flex flex-col items-center justify-center pt-6 pb-6">
-                                            <img src="/Visitor_Homepage_Assets/backID.png">
+                                            <img v-show="this.form.back_id == null" src="/Visitor_Homepage_Assets/backID.png">
                                         </div>
-                                        <input id="backId" ref="front" type="file"
+                                        <input id="back-id" ref="back" type="file"
                                             class="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50 opacity-0"
-                                            @input="uploadImage" />
+                                            @input="uploadBackID" />
                                     </label>
                                 </div>
 
@@ -210,10 +210,9 @@ export default {
             showPassword: false,
             checkPolicy: false,
             isFormComplete: false,
-            profile_url: '',
-            hideLabel_profile: false,
-            frontId: '',
-            backId: '',
+            profile_url: null,
+            front_url: null,
+            back_url: null,
             gov_id: [
                 "Digitalized BIR Taxpayer's ID",
                 'Digitized Postal ID',
@@ -231,15 +230,15 @@ export default {
                 "Voter's ID"
             ],
             form: new Form({
-                firstName: '',
-                lastName: '',
+                first_name: '',
+                last_name: '',
                 email: '',
                 password: '',
                 location: '',
                 contact: null,
-                front_id: '',
-                back_id: '',
-                profilePhoto: '',
+                front_id: null,
+                back_id: null,
+                profile_photo: null,
                 policy: true,
                 role: 'host'
             }),
@@ -269,19 +268,46 @@ export default {
         },
 
         uploadProfilePhoto() {
-            this.hideLabel_profile = true;
             let input = this.$refs.profile;
             let file = input.files;
             if (file && file[0]) {
                 let reader = new FileReader();
                 reader.onload = (e) => {
                     this.profile_url = e.target.result;
-                    this.form.profilePhoto = e.target.result;
+                    this.form.profile_photo = e.target.result;
                 };
                 reader.readAsDataURL(file[0]);
                 this.$emit("input", file[0]);
             }
-        }
+        },
+
+        uploadFrontID() {
+            let input = this.$refs.front;
+            let file = input.files;
+            if (file && file[0]) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.front_url = e.target.result;
+                    this.form.front_id = e.target.result;
+                };
+                reader.readAsDataURL(file[0]);
+                this.$emit("input", file[0]);
+            }
+        },
+
+        uploadBackID() {
+            let input = this.$refs.back;
+            let file = input.files;
+            if (file && file[0]) {
+                let reader = new FileReader();
+                reader.onload = (e) => {
+                    this.back_url = e.target.result;
+                    this.form.back_id = e.target.result;
+                };
+                reader.readAsDataURL(file[0]);
+                this.$emit("input", file[0]);
+            }
+        },
     },
 
     created() {

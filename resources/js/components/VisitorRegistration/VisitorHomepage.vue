@@ -7,7 +7,7 @@
                 <img src="/logo/vms_logo.png" alt="logo" class="w-[180px]">
 
                 <div class="flex flex-col items-center justify-center">
-                    <h2 class="text-sm font-light tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h2 class="text-sm font-light tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-xs text-center">{{ this.buildings.address }}</h4>
                 </div>
 

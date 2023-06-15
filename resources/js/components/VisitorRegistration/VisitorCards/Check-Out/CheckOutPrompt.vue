@@ -6,7 +6,7 @@
 
             <div class="flex flex-col">
                 <div class="text-center">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
 
@@ -97,8 +97,8 @@ export default {
                     if(this.account.status) {
                         store.setHiddenParam(this.account.id);
 
-                        if (this.account.refCode == this.given || this.account.email == this.given){
-                            if(!this.account.latest_log.isCheckedOut) {
+                        if (this.account.ref_code == this.given || this.account.email == this.given){
+                            if(!this.account.latest_log.is_checked_out) {
                                 this.$router.push('/visitor-registration/checkout/' + this.id);
                             }
                             else {

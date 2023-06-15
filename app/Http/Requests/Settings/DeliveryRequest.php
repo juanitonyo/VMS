@@ -26,8 +26,8 @@ class DeliveryRequest extends FormRequest
 
     public function createRules() :array {
         return [
-            'courierName' => 'required',
-            'riderName' => 'required',
+            'courier_name' => 'required',
+            'rider_name' => 'required',
             'contact' => 'required|unique:deliveries|max:100',
 
         ];
@@ -35,8 +35,8 @@ class DeliveryRequest extends FormRequest
 
     public function updateRules(){
         return [
-            'params.data.courierName' => 'required',
-            'params.data.riderName' => 'required',
+            'params.data.courier_name' => 'required',
+            'params.data.rider_name' => 'required',
             'params.data.contact' => 'required|max:100|unique:deliveries,id,'.$this->get('id')
         ];
     }

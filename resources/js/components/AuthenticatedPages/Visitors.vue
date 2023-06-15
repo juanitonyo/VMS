@@ -42,7 +42,7 @@
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in this.data.data" :key="item.id">
                                         <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-56">{{ item.visitor.name }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.buildingName
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.building_name
                                         }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}
                                         </td>
@@ -85,9 +85,9 @@
             <div class="relative flex-1 py-2 sm:px-4 space-y-5">
 
                 <div class="flex items-center justify-center mt-6">
-                    <img :src="'/uploads/profiles-visitor/' + this.account.visitor.profilePhoto"
+                    <img :src="'/uploads/profiles-visitor/' + this.account.visitor.profile_photo"
                         class="relative w-[100px] h-[100px] border border-black rounded-full ">
-                    <svg v-if="this.account.visitor.profilePhoto == null" xmlns="http://www.w3.org/2000/svg"
+                    <svg v-if="this.account.visitor.profile_photo == null" xmlns="http://www.w3.org/2000/svg"
                         fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
@@ -121,13 +121,13 @@
                         </div>
                         <div class="col-span-1 justify-self-end italic text-right text-gray-500">
                             <p>{{ this.account.visitor.name }}</p>
-                            <p>{{ this.account.logType }}</p>
+                            <p>{{ this.account.log_type }}</p>
                             <p>N/A</p>
-                            <p>{{ this.account.visitor.validId }}</p>
+                            <p>{{ this.account.visitor.valid_id }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
-                            <p>{{ this.account.visitor.refCode }}</p>
-                            <p>{{ this.account.building.buildingName }}</p>
+                            <p>{{ this.account.visitor.ref_code }}</p>
+                            <p>{{ this.account.building.building_name }}</p>
                             <p>{{ this.account.visit_type.name }}</p>
                             <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                             <p>N/A</p>
@@ -208,13 +208,13 @@
 
                         <div class="sliderPurpose sm:col-span-3 mt-3">
                             <div class="flex justify-between">
-                                <label for="visitType" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
+                                <label for="visit_type" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
                                     Visit</label>
-                                <span v-show="this.editMode ? false : form.errors.has('visitType')"
+                                <span v-show="this.editMode ? false : form.errors.has('visit_type')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forVisitType() }}</span>
                             </div>
-                            <v-select placeholder="Search" :options="visitType" label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('visitType') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                            <v-select placeholder="Search" :options="visit_type" label="label"
+                                :class="this.editMode ? ' ' : [form.errors.has('visit_type') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -301,13 +301,13 @@ export default {
                 fname: '',
                 lname: '',
                 building: '',
-                visitType: '',
+                visit_type: '',
                 location: '',
                 contact: '',
                 companion: '',
                 date: ''
             }),
-            visitType: [],
+            visit_type: [],
             building: []
         }
     },
@@ -393,13 +393,13 @@ export default {
         },
 
         forVisitType() {
-            return this.editMode ? ' ' : this.form.errors.get('visitType')
+            return this.editMode ? ' ' : this.form.errors.get('visit_type')
         },
 
         async syncVisitType() {
             await axios.get('/api/get-visit-types/')
                 .then((data) => {
-                    this.visitType = data.data.data;
+                    this.visit_type = data.data.data;
                 })
                 .catch((e) => {
 

@@ -31,19 +31,23 @@ class VisitorsController extends BaseController
 
         $building = Building::where('qr_id', $request->buildingID)->first();
 
+        $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first()->name;
+
         $mailData = [
             'title' => "One-Time Password",
             'email' => $data['email'],
-            'uuid' => $request->building_ID,
+            'uuid' => $request->building_id,
             'name' => $data['name'],
-            'refCode' => $data['refCode'],
+            'ref_code' => $data['ref_code'],
+            'visit_type' => $visitType,
             'contact' => $data['contact'],
-            'buildingName' => $building->buildingName,
-            'buildingAddress' => $building->address,
-            'checkedIn' => $data->latestLog->created_at
+            'building_name' => $building->building_name,
+            'building_address' => $building->address,
+            'checked_in' => $data->latestLog->created_at
         ];
 
         Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
+        
     }
 
     public function sendOTP(Request $request) {
@@ -51,14 +55,14 @@ class VisitorsController extends BaseController
 
             // $data = Visitors::where([
             //     ['id', $request->id],
-            //     ['building_ID', $request->buildingID]
+            //     ['building_id', $request->buildingID]
             // ])->first();
 
             // Visitors::where([
             //     ['id', $request->id],
-            //     ['building_ID', $request->buildingID]
+            //     ['building_id', $request->buildingID]
             // ])->update([
-            //     'remember-otp' => $pass,
+            //     'remember_otp' => $pass,
             //     'otp_expiry_date' => Carbon::now()->addMinutes(5)
             // ]);
 
@@ -86,13 +90,13 @@ class VisitorsController extends BaseController
 
         $data = Visitors::with('latestLog')->where([
             ['contact', $request->given],
-            ['building_ID', $request->building_ID]
+            ['building_id', $request->building_id]
         ])->orWhere([
-            ['refCode', $request->given],
-            ['building_ID', $request->building_ID]
+            ['ref_code', $request->given],
+            ['building_id', $request->building_id]
         ])->orWhere([
             ['email', $request->given],
-            ['building_ID', $request->building_ID]
+            ['building_id', $request->building_id]
         ])->first();
 
         return $this->sendResponse($data, "Data found in table");
@@ -108,7 +112,7 @@ class VisitorsController extends BaseController
 
     public function checkOTP(Request $request) {
         $data = Visitors::with('building')->where([
-            'remember-otp' => $request->otp,
+            'remember_otp' => $request->otp,
             ])->first();
 
         return $this->sendResponse($data, "Fetched data");
@@ -127,30 +131,30 @@ class VisitorsController extends BaseController
      */
     public function store(VisitorsRequest $request)
     {
-        $buildingRefID = Building::where('qr_id', $request->building_ID)->first()->id;
+        $buildingRefID = Building::where('qr_id', $request->building_id)->first()->id;
         $validated = $request->validated();
 
         $existingData = Visitors::where([
             ['name', $request->name],
-            ['building_ID', $buildingRefID]
+            ['building_id', $buildingRefID]
         ])->orWhere([
             ['email', $request->email],
-            ['building_ID', $buildingRefID]
+            ['building_id', $buildingRefID]
         ])->orWhere([
             ['contact', $request->contact],
-            ['building_ID', $buildingRefID]
+            ['building_id', $buildingRefID]
         ])->first();
 
         if($existingData == null) {
-            if($request->profilePhoto){
-                $profilePhoto_binary = $request->profilePhoto;
-                $profilePhoto_link = time().'.' . explode('/', explode(':', substr($profilePhoto_binary, 0, strpos($profilePhoto_binary, ';')))[1])[1];
+            if($request->profile_photo){
+                $profile_photo_binary = $request->profile_photo;
+                $profile_photo_link = time().'.' . explode('/', explode(':', substr($profile_photo_binary, 0, strpos($profile_photo_binary, ';')))[1])[1];
                 
-                if(!File::exists('uploads/profiles-visitor/'.$profilePhoto_link)) {
-                    \Image::make($profilePhoto_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profilePhoto_link)->destroy();
+                if(!File::exists('uploads/profiles-visitor/'.$profile_photo_link)) {
+                    \Image::make($profile_photo_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_photo_link)->destroy();
                 }
                 
-                $validated['profilePhoto'] = $profilePhoto_link;
+                $validated['profile_photo'] = $profile_photo_link;
             }
     
             if($request->front_id){
@@ -175,8 +179,8 @@ class VisitorsController extends BaseController
                 $validated['back_id'] = $back_id_link;
             }
             
-            $validated['building_ID'] = $buildingRefID;
-            $validated['refCode'] = Str::random(6);
+            $validated['building_id'] = $buildingRefID;
+            $validated['ref_code'] = Str::random(6);
             
             $data = Visitors::create($validated);
 
@@ -210,16 +214,16 @@ class VisitorsController extends BaseController
 
         $data = Visitors::findOrFail($id);
         
-        if($data->profilePhoto != $request->params['data']['profilePhoto']) {
-            unlink('uploads/profiles-visitor/'.$data->profilePhoto);
-            $profilePhoto_binary = $request->params['data']['profilePhoto'];
-            $profilePhoto_link = time().'.' . explode('/', explode(':', substr($profilePhoto_binary, 0, strpos($profilePhoto_binary, ';')))[1])[1];
+        if($data->profile_photo != $request->params['data']['profile_photo']) {
+            unlink('uploads/profiles-visitor/'.$data->profile_photo);
+            $profile_photo_binary = $request->params['data']['profile_photo'];
+            $profile_photo_link = time().'.' . explode('/', explode(':', substr($profile_photo_binary, 0, strpos($profile_photo_binary, ';')))[1])[1];
                 
-            \Image::make($profilePhoto_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profilePhoto_link)->destroy();
+            \Image::make($profile_photo_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_photo_link)->destroy();
             
         }
         else {
-            $profilePhoto_link = $request->params['data']['profilePhoto'];
+            $profile_photo_link = $request->params['data']['profile_photo'];
         }
 
         if($data->front_id != $request->params['data']['front_id']) {
@@ -247,12 +251,12 @@ class VisitorsController extends BaseController
         }
 
         $data->update([
-            'building_ID' => $request->params['data']['building_ID'],
+            'building_id' => $request->params['data']['building_id'],
             'email' => $request->params['data']['email'],
             'name' => $request->params['data']['name'],
             'contact' => $request->params['data']['contact'],
-            'validId' => $request->params['data']['validId'],
-            'profilePhoto' => $profilePhoto_link,
+            'valid_id' => $request->params['data']['valid_id'],
+            'profile_photo' => $profile_photo_link,
             'front_id' => $front_id_link,
             'back_id' => $back_id_link,
             'status' => $request->params['data']['status'],

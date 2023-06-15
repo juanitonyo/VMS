@@ -14,11 +14,11 @@ return new class extends Migration
         Schema::create('visit_types', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->integer('buildingType');
+            $table->integer('building_type');
             $table->longText('description');
-            $table->boolean('personToVisit');
-            $table->boolean('visitApproval');
-            $table->boolean('autoApprove');
+            $table->boolean('person_to_visit');
+            $table->boolean('visit_approval');
+            $table->boolean('auto_approve');
             $table->boolean('status')->default(false);
             $table->timestamps();
         });

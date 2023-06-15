@@ -2,7 +2,7 @@
 
 <div align="left">
     <p>Stay Safe and Healthy!</p>
-    <p>From, {{ $mailData['buildingName'] }}!</p>
+    <p>From, {{ $mailData['building_name'] }}!</p>
 </div>
 </div>
 </td>

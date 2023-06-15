@@ -11,17 +11,17 @@ class Building extends Model
     use HasFactory;
 
     protected $fillable = [
-        'buildingName',
+        'building_name',
         'address',
         'qr_id',
         'description',
-        'buildingType',
+        'building_type',
         'logo',
         'status',
     ];
 
     public function buildingType(): HasOne
     {
-        return $this->hasOne(BuildingTypes::class, 'id', 'buildingType')->select(['id','name', 'delivery_form', 'health_form']);
+        return $this->hasOne(BuildingTypes::class, 'id', 'building_type')->select(['id','name', 'delivery_form', 'health_form']);
     }
 }
