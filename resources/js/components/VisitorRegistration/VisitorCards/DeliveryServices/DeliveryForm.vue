@@ -27,11 +27,11 @@
                     </label>
                 </div>
 
-                <form>
+                <form @submit.prevent="submitForm()">
 
                     <div class="relative mt-5">
-                        <input type="text" id="courierName"
-                            class="block px-2 pb-1 pt-2 w-[320px] text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        <input type="text" id="courierName" name="courierName" v-model="form.courierName"
+                            class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="courierName"
                             class="absolute cursor-text text-[10px] text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4 left-1">Company
@@ -39,17 +39,17 @@
                     </div>
 
                     <div class="relative mt-5">
-                        <input type="text" id="riderName"
-                            class="block px-2 pb-1 pt-2 w-[320px] text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                            placeholder=" " required />
+                        <input type="text" id="riderName" name="riderName" v-model="form.riderName"
+                            class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                            placeholder=" " />
                         <label for="riderName"
                             class="absolute cursor-text text-[10px] text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4 left-1">Rider
                             Name (optional)</label>
                     </div>
 
                     <div class="relative mt-5">
-                        <input type="tel" id="contact"
-                            class="block px-2 pb-1 pt-2 w-[320px] text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                        <input type="tel" id="contact" name="contact" v-model="form.contact"
+                            class="block px-2 pb-1 pt-2 w-full text-[11px] h-[32px] text-gray-900 bg-transparent rounded-md border border-blue-600 appearance-none  focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                             placeholder=" " />
                         <label for="contact"
                             class="absolute cursor-text text-[10px] text-gray-500 duration-300 transform -translate-y-4 scale-75 top-2 z-10 origin-[0] bg-white px-2 peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-90 peer-focus:-translate-y-4 left-1">Mobile
@@ -65,7 +65,7 @@
                             <div class="buildingDropdown flex flex-col gap-y-1">
                                 <v-select v-model="input.buildingName" id="dropdown" :options="purpose" label="label"
                                     placeholder="Building/Phase"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[173px] "></v-select>
+                                    class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[180px] "></v-select>
                             </div>
 
                             <div class="flex flex-col gap-y-1">
@@ -80,14 +80,14 @@
 
                         </div>
 
-                        <div class="flex flex-row justify-center items-center gap-3 mb-2">
-                            <button :class="inputs.length == 1 ? 'bg-gray-500' : 'bg-red-500 text-white'"
-                                :disabled="inputs.length == 1" class="text-xs text-white rounded-md h-[33px] w-[155px] mt-3"
+                        <div class="flex flex-row justify-center items-center gap-3 mb-2 w-full">
+                            <button type="button" :class="inputs.length == 1 ? 'bg-gray-500' : 'bg-red-500 text-white'"
+                                :disabled="inputs.length == 1" class="text-xs text-white rounded-md h-[33px] w-full mt-3"
                                 @click="remove(k)">- Remove a
                                 location</button>
-                            <button :class="inputs.length == 10 ? 'bg-gray-500' : 'bg-blue-800 text-white'"
+                            <button type="button" :class="inputs.length == 10 ? 'bg-gray-500' : 'bg-blue-800 text-white'"
                                 :disabled="inputs.length == 10"
-                                class="text-xs text-white rounded-md h-[33px] w-[155px] mt-3" @click="add(k)">+ Add more
+                                class="text-xs text-white rounded-md h-[33px] w-full mt-3" @click="add(k)">+ Add more
                                 location</button>
                         </div>
 
@@ -127,24 +127,23 @@
                     </div>
 
                     <div v-show="badHealth" class="flex justify-end mt-5">
-                        <a href="#" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view form</a>
+                        <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view
+                            form</button>
                     </div>
 
                     <div class="flex flex-row justify-center items-center gap-3 mb-10 mt-5">
                         <router-link :to="'/visitor-registration/SignIn/delivery/' + this.id"
                             class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                        <router-link :to="enableButton ? '/visitor-registration/success/delivery/' + this.id : '/#'">
-                            <input type="submit" value="Next" :disabled="!enableButton"
-                                :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
-                                class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">
-                        </router-link>
+                        <button type="submit" :disabled="!enableButton"
+                            :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
+                            class="w-[155px] h-[33px] mt-3 rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">Next</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
 
-    <HealthForm :isOpen="pop" :Title="'Health Declaration'">
+    <FormDialog :isOpen="pop" :Title="'Health Declaration'">
         <template v-slot:body>
             <form>
                 <p class="text-[10px] text-center">Are you currently experiencing or have experienced any of these symptoms
@@ -173,28 +172,28 @@
                             </svg>
                         </div>
                         <input type="text"
-                            class="bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md w-full pl-10 p-1.5"
-                            placeholder="--.- °C">
+                            class="peer bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md w-full pl-10 p-1.5"
+                            placeholder="--.- °C" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1').replace(/^0[^.]/, '0');">
                     </div>
                 </div>
 
 
                 <div class="mt-5">
-                    <button @click="isBad" type="button"
+                    <button @click="saveState" type="button"
                         class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
                         Submit
                     </button>
                     <button
                         class="mt-1 inline-flex w-full justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-400/90"
-                        @click="isOpen" type="button">
+                        @click="pop = !pop" type="button">
                         Close
                     </button>
                 </div>
             </form>
         </template>
-    </HealthForm>
+    </FormDialog>
 
-    <Account :isPop="show" :Title="'My Account'">
+    <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
 
             <div class="flex justify-center items-center">
@@ -289,19 +288,19 @@
                 </button>
                 <button
                     class="mt-1 inline-flex w-full justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-400/90"
-                    @click="isPop" type="button">
+                    @click="show = !show" type="button">
                     Close
                 </button>
             </div>
-
         </template>
-    </Account>
+    </FormDialog>
 </template>
 
 <script>
 import axios from 'axios';
-import HealthForm from '../../../Elements/Modals/HealthForm.vue';
-import Account from '../../../Elements/Modals/MyAccount.vue';
+import Form from 'vform'
+import FormDialog from '../../../Elements/Modals/FormDialog.vue';
+
 
 export default {
 
@@ -309,12 +308,12 @@ export default {
     props: {
         data: {
             type: Array,
-            default: []
+            default: {}
         },
     },
 
     components: {
-        HealthForm, Account,
+        FormDialog
     },
     data() {
         return {
@@ -327,59 +326,75 @@ export default {
             goodHealth: false,
             badHealth: false,
             enableButton: false,
+            form: new Form({
+                courierName: '',
+                riderName: '',
+                contact: ''
+            }),
             symptoms: [
                 {
                     image: '/hdf/Fever.png',
+                    state: false,
                     eng: 'Fever',
                     tag: 'Lagnat'
                 },
                 {
                     image: '/hdf/Cough.png',
+                    state: false,
                     eng: 'Dry Cough',
                     tag: 'Tuyong Ubo'
                 },
                 {
                     image: '/hdf/Sore Throat.png',
+                    state: false,
                     eng: 'Sore Throat',
                     tag: 'Namamagang Lalamunan'
                 },
                 {
                     image: '/hdf/Breathlessness.png',
+                    state: false,
                     eng: 'Shortness of Breath',
                     tag: 'Hirap sa Paghinga'
                 },
                 {
                     image: '/hdf/No Smell.png',
+                    state: false,
                     eng: 'Loss of Smell / Taste',
                     tag: 'Pagkawala ng Pang-Amoy o Panglasa'
                 },
                 {
                     image: '/hdf/Colds.png',
+                    state: false,
                     eng: 'Runny Nose',
                     tag: 'Sipon'
                 },
                 {
                     image: '/hdf/Fatigue.png',
+                    state: false,
                     eng: 'Fatigue',
                     tag: 'Pagkapagod'
                 },
                 {
                     image: '/hdf/Aches.png',
+                    state: false,
                     eng: 'Aches and Pain',
                     tag: 'Pananakit ng Katawan'
                 },
                 {
                     image: '/hdf/Diarrhea.png',
+                    state: false,
                     eng: 'Diarrhea',
                     tag: 'Pagdudumi'
                 },
                 {
                     image: '/hdf/Headache.png',
+                    state: false,
                     eng: 'Headache',
                     tag: 'Pananakit ng Ulo'
                 },
                 {
                     image: '/hdf/None.png',
+                    state: false,
                     eng: 'None of the Above',
                     tag: 'Wala sa mga Nabanggit'
                 },
@@ -408,6 +423,10 @@ export default {
         },
         isBad() {
             this.badHealth = true
+            this.pop = !this.pop; 
+        },
+        saveState() {
+            localStorage.setItem('state', JSON.parse(this.symptoms));
             this.pop = !this.pop;
         },
         isOpen() {
@@ -420,10 +439,20 @@ export default {
         isChecked() {
             this.enableButton = !this.enableButton
         },
+        submitForm(){
+            this.$Progress.start();
+            this.form.post('/api/delivery/')
+                .then((data) => {
+                    this.$Progress.finish();
+                    this.$router.push('/visitor-registration/success/delivery/' + this.id);
+                }).catch((error) => {
+                    this.$Progress.fail();
+                })
+        }
     },
 
     created() {
-        axios.get('/api/visitor-registration/' + this.id)
+        axios.get('/api/visitor-registration?buildingUUID=' + this.id)
             .then((data) => {
                 this.buildings = data.data.data;
             })

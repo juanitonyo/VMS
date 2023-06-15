@@ -1,21 +1,21 @@
 <template>
     <div>
 
-        <a :href="'/visitor-registration/create/' + this.id" v-if="isButton" @click="onClick" tag="button"
-            class="text-blue-800 border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-2 w-[325px] cursor-pointer">{{
+        <a :href="'/visitor-registration/create/' + this.id" v-show="isButton" @click="onClick" tag="button"
+            class="text-blue-800 border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-[325px] cursor-pointer">{{
                 label }}</a>
 
-        <div v-else class="relative">
-            <input :value="modelValue" @input="updateValue" :placeholder="'Email Address / Reference Code '"
-                :class="'placeholder:text-gray-400 text-black border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-left inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-2 w-[325px]'">
-            <button class="absolute right-3.5 top-2 bottom-0 hover:scale-105" @click="isPop">
+        <div v-show="!isButton" class="relative">
+            <input :value="modelValue" @input="updateValue" :placeholder="'Mobile No. / Reference Code '"
+                :class="'placeholder:text-gray-400 text-black border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-left inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-[335px]'">
+            <button class="absolute right-3 top-2 hover:scale-105" @click="isPop">
                 <img src="/Visitor_Homepage_Assets/qrButton.png" class="w-6 h-6">
             </button>
         </div>
 
     </div>
 
-    <Account :isPop="show" :Title="'Scan QR'">
+    <FormDialog :isOpen="show" :Title="'Scan QR'">
         <template v-slot:body>
             <div>
 
@@ -58,13 +58,13 @@
                 </div>
             </div>
         </template>
-    </Account>
+    </FormDialog>
 </template>
 
 <script>
 
 import axios from 'axios';
-import Account from '../Modals/MyAccount.vue';
+import FormDialog from '../Modals/FormDialog.vue';
 import { QrcodeStream } from 'vue3-qrcode-reader'
 export default {
     name: 'buttonToInput',
@@ -77,7 +77,7 @@ export default {
     },
 
     components: {
-        Account,
+        FormDialog,
     },
     props: {
         isButton: {

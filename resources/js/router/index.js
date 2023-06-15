@@ -4,26 +4,33 @@ import { userAuthStore } from "@/store/auth";
 
 /* Layouts */
 const AuthenticatedLayout = () => import("@/components/Layouts/AuthenticatedLayout.vue");
+const HomeownerLayout = () => import("@/components/Layouts/HomeownerLayout.vue");
 const GuestLayout = () => import("@/components/Layouts/GuestLayout.vue");
 const VisitorQRLayout = () => import("@/components/Layouts/VisitorQRLayout.vue");
 const HostQRLayout = () => import("@/components/Layouts/HostQRLayout.vue");
 /* Layouts */
 
+// PAGE NOT FOUND
+const PageNotFound = () => import("@/components/PageNotFound/PageNotFound.vue");
+const Forbidden = () => import("@/components/PageNotFound/Forbidden.vue");
+
 // GUEST PAGES
 const Home = () => import("@/components/GuestPages/Home.vue");
 const Login = () => import("@/components/GuestPages/Login.vue");
 
-
 // AUTHETICATED PAGES
 const Dashboard = () => import("@/components/AuthenticatedPages/Dashboard.vue");
 const Users = () => import("@/components/AuthenticatedPages/Users.vue");
+const Roles = () => import("@/components/AuthenticatedPages/Roles.vue");
 const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
 const Testing = () => import("@/components/AuthenticatedPages/testing.vue");
+const Deliveries = () => import("@/components/AuthenticatedPages/Deliveries.vue");
 
 // HOST REGISTRATION PAGE
 const HostRegistration = () => import("@/components/HostRegistration/HostRegistration.vue");
+const HostSuccess = () => import("@/components/HostRegistration/HostSuccess.vue");
 
 // VISITOR REGISTRATION PAGE
 const VisitorPrompt = () => import("@/components/VisitorRegistration/VisitorPrompt.vue");
@@ -31,11 +38,13 @@ const VisitorHomepage = () => import("@/components/VisitorRegistration/VisitorHo
 const NewRegistration = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/NewRegistration.vue");
 const RegPrompt = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/RegPrompt.vue");
 const RegSuccess = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/RegSuccess.vue");
+const Approval = () => import("@/components/VisitorRegistration/VisitorCards/NewRegistration/Approval.vue");
 
 // VISITOR CHECK IN
 const CheckInPrompt = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInPrompt.vue");
 const CheckInForm = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInForm.vue");
 const CheckInSuccess = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/CheckInSuccess.vue");
+const OTP = () => import("@/components/VisitorRegistration/VisitorCards/Check-In/OTP.vue");
 
 // VISITOR CHECK OUT
 const CheckOutPrompt = () => import("@/components/VisitorRegistration/VisitorCards/Check-Out/CheckOutPrompt.vue");
@@ -52,6 +61,12 @@ const InviteSuccess = () => import("@/components/VisitorRegistration/VisitorCard
 const DeliveryPrompt = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliveryPrompt.vue");
 const DeliveryForm = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliveryForm.vue");
 const DeliverySuccess = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliverySuccess.vue");
+
+// HOMEOWNER PAGES
+const hDashboard = () => import("@/components/HomeownerPages/hDashboard.vue");
+
+//TERMS AND CONDITION x PRIVACY POLICY
+const Terms = () => import("@/components/VisitorRegistration/TermsPrivacy.vue");
 
 const routes = [
     {
@@ -79,7 +94,19 @@ const routes = [
             }
         ],
     },
-
+    {
+        name: "404",
+        path: "/404",
+        component: PageNotFound,
+        meta: {
+            title: `Page Not Found`,
+        }
+    },
+    {
+        // path: "*",
+        path: "/:catchAll(.*)",
+        redirect: { name: "404" }
+    },
     {
         path: "/app",
         component: AuthenticatedLayout,
@@ -104,6 +131,15 @@ const routes = [
                 component: Users,
                 meta: {
                     title: `VMS | User`,
+                    ability: "",
+                },
+            },
+            {
+                name: "roles",
+                path: "/app/roles",
+                component: Roles,
+                meta: {
+                    title: `VMS | Roles`,
                     ability: "",
                 },
             },
@@ -137,7 +173,7 @@ const routes = [
             {
                 name: "deliveries",
                 path: "/app/deliveries",
-                component: Visitors,
+                component: Deliveries,
                 meta: {
                     title: `VMS | Deliveries`,
                     ability: "",
@@ -152,7 +188,10 @@ const routes = [
                     ability: "",
                 },
             },
-            
+            {
+                path: '/:pathMatch(.*)',
+                redirect: { name: "404" }
+            },
         ],
     },
 
@@ -190,7 +229,7 @@ const routes = [
             },            
             {
                 name: "regprompt",
-                path: "/visitor-registration/SignIn/reg/:id",
+                path: "/visitor-registration/signIn/reg/:id",
                 component: RegPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -205,8 +244,16 @@ const routes = [
                 },
             },
             {
+                name: "regapproval",
+                path: "/visitor-registration/approval",
+                component: Approval,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
                 name: "checkinprompt",
-                path: "/visitor-registration/SignIn/checkin/:id",
+                path: "/visitor-registration/signIn/checkin/:id",
                 component: CheckInPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -229,8 +276,16 @@ const routes = [
                 },
             },
             {
+                name: "otp",
+                path: "/visitor-registration/otp",
+                component: OTP,
+                meta: {
+                    title: `VMS | Visitor Registration`,
+                },
+            },
+            {
                 name: "checkoutprompt",
-                path: "/visitor-registration/SignIn/checkout/:id",
+                path: "/visitor-registration/signIn/checkout/:id",
                 component: CheckOutPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -254,7 +309,7 @@ const routes = [
             },
             {
                 name: "deliveryprompt",
-                path: "/visitor-registration/SignIn/delivery/:id",
+                path: "/visitor-registration/signIn/delivery/:id",
                 component: DeliveryPrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -278,7 +333,7 @@ const routes = [
             },
             {
                 name: "inviteprompt",
-                path: "/visitor-registration/SignIn/invite/:id",
+                path: "/visitor-registration/signIn/invite/:id",
                 component: InvitePrompt,
                 meta: {
                     title: `VMS | Visitor Registration`,
@@ -302,6 +357,7 @@ const routes = [
             },
         ],
     },
+    
     {
         path: "/homeowner-registration",
         component: HostQRLayout,
@@ -318,9 +374,24 @@ const routes = [
                     title: `VMS | Homeowner Registration`,
                 },
             },
+            {
+                name: "hostsuccess",
+                path: "/homeowner-registration/success/:id",
+                component: HostSuccess,
+                meta: {
+                    title: `VMS | Homeowner Registration`,
+                },
+            },
         ],
     },
-
+    {
+        path: "/Terms-and-Condition",
+        component: Terms,
+        meta: {
+            middleware: "terms",
+            title: `VMS | Terms and Conditions`,
+        },
+    },
     {
         path: "/testing",
         component: Testing,
@@ -329,6 +400,49 @@ const routes = [
             title: `Test`,
         },
     },
+    {
+        name: 'userpage',
+        path: "/homeowner",
+        component: HomeownerLayout,
+        redirect: "/homeowner/dashboard",
+        meta: {
+            middleware: "user",
+            title: `VMS | Homeowner`,
+        },
+        children:[
+            {
+                name: "hDashboard",
+                path: "/homeowner/dashboard",
+                component: hDashboard,
+                meta: {
+                    title: `VMS | Dashboard`,
+                },
+            }
+        ],
+    },
+
+    {
+        name: '404',
+        path: "/pagenotfound",
+        component: PageNotFound,
+        meta: {
+            middleware: "notfound",
+            title: `Page Not Found`,
+        },
+    },
+    {
+        name: '403',
+        path: "/forbidden",
+        component: Forbidden,
+        meta: {
+            middleware: "forbidden",
+            title: `Forbidden`,
+        },
+    },
+    // {
+    //     path: "/:catchAll(.*)",
+    //     redirect: {name: '404'}
+    // }
 ];
 
 const router = createRouter({
@@ -346,16 +460,17 @@ const router = createRouter({
     },
 });
 
-
 router.beforeEach((to, from, next) => {
     document.title = to.meta.title;
     if (to.meta.middleware == "guest") {
-        if (userAuthStore().authenticated) {
-            next({ name: "dashboard" });
-        }
-        next();
+        userAuthStore().authenticated ? next({ name: "dashboard" }) : next()
     } else {
-        next();
+        if (userAuthStore().authenticated && to.meta.middleware == "auth") {
+            userAuthStore().role.permissions[to.name] ? next() : router.push('/forbidden') // 'redirect to HTTP 403 Forbidden page'
+        }
+        else {
+            next();
+        }
     }
 });
 

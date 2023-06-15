@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\Settings\HostRequest;
+use App\Models\Building;
 use App\Models\Host;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Http\Request;
 
 class HostController extends BaseController
@@ -15,6 +17,19 @@ class HostController extends BaseController
     {
         $data = Host::paginate(10);
         return $this->sendResponse($data, "Fetched all Host in Array");
+    }
+
+    public function getHostQuery() {
+        $data = Host::where('building_id', Cookie::get('buildingUUID'))->get();
+        $arr = [];
+        foreach($data as $item) {
+            $arr[] = [
+                'value' => $item->id,
+                'label' => $item->firstName.' '.$item->lastName
+            ];
+        }
+
+        return $this->sendResponse($arr, "Fetched hosts in table");
     }
 
     /**
@@ -30,7 +45,20 @@ class HostController extends BaseController
      */
     public function store(HostRequest $request)
     {
-        $data = Host::create($request->validated());
+        $building_id = Building::where('qr_id', Cookie::get('buildingUUID'))->first()->id;
+
+        $profile_link = "";
+        if($request->profilePhoto) {
+            $profile_binary = $request->profilePhoto;
+            $profile_link = time().'.' . explode('/', explode(':', substr($profile_binary, 0, strpos($profile_binary, ';')))[1])[1];
+            \Image::make($profile_binary)->fit(200, 200)->save('uploads/profiles-visitor/'.$profile_link)->destroy();
+        }
+
+        $validated = $request->validated();
+        $validated['building_id'] = $building_id;
+        $validated['profilePhoto'] = $profile_link;
+
+        $data = Host::create($validated);
         return $this->sendResponse($data, "Saved Data");
     }
 
@@ -56,8 +84,8 @@ class HostController extends BaseController
     public function update(HostRequest $request, $id)
     {
         $data = Host::findOrFail($id)->update([
-            'fname' => $request->params['data']['fname'],
-            'lname' => $request->params['data']['lname'],
+            'firstName' => $request->params['data']['firstName'],
+            'lastName' => $request->params['data']['lastName'],
             'email' => $request->params['data']['email'],
             'password' => $request->params['data']['password'],
             'location' => $request->params['data']['location'],

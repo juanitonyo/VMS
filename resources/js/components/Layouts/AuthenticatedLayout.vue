@@ -1,5 +1,5 @@
 <template>
-    <div class="min-h-full font-poppins">
+    <div class="min-h-full font-poppins" v-if="permissions">
         <!-- <MobileMenu/> -->
         <Sidebar/>
         <TopBar/>
@@ -15,4 +15,16 @@
     // import MobileMenu from '../Elements/Dashboard/MobileMenu.vue';
     import Sidebar from '../Elements/Dashboard/Sidebar.vue';
     import TopBar from '../Elements/Dashboard/TopBar.vue';
+    import { userAuthStore } from "@/store/auth";
+    import { useRouter, useRoute } from 'vue-router';  
+
+    let permissions = userAuthStore().role.permissions;
+    
+    if(!permissions) {
+        useRouter().push({
+                name: 'login',
+        });
+    }
+    
+
 </script>

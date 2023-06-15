@@ -1,52 +1,53 @@
 <template>
     <div class="flex justify-center items-center">
+        <div class="flex flex-col items-center justify-evenly w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
 
-        <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen pt-10">
-            <div class="flex flex-col items-center gap-y-5">
-                <div class="flex flex-col gap-y-2 items-center justify-center absolute top-10 lg:top-16">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
-                    <h4 class="text-gray-400 text-[10px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
+            <img src="/logo/vms_logo.png" alt="logo" class="w-[250px] h-[93.64px]">
+
+            <div class="flex flex-col">
+                <div class="text-center">
+                    <h2 class="text-2xl font-black tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
+                </div>
+            </div>
+
+            <div class="flex flex-col items-center justify-center">
+                <p class="text-[10px] text-gray-400 text-center">By registering your account, you agree to <br>our <a
+                        href="#" class="underline text-blue-800 font-bold">Privacy Policy</a> and <a href="#"
+                        class="underline text-blue-800 font-bold">Terms of Use</a></p>
+
+                <a href="/login-google" type="button"
+                    class="text-white bg-red-500 hover:bg-red-500/90 focus:ring-2 focus:outline-none focus:ring-red-500/50 font-medium rounded-lg text-xs py-2.5 mt-3 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full">
+                    <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
+                        data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
+                        <path fill="currentColor"
+                            d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z">
+                        </path>
+                    </svg>
+                    Sign in with Google
+                </a>
+                <!-- bg-red-500 hover:bg-red-500/90 focus:ring-2 focus:outline-none focus:ring-red-500/50 -->
+                <button type="button"
+                    class="text-white bg-blue-500 hover:bg-blue-500/90 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs py-2.5 mt-3 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full">
+                    <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
+                        data-icon="facebook-f" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
+                        <path fill="currentColor"
+                            d="M279.1 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.4 0 225.4 0c-73.22 0-121.1 44.38-121.1 124.7v70.62H22.89V288h81.39v224h100.2V288z">
+                        </path>
+                    </svg>
+                    Sign in with Facebook
+                </button>
+                <div class="my-8 relative">
+                    <hr class="w-64 h-px bg-gray-300">
+                    <p class="absolute -top-2 px-3 font-medium text-gray-400 text-sm bg-white left-[43%]">or</p>
                 </div>
 
-                <div class="flex flex-col items-center justify-center absolute top-64">
-                    <p class="text-[10px] text-gray-400 text-center">By registering your account, you agree to <br>our <a
-                            href="#" class="underline text-blue-800 font-bold">Privacy Policy</a> and <a href="#"
-                            class="underline text-blue-800 font-bold">Terms of Use</a></p>
-
-                    <button type="button"
-                        class="text-white bg-red-500 hover:bg-red-500/90 focus:ring-2 focus:outline-none focus:ring-red-500/50 font-medium rounded-lg text-xs px-5 py-2.5 mt-3 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2 w-[325px]">
-                        <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
-                            data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
-                            <path fill="currentColor"
-                                d="M488 261.8C488 403.3 391.1 504 248 504 110.8 504 0 393.2 0 256S110.8 8 248 8c66.8 0 123 24.5 166.3 64.9l-67.5 64.9C258.5 52.6 94.3 116.6 94.3 256c0 86.5 69.1 156.6 153.7 156.6 98.2 0 135-70.4 140.8-106.9H248v-85.3h236.1c2.3 12.7 3.9 24.9 3.9 41.4z">
-                            </path>
-                        </svg>
-                        Sign up with Google
-                    </button>
-
-                    <button type="button"
-                        class="text-white bg-blue-500 hover:bg-blue-500/90 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mb-2 w-[325px]">
-                        <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
-                            data-icon="facebook-f" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
-                            <path fill="currentColor"
-                                d="M279.1 288l14.22-92.66h-88.91v-60.13c0-25.35 12.42-50.06 52.24-50.06h40.42V6.26S260.4 0 225.4 0c-73.22 0-121.1 44.38-121.1 124.7v70.62H22.89V288h81.39v224h100.2V288z">
-                            </path>
-                        </svg>
-                        Sign up with Facebook
-                    </button>
-                    <div class="my-8">
-                        <hr class="w-64 h-px bg-gray-300 border-0">
-                        <span
-                            class="absolute top-[152px] px-3 font-medium text-gray-400 text-sm -translate-x-1/2 bg-white left-1/2">or</span>
-                    </div>
-
-                    <!-- <buttonToInput is-button :label="'Create Account'"></buttonToInput> -->
-                    <buttonToInput v-model="this.email" :is-button="false"></buttonToInput>
-                    <button @click.prevent="isExisting()"
-                        class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mr-2 mt-3 w-[330px] cursor-pointer">
-                        Submit
-                    </button>
-                </div>
+                <!-- <buttonToInput is-button :label="'Create Account'"></buttonToInput> -->
+                <buttonToInput v-model="this.given" :is-button="false"></buttonToInput>
+                <button @click.prevent="isExisting()" type="submit"
+                    class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mt-3 w-full cursor-pointer">
+                    Submit
+                </button>
             </div>
         </div>
     </div>
@@ -54,7 +55,11 @@
 
 <script>
 import axios from 'axios';
+import { Form } from 'vform';
 import buttonToInput from '../../../Elements/Buttons/buttonToInput.vue'
+import { useStore } from '../../../../store/visitor';
+
+const store = useStore();
 
 export default {
     name: 'Check In Prompt',
@@ -72,42 +77,62 @@ export default {
         return {
             data: {},
             id: window.location.href.split('/').pop(),
-            email: '',
+            given: '',
+            account: {},
+            log: {},
             buildings: {},
         }
     },
     methods: {
 
-        isExisting() {
-            console.log(this.email),
-
-            axios.get('/api/visitor-query/' + this.email + '/' + this.buildings.id)
+        async isExisting() {
+            await axios.get('/api/visitor-query?given=' + this.given + '&building_ID=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
 
-                    if(this.account != null) {
-                        this.$router.push('/visitor-registration/checkin/' + this.id);
+                    if(this.account == null) { 
+                        this.$router.push('/visitor-registration/signIn/reg/' + this.id);
+                    }
+
+                    if(this.account.status) {
+                        store.setHiddenParam(this.account.id);
+
+                        if (this.account.refCode == this.given || this.account.email == this.given){
+                            if(this.account.latest_log.isCheckedOut) {
+                                this.$router.push('/visitor-registration/checkin/' + this.id);
+                            }
+                            else {
+                                this.$router.push('/visitor-registration/checkout/' + this.id);
+                            }
+                        }
+                        else if (this.account.contact == this.given) {
+                            if(this.account.isCheckedOut) {
+                                this.$router.push('/visitor-registration/otp');
+                            }
+                            else {
+                                this.$router.push('/visitor-registration/checkout/' + this.id);
+                            }
+                        }
                     }
 
                     else {
-                        this.$router.push('/visitor-registration/SignIn/reg/' + this.id);
+                        this.$router.push('/visitor-registration/approval');
                     }
-                    
-                })
-            .catch((e) => {
                 
-            });
+                })
+                .catch((e) => {
+
+                });
         },
 
         async getData() {
-            await axios.get('/api/visitor-registration/' + this.id)
-                    .then((data) => {
-                        this.buildings = data.data.data;
-                        console.log(this.buildings)
-                    })
-                    .catch((e) => {
-                        errorMessage('Opps!', e.message, 'top-right')
-                    });
+            await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
+                .then((data) => {
+                    this.buildings = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
         }
     },
     created() {

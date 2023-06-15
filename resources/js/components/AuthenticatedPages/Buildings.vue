@@ -8,13 +8,13 @@
                 </div>
 
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
-                    <button @click.prevent="setOpen" type="button"
+                    <button @click.prevent="setOpen" type="button" v-if="permissions.create"
                         class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
                         Building</button>
                 </div>
 
             </div>
-            <div class="mt-8 flow-root">
+            <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-auto shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
@@ -47,19 +47,19 @@
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type.name
                                         }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900">
+                                        <td class="text-center px-3 py-4 text-xs text-gray-900 flex space-x-1.5">
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Visitor', item)"
-                                                class="border border-gray-900 rounded-md py-1.5 px-3 mx-1 hover:bg-gray-300">Visitor</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '', 'border border-gray-900 rounded-md py-1.5 px-3 w-full']">Visitor</button>
                                             <button :disabled="item.status ? false : true"
                                                 @click.prevent="isOpen('Host', item)"
-                                                class="border border-gray-900 rounded-md py-1.5 px-4 hover:bg-gray-300">Host</button>
+                                                :class="[item.status ? 'hover:bg-gray-300' : '', 'border border-gray-900 rounded-md py-1.5 px-3 w-full']">Host</button>
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
-                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs">
+                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs" v-if="permissions.update">
                                             <a @click.prevent="editBuilding(item)" href="#"
                                                 class="flex justify-center text-slate-800 hover:text-indigo-900">
                                                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
@@ -68,7 +68,6 @@
                                                         d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
                                                         clip-rule="evenodd" />
                                                 </svg>
-
                                             </a>
                                         </td>
                                     </tr>
@@ -112,17 +111,17 @@
                             </div>
                         </div>
 
-                        <div class="sm:col-span-3 mt-3 text-sm">
-                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
-                                Building Type</label>
-
+                        <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
+                            <div class="flex justify-between">
+                                <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose
+                                    Building Types</label>
+                                <span v-show="this.editMode ? false : form.errors.has('buildingType')"
+                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                            </div>
                             <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
                                 label="label"
                                 :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
-                            <span v-show="this.editMode ? false : form.errors.has('buildingType')"
-                                class="text-xs text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                         </div>
-                        <!-- <div class="text-xs text-red-600 dark:text-red-500" v-show="this.editMode ? false : form.errors.has('buildingTypes')"  v-html="this.editMode ? false : form.errors.get('buildingTypes')" /> -->
 
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -139,15 +138,16 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">Upload
-                                Logo</label>
+                            <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">{{ (editMode ?
+                                'Edit' : 'Upload') + ' Logo' }}</label>
                             <div class="flex flex-col items-center justify-center mt-2">
                                 <div class="flex justify-center mt-3">
                                     <div>
                                         <div class="flex items-center justify-center w-full">
                                             <label :style="{ 'background-image': `url(${image_url})` }"
-                                                class="flex flex-col justify-center  w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-cover bg-no-repeat">
-                                                <div class="flex flex-col items-center" :class="{ 'hidden': hideLabel }">
+                                                class="flex flex-col justify-center cursor-pointer w-52 h-52 border-4 border-dashed border-gray-400 hover:bg-gray-100 hover:border-gray-300 bg-center bg-cover bg-no-repeat">
+                                                <div v-show="this.form.logo == null ? true : false"
+                                                    class="flex flex-col items-center">
                                                     <svg xmlns="http://www.w3.org/2000/svg"
                                                         class="w-12 h-12 text-gray-600 group-hover:text-black"
                                                         viewBox="0 0 20 20" fill="currentColor">
@@ -160,6 +160,7 @@
                                                         Select a photo</p>
                                                 </div>
                                                 <input type="file" ref="buildingLogo" class="opacity-0"
+                                                    accept="image/png, image/jpeg, image/jpg, image/svg"
                                                     @input="uploadImage" />
                                             </label>
                                         </div>
@@ -174,7 +175,7 @@
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
                         @click="setOpen">Cancel</button>
                     <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
                             editMode
                             ? 'Update' : 'Save' }}</button>
                 </div>
@@ -182,13 +183,13 @@
         </template>
     </SliderVue>
 
-    <DialogVue :isOpen="pop" :dialogTitle="vMode + ' QR | ' + form.buildingName">
+    <DialogVue :isOpen="pop" :dialogTitle="mode + ' QR | ' + form.buildingName" :modalWidth="'max-w-3xl'">
         <template v-slot:dialogBody>
 
             <div class="overflow-hidden shadow shadow-slate-400 sm:rounded-lg p-5 mt-4">
                 <div class="flex justify-center items-center flex-col p-10">
-                    <div v-if="vMode == 'Visitor'" class="flex flex-row justify-center items-center gap-10">
-                        <img :src="qrName(vMode, form.qr_id)" class="mt-5 w-40 h-40" />
+                    <div v-if="mode == 'Visitor'" class="flex flex-row justify-center items-center gap-10">
+                        <img :src="qrName(mode, form.qr_id)" class="mt-5 w-40 h-40" />
 
                         <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
                         <a target="_blank" :href="this.proxyURL + this.visitorRoute + form.qr_id"
@@ -198,7 +199,7 @@
                     </div>
 
                     <div v-else class="flex flex-row justify-center items-center gap-10 ">
-                        <img :src="qrName(vMode, form.qr_id)" class="mt-5 w-40 h-40" />
+                        <img :src="qrName(mode, form.qr_id)" class="mt-5 w-40 h-40" />
                         <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
                         <a target="_blank" :href="this.proxyURL + this.hostRoute + form.qr_id"
                             class="text-black bg-white w-36 h-8 border border-black hover:scale-105 duration-100 flex justify-center items-center rounded-md">Go
@@ -233,6 +234,7 @@ import { createToast } from 'mosha-vue-toastify';
 import moment from 'moment';
 import axios from "axios";
 import Form from "vform";
+import { userAuthStore } from "@/store/auth";
 
 
 export default {
@@ -260,21 +262,21 @@ export default {
     data() {
         return {
             data: {},
+            permissions: {},
             editMode: false,
             open: false,
             pop: false,
-            vMode: '',
+            mode: '',
             form: new Form({
                 buildingName: '',
                 address: '',
                 description: '',
                 buildingType: '',
-                logo: '',
+                logo: null,
                 status: false,
                 errors: []
             }),
             image_url: '',
-            hideLabel: false,
             building_types: [],
             url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
             visitorRoute: '/visitor-registration/',
@@ -287,33 +289,22 @@ export default {
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
-            this.form = new Form({
-                buildingName: '',
-                address: '',
-                description: '',
-                buildingType: '',
-                logo: '',
-                status: false,
-            })
+            this.form = new Form({});
+            this.image_url = '';
         },
 
-        isOpen(mode, item) {
+        isOpen(thisMode, item) {
             this.pop = !this.pop;
-            this.vMode = mode;
+            this.mode = thisMode;
             this.form = item;
             this.hideLabel = false;
-
-            if(!this.editMode) {
-                this.image_url = '';
-            }
         },
 
         editBuilding(item) {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
-            this.image_url = this.form.logo;
-            console.log(this.form.logo);
+            this.image_url = '/uploads/images/' + this.form.logo;
             this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
         },
 
@@ -336,18 +327,9 @@ export default {
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
-                    console.log(data);
                     this.$Progress.finish();
                     this.getData();
-                    this.form = new Form({
-                        buildingName: '',
-                        address: '',
-                        description: '',
-                        buildingType: '',
-                        status: false,
-                    });
-                    this.image_url = '',
-                        this.hideLabel = false
+                    this.hideLabel = false;
                     this.open = !this.open;
                     createToast({
                         title: 'Success!',
@@ -375,14 +357,6 @@ export default {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
-                this.form = new Form({
-                    buildingName: '',
-                    address: '',
-                    description: '',
-                    buildingType: '',
-                    logo: '',
-                    status: false,
-                });
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',
@@ -397,7 +371,7 @@ export default {
                         toastBackgroundColor: '#00bcd4',
                     })
             }).catch((error) => {
-
+                this.$Progress.fail();
             })
         },
 
@@ -409,15 +383,15 @@ export default {
             });
         },
 
-        qrName(vMode, uuid) {
-            if (vMode == 'Visitor')
+        qrName(mode, uuid) {
+            if (mode == 'Visitor')
                 return this.url + this.proxyURL + this.visitorRoute + uuid;
-            else (vMode == 'Host')
+            else (mode == 'Host')
             return this.url + this.proxyURL + this.hostRoute + uuid;
         },
 
-        getBuildingTypes() {
-            axios.get('/api/get-building-types').then((data) => {
+        async getBuildingTypes() {
+            await axios.get('/api/get-building-types').then((data) => {
                 this.building_types = data.data.data
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
@@ -425,10 +399,11 @@ export default {
         },
 
         forClass() {
-            return this.form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' '
+            return this.form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''
         },
+
         forMessage() {
-            return this.editMode ? ' ' : this.form.errors.get('buildingType')
+            return this.editMode ? '' : this.form.errors.get('buildingType')
         }
     },
 
@@ -436,6 +411,13 @@ export default {
         this.getData();
         this.getBuildingTypes();
         this.moment = moment;
+    },
+    beforeMount() {
+        this.permissions = {
+            view: userAuthStore().role.permissions.buildings.includes('view') ?? false,
+            create: userAuthStore().role.permissions.buildings.includes('create') ?? false,
+            update: userAuthStore().role.permissions.buildings.includes('update') ?? false
+        }
     }
 }
 

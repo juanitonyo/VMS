@@ -15,12 +15,13 @@ class RolesSeeder extends Seeder
     {
         $arrayOfRoles = [
             'system-admin' => 'System Administrator',
+            'system-tester' => 'System Tester'
         ];
 
         foreach ($arrayOfRoles as $name => $title) {
 
-            $user =  DB::table('roles')->insert([
-                'name'=> $name,
+            $user = DB::table('roles')->insert([
+                'name' => $name,
                 'title' => $title,
                 'created_at' => now(),
             ]);

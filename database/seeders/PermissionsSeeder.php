@@ -14,21 +14,25 @@ class PermissionsSeeder extends Seeder
     public function run(): void
     {
         $arrayOfPermissions = [
-            'manage_user_list' => 'Manage User List',
-            'manage_user_roles' => 'Manage User Roles',
-            'manage_maintenance' => 'Manage Maintenance',
-            'manage_buildings' => 'Manage Buildings',
-            'manage_visitors' => 'Manage Visitors',
-            'manage_deliveries' => 'Manage Deliveries',
+            'dashboard' => ['view' => 'View'],
+            'users' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
+            'roles' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
+            'settings' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
+            'buildings' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
+            'visitors' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
+            'deliveries' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
         ];
 
-        foreach ($arrayOfPermissions as $name => $title) {
+        foreach ($arrayOfPermissions as $module => $permissions) {
 
-            $user =  DB::table('permissions')->insert([
-                'name'=> $name,
-                'title' => $title,
-                'created_at' => now(),
-            ]);
+            foreach ($permissions as $name => $title) {
+                $user =  DB::table('permissions')->insert([
+                    'module'=> $module,
+                    'name'=> $name,
+                    'title' => $title,
+                    'created_at' => now(),
+                ]);
+            }
         }
     }
 }

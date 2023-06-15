@@ -3,14 +3,19 @@
         <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-2xl font-extrabold leading-6 text-gray-900">USERS</h1>
-                    <p class="mt-2 text-sm text-gray-700">A list of all the users in your account including their name,
-                        title, email and role.</p>
+                    <h1 class="text-2xl font-extrabold leading-6 text-gray-900">
+                        USERS
+                    </h1>
+                    <p class="mt-2 text-sm text-gray-700">
+                        A list of all the users in your account including their
+                        name, title, email and role.
+                    </p>
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
                     <button @click.prevent="setOpen" type="button"
-                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
-                        Entry</button>
+                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                        Add User
+                    </button>
                 </div>
             </div>
             <div class="mt-8 flow-root">
@@ -22,14 +27,20 @@
                                     <tr>
                                         <th scope="col"
                                             class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
-                                            Name</th>
-                                        <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">
-                                            Email</th>
-                                        <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">
-                                            Assigned Building</th>
-                                        <th scope="col"
-                                            class="text-center px-3 py-3.5  text-sm font-semibold text-gray-900">
-                                            Verified</th>
+                                            Name
+                                        </th>
+                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                            Email
+                                        </th>
+                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                            Assigned Building
+                                        </th>
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                            Verified
+                                        </th>
+                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                            Role
+                                        </th>
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Status
                                         </th>
@@ -40,16 +51,30 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in data.data" :key="item.id">
-                                        <td class="w-80 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ item.name
-                                        }}</td>
-                                        <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">{{ item.email }}
+                                        <td class="w-80 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">
+                                            {{ item.name }}
                                         </td>
-                                        <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">{{
-                                            item.user_building.building.buildingName }}
+                                        <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
+                                            {{ item.email }}
+                                        </td>
+                                        <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
+                                            {{
+                                                item.user_building.building
+                                                    .buildingName
+                                            }}
+                                        </td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
+                                            {{
+                                                item.email_verified_at != null
+                                                ? "Yes"
+                                                : "No"
+                                            }}
+                                        </td>
+                                        <td class="w-72 px-3 py-4 text-xs text-gray-500">
+                                            {{ item.role.title }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
-                                            item.email_verified_at != null ? 'Yes' : 'No' }}</td>
-                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500"></td>
+                                            item.status == true ? 'Active' : 'Inactive' }}</td>
                                         <td
                                             class="relative whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
                                             <a @click.prevent="editUser(item)" href="#"
@@ -60,7 +85,6 @@
                                                         d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
                                                         clip-rule="evenodd" />
                                                 </svg>
-
                                             </a>
                                         </td>
                                     </tr>
@@ -71,71 +95,110 @@
                 </div>
             </div>
 
-            <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'User'"
-                :description="'A list of all the users in your account including their name, title, email and role.'">
-                <template v-slot:slider-body>
-                    <form @submit.prevent="editMode ? updateUser() : saveUser()">
-                        <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
-                            <div class="my-4 grid grid-cols-1">
-                                <div class="sm:col-span-3 mt-3">
-                                    <NormalInput v-model="form.name" label="Name" id="user-name"
-                                        :hasError="this.editMode ? false : form.errors.has('name')"
-                                        :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
-                                </div>
-                                <div class="sm:col-span-3 mt-3">
-                                    <NormalInput v-model="form.email" label="Email" id="user-email"
-                                        :hasError="this.editMode ? false : form.errors.has('email')"
-                                        :errorMessage="this.editMode ? false : form.errors.get('email')">
-                                    </NormalInput>
-                                </div>
-                                <div class="sm:col-span-3 mt-3 text-sm">
-                                    <label for="email_subj"
-                                        class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
-                                        Buildings</label>
-
-                                    <v-select v-model="form.building" placeholder="search" :options="buildings"
-                                        label="label"
-                                        :class="form.errors.has('building') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
-                                    <span v-show="form.errors.has('building')"
-                                        class="text-xs/2 text-red-600 dark:text-red-500">{{ }}</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
-                            <button type="button"
-                                class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                                @click="setOpen">Cancel</button>
-                            <button type="submit"
-                                class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
-                                    editMode
-                                    ? 'Update' : 'Save' }}</button>
-                        </div>
-                    </form>
-                </template>
-            </SliderVue>
         </div>
     </div>
-</template>
-  
-<script>
+    <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'User'"
+        :description="'A list of all the users in your account including their name, title, email and role.'">
+        <template v-slot:slider-body>
+            <form @submit.prevent="editMode ? updateUser() : saveUser()">
+                <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
+                    <div class="my-4 grid grid-cols-1">
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.name" label="Name" id="user-name" :hasError="this.editMode
+                                ? false
+                                : form.errors.has('name')
+                                " :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
+                        </div>
+                        <div class="sm:col-span-3 mt-3">
+                            <NormalInput v-model="form.email" label="Email" id="user-email" :hasError="this.editMode
+                                ? false
+                                : form.errors.has('email')
+                                " :errorMessage="this.editMode ? false : form.errors.get('email')">
+                            </NormalInput>
+                        </div>
+                        <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
+                            <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
+                                Role</label>
+                            <v-select v-model="form.role" :options="roles" label="title" placeholder="search" :class="form.errors.has('role')
+                                ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
+                                : ''
+                                "></v-select>
+                            <span v-show="form.errors.has('role')"
+                                class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
+                        </div>
+                        <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
+                                Buildings</label>
 
-import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
-import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
-import SliderVue from '@/components/Elements/Modals/Slider.vue'
-import { createToast } from 'mosha-vue-toastify';
+                            <v-select v-model="form.building" :options="buildings" label="label" placeholder="search"
+                                :class="form.errors.has('building')
+                                    ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
+                                    : ''
+                                    "></v-select>
+                            <span v-show="form.errors.has('building')"
+                                class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
+                        </div>
+                        <div class="sm:col-span-3 mt-3">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+                                        Status</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.status" :class="[
+                                    form.status
+                                        ? 'bg-gray-600'
+                                        : 'bg-gray-200',
+                                    'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2',
+                                ]">
+                                    <span aria-hidden="true" :class="[
+                                        form.status
+                                            ? 'translate-x-5'
+                                            : 'translate-x-0',
+                                        'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out',
+                                    ]"></span>
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-shrink-0 justify-end px-4 py-4">
+                    <button type="button"
+                        class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
+                        @click="setOpen">
+                        Cancel
+                    </button>
+                    <button type="submit"
+                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
+                        {{ editMode ? "Update" : "Save" }}
+                    </button>
+                </div>
+            </form>
+        </template>
+    </SliderVue>
+</template>
+
+<script>
+import {
+    Switch,
+    SwitchDescription,
+    SwitchGroup,
+    SwitchLabel,
+} from "@headlessui/vue";
+import NormalInput from "@/components/Elements/Inputs/NormalInput.vue";
+import SliderVue from "@/components/Elements/Modals/Slider.vue";
+import { createToast } from "mosha-vue-toastify";
 import axios from "axios";
 import Form from "vform";
 
 export default {
     name: "Users",
-    props: {
-        data: {
-            type: Array,
-            default: {},
-        }
-    },
     components: {
-        SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput,
+        SliderVue,
+        Switch,
+        SwitchDescription,
+        SwitchGroup,
+        SwitchLabel,
+        NormalInput,
     },
     data() {
         return {
@@ -143,115 +206,137 @@ export default {
             editMode: false,
             open: false,
             form: new Form({
-                id: '',
-                name: '',
-                email: '',
-                building: '',
+                id: "",
+                name: "",
+                email: "",
+                role: "",
+                building: "",
+                password: "",
+                status: false,
             }),
-            buildings: []
-        }
+            roles: Object,
+            buildings: Object,
+        };
     },
     methods: {
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
-            this.form = new Form({
-                id: '',
-                name: '',
-                email: '',
-                building: '',
-            })
+            this.resetForm();
         },
         saveUser() {
+            console.log(this.form);
             this.$Progress.start();
-            this.form.post('/api/user')
+            this.form
+                .post("/api/user")
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    this.form = new Form({
-                        id: '',
-                        name: '',
-                        email: '',
-                        building: '',
-                    });
+                    this.resetForm();
                     this.open = !this.open;
-                    createToast({
-                        title: 'Success!',
-                        description: 'Data has been saved.'
-                    },
+                    createToast(
                         {
-                            position: 'top-left',
-                            showIcon: 'true',
-                            type: 'success',
-                            toastBackgroundColor: '#00bcd4',
-                            hideProgressBar: 'true',
-                            toastBackgroundColor: '#00bcd4',
+                            title: "Success!",
+                            description: "Data has been saved.",
+                        },
+                        {
+                            position: "top-left",
+                            showIcon: "true",
+                            type: "success",
+                            toastBackgroundColor: "#00bcd4",
+                            hideProgressBar: "true",
+                            toastBackgroundColor: "#00bcd4",
                         }
-                    )
-                }).catch((error) => {
-                    this.$Progress.fail();
+                    );
                 })
+                .catch((error) => {
+                    this.$Progress.fail();
+                });
         },
         editUser(item) {
             this.editMode = true;
             this.open = !this.open;
-            this.form.id = item.id;
-            this.form.name = item.name;
-            this.form.email = item.email;
-            this.form.building = { value: item.user_building.building.id, label: item.user_building.building.buildingName };
+            this.form = item
+            this.form.building = {
+                value: item.user_building.building.id,
+                label: item.user_building.building.buildingName,
+            };
         },
         updateUser() {
-            axios.put("/api/user/" + this.form.id, {
-                params: {
-                    data: this.form
-                }
-            }).then((data) => {
-                this.editMode = false;
-                this.$Progress.finish();
-                this.getData();
-                this.form = new Form({
-                    id: '',
-                    name: '',
-                    email: '',
-                    building: '',
-                });
-                this.open = !this.open;
-                createToast({
-                    title: 'Success!',
-                    description: 'Data has been updated.'
-                },
-                    {
-                        position: 'top-left',
-                        showIcon: 'true',
-                        type: 'success',
-                        toastBackgroundColor: '#00bcd4',
-                        hideProgressBar: 'true',
-                        toastBackgroundColor: '#00bcd4',
-                    }
-                )
-            }).catch((error) => {
-
-            })
+            axios
+                .put("/api/user/" + this.form.id, {
+                    params: {
+                        data: this.form,
+                    },
+                })
+                .then((data) => {
+                    this.editMode = false;
+                    this.$Progress.finish();
+                    this.getData();
+                    this.resetForm();
+                    this.open = !this.open;
+                    createToast(
+                        {
+                            title: "Success!",
+                            description: "Data has been updated.",
+                        },
+                        {
+                            position: "top-left",
+                            showIcon: "true",
+                            type: "success",
+                            toastBackgroundColor: "#00bcd4",
+                            hideProgressBar: "true",
+                            toastBackgroundColor: "#00bcd4",
+                        }
+                    );
+                })
+                .catch((error) => { });
+        },
+        resetForm() {
+            this.form = new Form({
+                id: "",
+                name: "",
+                email: "",
+                role: "",
+                building: "",
+                status: false,
+            });
         },
         async getData() {
-            await axios.get('/api/user').then((data) => {
-                this.data = data.data.data;
-            }).catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
+            await axios
+                .get("/api/user")
+                .then((data) => {
+                    this.data = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage("Opps!", e.message, "top-right");
+                });
+        },
+
+        getRoles() {
+            axios.get("/api/get-roles")
+                .then((data) => {
+                    this.roles = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage("Opps!", e.message, "top-right");
+                });
         },
 
         getBuildings() {
-            axios.get('/api/get-buildings').then((data) => {
-                this.buildings = data.data.data
-            }).catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
+            axios.get("/api/get-buildings")
+                .then((data) => {
+                    this.buildings = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage("Opps!", e.message, "top-right");
+                });
         },
     },
     created() {
         this.getData();
+        this.getRoles();
         this.getBuildings();
-    }
-}
+    },
+};
 </script>

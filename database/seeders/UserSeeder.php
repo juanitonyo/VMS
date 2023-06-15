@@ -14,11 +14,13 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $user =  DB::table('users')->insert([
-            'name'=> 'Dexter Castillo',
-            'email' => 'dccoc12@gmail.com',
-            'password' => Hash::make('asdasd123'),
+        $user = DB::table('users')->insert([
+            'role_id' => 1,
+            'name' => 'System Administrator',
+            'email' => 'sysadmin@gmail.com',
+            'password' => Hash::make('sysadmin'),
             'email_verified_at' => date('Y-m-d h:i:s'),
+            'status' => true,
             'created_at' => date('Y-m-d h:i:s'),
         ]);
     }

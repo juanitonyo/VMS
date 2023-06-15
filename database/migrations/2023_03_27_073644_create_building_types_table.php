@@ -15,8 +15,9 @@ return new class extends Migration
             $table->id();
             $table->string('name', 100);
             $table->string('description');
-            $table->boolean('delivery_form')->default(true);
-            $table->boolean('status')->default(true);
+            $table->boolean('health_form')->default(false);
+            $table->boolean('delivery_form')->default(false);
+            $table->boolean('status')->default(false);
             $table->timestamps();
         });
     }

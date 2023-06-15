@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Building;
 use Illuminate\Http\Request;
 use Laravel\Socialite\Facades\Socialite;
 use App\Models\Visitors;
-use App\Models\User;
-use Illuminate\Support\Facades\Auth;
+use App\Models\VisitTypes;
 use Illuminate\Support\Facades\Cookie;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Auth;
 
 class GoogleAuthController extends Controller
 {
@@ -20,22 +22,38 @@ class GoogleAuthController extends Controller
       
         try {
             $google_user = Socialite::driver('google')->user();
-            $user = User::where('google_id', $google_user->getId())->first();
+            // dd($google_user);
+            $user = Visitors::where('email', $google_user->getEmail())->first();
+            
             if($user) {
-                $username = $google_user->getName();
 
-                return redirect()->intended('/visitor-registration/create/'.Cookie::get('buildingUUID'))->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
+                return redirect()->intended('/visitor-registration/checkin/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $user->id, 1440, $httpOnly = false));
+            
             }
             else {
-                $new_user = User::create([
+                $refID = Building::where('qr_id', Cookie::get('buildingUUID'))->first()->id;
+
+                $autoApproval = VisitTypes::where([
+                    'id' => $refID,
+                    'autoApprove' => true
+                ])->first();
+
+                if($autoApproval != null) {
+                    $validated = true;
+                }
+                else {
+                    $validated = false;
+                }
+
+                $new_user = Visitors::create([
                     'name' => $google_user->getName(),
                     'email' => $google_user->getEmail(),
                     'google_id' => $google_user->getId(),
-                    'contact' => '09174617171'
+                    'refCode' => Str::random(6),
+                    'status' => $validated
                 ]);
 
-                Auth::login($new_user);
-                return redirect()->intended('/visitor-registration/create/'.Cookie::get('buildingUUID'))->withCookie(cookie('asCookie', $google_user->getId(), 1440, $httpOnly = false));
+                return redirect()->intended('/visitor-registration/create/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $new_user->id, 1440, $httpOnly = false));
 
             }
 

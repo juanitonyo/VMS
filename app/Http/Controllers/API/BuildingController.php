@@ -5,8 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingRequest;
-use Intervention\Image\Image;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\File;
 
 class BuildingController extends BaseController
 {
@@ -19,12 +18,16 @@ class BuildingController extends BaseController
         return $this->sendResponse($data, "All buildings in array");
     }
 
-    public function getBuilding($id){
-        $data = Building::where('qr_id', $id)->first(['id', 'buildingName', 'address', 'logo']);
+    // get specific building
+    public function getBuilding(Request $request){
+
+        $data = Building::with('buildingType')->where('qr_id', $request->buildingUUID)->first();
        
         return $this->sendResponse($data, "All buildings in array");
+
     }
 
+    // get active buildings
     public function getBuildingsArray(){
         $data = Building::where('status', 1)->get();
 
@@ -53,14 +56,18 @@ class BuildingController extends BaseController
     public function store(BuildingRequest $request)
     {
         $logo_link = "";
+        $validated = $request->validated();
+
         if($request->logo){
             $logo_binary = $request->logo;
             $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
-            \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+            
+            if(!File::exists('uploads/images/'.$logo_link)) {
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+            }
+            
+            $validated['logo'] = $logo_link;
         }
-
-        $validated = $request->validated();
-        $validated['logo']   = $logo_link;
 
         $data = Building::create($validated);
         return $this->sendResponse($logo_link, "Saved Data");
@@ -88,27 +95,44 @@ class BuildingController extends BaseController
     public function update(BuildingRequest $request, $id)
     {
         $logo_link = "";
-        $logo_binary = $request->params['data']['logo'];
         $data = Building::findOrFail($id);
-        if($logo_binary){
-            unlink('uploads/images/'.$data->logo);
-            $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
-            \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+
+        if($request->params['data']['logo']){
+            $logo_binary = $request->params['data']['logo'];
+
+            if($data->logo != $request->params['data']['logo']) {
+                $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
+            }
+            else {
+                $logo_link = $request->params['data']['logo'];
+            }
+
+            if(!File::exists('uploads/images/'.$logo_link)) { //does not exists
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+                $data->update([
+                    'logo' => $logo_link,
+                ]);
+            }
+
+            else if($data->logo != $logo_link) { // is existing
+                unlink('uploads/images/'.$data->logo);
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+                $data->update([
+                    'logo' => $logo_link,
+                ]);
+            }
         }
-        
-        
 
         $data->update([
             'buildingName' => $request->params['data']['buildingName'],
             'description' => $request->params['data']['description'],
             'address' => $request->params['data']['address'],
-            'logo' => $logo_link,
             'buildingType' => $request->params['data']['buildingType']['value'],
             'status' => $request->params['data']['status'],
           ]);
          
         
-           return $this->sendResponse($request->validated(), "Updated Data");
+        return $this->sendResponse($request->validated(), "Updated Data");
     }
 
     /**

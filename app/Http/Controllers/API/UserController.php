@@ -2,9 +2,15 @@
 
 namespace App\Http\Controllers\API;
 
+use App\Http\Requests\Settings\UserRequest;
 use App\Models\User;
 use App\Models\UserBuildings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\UserRegistrationPassword;
+use App\Models\EmailTemplate;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 
 class UserController extends BaseController
 {
@@ -13,7 +19,10 @@ class UserController extends BaseController
      */
     public function index()
     {
-        $data = User::whereHas('userBuilding')->with('userBuilding.building')->latest()->paginate(100);
+        $data = User::whereHas('userBuilding')
+            ->with(['userBuilding.building', 'role'])
+            ->latest()
+            ->paginate(100);
 
         return $this->sendResponse($data, "All users in array");
     }
@@ -29,18 +38,25 @@ class UserController extends BaseController
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(UserRequest $request)
     {
-        $data = User::create($request->all());
 
+        $validated = $request->validated();
+
+        $hashPass = Hash::make('sysadmin');
+        $validated['password'] = $hashPass;
+        $validated['role_id'] = $request->role['id'];
+        $data = User::create($validated);
+       
         if ($request->building) {
-            UserBuildings::create([
-                'user_id' => $data->id,
-                'building_id' => $request->building['value']
-            ]);
-        }
 
-        return $this->sendResponse($data, "Saved Data");
+                UserBuildings::create([
+                    'user_id' => $data->id,
+                    'building_id' => $request->building['value']
+                ]);
+            }
+
+        return $this->sendResponse($data, "Saved data to table.");
     }
 
     /**
@@ -62,16 +78,18 @@ class UserController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, $id)
-    {
+    public function update(Request $request, User $user)
+    {   
+        $user->update($request->params['data']);
 
-        $data = User::findOrFail($id)->update([
-            'name' => $request->params['data']['name'],
-            'email' => $request->params['data']['email'],
-        ]);
+        if ($request->params['data']['role']) {
+            $user->update([
+                'role_id' => $request->params['data']['role']['id']
+            ]);
+        }
 
         if ($request->params['data']['building']) {
-            UserBuildings::where('user_id', $id)->update([
+            UserBuildings::where('user_id', $user->id)->update([
                 'building_id' => $request->params['data']['building']['value']
             ]);
         }

@@ -19,12 +19,11 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/login-google', [App\Http\Controllers\GoogleAuthController::class, 'login'])->middleware('guest')->name('google.login');
 Route::get('/auth/google/callback', [App\Http\Controllers\GoogleAuthController::class, 'callbackGoogle'])->middleware('guest')->name('google.login.callback');
 
+Route::get('/confirm-otp', [App\Http\Controllers\API\VisitorsController::class, 'checkOTP']);
 
 Route::get('{any}', function () {
     return view('app');
 })->where('any', '.*');
- 
-
  
 // Route::get('/auth/callback', function () {
 //     $user = Socialite::driver('google')->user();

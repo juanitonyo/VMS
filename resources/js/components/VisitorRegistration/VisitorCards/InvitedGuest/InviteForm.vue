@@ -15,11 +15,11 @@
                 </div>
 
                 <div class="flex flex-row mt-4 gap-x-5">
-                    <img src="https://picsum.photos/400/400" alt="No Photo"
-                        class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200">
+                    <img :src="'/uploads/profiles/' +  this.visitor.profilePhoto" alt="Photo not available"
+                        class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
                     <div class="flex flex-col justify-center pl-2 w-36">
-                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, Visitor</p>
-                        <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
+                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name }}</p>
+                        <p class="text-[9px] text-blue-800 font-light">Visit: Invitee</p>
                         <p class="text-[9px] text-blue-800 font-light">Status: Pending Approval</p>
                     </div>
                 </div>
@@ -28,13 +28,13 @@
                     <div class="check_purpose space-y-3 mt-5">
                         <v-select id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
                             :options="purpose" label="label"
-                            class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80"></v-select>
+                            class="text-[10px] border border-blue-700 rounded-[3px] pl-1 h-[28px] w-80"></v-select>
                         <input type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
                             class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-3 pt-1 pb-[80px] w-80">
                     </div>
 
                     <p class="text-sm text-blue-900 font-semibold leading-[20px] mt-5">Person To Visit</p>
-
+                    
                     <div class="space-y-3">
                         <div class="flex flex-col mt-4 gap-y-3">
 
@@ -114,7 +114,7 @@
         </div>
     </div>
 
-    <HealthForm :isOpen="pop" :Title="'Health Declaration'">
+    <FormDialog :isOpen="pop" :Title="'Health Declaration'">
         <template v-slot:body>
             <form>
                 <p class="text-[10px] text-center">Are you currently experiencing or have experienced any of these symptoms
@@ -162,9 +162,9 @@
                 </div>
             </form>
         </template>
-    </HealthForm>
+    </FormDialog>
 
-    <Account :isPop="show" :Title="'My Account'">
+    <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
 
             <div class="flex justify-center items-center">
@@ -242,7 +242,7 @@
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="email" class="text-[10px] text-gray-500 mr-[53px]">Check In</label>
-                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px]  h-[28px] w-[230px]">
+                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
@@ -265,13 +265,12 @@
             </div>
 
         </template>
-    </Account>
+    </FormDialog>
 </template>
 
 <script>
 import axios from 'axios';
-import HealthForm from '../../../Elements/Modals/HealthForm.vue';
-import Account from '../../../Elements/Modals/MyAccount.vue';
+import FormDialog from '../../../Elements/Modals/FormDialog.vue';
 
 export default {
     name: 'Invite Form',
@@ -283,7 +282,7 @@ export default {
     },
 
     components: {
-        HealthForm, Account,
+        FormDialog
     },
 
     data() {
@@ -296,6 +295,7 @@ export default {
             goodHealth: false,
             badHealth: false,
             buildings: {},
+            visitor: {},
             purpose: [],
             enableButton: false,
             status: true,
@@ -379,16 +379,30 @@ export default {
         isChecked() {
             this.enableButton = !this.enableButton
         },
+        async syncData() {
+            await axios.get('/api/sync-visitor/')
+                .then((data) => {
+                    this.visitor = data.data.data;
+                    this.$cookies.remove("asCookie");
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+        },
+        async getData() {
+            axios.get('/api/visitor-registration/' + this.id)
+                .then((data) => {
+                    this.buildings = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+        }
     },
 
     created() {
-        axios.get('/api/visitor-registration/' + this.id)
-            .then((data) => {
-                this.buildings = data.data.data;
-            })
-            .catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
+        this.syncData();
+        this.getData();
     },
 }
 </script>

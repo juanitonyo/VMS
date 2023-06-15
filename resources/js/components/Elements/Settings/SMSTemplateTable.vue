@@ -74,7 +74,7 @@
                             <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Message</label>
                             <div class="mt-2">
                                 <textarea v-model="form.message" type="text" name="sms" id="sms" autocomplete="sms"
-                                    class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" />
+                                    class="block w-full h-[356px] resize-none px-3 rounded-md border focus:outline-none py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 text-xs" />
                             </div>
                         </div>
                         <div class="sm:col-span-3 mt-3">
@@ -141,7 +141,7 @@ export default {
                 id: '',
                 message: '',
                 description: '',
-                status: true,
+                status: false,
             }),
         }
     },
@@ -153,7 +153,7 @@ export default {
                 id: '',
                 message: '',
                 description: '',
-                status: true,
+                status: false,
             })
         },
         saveSMS() {
@@ -194,12 +194,7 @@ export default {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
-                this.form = new Form({
-                    id: '',
-                    message: '',
-                    description: '',
-                    status: true,
-                });
+                this.form = new Form({});
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',
