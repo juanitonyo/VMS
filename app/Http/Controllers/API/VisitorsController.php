@@ -47,39 +47,39 @@ class VisitorsController extends BaseController
     }
 
     public function sendOTP(Request $request) {
-            // $pass = random_int(000000, 999999);
+            $pass = random_int(000000, 999999);
 
-            // $data = Visitors::where([
-            //     ['id', $request->id],
-            //     ['building_ID', $request->buildingID]
-            // ])->first();
+            $data = Visitors::where([
+                ['id', $request->id],
+                ['building_ID', $request->buildingID]
+            ])->first();
 
-            // Visitors::where([
-            //     ['id', $request->id],
-            //     ['building_ID', $request->buildingID]
-            // ])->update([
-            //     'remember-otp' => $pass,
-            //     'otp_expiry_date' => Carbon::now()->addMinutes(5)
-            // ]);
+            Visitors::where([
+                ['id', $request->id],
+                ['building_ID', $request->buildingID]
+            ])->update([
+                'remember-otp' => $pass,
+                'otp_expiry_date' => Carbon::now()->addMinutes(5)
+            ]);
 
-            // $curl = curl_init();
-            // curl_setopt_array($curl, array(
-            // CURLOPT_URL => 'https://sms.gets.ph/api/sms-push',
-            // CURLOPT_RETURNTRANSFER => true,
-            // CURLOPT_ENCODING => '',
-            // CURLOPT_MAXREDIRS => 10,
-            // CURLOPT_TIMEOUT => 0,
-            // CURLOPT_FOLLOWLOCATION => true,
-            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            // CURLOPT_CUSTOMREQUEST => 'POST',
-            // CURLOPT_POSTFIELDS => array('number' => $data->contact,'message' => 'Your PropTech One-Time PIN is '.$pass.'. Please do not share OTP with anyone.'),
-            // CURLOPT_HTTPHEADER => array(
-            //     'Authorization: Bearer 2|6IjBwPqcZgSeYzrlZK3UKP7T64jhumjL71w7zCIb'
-            // ),
-            // ));
-            // $response = curl_exec($curl);
+            $curl = curl_init();
+            curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://sms.gets.ph/api/sms-push',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('number' => $data->contact,'message' => 'Your PropTech One-Time PIN is '.$pass.'. Please do not share OTP with anyone.'),
+            CURLOPT_HTTPHEADER => array(
+                'Authorization: Bearer 2|6IjBwPqcZgSeYzrlZK3UKP7T64jhumjL71w7zCIb'
+            ),
+            ));
+            $response = curl_exec($curl);
 
-            // curl_close($curl);
+            curl_close($curl);
     }
 
     public function existingVisitor(Request $request) {

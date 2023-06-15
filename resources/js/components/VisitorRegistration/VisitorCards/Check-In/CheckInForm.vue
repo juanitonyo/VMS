@@ -12,14 +12,15 @@
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
-                
+
                 <div class="flex flex-row mt-4 gap-x-5">
                     <img :src="this.profile_url" alt="Photo not available"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
                     <div class="flex flex-col justify-center pl-2 w-36">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
                         }}</p>
-                        <p class="text-[9px] text-blue-800 font-light">Visit: {{ this.permission.authenticated ? 'Invitee' : 'Walk-In' }}</p>
+                        <p class="text-[9px] text-blue-800 font-light">Visit: {{ this.permission.authenticated ? 'Invitee' :
+                            'Walk-In' }}</p>
                         <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' :
                             'Pending Approval' }}</p>
                     </div>
@@ -27,9 +28,9 @@
 
                 <form @submit.prevent="checkInVisitor()">
                     <div class="check_purpose space-y-3 mt-5">
-                        <v-select v-model="selectedPurpose" id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
-                            :options="visitType" label="label"
-                            class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
+                        <v-select v-model="selectedPurpose" id="dropdown"
+                            :placeholder="'What is the purpose of your visit? Tap here to select'" :options="visitType"
+                            label="label" class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                         <!-- split the companions -->
                         <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
                             class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
@@ -53,7 +54,7 @@
                         <div class="flex flex-col gap-y-1">
                             <label for="unitLot" class="text-gray-400 text-[10px]">Unit/Lot</label>
                             <input type="text"
-                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">    
+                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
                         </div>
                     </div>
 
@@ -65,7 +66,8 @@
                         <label for="visitName" class="text-gray-400 text-[10px]">
                             <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
                                 class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80"> -->
-                            <v-select :options="user" label="label" :placeholder="'Who will you visit? Enter the host’s name here'"
+                            <v-select :options="user" label="label"
+                                :placeholder="'Who will you visit? Enter the host’s name here'"
                                 class="text-[10px] border border-blue-700 rounded-[3px] h-7 w-80"></v-select>
                         </label>
                         <label for="visitContact" class="text-gray-400 text-[10px]">
@@ -79,8 +81,8 @@
 
                         <div class="flex gap-x-3 w-80">
 
-                            <button
-                                class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
+                            <button :disabled="good" :class="badHealth ? '' : 'hover:scale-105 ease-in-out duration-300'"
+                                class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 focus:border-2 focus:border-blue-500 focus:scale-105"
                                 @click="isGood" type="button">
                                 <img src="/Visitor_Homepage_Assets/happy.png" class="w-[36px] h-[35px]">
                                 <span class="text-[10px] text-gray-500">I am prefectly fine</span>
@@ -153,10 +155,12 @@
                 <div class="w-full flex items-center justify-center flex-col gap-y-1">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
                         class="flex flex-col items-center justify-center w-[90px] h-[90px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div v-if="this.profilePhoto == ''" class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_profile }">
+                        <div v-if="this.profilePhoto == ''" class="flex flex-col items-center justify-center pt-5 pb-6"
+                            :class="{ 'hidden': hideLabel_profile }">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
-                        <input type="file" ref="profile" class="opacity-0" accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
+                        <input type="file" ref="profile" class="opacity-0"
+                            accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
                     </label>
                     <p class="text-[10px] text-gray-400 flex justify-center">Replace Photo</p>
                 </div>
@@ -165,25 +169,29 @@
             <div class="flex flex-col mt-8 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
-                    <input v-model="visitor.name" type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input v-model="visitor.name" type="text"
+                        class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="email" class="text-[10px] text-gray-500 mr-7">Email Address</label>
-                    <input v-model="visitor.email" type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input v-model="visitor.email" type="email"
+                        class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="contact" class="text-[10px] text-gray-500 mr-5">Mobile Number</label>
-                    <input v-model="visitor.contact" type="tel" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input v-model="visitor.contact" type="tel"
+                        class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="id" class="text-[10px] text-gray-500 mr-14">Valid ID</label>
-                    <input v-model="visitor.validId" type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input v-model="visitor.validId" type="text"
+                        class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
 
@@ -192,10 +200,12 @@
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
                     <label :style="{ 'background-image': `url(${front_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_front }">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6"
+                            :class="{ 'hidden': hideLabel_front }">
                             <img src="/Visitor_Homepage_Assets/frontID.png" alt="Photo not Available">
                         </div>
-                        <input ref="front" type="file" class="opacity-0" @input="uploadFrontID" accept="image/png, image/jpeg, image/jpg, image/svg" />
+                        <input ref="front" type="file" class="opacity-0" @input="uploadFrontID"
+                            accept="image/png, image/jpeg, image/jpg, image/svg" />
                     </label>
                 </div>
 
@@ -203,10 +213,12 @@
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
                     <label :style="{ 'background-image': `url(${back_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6" :class="{ 'hidden': hideLabel_back }">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6"
+                            :class="{ 'hidden': hideLabel_back }">
                             <img src="/Visitor_Homepage_Assets/backID.png" alt="">
                         </div>
-                        <input ref="back" type="file" class="opacity-0" @input="uploadBackID" accept="image/png, image/jpeg, image/jpg, image/svg" />
+                        <input ref="back" type="file" class="opacity-0" @input="uploadBackID"
+                            accept="image/png, image/jpeg, image/jpg, image/svg" />
                     </label>
                 </div>
             </div>
@@ -221,7 +233,8 @@
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row justify-left items-center">
                     <label for="email" class="text-[10px] text-gray-500 ml-3">Check In</label>
-                    <p class="text-[10px] ml-[50px]">{{ this.visitor.latest_log == null ? 'N/A' : moment(this.visitor.latest_log.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
+                    <p class="text-[10px] ml-[50px]">{{ this.visitor.latest_log == null ? 'N/A' :
+                        moment(this.visitor.latest_log.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">
@@ -255,8 +268,9 @@
                 <div class="space-y-2 my-5">
 
                     <div class="w-full flex h-[45px] gap-x-3 shadow-sm shadow-slate-400 p-2 rounded-md select-none"
-                        v-for="symptom in this.symptoms">
-                        <input v-model="symptom.state" type="checkbox" v-bind:id="symptoms.id" v-on:click="saveToArray(symptom.id)">
+                        v-for="symptom in symptoms" :key="symptom.id" @click="toggleCheckbox(symptom)">
+                        <input v-model="symptom.state" type="checkbox" :id="symptom.id" v-bind:checked="symptom.state"
+                            >
                         <img :src="symptom.image">
                         <div class="flex flex-col">
                             <p class="text-xs font-bold">{{ symptom.eng }}</p>
@@ -326,6 +340,7 @@ export default {
     data() {
         return {
             data: {},
+            good: false,
             id: window.location.href.split('/').pop(),
             form: new Form({
                 visitor_id: '',
@@ -355,7 +370,7 @@ export default {
             goodHealth: false,
             permission: userAuthStore(),
             symptoms: [
-            {
+                {
                     id: 0,
                     image: '/hdf/Fever.png',
                     state: false,
@@ -501,22 +516,12 @@ export default {
 
             this.form.post('/api/visitor-logs/')
                 .then((data) => {
-                    this.sendMail();
-                }).catch((e) => {
-                    
-                });
-            },
+                    store.setHiddenParam
 
-            sendMail() {
-                axios.get('/api/send-email?id=' + this.visitor.id + '&buildingID=' + this.id)
-                .then((data) => {
-                    store.setHiddenParam(this.visitor.id);
                     this.$router.push('/visitor-registration/success/checkin/' + this.id);
-                }).catch((error) => {
-                    createToast(
-                        
-                    );
-                })
+                }).catch((e) => {
+
+                });
         },
 
         updateVisitorInfo() {
@@ -546,15 +551,15 @@ export default {
                 .then((data) => {
                     this.visitor = data.data.data;
 
-                    if(this.visitor.profilePhoto != null) {
+                    if (this.visitor.profilePhoto != null) {
                         this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
                         this.hideLabel_profile = true;
                     }
-                    if(this.visitor.front_id != null) {
+                    if (this.visitor.front_id != null) {
                         this.front_url = '/uploads/frontID/' + this.visitor.front_id
                         this.hideLabel_front = true;
                     }
-                    if(this.visitor.back_id != null) {
+                    if (this.visitor.back_id != null) {
                         this.back_url = '/uploads/backID/' + this.visitor.back_id
                         this.hideLabel_back = true
                     }
@@ -573,16 +578,24 @@ export default {
                 });
         },
 
+        toggleCheckbox(symptom) {
+            symptom.state = !symptom.state;
+            this.saveToArray(symptom.id, symptom.state);
+        },
+
         submitForm() {
+            this.badHealth = true
+            this.good = true;
             this.form = this.checkedIDs.join(" and ");
             console.log(this.form)
+            this.isOpen();
         },
 
         saveToArray(id) {
-            if(this.checkedIDs.includes(id)){
+            if (this.checkedIDs.includes(id)) {
                 this.checkedIDs.pop(id);
             }
-            else{
+            else {
                 this.checkedIDs.push(id)
             }
 
@@ -592,11 +605,12 @@ export default {
         isGood() {
             this.goodHealth = !this.goodHealth;
             this.badHealth = false
+            this.good = true;
         },
         isBad() {
-            this.badHealth = true
             this.goodHealth = false;
-            this.pop = !this.pop; 
+            this.good = false;
+            this.pop = !this.pop;
         },
     },
 
@@ -605,7 +619,7 @@ export default {
         this.getData();
         this.syncVisitType();
         this.moment = moment;
-        if(store.hiddenID == null) {
+        if (store.hiddenID == null) {
             this.$router.back();
         }
     },
