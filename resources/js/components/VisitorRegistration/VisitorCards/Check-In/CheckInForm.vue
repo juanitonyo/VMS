@@ -9,7 +9,7 @@
                 </div>
 
                 <div class="flex flex-col gap-y-2 items-center justify-center">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
 
@@ -154,10 +154,9 @@
             <div class="flex justify-center items-center w-full ">
                 <div class="w-full flex items-center justify-center flex-col gap-y-1">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
-                        class="flex flex-col items-center justify-center w-[90px] h-[90px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div v-if="this.profilePhoto == ''" class="flex flex-col items-center justify-center pt-5 pb-6"
-                            :class="{ 'hidden': hideLabel_profile }">
-                            <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
+                        class="flex flex-col items-center justify-center w-[92px] h-[80px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <img v-show="this.account.visitor.profile_photo == null" src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
                         <input type="file" ref="profile" class="opacity-0"
                             accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
@@ -190,8 +189,7 @@
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="id" class="text-[10px] text-gray-500 mr-14">Valid ID</label>
-                    <input v-model="visitor.validId" type="text"
-                        class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                    <input v-model="visitor.valid_id" type="text" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
 
@@ -200,9 +198,8 @@
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
                     <label :style="{ 'background-image': `url(${front_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                            :class="{ 'hidden': hideLabel_front }">
-                            <img src="/Visitor_Homepage_Assets/frontID.png" alt="Photo not Available">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <img v-show="this.account.visitor.front_id == null" src="/Visitor_Homepage_Assets/frontID.png" alt="Photo not Available">
                         </div>
                         <input ref="front" type="file" class="opacity-0" @input="uploadFrontID"
                             accept="image/png, image/jpeg, image/jpg, image/svg" />
@@ -213,9 +210,8 @@
                     <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
                     <label :style="{ 'background-image': `url(${back_url})` }"
                         class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                            :class="{ 'hidden': hideLabel_back }">
-                            <img src="/Visitor_Homepage_Assets/backID.png" alt="">
+                        <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <img v-show="this.account.visitor.back_id == null" src="/Visitor_Homepage_Assets/backID.png" alt="">
                         </div>
                         <input ref="back" type="file" class="opacity-0" @input="uploadBackID"
                             accept="image/png, image/jpeg, image/jpg, image/svg" />
@@ -345,8 +341,8 @@ export default {
             form: new Form({
                 visitor_id: '',
                 building_id: '',
-                visitPurpose_id: '',
-                logType: ''
+                visit_purpose_id: '',
+                log_type: ''
             }),
             buildings: {},
             visitor: {},
@@ -355,9 +351,6 @@ export default {
             purpose: [],
             hosts: [],
             checkedIDs: [],
-            hideLabel_profile: false,
-            hideLabel_front: false,
-            hideLabel_back: false,
             profile_url: '',
             front_url: '',
             back_url: '',
@@ -471,7 +464,7 @@ export default {
                 let reader = new FileReader();
                 reader.onload = (e) => {
                     this.profile_url = e.target.result;
-                    this.visitor.profilePhoto = e.target.result;
+                    this.visitor.profile_photo = e.target.result;
                 };
                 reader.readAsDataURL(file[0]);
                 this.$emit("input", file[0]);
@@ -510,18 +503,26 @@ export default {
 
         checkInVisitor() {
             this.form.visitor_id = this.visitor.id
-            this.form.building_id = this.visitor.building_ID
-            this.form.visitPurpose_id = this.selectedPurpose.value
-            this.form.logType = this.permission.authenticated ? 'Invitee' : 'Walk-In'
+            this.form.building_id = this.visitor.building_id
+            this.form.visit_purpose_id = this.selectedPurpose.value
+            this.form.log_type = this.permission.authenticated ? 'Invitee' : 'Walk-In'
 
             this.form.post('/api/visitor-logs/')
                 .then((data) => {
-                    store.setHiddenParam
-
-                    this.$router.push('/visitor-registration/success/checkin/' + this.id);
+                    this.sendEmail();
                 }).catch((e) => {
-
+                    
                 });
+            },
+            
+            sendEmail() {
+                axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id)
+                .then((data) => {
+                    store.setHiddenParam(store.hiddenID);
+                    this.$router.push('/visitor-registration/success/checkin/' + this.id);
+                }).catch((error) => {
+
+                })
         },
 
         updateVisitorInfo() {
@@ -551,17 +552,14 @@ export default {
                 .then((data) => {
                     this.visitor = data.data.data;
 
-                    if (this.visitor.profilePhoto != null) {
-                        this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
-                        this.hideLabel_profile = true;
+                    if(this.visitor.profile_photo != null) {
+                        this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profile_photo
                     }
                     if (this.visitor.front_id != null) {
                         this.front_url = '/uploads/frontID/' + this.visitor.front_id
-                        this.hideLabel_front = true;
                     }
                     if (this.visitor.back_id != null) {
                         this.back_url = '/uploads/backID/' + this.visitor.back_id
-                        this.hideLabel_back = true
                     }
                 })
                 .catch((e) => {

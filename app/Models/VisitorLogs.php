@@ -14,10 +14,10 @@ class VisitorLogs extends Model
         'user_id',
         'visitor_id',
         'building_id',
-        'visitPurpose_id',
-        'isCheckedOut',
+        'visit_purpose_id',
+        'is_checked_out',
         'health_form',
-        'logType'
+        'log_type'
     ];
 
     protected $attributes = [
@@ -36,6 +36,6 @@ class VisitorLogs extends Model
 
     public function visitType(): BelongsTo
     {
-        return $this->belongsTo(VisitTypes::class, 'visitPurpose_id');
+        return $this->belongsTo(VisitTypes::class, 'visit_purpose_id');
     }
 }

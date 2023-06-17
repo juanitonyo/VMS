@@ -15,7 +15,7 @@ class VisitTypeObserver
     }
     public function creating(VisitTypes $visitTypes): void
     {
-        $visitTypes->buildingType = $this->request->buildingType['value'];
+        $visitTypes->building_type = $this->request->building_type['value'];
     }
     /**
      * Handle the VisitTypes "created" event.

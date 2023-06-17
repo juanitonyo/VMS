@@ -13,7 +13,7 @@ class VisitTypesController extends BaseController
      */
     public function index()
     {
-        $data = VisitTypes::with('buildingTypeName')->paginate(10);
+        $data = VisitTypes::with('building_type_name')->paginate(10);
         return $this->sendResponse($data, "All Visit Types in Array");
     }
 
@@ -42,7 +42,7 @@ class VisitTypesController extends BaseController
      */
     public function store(VisitTypesRequest $request)
     {
-        $request['buildingType'] = $request["buildingType"]['value'];
+        $request['building_type'] = $request["building_type"]['value'];
 
         $data = VisitTypes::create($request->all());
         return $this->sendResponse($data, "Saved");
@@ -72,11 +72,11 @@ class VisitTypesController extends BaseController
 
         $data = VisitTypes::findOrFail($id)->update([
             'name' => $request->params['data']['name'],
-            'buildingType' => $request->params['data']['buildingType'],
-            'description' => $request->params['data']['buildingType'],
-            'personToVisit' => $request->params['data']['personToVisit'],
-            'visitApproval' => $request->params['data']['visitApproval'],
-            'autoApprove' => $request->params['data']['autoApprove'],
+            'building_type' => $request->params['data']['building_type'],
+            'description' => $request->params['data']['building_type'],
+            'person_to_visit' => $request->params['data']['person_to_visit'],
+            'visit_approval' => $request->params['data']['visit_approval'],
+            'auto_approve' => $request->params['data']['auto_approve'],
             'status' => $request->params['data']['status']
         ]);
     }

@@ -35,7 +35,7 @@ class GoogleAuthController extends Controller
 
                 $autoApproval = VisitTypes::where([
                     'id' => $refID,
-                    'autoApprove' => true
+                    'auto_approve' => true
                 ])->first();
 
                 if($autoApproval != null) {

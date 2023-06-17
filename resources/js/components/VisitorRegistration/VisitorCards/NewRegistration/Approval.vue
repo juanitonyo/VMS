@@ -9,7 +9,7 @@
             </button>
             <div class="relative flex flex-col items-center justify-center h-screen mx-[48px]">
                 <!-- <img src="/Visitor_Homepage_Assets/approval.png" class="w-52"> -->
-                <Vue3Lottie animationLink="https://assets6.lottiefiles.com/packages/lf20_x62chJ.json" :loop="true" :height="'300px'"/>
+                <Vue3Lottie animationLink="https://assets1.lottiefiles.com/packages/lf20_WWifl0Qmyq.json" :loop="true" :height="'300px'"/>
                 <p class="text-sm">Please wait for the approval of your visit</p>
 
                 <!-- <button

@@ -13,20 +13,20 @@ return new class extends Migration
     {
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
-            $table->uuid('user_ID');
-            $table->integer('building_ID')->nullable();
+            $table->uuid('user_id');
+            $table->integer('building_id')->nullable();
             $table->string('email')->nullable();
             $table->string('name')->nullable();
             $table->string('contact')->nullable();
-            $table->string('validId')->nullable();
+            $table->string('valid_id')->nullable();
             $table->string('google_id')->nullable();
-            $table->string('profilePhoto')->nullable();
-            $table->string('refCode')->nullable();
+            $table->string('profile_photo')->nullable();
+            $table->string('ref_code')->nullable();
             $table->string('front_id')->nullable();
             $table->string('back_id')->nullable();
             $table->boolean('status')->default(false);
             $table->boolean('policy')->default(false);
-            $table->integer('remember-otp');
+            $table->integer('remember_otp');
             $table->dateTime('otp_expiry_date')->nullable();
             $table->timestamps();
         });

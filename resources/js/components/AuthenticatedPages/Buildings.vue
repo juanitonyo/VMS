@@ -41,7 +41,7 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in data.data" :key="item.id">
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900 ">{{ item.buildingName }}
+                                        <td class="text-center px-3 py-4 text-xs text-gray-900 ">{{ item.building_name }}
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}
                                         </td>
@@ -91,9 +91,9 @@
                     <div class="my-4 grid grid-cols-1">
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.buildingName" label="Building Name" id="building"
-                                :hasError="this.editMode ? false : form.errors.has('buildingName')"
-                                :errorMessage="this.editMode ? false : form.errors.get('buildingName')"></NormalInput>
+                            <NormalInput v-model="form.building_name" label="Building Name" id="building"
+                                :hasError="this.editMode ? false : form.errors.has('building_name')"
+                                :errorMessage="this.editMode ? false : form.errors.get('building_name')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -115,12 +115,12 @@
                             <div class="flex justify-between">
                                 <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose
                                     Building Types</label>
-                                <span v-show="this.editMode ? false : form.errors.has('buildingType')"
+                                <span v-show="this.editMode ? false : form.errors.has('building_type')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                             </div>
-                            <v-select v-model="form.buildingType" placeholder="search" :options="building_types"
+                            <v-select v-model="form.building_type" placeholder="search" :options="building_types"
                                 label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                                :class="this.editMode ? ' ' : [form.errors.has('building_type') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -183,7 +183,7 @@
         </template>
     </SliderVue>
 
-    <DialogVue :isOpen="pop" :dialogTitle="mode + ' QR | ' + form.buildingName" :modalWidth="'max-w-3xl'">
+    <DialogVue :isOpen="pop" :dialogTitle="mode + ' QR | ' + form.building_name" :modalWidth="'max-w-3xl'">
         <template v-slot:dialogBody>
 
             <div class="overflow-hidden shadow shadow-slate-400 sm:rounded-lg p-5 mt-4">
@@ -268,10 +268,10 @@ export default {
             pop: false,
             mode: '',
             form: new Form({
-                buildingName: '',
+                building_name: '',
                 address: '',
                 description: '',
-                buildingType: '',
+                building_type: '',
                 logo: null,
                 status: false,
                 errors: []
@@ -305,7 +305,7 @@ export default {
             this.open = !this.open;
             this.form = item;
             this.image_url = '/uploads/images/' + this.form.logo;
-            this.form.buildingType = { value: item.building_type.id, label: item.building_type.name };
+            this.form.building_type = { value: item.building_type.id, label: item.building_type.name };
         },
 
         uploadImage() {
@@ -324,6 +324,8 @@ export default {
         },
 
         saveBuilding() {
+            this.form.building_type = this.form.building_type.value
+
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
@@ -349,6 +351,8 @@ export default {
         },
 
         updateBuilding() {
+            this.form.building_type = this.form.building_type.value
+            
             axios.put("/api/building/" + this.form.id, {
                 params: {
                     data: this.form
@@ -357,6 +361,7 @@ export default {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
+                this.form = new Form({})
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',
@@ -399,11 +404,11 @@ export default {
         },
 
         forClass() {
-            return this.form.errors.has('buildingType') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''
+            return this.form.errors.has('building_type') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''
         },
 
         forMessage() {
-            return this.editMode ? '' : this.form.errors.get('buildingType')
+            return this.editMode ? '' : this.form.errors.get('building_type')
         }
     },
 

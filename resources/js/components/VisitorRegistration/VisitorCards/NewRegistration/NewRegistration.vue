@@ -4,7 +4,7 @@
             <div v-show="!isFormComplete" class="flex flex-col items-center gap-y-5 mx-[48px]">
 
                 <div class="flex flex-col gap-y-2 items-center justify-center mt-10">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                 </div>
@@ -12,7 +12,7 @@
                 <div class="flex flex-col items-center justify-center w-[100px]">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
                         class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
-                        <div v-show="form.profilePhoto == null ? true : false"
+                        <div v-show="form.profile_photo == null ? true : false"
                             class="flex flex-col items-center justify-center pt-10 pb-6">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
@@ -64,13 +64,13 @@
                     <div class="gov-ids flex flex-row items-center">
                         <label for="valid_id" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
                         <div class="flex flex-col">
-                            <v-select v-model="form.validId" id="dropdown" :options="valid_id" label="label"
+                            <v-select v-model="form.valid_id" id="dropdown" :options="valid_id" label="label"
                                 :placeholder="'Valid ID'"
-                                :class="this.errors.validId.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[230px]'"></v-select>
+                                :class="this.errors.valid_id.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[230px]'"></v-select>
                         </div>
                     </div>
-                    <span v-show="this.errors.validId.error" class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
-                        {{ this.errors.validId.label }}</span>
+                    <span v-show="this.errors.valid_id.error" class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
+                        {{ this.errors.valid_id.label }}</span>
                 </div>
 
                 <div class="flex gap-x-2 w-full justify-end">
@@ -113,7 +113,7 @@
 
             <div v-show="isFormComplete" class="flex flex-col items-center justify-center">
                 <div class="flex flex-col gap-y-2 items-center justify-center mt-10">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                     <div>
@@ -173,14 +173,14 @@ export default {
             data: {},
             id: window.location.href.split('/').pop(),
             form: new Form({
-                building_ID: window.location.href.split('/').pop(),
+                building_id: window.location.href.split('/').pop(),
                 email: '',
                 name: '',
-                profilePhoto: null,
+                profile_photo: null,
                 front_id: null,
                 back_id: null,
                 contact: '',
-                validId: '',
+                valid_id: '',
                 policy: false,
                 status: '',
             }),
@@ -188,12 +188,11 @@ export default {
                 name: { error: false, label: '' },
                 email: { error: false, label: '' },
                 contact: { error: false, label: '' },
-                validId: { error: false, label: '' }
+                valid_id: { error: false, label: '' }
             },
             buildings: {},
             account: {},
             existingAccount: {},
-            error: '',
             profile_url: null,
             front_url: null,
             back_url: null,
@@ -228,7 +227,7 @@ export default {
                 let reader = new FileReader();
                 reader.onload = (e) => {
                     this.profile_url = e.target.result;
-                    this.form.profilePhoto = e.target.result;
+                    this.form.profile_photo = e.target.result;
                 };
                 reader.readAsDataURL(file[0]);
                 this.$emit("input", file[0]);
@@ -285,15 +284,15 @@ export default {
             else {
                 this.errors.email.error = false;
             }
-            if (this.form.validId == '') {
-                this.errors.validId.error = true;
-                this.errors.validId.label = 'The valid ID field is required.';
+            if (this.form.valid_id == '') {
+                this.errors.valid_id.error = true;
+                this.errors.valid_id.label = 'The valid ID field is required.';
             }
             else {
-                this.errors.validId.error = false;
+                this.errors.valid_id.error = false;
             }
 
-            if (this.errors.name.error || this.errors.email.error || this.errors.contact.error || this.errors.validId.error) {
+            if (this.errors.name.error || this.errors.email.error || this.errors.contact.error || this.errors.valid_id.error) {
                 this.isFormComplete = false;
             }
             else {

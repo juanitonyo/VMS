@@ -4,10 +4,9 @@
         checkout.</p>
 </div>
 <div>
-    <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ $mailData['refCode'] }}&size=200x200" width="240px"
+    <img src="https://api.qrserver.com/v1/create-qr-code/?data={{ $mailData['ref_code'] }}&size=200x200" width="240px"
         height="240px">
-    {{-- <img src="https://proptech.globalland.com.ph/images/logo/logo_no_bg_2.png" alt="" width="240px"> --}}
-    <p style="font-size: 14px; font-style: bold;">{{ $mailData['refCode'] }}</p>
+    <p style="font-size: 14px; font-style: bold;">{{ $mailData['ref_code'] }}</p>
 </div>
 <div>
     <table>
@@ -24,12 +23,12 @@
             </tr>
             <tr>
                 <td>
-                    <p style="margin: 0">Purpose of Visit: ???</p>
+                    <p style="margin: 0">Purpose of Visit: {{ $mailData['visit_type'] }}</p>
                 </td>
             </tr>
             <tr>
                 <td>
-                    <p style="margin: 0">Time of Visit: {{ $mailData['checkedIn'] }}</p>
+                    <p style="margin: 0">Time of Visit: {{ $mailData['checked_in'] }}</p>
                 </td>
             </tr>
         </tbody>

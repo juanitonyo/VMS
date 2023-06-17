@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
-            $table->string('courierName');
-            $table->string('riderName')->nullable();
+            $table->string('courier_name');
+            $table->string('rider_name')->nullable();
             $table->string('contact');
             $table->timestamps();
         });

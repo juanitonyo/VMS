@@ -28,7 +28,6 @@
 
                         <div class="lg:col-span-2">
                             <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-
                                 <div class="md:col-span-5 relative">
                                     <div class="flex justify-between">
                                         <label for="pID" class="text-xs">Proptech ID / Account Number:</label>
@@ -43,14 +42,14 @@
 
                                 <div class="md:col-span-3 relative">
                                     <div class="flex justify-between">
-                                        <label for="firstName" class="text-xs">First Name</label>
-                                        <span v-show="form.errors.has('firstName')"
+                                        <label for="first_name" class="text-xs">First Name</label>
+                                        <span v-show="form.errors.has('first_name')"
                                             class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('firstName') }}</span>
+                                            {{ form.errors.get('first_name') }}</span>
                                     </div>
-                                    <input type="text" name="firstName" id="firstName" placeholder="Juan"
-                                        :class="form.errors.has('firstName') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.firstName" />
+                                    <input type="text" name="first_name" id="first_name" placeholder="Juan"
+                                        :class="form.errors.has('first_name') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
+                                        v-model="form.first_name" />
                                 </div>
 
                                 <div class="md:col-span-2 relative">
@@ -250,10 +249,10 @@ export default {
                 password: '',
                 location: '',
                 contact: null,
-                front_id: '',
-                back_id: '',
+                front_id: null,
+                back_id: null,
                 gov_id: '',
-                profilePhoto: '',
+                profile_photo: null,
                 policy: true,
                 role: 'host'
             }),

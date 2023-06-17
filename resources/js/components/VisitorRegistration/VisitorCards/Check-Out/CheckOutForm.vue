@@ -10,12 +10,12 @@
                 </div>
 
                 <div class="flex flex-col gap-y-2 items-center justify-center">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
 
                 <div class="flex flex-row mt-4 gap-x-5">
-                    <img :src="'/uploads/profiles-visitor/' + this.visitor.profilePhoto" alt="Photo not available"
+                    <img :src="'/uploads/profiles-visitor/' + this.visitor.profile_photo" alt="Photo not available"
                         class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
                     <div class="flex flex-col justify-center pl-2 w-36">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
@@ -127,7 +127,7 @@
                     <label :style="{ 'background-image': `url(${profile_url})` }"
                         class="flex flex-col items-center justify-center w-full h-[80px] border-2 border-blue-700 rounded-full cursor-pointer hover:bg-blue-100/90 bg-cover bg-no-repeat">
                         <div class="flex flex-col items-center justify-center pt-7 pb-6">
-                            <img v-if="this.visitor.profilePhoto == null" src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
+                            <img v-if="this.visitor.profile_photo == null" src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
                         <input ref="profile" type="file" class="opacity-0 w-full h-full cursor-pointer"
                             accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
@@ -160,7 +160,7 @@
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="id" class="text-[10px] text-gray-500 mr-14">Valid ID</label>
-                    <input v-model="visitor.validId" type="text"
+                    <input v-model="visitor.valid_id" type="text"
                         class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
@@ -429,7 +429,7 @@ export default {
                     this.buildings = data.data.data;
                 })
                 .catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
+
                 });
         },
 
@@ -438,8 +438,8 @@ export default {
                 .then((data) => {
                     this.visitor = data.data.data;
 
-                    if(this.visitor.profilePhoto != null)
-                        this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profilePhoto
+                    if(this.visitor.profile_photo != null)
+                        this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profile_photo
                     if(this.visitor.front_id != null)
                         this.front_url = '/uploads/frontID/' + this.visitor.front_id
                     if(this.visitor.back_id != null)

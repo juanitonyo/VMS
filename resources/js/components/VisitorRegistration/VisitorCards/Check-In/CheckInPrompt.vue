@@ -2,7 +2,7 @@
     <div class="flex justify-center items-center">
         <div class="flex flex-col items-center justify-evenly w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
 
-            <img src="/logo/vms_logo.png" alt="logo" class="w-[250px] h-[93.64px]">
+            <img src="/logo/vms_logo.png" class="w-[250px] h-[93.64px]">
 
             <div class="flex flex-col">
                 <div class="text-center">
@@ -97,7 +97,7 @@ export default {
                     if(this.account.status) {
                         if (this.account.refCode == this.given || this.account.email == this.given){
                             store.setHiddenParam(this.account.id);
-                            if(this.account.latest_log.isCheckedOut) {
+                            if(this.account.latest_log.is_checked_out) {
                                 this.$router.push('/visitor-registration/checkin/' + this.id);
                             }
                             else {
@@ -106,7 +106,7 @@ export default {
                         }
                         else if (this.account.contact == this.given) {
                             store.setHiddenParam(this.account.id);
-                            store.setHiddenBuilding(this.account.building_ID)
+                            store.setHiddenBuilding(this.account.building_id)
                             if(this.account.latest_log.isCheckedOut) {
                                 this.$router.push('/visitor-registration/otp');
                             }

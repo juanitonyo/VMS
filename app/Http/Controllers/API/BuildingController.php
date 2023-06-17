@@ -124,10 +124,10 @@ class BuildingController extends BaseController
         }
 
         $data->update([
-            'buildingName' => $request->params['data']['buildingName'],
+            'buildingName' => $request->params['data']['building_name'],
             'description' => $request->params['data']['description'],
             'address' => $request->params['data']['address'],
-            'buildingType' => $request->params['data']['buildingType']['value'],
+            'buildingType' => $request->params['data']['building_type'],
             'status' => $request->params['data']['status'],
           ]);
          

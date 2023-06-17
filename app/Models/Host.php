@@ -11,23 +11,23 @@ class Host extends Model
 
     protected $fillable = [
         'building_id',
-        'firstName',
-        'lastName',
+        'first_name',
+        'last_name',
         'email',
         'password',
         'location',
         'contact',
-        'gov_id',
-        'profilePhoto',
-        'frontId',
-        'backId',
+        'govs_id',
+        'profile_photo',
+        'front_id',
+        'back_id',
         'policy',
         'role'
     ];
 
     protected $attributes = [
         'gov_id' => '',
-        'frontId' => '',
-        'backId' => ''
+        'front_id' => '',
+        'back_id' => ''
     ];
 }

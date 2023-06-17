@@ -12,30 +12,30 @@ class Visitors extends Model
     use HasFactory;
 
     protected $fillable = [
-        'user_ID',
-        'building_ID',
+        'user_id',
+        'building_id',
         'email',
         'name',
         'contact',
-        'profilePhoto',
+        'profile_photo',
         'front_id',
         'back_id',
         'google_id',
-        'refCode',
-        'validId',
+        'ref_code',
+        'valid_id',
         'policy',
         'status',
-        'remember-otp'
+        'remember_otp'
     ];
 
     protected $attributes = [
-        'user_ID' => '1',
-        'remember-otp' => '000000'
+        'user_id' => '1',
+        'remember_otp' => '000000'
     ];
 
     public function building(): HasOne 
     {
-        return $this->hasOne(Building::class, 'id', 'building_ID')->select(['id', 'qr_id','buildingName']);
+        return $this->hasOne(Building::class, 'id', 'building_id')->select(['id', 'qr_id','building_name']);
     }
 
     public function latestLog(): HasOne

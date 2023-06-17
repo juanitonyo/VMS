@@ -14,16 +14,16 @@ return new class extends Migration
         Schema::create('hosts', function (Blueprint $table) {
             $table->id();
             $table->integer('building_id');
-            $table->string('firstName');
-            $table->string('lastName');    
+            $table->string('first_name');
+            $table->string('last_name');    
             $table->string('email');
             $table->string('password');
             $table->string('contact')->unique();
             $table->string('location');
-            $table->string('profilePhoto');
+            $table->string('profile_photo');
             $table->string('gov_id');
-            $table->string('frontId');
-            $table->string('backId');
+            $table->string('front_id');
+            $table->string('back_id');
             $table->boolean('policy')->default(false);
             $table->timestamps();
         });

@@ -52,7 +52,7 @@ export default {
                     this.time = data.data.data.updated_at;
                 })
                 .catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
+                    
                 });
         },
     },

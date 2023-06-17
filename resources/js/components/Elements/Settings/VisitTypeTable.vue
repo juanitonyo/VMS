@@ -42,9 +42,9 @@
                                 <td class="px-3 py-4 text-xs text-center w-96 break-all text-gray-500">{{
                                     item.building_type_name.name }}</td>
                                 <td class="px-3 py-4 text-xs text-center w-80 break-all text-gray-500">{{
-                                    item.personToVisit ? "Enabled" : "Disabled" }}</td>
+                                    item.person_to_visit ? "Enabled" : "Disabled" }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
-                                    item.visitApproval ? 'Enabled' : 'Disabled' }}</td>
+                                    item.visit_approval ? 'Enabled' : 'Disabled' }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
                                     item.status ? 'Active' : 'Inactive' }}</td>
                                 <td class="px-3 py-4 text-xs text-center w-80 break-all text-gray-500">{{
@@ -86,14 +86,14 @@
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3">
                             <div class="flex justify-between">
-                                <label for="buildingType" class="block text-sm font-medium leading-6 text-gray-900">Building
+                                <label for="building_type" class="block text-sm font-medium leading-6 text-gray-900">Building
                                     Type</label>
-                                <span v-show="this.editMode ? false : form.errors.has('buildingType')"
+                                <span v-show="this.editMode ? false : form.errors.has('building_type')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
                             </div>
-                            <v-select v-model="form.buildingType" placeholder="Search" :options="building_types"
+                            <v-select v-model="form.building_type" placeholder="Search" :options="building_types"
                                 label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('buildingType') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                                :class="this.editMode ? ' ' : [form.errors.has('building_type') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -108,10 +108,10 @@
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900 mr-5" passive>
                                         Person to Visit</SwitchLabel>
                                 </span>
-                                <Switch v-model="form.personToVisit"
-                                    :class="[form.personToVisit ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                <Switch v-model="form.person_to_visit"
+                                    :class="[form.person_to_visit ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
-                                        :class="[form.personToVisit ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                        :class="[form.person_to_visit ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
 
@@ -120,10 +120,10 @@
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900 mr-5" passive>
                                         Visit Approval</SwitchLabel>
                                 </span>
-                                <Switch v-model="form.visitApproval"
-                                    :class="[form.visitApproval ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                <Switch v-model="form.visit_approval"
+                                    :class="[form.visit_approval ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
-                                        :class="[form.visitApproval ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                        :class="[form.visit_approval ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
                         </div>
@@ -147,15 +147,13 @@
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900 mr-5" passive>
                                         Auto Approve</SwitchLabel>
                                 </span>
-                                <Switch v-model="form.autoApprove"
-                                    :class="[form.autoApprove ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                <Switch v-model="form.auto_approve"
+                                    :class="[form.auto_approve ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
-                                        :class="[form.autoApprove ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                        :class="[form.auto_approve ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
                         </div>
-
-
 
                     </div>
                 </div>
@@ -204,11 +202,11 @@ export default {
             visitTypes: {},
             form: new Form({
                 name: '',
-                buildingType: '',
+                building_type: '',
                 description: '',
-                personToVisit: false,
-                visitApproval: false,
-                autoApprove: false,
+                person_to_visit: false,
+                visit_approval: false,
+                auto_approve: false,
                 status: false,
             }),
         }
@@ -274,10 +272,10 @@ export default {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
-            this.form.buildingType = { value: item.building_type_name.id, label: item.building_type_name.name }
+            this.form.building_type = { value: item.building_type_name.id, label: item.building_type_name.name }
         },
         forMessage() {
-            return this.editMode ? ' ' : this.form.errors.get('buildingType')
+            return this.editMode ? ' ' : this.form.errors.get('building_type')
         },
 
         async getData(page = 1) {
