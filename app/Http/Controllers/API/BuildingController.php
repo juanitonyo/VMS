@@ -6,6 +6,9 @@ use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingRequest;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class BuildingController extends BaseController
 {
@@ -36,7 +39,7 @@ class BuildingController extends BaseController
         foreach($data as $item){
             $array[] = [
                 'value' => $item->id,
-                'label' => $item->buildingName
+                'label' => $item->building_name
             ]; 
         }
         return $this->sendResponse($array, "All buildings in array");
@@ -72,6 +75,8 @@ class BuildingController extends BaseController
         $data = Building::create($validated);
         return $this->sendResponse($logo_link, "Saved Data");
     }
+
+
 
     /**
      * Display the specified resource.
@@ -124,10 +129,10 @@ class BuildingController extends BaseController
         }
 
         $data->update([
-            'buildingName' => $request->params['data']['building_name'],
+            'building_name' => $request->params['data']['building_name'],
             'description' => $request->params['data']['description'],
             'address' => $request->params['data']['address'],
-            'buildingType' => $request->params['data']['building_type'],
+            'building_type' => $request->params['data']['building_type'],
             'status' => $request->params['data']['status'],
           ]);
          
@@ -141,5 +146,29 @@ class BuildingController extends BaseController
     public function destroy(Building $building)
     {
         //
+    }
+
+    public function syncBuilding(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'building_name' => [
+                'required',
+                Rule::unique('buildings', 'building_name')
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError([], " The entry for \"".$request->name."\" already exists in the records." );
+        }
+
+
+        $data = Building::create([
+            'proptech_id' => $request->id,
+            'building_name' => $request->name,
+            'registration_name' => $request->registration_name,
+            'address' => $request->full_address ?? "",
+        ]);
+        
+        return $this->sendResponse($data, "Building created");
     }
 }

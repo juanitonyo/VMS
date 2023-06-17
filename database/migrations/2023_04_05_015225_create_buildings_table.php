@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('buildings', function (Blueprint $table) {
             $table->id();
             $table->uuid('qr_id');
-            $table->string('building_name', 100);
+            $table->integer('proptech_id')->nullable();
+            $table->string('building_name')->unique();
+            $table->string('registration_name')->unique()->nullable();
             $table->string('logo')->nullable();
-            $table->longText('description');
-            $table->longText('address');
-            $table->string('building_type');
+            $table->longText('description')->nullable();
+            $table->longText('address')->nullable();
+            $table->string('building_type')->nullable();
             $table->boolean('status')->default(true);
             $table->timestamps();
         });

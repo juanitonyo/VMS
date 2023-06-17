@@ -11,7 +11,9 @@ class Building extends Model
     use HasFactory;
 
     protected $fillable = [
+        'proptech_id',
         'building_name',
+        'registration_name',
         'address',
         'qr_id',
         'description',

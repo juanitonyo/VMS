@@ -51,6 +51,7 @@
               <component :is="item.icon" class="mr-4 h-6 w-6 text-blue-500" aria-hidden="true" />
               {{ item.name }}
             </router-link>
+            
           </div>
         </div>
       </nav>
@@ -70,6 +71,7 @@ import {
   BuildingOffice2Icon,
   TruckIcon,
   ChevronRightIcon,
+  ShareIcon
 } from "@heroicons/vue/24/outline";
 
 let permissions = userAuthStore().role.permissions;
@@ -126,6 +128,12 @@ const sideBarSecondaryNavigation = [
     href: "/app/settings",
     icon: CogIcon,
     access: permissions.settings ?? false,
+  },
+  {
+    name: "Sync Proptech Data",
+    href: "/app/sync",
+    icon: ShareIcon,
+    access: permissions.sync ?? false,
   },
 ];
 </script>

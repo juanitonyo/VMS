@@ -39,6 +39,8 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('get-visitor-log', 'VisitorLogsController@getVisitorLog');
     Route::get('get-roles', 'RolesController@getRoles');
 
+    Route::post('sync-building', 'BuildingController@syncBuilding');
+
     Route::apiResources([
         'user' => 'UserController',
         'building-types' => 'BuildingTypesController',
