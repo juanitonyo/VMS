@@ -13,17 +13,18 @@ return new class extends Migration
     {
         Schema::create('hosts', function (Blueprint $table) {
             $table->id();
-            $table->integer('building_id');
+            $table->integer('user_id');
+            $table->json('building_id')->nullable();
             $table->string('firstName');
             $table->string('lastName');    
             $table->string('email');
             $table->string('password');
-            $table->string('contact')->unique();
-            $table->string('location');
-            $table->string('profilePhoto');
-            $table->string('gov_id');
-            $table->string('frontId');
-            $table->string('backId');
+            $table->string('contact')->nullable()->unique();
+            $table->longText('location')->nullable();
+            $table->string('profilePhoto')->nullable();
+            $table->string('gov_id')->nullable();
+            $table->string('frontId')->nullable();
+            $table->string('backId')->nullable();
             $table->boolean('policy')->default(false);
             $table->timestamps();
         });

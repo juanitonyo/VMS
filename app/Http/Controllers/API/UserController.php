@@ -11,6 +11,8 @@ use App\Mail\UserRegistrationPassword;
 use App\Models\EmailTemplate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class UserController extends BaseController
 {
@@ -104,4 +106,12 @@ class UserController extends BaseController
     {
         //
     }
+
+    public function getSyncedUnitOwners(Request $request){
+        $users = DB::select("SELECT name FROM users WHERE created_at < ?", [Carbon::parse($request->get('syncTimeTriggered')) ]);
+
+        return $this->sendResponse($users , 'Data save job dispatched');
+    }
+
+
 }
