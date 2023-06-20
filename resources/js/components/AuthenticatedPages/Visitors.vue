@@ -51,7 +51,7 @@
                                             : 'Pending Approval' }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.isCheckedOut ?
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.is_checked_out ?
                                             moment(item.updated_at).format('MMMM Do YYYY, h:mm:ss a') : "Not Yet" }}
                                         </td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs" v-if="permissions.update">
@@ -74,7 +74,7 @@
                 </div>
             </div>
             <div class="flex items-center justify-center mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" />
+                <TailwindPagination :data="this.data" @pagination-change-page="getData" />
             </div>
         </div>
     </div>
@@ -131,7 +131,6 @@
                             <p>{{ this.account.visit_type.name }}</p>
                             <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                             <p>N/A</p>
-                            <p>N/A</p>
                             <p>{{ this.account.created_at == this.account.updated_at ? 'Not Yet' :
                                 moment(this.account.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
                             <p>N/A</p>
@@ -139,6 +138,7 @@
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
+                            <p>{{ this.account.health_form != null || this.account.health_form !== '[]' ? this.account.health_form : 'N\/A' }}</p>
                             <p>N/A</p>
                         </div>
                     </div>
@@ -329,10 +329,13 @@ export default {
         setPop() {
             this.pop = !this.pop;
         },
+
         async getData(page = 1) {
             await axios.get('/api/get-logs?page=' + page).then((data) => {
                 this.data = data.data.data;
-                console.log(this.data);
+                if(this.data.data[0].health_form === '[]') {
+                    console.log(this.data.data[0])
+                }
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
@@ -418,7 +421,6 @@ export default {
             await axios.get('/api/get-buildings/')
                 .then((data) => {
                     this.building = data.data.data;
-                    console.log(this.building)
                 })
                 .catch((e) => {
 

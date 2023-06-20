@@ -17,7 +17,7 @@ class VisitorsController extends BaseController
      * Display a listing of the resource.
      */
     public function index() {
-        $data = Visitors::with('building')->paginate(10);
+        $data = Visitors::with('building')->latest()->paginate(10);
         return $this->sendResponse($data, "Fetched all Visitors in Array");
     }
 
