@@ -19,12 +19,12 @@ return new class extends Migration
             $table->string('last_name');    
             $table->string('email');
             $table->string('password');
-            $table->string('contact')->unique();
-            $table->string('location');
-            $table->string('profile_photo');
-            $table->string('gov_id');
-            $table->string('front_id');
-            $table->string('back_id');
+            $table->string('contact')->nullable()->unique();
+            $table->string('location')->nullable();
+            $table->string('profile_photo')->nullable();
+            $table->string('gov_id')->nullable();
+            $table->string('front_id')->nullable();
+            $table->string('back_id')->nullable();
             $table->boolean('policy')->default(false);
             $table->timestamps();
         });

@@ -13,8 +13,10 @@ use Illuminate\Support\Facades\Auth;
 
 class GoogleAuthController extends Controller
 {
-    public function login() {
-      
+
+    public function login(Request $request) {
+        $building_uid = $request->get('building-id');
+        session(['building_uid' => $building_uid]);
         return Socialite::driver('google')->redirect();
     }
 
@@ -22,41 +24,38 @@ class GoogleAuthController extends Controller
       
         try {
             $google_user = Socialite::driver('google')->user();
-            // dd($google_user);
+        
             $user = Visitors::where('email', $google_user->getEmail())->first();
-            
-            if($user) {
-
-                return redirect()->intended('/visitor-registration/checkin/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $user->id, 1440, $httpOnly = false));
-            
-            }
-            else {
-                $refID = Building::where('qr_id', Cookie::get('buildingUUID'))->first()->id;
-
+            $building_uid = session('building_uid');
+            if ($user) {
+                return redirect()->intended('/visitor-registration/checkin/' .  $building_uid )->withCookie(cookie('id', $user->id, 1440, $httpOnly = false));
+            } else {
+                
+               
+                $refID = Building::where('qr_id',  $building_uid )->first()->id;
+        
                 $autoApproval = VisitTypes::where([
                     'id' => $refID,
                     'auto_approve' => true
                 ])->first();
-
-                if($autoApproval != null) {
+        
+                if ($autoApproval != null) {
                     $validated = true;
-                }
-                else {
+                } else {
                     $validated = false;
                 }
-
+        
                 $new_user = Visitors::create([
                     'name' => $google_user->getName(),
                     'email' => $google_user->getEmail(),
                     'google_id' => $google_user->getId(),
-                    'refCode' => Str::random(6),
+                    'ref_code' => Str::random(6),
                     'status' => $validated
                 ]);
-
-                return redirect()->intended('/visitor-registration/create/'.Cookie::get('buildingUUID'))->withCookie(cookie('id', $new_user->id, 1440, $httpOnly = false));
-
+        
+                return redirect()->intended('/visitor-registration/create/' .  $building_uid )->withCookie(cookie('id', $new_user->id, 1440, $httpOnly = false));
             }
-
+        
         } catch (\Throwable $th) {
             dd('Something went wrong.', $th->getMessage());
         }

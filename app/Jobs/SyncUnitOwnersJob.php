@@ -53,8 +53,8 @@ class SyncUnitOwnersJob implements ShouldQueue
                     ['user_id' => $newRecords->id],
                     [
                         'building_id' => $item['model_id'],
-                        'firstName' => $item['first_name'],
-                        'lastName' => $item['last_name'],
+                        'first_name' => $item['first_name'],
+                        'last_name' => $item['last_name'],
                         'building_id' => $item['project_site_ids'],
                         'email' => $item['email'],
                         'contact' => $item['mobile'],
@@ -67,8 +67,8 @@ class SyncUnitOwnersJob implements ShouldQueue
                 Host::where('user_id', $user->id)
                     ->update([
                         'building_id' => $item['model_id'],
-                        'firstName' => $item['first_name'],
-                        'lastName' => $item['last_name'],
+                        'first_name' => $item['first_name'],
+                        'last_name' => $item['last_name'],
                         'building_id' => $item['project_site_ids'],
                         'email' => $item['email'],
                         'contact' => $item['mobile'],
