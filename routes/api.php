@@ -40,6 +40,13 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('get-roles', 'RolesController@getRoles');
     Route::get('get-invitation', 'InvitationLogsController@getInvitation');
 
+    Route::post('sync-building', 'BuildingController@syncBuilding');
+    Route::post('sync-unit-owners', 'BuildingController@syncUnitOwners');
+    Route::post('get-unit-owners-length', 'BuildingController@getUnitOwnersLength');
+    Route::get('fetch-realtime-data', 'UserController@getSyncedUnitOwners');
+    
+    
+
     Route::apiResources([
         'user' => 'UserController',
         'building-types' => 'BuildingTypesController',

@@ -13,7 +13,8 @@ return new class extends Migration
     {
         Schema::create('hosts', function (Blueprint $table) {
             $table->id();
-            $table->integer('building_id');
+            $table->integer('user_id');
+            $table->json('building_id')->nullable();
             $table->string('first_name');
             $table->string('last_name');    
             $table->string('email');

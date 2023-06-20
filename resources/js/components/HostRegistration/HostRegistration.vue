@@ -17,7 +17,8 @@
                                         class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 rounded-full justify-center items-center cursor-pointer transition duration-500 bg-cover bg-center">
                                         <img v-show="this.form.profile_photo == null" class="lg:w-8 w-6 mt-3 lg:mt-0"
                                             src="https://www.svgrepo.com/show/33565/upload.svg" />
-                                        <input type="file" ref="profile" class="opacity-0" @input="uploadProfilePhoto" accept="image/png, image/jpeg, image/jpg, image/svg">
+                                        <input type="file" ref="profile" class="opacity-0" @input="uploadProfilePhoto"
+                                            accept="image/png, image/jpeg, image/jpg, image/svg">
                                     </label>
                                 </div>
                                 <p class="text-[10px]">Upload Photo</p>
@@ -27,7 +28,20 @@
 
                         <div class="lg:col-span-2">
                             <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
+
                                 <div class="md:col-span-5 relative">
+                                    <div class="flex justify-between">
+                                        <label for="pID" class="text-xs">Proptech ID / Account Number:</label>
+                                        <span v-show="form.errors.has('firstName')"
+                                            class="text-[10px] items-center w-max text-red-500">
+                                            {{ form.errors.get('firstName') }}</span>
+                                    </div>
+                                    <input type="text" name="pID" id="pID" placeholder="Enter your account number"
+                                        :class="form.errors.has('firstName') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
+                                        v-model="form.firstName" />
+                                </div>
+
+                                <div class="md:col-span-3 relative">
                                     <div class="flex justify-between">
                                         <label for="first_name" class="text-xs">First Name</label>
                                         <span v-show="form.errors.has('first_name')"
@@ -39,7 +53,7 @@
                                         v-model="form.first_name" />
                                 </div>
 
-                                <div class="md:col-span-5 relative">
+                                <div class="md:col-span-2 relative">
                                     <div class="flex justify-between">
                                         <label for="last_name" class="text-xs">Last Name</label>
                                         <span v-show="form.errors.has('last_name')"
@@ -172,8 +186,7 @@
 
                                 <div class="md:col-span-5 text-right">
                                     <div class="inline-flex items-end">
-                                        <button type="submit" :disabled="!checkPolicy"
-                                            @click.prevent="submitForm()"
+                                        <button type="submit" :disabled="!checkPolicy" @click.prevent="submitForm()"
                                             :class="[checkPolicy == true ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500', 'text-white font-bold py-2 px-4 rounded']">
                                             Submit
                                         </button>
@@ -238,6 +251,7 @@ export default {
                 contact: null,
                 front_id: null,
                 back_id: null,
+                gov_id: null,
                 profile_photo: null,
                 policy: true,
                 role: 'host'
@@ -319,7 +333,7 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
 
-            document.cookie = 'buildingUUID=' + this.id + '; path=/';
+        document.cookie = 'buildingUUID=' + this.id + '; path=/';
     },
 }
 </script>

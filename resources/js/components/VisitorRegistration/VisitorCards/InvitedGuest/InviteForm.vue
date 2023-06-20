@@ -242,7 +242,7 @@
             <div class="flex flex-col mt-3 relative">
                 <div class="flex flex-row items-center justify-center">
                     <label for="email" class="text-[10px] text-gray-500 mr-[53px]">Check In</label>
-                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px]  h-[28px] w-[230px]">
+                    <input type="email" class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
                 </div>
             </div>
             <div class="flex flex-col mt-3 relative">

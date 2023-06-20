@@ -23,6 +23,8 @@ const Dashboard = () => import("@/components/AuthenticatedPages/Dashboard.vue");
 const Users = () => import("@/components/AuthenticatedPages/Users.vue");
 const Roles = () => import("@/components/AuthenticatedPages/Roles.vue");
 const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
+const SyncPropTech = () => import("@/components/AuthenticatedPages/SyncPropTech.vue");
+
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
 const Testing = () => import("@/components/AuthenticatedPages/testing.vue");
@@ -76,17 +78,17 @@ const routes = [
             middleware: "guest",
         },
         children: [
-            {
-                name: "home",
-                path: "/",
-                component: Home,
-                meta: {
-                    title: `Home`,
-                },
-            },
+            // {
+            //     name: "home",
+            //     path: "/",
+            //     component: Home,
+            //     meta: {
+            //         title: `Home`,
+            //     },
+            // },
             {
                 name: "login",
-                path: "/login",
+                path: "/",
                 component: Login,
                 meta: {
                     title: `VMS Login`,
@@ -149,6 +151,15 @@ const routes = [
                 component: Settings,
                 meta: {
                     title: `VMS | Settings`,
+                    ability: "",
+                },
+            },
+            {
+                name: "sync",
+                path: "/app/sync",
+                component: SyncPropTech,
+                meta: {
+                    title: `VMS | Sync`,
                     ability: "",
                 },
             },

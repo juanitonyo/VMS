@@ -6,6 +6,14 @@ use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingRequest;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
+use Illuminate\Support\Facades\Http;
+use App\Jobs\SyncUnitOwnersJob;
+use App\Models\User;
+use Illuminate\Support\Facades\DB;
+use App\Events\SyncUnitOwnersEvent;
 
 class BuildingController extends BaseController
 {
@@ -14,14 +22,21 @@ class BuildingController extends BaseController
      */
     public function index()
     {
-        $data = Building::with('buildingType')->paginate(10);
+       // $data = Building::with('building_type')->paginate(10);
+        $relationship = 'buildingType';
+        $data = Building::query()
+                ->when(Building::with('buildingType')->get(), function ($query) use ($relationship) {
+                    return $query->with($relationship);
+                })
+                ->paginate(10);
+
         return $this->sendResponse($data, "All buildings in array");
     }
 
     // get specific building
     public function getBuilding(Request $request){
 
-        $data = Building::with('buildingType')->where('qr_id', $request->buildingUUID)->first();
+        $data = Building::with('building_type')->where('qr_id', $request->buildingUUID)->first();
        
         return $this->sendResponse($data, "All buildings in array");
 
@@ -72,6 +87,8 @@ class BuildingController extends BaseController
         $data = Building::create($validated);
         return $this->sendResponse($logo_link, "Saved Data");
     }
+
+
 
     /**
      * Display the specified resource.
@@ -124,10 +141,10 @@ class BuildingController extends BaseController
         }
 
         $data->update([
-            'buildingName' => $request->params['data']['buildingName'],
+            'building_name' => $request->params['data']['buildingName'],
             'description' => $request->params['data']['description'],
             'address' => $request->params['data']['address'],
-            'buildingType' => $request->params['data']['buildingType']['value'],
+            'building_type' => $request->params['data']['buildingType']['value'],
             'status' => $request->params['data']['status'],
           ]);
          
@@ -142,4 +159,71 @@ class BuildingController extends BaseController
     {
         //
     }
+
+    public function syncBuilding(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'name' => [
+                'required',
+                Rule::unique('buildings', 'building_name')
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return $this->sendError([], " The entry for \"".$request->name."\" already exists in the records." );
+        }
+
+
+        $data = Building::create([
+            'proptech_id' => $request->id,
+            'building_name' => $request->name,
+            'registration_name' => $request->registration_name,
+            'address' => $request->full_address ?? "",
+        ]);
+        
+        return $this->sendResponse($data, "The \"".$request->name."\" has been successfully created.");
+    }
+
+    public function syncUnitOwners(Request $request) {
+            // $data = Http::get('http://proptech-api.test/api/vms/sync-unit-owners');
+            // $res = $data->body();
+
+            // $records = json_decode($res, true); 
+
+            // $chunks = array_chunk($records, 500);
+
+            // foreach ($chunks as $chunk) {
+            //     SyncUnitOwnersJob::dispatch($chunk)->onQueue('unitowners');
+            // }
+            // return $this->sendResponse([], 'Data save job dispatched');
+        //    $data = $request->get('data');  
+         SyncUnitOwnersJob::dispatch($request->get('data'))->onQueue('unitowners');
+         $count = DB::select("
+                SELECT COUNT(*) as user_count
+                FROM users
+                WHERE created_at >= ?
+            ", [$request->get('date_generated')]);
+
+        $userCount = $count[0]->user_count;
+
+         event(new SyncUnitOwnersEvent([
+            'user_initial_count' => $userCount,
+            'user_total_count' => $request->get('total_length')
+         ]));
+         
+         return $this->sendResponse([
+            'user_initial_count' => $userCount,
+            'user_total_count' => $request->get('total_length')
+         ], 'Data save job dispatched');   
+    }
+
+    public function getUnitOwnersLength(){
+        $data = Http::get('http://proptech-api.test/api/vms/sync-unit-owners');
+        $res = $data->body();
+
+        return $this->sendResponse(count(json_decode($res)) , 'Unit Owners');
+    }
+
+    
+    
 }

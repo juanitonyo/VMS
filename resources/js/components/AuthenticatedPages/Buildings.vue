@@ -45,7 +45,7 @@
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}
                                         </td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type.name
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type ? item.building_type.name : 'N/A'
                                         }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 flex space-x-1.5">
                                             <button :disabled="item.status ? false : true"
@@ -382,7 +382,8 @@ export default {
             await axios.get('/api/building?page=' + page).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
+                console.log(e.message)
+                // errorMessage('Opps!', e.message, 'top-right')
             });
         },
 
