@@ -4,14 +4,9 @@ namespace App\Http\Controllers\API;
 
 use App\Models\Visitors;
 use App\Models\Building;
-use App\Models\VisitTypes;
-use App\Models\VisitorLogs;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\VisitorsRequest;
-use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Mail;
-use App\Mail\UserRegistrationPassword;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Carbon;
 use Intervention\Image\Image;
@@ -24,66 +19,6 @@ class VisitorsController extends BaseController
     public function index() {
         $data = Visitors::with('building')->paginate(10);
         return $this->sendResponse($data, "Fetched all Visitors in Array");
-    }
-
-    public function sendEmail(Request $request) {
-        $data = Visitors::with('latestLog')->where('id', $request->id)->first();
-
-        $building = Building::where('qr_id', $request->buildingID)->first();
-
-        $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first()->name;
-
-        $mailData = [
-            'title' => "One-Time Password",
-            'email' => $data['email'],
-            'uuid' => $request->building_id,
-            'name' => $data['name'],
-            'ref_code' => $data['ref_code'],
-            'visit_type' => $visitType,
-            'contact' => $data['contact'],
-            'building_name' => $building->building_name,
-            'building_address' => $building->address,
-            'checked_in' => $data->latestLog->created_at
-        ];
-
-        Mail::to($data['email'])->send(new UserRegistrationPassword($mailData));
-        
-    }
-
-    public function sendOTP(Request $request) {
-            // $pass = random_int(000000, 999999);
-
-            // $data = Visitors::where([
-            //     ['id', $request->id],
-            //     ['building_id', $request->buildingID]
-            // ])->first();
-
-            // Visitors::where([
-            //     ['id', $request->id],
-            //     ['building_id', $request->buildingID]
-            // ])->update([
-            //     'remember_otp' => $pass,
-            //     'otp_expiry_date' => Carbon::now()->addMinutes(5)
-            // ]);
-
-            // $curl = curl_init();
-            // curl_setopt_array($curl, array(
-            // CURLOPT_URL => 'https://sms.gets.ph/api/sms-push',
-            // CURLOPT_RETURNTRANSFER => true,
-            // CURLOPT_ENCODING => '',
-            // CURLOPT_MAXREDIRS => 10,
-            // CURLOPT_TIMEOUT => 0,
-            // CURLOPT_FOLLOWLOCATION => true,
-            // CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            // CURLOPT_CUSTOMREQUEST => 'POST',
-            // CURLOPT_POSTFIELDS => array('number' => $data->contact,'message' => 'Your PropTech One-Time PIN is '.$pass.'. Please do not share OTP with anyone.'),
-            // CURLOPT_HTTPHEADER => array(
-            //     'Authorization: Bearer 2|6IjBwPqcZgSeYzrlZK3UKP7T64jhumjL71w7zCIb'
-            // ),
-            // ));
-            // $response = curl_exec($curl);
-
-            // curl_close($curl);
     }
 
     public function existingVisitor(Request $request) {

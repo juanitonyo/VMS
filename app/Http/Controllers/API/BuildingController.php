@@ -36,7 +36,7 @@ class BuildingController extends BaseController
         foreach($data as $item){
             $array[] = [
                 'value' => $item->id,
-                'label' => $item->buildingName
+                'label' => $item->building_name
             ]; 
         }
         return $this->sendResponse($array, "All buildings in array");

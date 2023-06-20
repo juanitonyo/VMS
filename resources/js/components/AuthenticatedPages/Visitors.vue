@@ -172,27 +172,27 @@
 
     <SliderVue :setOpen="pop" :title="'Send Invitation'" :description="'Invite someone to your location'">
         <template v-slot:slider-body>
-            <form>
+            <form @submit.prevent="saveInvitation">
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput label="Email" id="email"
+                            <NormalInput v-model="form.email" label="Email" id="email"
                                 :hasError="this.editMode ? false : form.errors.has('email')"
                                 :errorMessage="this.editMode ? false : form.errors.get('email')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput label="First Name" id="fname"
-                                :hasError="this.editMode ? false : form.errors.has('fname')"
-                                :errorMessage="this.editMode ? false : form.errors.get('fname')"></NormalInput>
+                            <NormalInput v-model="form.first_name" label="First Name" id="first_name"
+                                :hasError="this.editMode ? false : form.errors.has('first_name')"
+                                :errorMessage="this.editMode ? false : form.errors.get('first_name')"></NormalInput>
                         </div>
 
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput label="Last Name" id="lname"
-                                :hasError="this.editMode ? false : form.errors.has('lname')"
-                                :errorMessage="this.editMode ? false : form.errors.get('lname')"></NormalInput>
+                            <NormalInput v-model="form.last_name" label="Last Name" id="last_name"
+                                :hasError="this.editMode ? false : form.errors.has('last_name')"
+                                :errorMessage="this.editMode ? false : form.errors.get('last_name')"></NormalInput>
                         </div>
 
                         <div class="sliderPurpose sm:col-span-3 mt-3">
@@ -202,7 +202,7 @@
                                 <span v-show="this.editMode ? false : form.errors.has('building')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forBuilding() }}</span>
                             </div>
-                            <v-select placeholder="Search" :options="building" label="label"
+                            <v-select v-model="form.building_id" placeholder="Search" :options="building" label="label"
                                 :class="this.editMode ? ' ' : [form.errors.has('building') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
 
@@ -213,18 +213,18 @@
                                 <span v-show="this.editMode ? false : form.errors.has('visit_type')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forVisitType() }}</span>
                             </div>
-                            <v-select placeholder="Search" :options="visit_type" label="label"
+                            <v-select v-model="form.visit_purpose_id" placeholder="Search" :options="visit_type" label="label"
                                 :class="this.editMode ? ' ' : [form.errors.has('visit_type') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput label="Location" id="location"
+                            <NormalInput v-model="form.location" label="Location" id="location"
                                 :hasError="this.editMode ? false : form.errors.has('location')"
                                 :errorMessage="this.editMode ? false : form.errors.get('location')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput label="Contact" id="contact"
+                            <NormalInput v-model="form.contact" label="Contact" id="contact"
                                 :hasError="this.editMode ? false : form.errors.has('contact')"
                                 :errorMessage="this.editMode ? false : form.errors.get('contact')"></NormalInput>
                         </div>
@@ -235,7 +235,7 @@
                                 <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
                                     v-if="form.errors.has('companion')" v-html="form.errors.get('companion')" />
                             </div>
-                            <textarea class="focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300"
+                            <textarea v-model="form.companions" class="focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300"
                                 :class="this.editMode ? ' ' : [form.errors.has('companion') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white']"></textarea>
                             <p class="text-gray-500 text-[10px] text-left italic font-light">Note: Please type the name/s of
                                 the companion. If multiple names, seperate each with a comma ( , ).</p>
@@ -250,7 +250,7 @@
                                 <div class="text-[10px] text-red-600 dark:text-red-500 mt-1" v-if="form.errors.has('date')"
                                     v-html="form.errors.get('date')" />
                             </div>
-                            <input type="date"
+                            <input v-model="form.target_date" type="date"
                                 :class="this.editMode ? ' ' : [form.errors.has('date') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white', 'focus:outline-none px-3 py-2 text-xs w-full rounded-md border border-gray-300']" />
                         </div>
 
@@ -298,14 +298,14 @@ export default {
             account: {},
             form: new Form({
                 email: '',
-                fname: '',
-                lname: '',
-                building: '',
-                visit_type: '',
+                first_name: '',
+                last_name: '',
+                building_id: '',
+                visit_purpose_id: '',
                 location: '',
                 contact: '',
-                companion: '',
-                date: ''
+                companions: '',
+                target_date: ''
             }),
             visit_type: [],
             building: []
@@ -337,8 +337,12 @@ export default {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
         },
+
         saveInvitation() {
-            this.form.post('/api/')
+            this.form.building_id = this.form.building_id.value
+            this.form.visit_purpose_id = this.form.visit_purpose_id.value
+
+            this.form.post('/api/invitation/')
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
@@ -358,6 +362,10 @@ export default {
                 }).catch((error) => {
                     this.$Progress.fail();
                 })
+        },
+
+        sendInvitation() {
+            axios.get('/api/send-email?').then((data) => {}).catch((error) => {})
         },
 
         updateVisitor() {
@@ -410,6 +418,7 @@ export default {
             await axios.get('/api/get-buildings/')
                 .then((data) => {
                     this.building = data.data.data;
+                    console.log(this.building)
                 })
                 .catch((e) => {
 

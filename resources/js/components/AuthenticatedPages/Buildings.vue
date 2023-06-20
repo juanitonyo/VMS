@@ -309,7 +309,6 @@ export default {
         },
 
         uploadImage() {
-            this.hideLabel = true;
             let input = this.$refs.buildingLogo;
             let file = input.files;
             if (file && file[0]) {
@@ -324,6 +323,8 @@ export default {
         },
 
         saveBuilding() {
+            this.form.building_type = this.form.building_type.value
+
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
@@ -349,6 +350,8 @@ export default {
         },
 
         updateBuilding() {
+            this.form.building_type = this.form.building_type.value
+
             axios.put("/api/building/" + this.form.id, {
                 params: {
                     data: this.form

@@ -33,7 +33,7 @@ class VisitorLogsController extends BaseController
     }
 
     public function totalCheckOut() {
-        $data = VisitorLogs::with('visitor')->where('isCheckedOut', 1)->latest()->paginate(5);
+        $data = VisitorLogs::with('visitor')->where('is_checked_out', 1)->latest()->paginate(5);
         return $this->sendResponse($data, "Fetched check outs in table");
     }
 
@@ -87,7 +87,7 @@ class VisitorLogsController extends BaseController
     {
 
         $data = VisitorLogs::where('visitor_id', $id)->latest()->first()->update([
-            'isCheckedOut' => 1,
+            'is_checked_out' => 1,
             'health_form' => $request->params['data']['health_form']
         ]);
 

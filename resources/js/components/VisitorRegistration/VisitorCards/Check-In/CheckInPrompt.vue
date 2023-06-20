@@ -87,7 +87,7 @@ export default {
     methods: {
 
         async isExisting() {
-            await axios.get('/api/visitor-query?given=' + this.given + '&building_ID=' + this.buildings.id)
+            await axios.get('/api/visitor-query?given=' + this.given + '&building_id=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
 
@@ -104,11 +104,13 @@ export default {
                             else {
                                 this.$router.push('/visitor-registration/checkout/' + this.id);
                             }
+
+                            console.log("refCode/Email")
                         }
                         else if (this.account.contact == this.given) {
                             store.setHiddenParam(this.account.id);
                             store.setHiddenBuilding(this.account.building_id)
-                            if(this.account.latest_log.isCheckedOut) {
+                            if(this.account.latest_log.is_checked_out) {
                                 this.$router.push('/visitor-registration/otp');
                             }
                             else {

@@ -30,14 +30,15 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('visitor-query', 'VisitorsController@existingVisitor');
     Route::get('validate-form', 'VisitorsController@validateForm');
     Route::get('check-otp', 'VisitorsController@checkOTP');
-    Route::get('send-otp', 'VisitorsController@sendOTP');
-    Route::get('send-email', 'VisitorsController@sendEmail');
+    Route::get('send-otp', 'SMSTemplateController@sendOTP');
+    Route::get('send-email', 'EmailTemplateController@sendEmail');
     Route::get('check-log', 'VisitorLogsController@queryLog');
     Route::get('get-hosts', 'HostController@getHostQuery');
     Route::get('get-checkouts', 'VisitorLogsController@totalCheckOut');
     Route::get('get-logs', 'VisitorLogsController@getVisitorLogs');
     Route::get('get-visitor-log', 'VisitorLogsController@getVisitorLog');
     Route::get('get-roles', 'RolesController@getRoles');
+    Route::get('get-invitation', 'InvitationLogsController@getInvitation');
 
     Route::apiResources([
         'user' => 'UserController',
@@ -50,7 +51,8 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'visit-type' => 'VisitTypesController',
         'visitor-logs' => 'VisitorLogsController',
         'delivery' => 'DeliveryController',
-        'roles' => 'RolesController'
+        'roles' => 'RolesController',
+        'invitation' => 'InvitationLogsController'
     ]);
 });
 

@@ -281,6 +281,7 @@ export default {
         async getData(page = 1) {
             await axios.get('/api/visit-type?page=' + page).then((data) => {
                 this.data = data.data.data;
+                console.log(this.data);
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
