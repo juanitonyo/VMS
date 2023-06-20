@@ -27,14 +27,14 @@
 
                 <form @submit.prevent="checkInVisitor()">
                     <div class="check_purpose space-y-3 mt-5">
-                        <v-select @change="console.log(this.selectedPurpose)" v-model="selectedPurpose" id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
+                        <v-select v-model="this.selectedPurpose" id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
                             :options="visitType" label="label"
                             class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                         <!-- split the companions -->
                         <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
                             class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
                     </div>
-                    <div v-show="this.isPersonToVisitAllowed">
+                    <div v-show="this.selectedPurpose.person_to_visit">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
 
                         <div class="flex flex-row mt-2 gap-x-3">
