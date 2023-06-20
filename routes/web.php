@@ -19,6 +19,9 @@ use Laravel\Socialite\Facades\Socialite;
 Route::get('/login-google', [App\Http\Controllers\GoogleAuthController::class, 'login'])->middleware('guest')->name('google.login');
 Route::get('/auth/google/callback', [App\Http\Controllers\GoogleAuthController::class, 'callbackGoogle'])->middleware('guest')->name('google.login.callback');
 
+Route::get('/login-facebook', [App\Http\Controllers\FacebookAuthController::class, 'login'])->middleware('guest')->name('facebook.login');
+Route::get('/auth/facebook/callback', [App\Http\Controllers\FacebookAuthController::class, 'callbackFacebook'])->middleware('guest')->name('facebook.login.callback');
+
 Route::get('{any}', function () {
     return view('app');
 })->where('any', '.*');

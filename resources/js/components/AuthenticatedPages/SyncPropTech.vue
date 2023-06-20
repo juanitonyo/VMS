@@ -186,20 +186,20 @@ export default {
             const channel = this.$pusher.subscribe('sync-unitowners-channel');
             channel.bind('pusher:subscription_succeeded', () => console.log('subscription succeeded'))
             channel.bind('sync-unitowners-broadcast', event => {
-                // console.log(event);
-                createToast({
-                        title: 'Syncing Data...',
-                        description: event.data.user_initial_count +' out of '+ event.data.user_total_count
-                    },
-                        {
-                            position: 'top-right',
-                            showIcon: 'true',
-                            type: 'success',
-                            toastBackgroundColor: '#00bcd4',
-                            hideProgressBar: 'true',
-                            timeout: 30000,
-                            toastBackgroundColor: '#00bcd4',
-                        })
+                 console.log(event);
+            //     createToast({
+            //             title: 'Syncing Data...',
+            //             description: event.data.user_initial_count +' out of '+ event.data.user_total_count
+            //         },
+            //             {
+            //                 position: 'top-right',
+            //                 showIcon: 'true',
+            //                 type: 'success',
+            //                 toastBackgroundColor: '#00bcd4',
+            //                 hideProgressBar: 'true',
+            //                 timeout: 30000,
+            //                 toastBackgroundColor: '#00bcd4',
+            //             })
             })
             
         },
