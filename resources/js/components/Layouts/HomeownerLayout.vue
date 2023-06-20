@@ -1,6 +1,6 @@
-<template>
+<!-- <template>
     <div class="min-h-full font-poppins">
-        <!-- <MobileMenu/> -->
+        <MobileMenu/>
         <Sidebar2/>
         <TopBar/>
         <div class="flex flex-1 flex-col lg:pl-64">
@@ -14,4 +14,8 @@
 <script setup>
     import Sidebar2 from '../Elements/Dashboard/Sidebar2.vue';
     import TopBar from '../Elements/Dashboard/TopBar.vue';
-</script>
+</script> -->
+
+<template>
+    <div></div>
+</template>

@@ -94,7 +94,7 @@ export default {
                         this.$router.push('/visitor-registration/signIn/reg/' + this.id);
                     }
 
-                    if(this.account.status) {
+                    else if(this.account.status) {
                         if (this.account.refCode == this.given || this.account.email == this.given){
                             store.setHiddenParam(this.account.id);
                             if(this.account.latest_log.is_checked_out) {
@@ -103,8 +103,6 @@ export default {
                             else {
                                 this.$router.push('/visitor-registration/checkout/' + this.id);
                             }
-
-                            console.log("refCode/Email")
                         }
                         else if (this.account.contact == this.given) {
                             store.setHiddenParam(this.account.id);
@@ -116,6 +114,11 @@ export default {
                                 this.$router.push('/visitor-registration/checkout/' + this.id);
                             }
                         }
+                    }
+
+                    else if(this.account.latest_log == null) {
+                        store.setHiddenParam(this.account.id);
+                        this.$router.push('/visitor-registration/checkin/' + this.id);
                     }
 
                     else {

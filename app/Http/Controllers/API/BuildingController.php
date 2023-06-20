@@ -36,7 +36,7 @@ class BuildingController extends BaseController
     // get specific building
     public function getBuilding(Request $request){
 
-        $data = Building::with('building_type')->where('qr_id', $request->buildingUUID)->first();
+        $data = Building::with('buildingType')->where('qr_id', $request->buildingUUID)->first();
        
         return $this->sendResponse($data, "All buildings in array");
 

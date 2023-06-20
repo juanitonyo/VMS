@@ -23,7 +23,8 @@ class VisitTypesController extends BaseController
         foreach($data as $item){
             $arr[] = [
                 'value' => $item->id,
-                'label' => $item->name
+                'label' => $item->name,
+                'personToVisit' => $item->person_to_visit
             ]; 
         }
         return $this->sendResponse($arr, "All Visit Types in array");

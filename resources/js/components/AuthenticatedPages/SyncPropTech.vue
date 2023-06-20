@@ -81,7 +81,7 @@ export default {
     },
     methods: {
         async syncData() {
-            await axios.get('http://proptech-api.test/api/vms/sync-buildings')
+            await axios.get('https://proptech-api.globalland.com.ph/api/vms/sync-buildings')
                 .then((data) => {
                     data.data.forEach((item, index) => {
                         setTimeout(() => {

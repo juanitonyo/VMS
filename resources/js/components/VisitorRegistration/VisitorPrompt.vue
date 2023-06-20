@@ -5,7 +5,7 @@
 
             <div class="flex flex-col items-center justify-center md:m-1">
                 <p class="m-3 text-2xl md:text-3xl font-bold uppercase">{{ this.buildings.building_name }}</p>
-                <img :src="'/uploads/images/' + this.buildings.logo" alt="no photo"
+                <img :src="[this.buildings.logo ? '/uploads/images/' + this.buildings.logo : '/uploads/images/1686970963.jpeg']" alt="no photo"
                     class="shadow-lg shadow-indigo-200 rounded-md flex items-center justify-center">
             </div>
 
