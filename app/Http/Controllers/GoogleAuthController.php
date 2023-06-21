@@ -13,13 +13,15 @@ use Illuminate\Support\Facades\Auth;
 
 class GoogleAuthController extends Controller
 {
-    public function login() {
+    public function login(Request $request) {
+        // dd($request->all());
       
         return Socialite::driver('google')->redirect();
     }
 
     public function callbackGoogle(Request $request) {
-      
+        dd($request->all());
+
         try {
             $google_user = Socialite::driver('google')->user();
             // dd($google_user);

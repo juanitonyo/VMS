@@ -22,6 +22,6 @@ class VisitTypes extends Model
 
     public function buildingTypeName(): HasOne
     {
-        return $this->hasOne(BuildingTypes::class, 'id', 'buildingType')->select(['id','name']);
+        return $this->hasOne(BuildingTypes::class, 'id', 'building_type')->select(['id','name']);
     }
 }

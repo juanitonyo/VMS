@@ -90,13 +90,13 @@ class VisitorsController extends BaseController
 
         $data = Visitors::with('latestLog')->where([
             ['contact', $request->given],
-            ['building_id', $request->building_ID]
+            ['building_id', $request->building_id]
         ])->orWhere([
             ['ref_code', $request->given],
-            ['building_id', $request->building_ID]
+            ['building_id', $request->building_id]
         ])->orWhere([
             ['email', $request->given],
-            ['building_id', $request->building_ID]
+            ['building_id', $request->building_id]
         ])->first();
 
         return $this->sendResponse($data, "Data found in table");

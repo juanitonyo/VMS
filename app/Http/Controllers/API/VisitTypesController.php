@@ -13,7 +13,7 @@ class VisitTypesController extends BaseController
      */
     public function index()
     {
-        $data = VisitTypes::with('building_type_name')->paginate(10);
+        $data = VisitTypes::with('buildingTypeName')->paginate(10);
         return $this->sendResponse($data, "All Visit Types in Array");
     }
 

@@ -7,7 +7,7 @@
 
         <div v-show="!isButton" class="relative">
             <input :value="modelValue" @input="updateValue" :placeholder="'Mobile No. / Reference Code '"
-                :class="'placeholder:text-gray-400 text-black border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-left inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-[335px]'">
+                :class="'placeholder:text-gray-400 text-blue-900 border border-blue-800 pr-10 bg-white hover:bg-gray-50 text-center focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-[335px]'">
             <button class="absolute right-3 top-2 hover:scale-105" @click="isPop">
                 <img src="/Visitor_Homepage_Assets/qrButton.png" class="w-6 h-6">
             </button>
@@ -23,10 +23,16 @@
                     <div class="qrScanner">
                         <p class="text-xs text-gray-400 mb-3 italic text-center"> Note: Place the QR Code sent to you
                             infront of the camera</p>
-                        <qrcode-stream @decode="onDecode" @init="onInit">
-                            <div class="loading-indicator animate-pulse" v-if="loading">
-                                Loading...
-                            </div>
+                        <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
+                            <button @click.prevent="switchCamera()"
+                                class="absolute bottom-2 p-1.5 bg-gray-100 rounded border border-gray-400 text-black hover:bg-gray-200">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
+                                </svg>
+
+                            </button>
                         </qrcode-stream>
                     </div>
                     <div class="mt-3">
@@ -40,21 +46,12 @@
                                         d="M15.666 3.888A2.25 2.25 0 0013.5 2.25h-3c-1.03 0-1.9.693-2.166 1.638m7.332 0c.055.194.084.4.084.612v0a.75.75 0 01-.75.75H9a.75.75 0 01-.75-.75v0c0-.212.03-.418.084-.612m7.332 0c.646.049 1.288.11 1.927.184 1.1.128 1.907 1.077 1.907 2.185V19.5a2.25 2.25 0 01-2.25 2.25H6.75A2.25 2.25 0 014.5 19.5V6.257c0-1.108.806-2.057 1.907-2.185a48.208 48.208 0 011.927-.184" />
                                 </svg>
                             </button>
-                            <input v-on:focus="$event.target.select()" ref="clone" readonly :value="result"
-                                class="pointer-events-none rounded-none rounded-r-md bg-gray-50 border text-gray-900 block flex-1 min-w-0 w-full text-xs border-gray-300 p-2.5">
+                            <input v-on:focus="$event.target.select()" ref="clone" readonly :value="this.result"
+                                class="pointer-events-none rounded-none rounded-r-md bg-gray-50 border text-gray-900 block flex-1 min-w-0 w-full text-xs border-gray-300 p-2">
                         </div>
                         <span v-show="error != null" class="text-[10px] text-red-500">{{ error }}</span>
                     </div>
 
-
-                </div>
-
-                <div class="mt-5">
-                    <button
-                        class="w-full justify-center rounded-md bg-blue-800 outline-none px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-800/90"
-                        @click="isPop" type="button">
-                        Close
-                    </button>
                 </div>
             </div>
         </template>
@@ -100,7 +97,8 @@ export default {
             show: false,
             result: '',
             error: '',
-            loading: false
+            camera: 'rear',
+            showResult: ''
         }
     },
     created() {
@@ -126,11 +124,26 @@ export default {
             this.result = result
         },
 
+        switchCamera() {
+            switch (this.camera) {
+                case 'front':
+                    this.camera = 'rear'
+                    break
+                case 'rear':
+                    this.camera = 'front'
+                    break
+            }
+        },
+
         async onInit(promise) {
-            this.loading = true
             try {
                 await promise
+
             } catch (error) {
+
+                const triedFrontCamera = this.camera === 'front'
+                const triedRearCamera = this.camera === 'rear'
+
                 if (error.name === 'NotAllowedError') {
                     this.error = "ERROR: you need to grant camera access permission"
                 } else if (error.name === 'NotFoundError') {
@@ -148,8 +161,14 @@ export default {
                 } else {
                     this.error = `ERROR: Camera error (${error.name})`;
                 }
-            }finally{
-                this.loading = false
+
+                if (triedRearCamera) {
+                    this.error = 'ERROR: No rear camera found'
+                }
+
+                if (triedFrontCamera) {
+                    this.error = 'ERROR: No front camera found'
+                }
             }
         },
     },

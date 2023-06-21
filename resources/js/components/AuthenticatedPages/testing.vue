@@ -1,20 +1,37 @@
 <template>
     <div class="min-h-screen min-w-full flex items-center justify-center">
         <div>
-            <Vue3Lottie animationLink="https://assets4.lottiefiles.com/packages/lf20_u1xuufn3.json" />
+            <ckeditor :editor="editor" :config="editorConfig"></ckeditor>
         </div>
     </div>
 </template>
 
 <script>
 
-import { Vue3Lottie } from 'vue3-lottie'
-import 'vue3-lottie/dist/style.css'
+// import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 
 export default {
     name: 'BasicExampleURL',
+
     components: {
-        Vue3Lottie,
+    },
+
+    data() {
+        return {
+            editor: ClassicEditor,
+            editorConfig: {
+                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading', '|', 'sourceEditing'],
+                heading: {
+                    options: [
+                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
+                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
+                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                    ]
+                },
+            },
+        }
     },
 }
 </script>

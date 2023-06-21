@@ -2,11 +2,11 @@
     <div class="flex justify-center items-center">
         <div class="flex flex-col items-center justify-evenly w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
 
-            <img src="/logo/vms_logo.png" alt="logo" class="w-[250px] h-[93.64px]">
+            <img src="/logo/vms_logo.png" class="w-[250px] h-[93.64px]">
 
             <div class="flex flex-col">
                 <div class="text-center">
-                    <h2 class="text-2xl font-black tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h2 class="text-2xl font-black tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
             </div>
@@ -16,7 +16,7 @@
                         href="#" class="underline text-blue-800 font-bold">Privacy Policy</a> and <a href="#"
                         class="underline text-blue-800 font-bold">Terms of Use</a></p>
 
-                <a href="/login-google" type="button"
+                <a :href="'/login-google?building_id=' + id" type="button"
                     class="text-white bg-red-500 hover:bg-red-500/90 focus:ring-2 focus:outline-none focus:ring-red-500/50 font-medium rounded-lg text-xs py-2.5 mt-3 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full">
                     <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
                         data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">

@@ -14,9 +14,12 @@
                         leave-from="opacity-100 translate-y-0 sm:scale-100"
                         leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                         <DialogPanel
-                            class="transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all">
+                            class="transform rounded-2xl bg-white text-left shadow-xl transition-all">
                             <div class="flex flex-col p-5 w-96">
-                                <div class="flex items-center justify-center">
+                                <button @click.prevent="isOpen = false" class="flex self-end w-5">
+                                    <XMarkIcon class="w-6 text-blue-800"/>
+                                </button>
+                                <div class="flex items-center justify-center mt-8">
                                     <DialogTitle as="h3" class="text-lg font-bold leading-6 text-blue-800 ">
                                         {{ Title }}
                                     </DialogTitle>
@@ -39,7 +42,7 @@ import {
     TransitionChild,
     Dialog,
     DialogPanel,
-    DialogTitle,
+    DialogTitle
 } from '@headlessui/vue'
 import { XMarkIcon } from '@heroicons/vue/24/outline'
 export default {

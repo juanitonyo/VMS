@@ -10,7 +10,7 @@
                 </div>
 
                 <div class="flex flex-col gap-y-2 items-center justify-center">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
 
@@ -170,109 +170,109 @@
     <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
 
-            <div class="flex justify-center items-center w-full ">
-                <div class="w-full flex items-center justify-center flex-col gap-y-1">
+            <div class="flex justify-center items-center w-full">
+                <div class="w-[80px] flex flex-col gap-y-1">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
-                        class="flex flex-col items-center justify-center w-[90px] h-[90px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div v-if="this.profilePhoto == ''" class="flex flex-col items-center justify-center pt-5 pb-6"
-                            :class="{ 'hidden': hideLabel_profile }">
-                            <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
+                        class="flex flex-col items-center justify-center w-full h-[80px] border-2 border-blue-700 rounded-full cursor-pointer hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                        <div class="flex flex-col items-center justify-center pt-7 pb-6">
+                            <img v-if="this.visitor.profile_photo == null" src="/Visitor_Homepage_Assets/uploadphoto.png"
+                                alt="">
                         </div>
-                        <input type="file" ref="profile" class="opacity-0"
+                        <input ref="profile" type="file" class="opacity-0 w-full h-full cursor-pointer"
                             accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadProfile" />
                     </label>
                     <p class="text-[10px] text-gray-400 flex justify-center">Replace Photo</p>
                 </div>
             </div>
 
-            <div class="flex flex-col mt-8 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
-                    <input v-model="visitor.name" type="text"
-                        class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+            <div class="flex flex-col justify-center mx-[12px]">
+                <div class="flex flex-col mt-8 ">
+                    <div class="flex flex-row items-center justify-center">
+                        <label for="fullname" class="text-[10px] text-gray-500 w-[144px]">Name</label>
+                        <input v-model="visitor.name" type="text"
+                            class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-full">
+                    </div>
                 </div>
-            </div>
-            <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="email" class="text-[10px] text-gray-500 mr-7">Email Address</label>
-                    <input v-model="visitor.email" type="email"
-                        class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                <div class="flex flex-col mt-3 ">
+                    <div class="flex flex-row items-center justify-center">
+                        <label for="email" class="text-[10px] text-gray-500 w-36">Email Address</label>
+                        <input v-model="visitor.email" type="email"
+                            class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-full">
+                    </div>
                 </div>
-            </div>
-            <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="contact" class="text-[10px] text-gray-500 mr-5">Mobile Number</label>
-                    <input v-model="visitor.contact" type="tel"
-                        class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
+                <div class="flex flex-col mt-3 ">
+                    <div class="flex flex-row items-center justify-between">
+                        <label for="contact" class="text-[10px] text-gray-500 w-[144px]">Mobile Number</label>
+                        <input v-model="visitor.contact" type="tel"
+                            class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-full">
+                    </div>
                 </div>
-            </div>
-            <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-center">
-                    <label for="id" class="text-[10px] text-gray-500 mr-14">Valid ID</label>
-                    <input v-model="visitor.validId" type="text"
-                        class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]">
-                </div>
-            </div>
-
-            <div class="mt-5 flex flex-row justify-end mr-3">
-                <div class="flex flex-row items-center">
-                    <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
-                    <label :style="{ 'background-image': `url(${front_url})` }"
-                        class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                            :class="{ 'hidden': hideLabel_front }">
-                            <img src="/Visitor_Homepage_Assets/frontID.png" alt="Photo not Available">
-                        </div>
-                        <input ref="front" type="file" class="opacity-0" @input="uploadFrontID"
-                            accept="image/png, image/jpeg, image/jpg, image/svg" />
-                    </label>
+                <div class="flex flex-col mt-3 ">
+                    <div class="flex flex-row items-center justify-between">
+                        <label for="id" class="text-[10px] text-gray-500 w-[144px]">Valid ID</label>
+                        <input v-model="visitor.valid_id" type="text"
+                            class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-full">
+                    </div>
                 </div>
 
-                <div class="flex flex-row items-center ml-2">
-                    <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
-                    <label :style="{ 'background-image': `url(${back_url})` }"
-                        class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                        <div class="flex flex-col items-center justify-center pt-5 pb-6"
-                            :class="{ 'hidden': hideLabel_back }">
-                            <img src="/Visitor_Homepage_Assets/backID.png" alt="">
-                        </div>
-                        <input ref="back" type="file" class="opacity-0" @input="uploadBackID"
-                            accept="image/png, image/jpeg, image/jpg, image/svg" />
-                    </label>
-                </div>
-            </div>
-            <p class="text-blue-800 text-base font-semibold mt-5">Last Activity</p>
+                <div class="mt-5 flex flex-row justify-end mr-3">
+                    <div class="flex flex-row">
+                        <p class="w-10 text-[10px] text-gray-500">Front</p>
+                        <label :style="{ 'background-image': `url(${front_url})` }"
+                            class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <img v-if="this.visitor.front_id == null" src="/Visitor_Homepage_Assets/frontID.png" alt="">
+                            </div>
+                            <input ref="front" type="file" class="opacity-0 w-full h-full cursor-pointer"
+                                accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadFront" />
+                        </label>
+                    </div>
 
-            <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row items-center justify-left">
-                    <label for="fullname" class="text-[10px] text-gray-500 ml-3">Type</label>
-                    <p class="text-[10px] ml-[67px]">{{ this.permission != null ? 'Invitee' : 'Walk-In' }}</p>
+                    <div class="flex flex-row ml-2">
+                        <p class="w-10 text-[10px] text-gray-500">Back</p>
+                        <label :style="{ 'background-image': `url(${back_url})` }"
+                            class="flex flex-col items-center justify-center w-[65px] h-[53px] border-2 border-blue-700 rounded-md cursor-pointer bg-white hover:bg-blue-100/90 bg-cover bg-no-repeat">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <img v-if="this.visitor.back_id == null" src="/Visitor_Homepage_Assets/backID.png" alt="">
+                            </div>
+                            <input ref="back" type="file" class="opacity-0 w-full h-full cursor-pointer"
+                                accept="image/png, image/jpeg, image/jpg, image/svg" @change="uploadBack" />
+                        </label>
+                    </div>
                 </div>
-            </div>
-            <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row justify-left items-center">
-                    <label for="email" class="text-[10px] text-gray-500 ml-3">Check In</label>
-                    <p class="text-[10px] ml-[50px]">{{ this.visitor.latest_log == null ? 'N/A' :
-                        moment(this.visitor.latest_log.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
-                </div>
-            </div>
-            <div class="flex flex-col mt-3 relative">
-                <div class="flex flex-row justify-left items-center">
-                    <label for="contact" class="text-[10px] text-gray-500 ml-3">Approved</label>
-                    <p class="text-[10px] ml-[42px]">{{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
-                </div>
-            </div>
+                <p class="text-blue-800 text-base font-semibold mt-5">Last Activity</p>
 
-            <div class="mt-5">
-                <button @click.prevent="updateVisitorInfo" type="button"
-                    class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
-                    Update
-                </button>
-                <button
-                    class="mt-1 inline-flex w-full justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-400/90"
-                    @click="isPop" type="button">
-                    Close
-                </button>
+                <div class="mt-3">
+                    <div class="flex flex-row items-center justify-center">
+                        <label for="fullname" class="text-[10px] text-gray-500 w-[144px]">Type</label>
+                        <p
+                            class="text-[10px] border rounded-[3px] border-blue-700 h-[28px] py-1.5 pl-2 w-full">
+                            {{ this.permission != null ? 'Invitee' : 'Walk-In' }}</p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <div class="flex flex-row justify-center items-center">
+                        <label for="email" class="text-[10px] text-gray-500 w-[144px]">Check In</label>
+                        <p class="text-[10px] border rounded-[3px] border-blue-700 h-[28px] py-1.5 pl-2 w-full">
+                            {{ this.visitor.latest_log == null ? 'N/A' :
+                                moment(this.visitor.latest_log.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
+                    </div>
+                </div>
+                <div class="mt-3 ">
+                    <div class="flex flex-row justify-center items-center">
+                        <label for="contact" class="text-[10px] text-gray-500 w-[144px]">Approved</label>
+                        <p
+                            class="text-[10px] border rounded-[3px] border-blue-700 h-[28px] py-1.5 pl-2 w-full">
+                            {{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
+                    </div>
+                </div>
+
+                <div class="mt-14">
+                    <button type="button"
+                        class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
+                        Update
+                    </button>
+                </div>
             </div>
 
         </template>
