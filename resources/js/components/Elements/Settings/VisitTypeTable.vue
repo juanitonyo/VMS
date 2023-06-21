@@ -19,29 +19,29 @@
                     <table class="min-w-full divide-y divide-gray-300">
                         <thead class="bg-gray-50">
                             <tr>
-                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">
                                     Name
                                 </th>
-                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
+                                <th scope="col" class="text-center py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">
                                     Building Type</th>
-                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
+                                <th scope="col" class="text-center py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">
                                     Person to Visit</th>
-                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">
                                     Visit Approval</th>
-                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Status
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">Status
                                 </th>
-                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Date Created</th>
-                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Action</th>
+                                <th scope="col" class="text-center py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">Date Created</th>
+                                <th scope="col" class="text-left py-3.5 px-4 text-sm font-semibold text-gray-900">Action</th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white">
                             <tr v-for="item in data.data" :key="item.id">
                                 <td
-                                    class="whitespace-nowrap py-4 pl-4 pr-3 text-xs text-left w-5 font-bold text-gray-900 sm:pl-6">
+                                    class="whitespace-nowrap py-4 pl-4 pr-3 text-xs text-left w-5 font-bold text-gray-900 ">
                                     {{ item.name }}</td>
-                                <td class="px-3 py-4 text-xs text-center w-96 break-all text-gray-500">{{
+                                <td class="px-3 py-4 text-xs text-center w-64 break-all text-gray-500">{{
                                     item.building_type_name.name }}</td>
-                                <td class="px-3 py-4 text-xs text-center w-80 break-all text-gray-500">{{
+                                <td class="px-3 py-4 text-xs text-center break-all text-gray-500">{{
                                     item.person_to_visit ? "Enabled" : "Disabled" }}</td>
                                 <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
                                     item.visit_approval ? 'Enabled' : 'Disabled' }}</td>
@@ -50,8 +50,7 @@
                                 <td class="px-3 py-4 text-xs text-center w-80 break-all text-gray-500">{{
                                     moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}
                                 </td>
-                                <td
-                                    class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-xs font-medium sm:pr-6">
+                                <td class="whitespace-nowrap py-4 px-4 text-center text-xs font-medium sm:pr-6">
                                     <a @click.prevent="editVisitType(item)" href="#"
                                         class="flex justify-center text-slate-800 hover:text-indigo-900">
                                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
@@ -67,7 +66,7 @@
                     </table>
                 </div>
                 <div class="flex items-center justify-end mt-3">
-                    <TailwindPagination :data="data" @pagination-change-page="getData" />
+                    <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
                 </div>
             </div>
         </div>

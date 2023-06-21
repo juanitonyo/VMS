@@ -29,7 +29,6 @@ class BuildingController extends BaseController
                     return $query->with($relationship);
                 })
                 ->paginate(10);
-
         return $this->sendResponse($data, "All buildings in array");
     }
 
@@ -141,10 +140,10 @@ class BuildingController extends BaseController
         }
 
         $data->update([
-            'building_name' => $request->params['data']['buildingName'],
+            'building_name' => $request->params['data']['building_name'],
             'description' => $request->params['data']['description'],
             'address' => $request->params['data']['address'],
-            'building_type' => $request->params['data']['buildingType']['value'],
+            'building_type' => $request->params['data']['building_type'],
             'status' => $request->params['data']['status'],
           ]);
          

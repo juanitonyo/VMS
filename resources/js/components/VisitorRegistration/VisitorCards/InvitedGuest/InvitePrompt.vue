@@ -2,11 +2,11 @@
     <div class="flex justify-center items-center">
         <div class="flex flex-col items-center justify-evenly w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
 
-            <img src="/logo/vms_logo.png" alt="logo" class="w-[250px] h-[93.64px]">
+            <img src="/logo/vms_logo.png" class="w-[250px] h-[93.64px]">
 
             <div class="flex flex-col">
                 <div class="text-center">
-                    <h2 class="text-2xl font-black tracking-wide text-blue-700">{{ this.buildings.buildingName }}</h2>
+                    <h2 class="text-2xl font-black tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
             </div>
@@ -44,10 +44,10 @@
 
                 <!-- <buttonToInput is-button :label="'Create Account'"></buttonToInput> -->
                 <buttonToInput :is-button="false"></buttonToInput>
-                <a :href="'/visitor-registration/invite/' + this.id"
+                <button @click.prevent="isExisting()" type="submit"
                     class="text-white border bg-blue-700 hover:bg-blue-600 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 mt-3 w-full cursor-pointer">
                     Submit
-                </a>
+                </button>
             </div>
         </div>
     </div>
@@ -56,6 +56,9 @@
 <script>
 import axios from 'axios';
 import buttonToInput from '../../../Elements/Buttons/buttonToInput.vue'
+import { useStore } from '../../../../store/visitor';
+
+const store = useStore();
 
 export default {
     name: 'Invite Sign In / Prompt',
@@ -77,14 +80,60 @@ export default {
         }
     },
 
+    methods: {
+        async isExisting() {
+            await axios.get('/api/visitor-query?given=' + this.given + '&building_ID=' + this.buildings.id)
+                .then((data) => {
+                    this.account = data.data.data;
+
+                    if (this.account == null) {
+                        this.$router.push('/visitor-registration/signIn/reg/' + this.id);
+                    }
+
+                    if (this.account.status) {
+                        store.setHiddenParam(this.account.id);
+
+                        if (this.account.refCode == this.given || this.account.email == this.given) {
+                            if (this.account.latest_log.isCheckedOut) {
+                                this.$router.push('/visitor-registration/checkin/' + this.id);
+                            }
+                            else {
+                                this.$router.push('/visitor-registration/checkout/' + this.id);
+                            }
+                        }
+                        else if (this.account.contact == this.given) {
+                            if (this.account.isCheckedOut) {
+                                this.$router.push('/visitor-registration/otp');
+                            }
+                            else {
+                                this.$router.push('/visitor-registration/checkout/' + this.id);
+                            }
+                        }
+                    }
+
+                    else {
+                        this.$router.push('/visitor-registration/approval');
+                    }
+
+                })
+                .catch((e) => {
+
+                });
+        },
+
+        async getData() {
+            await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
+                .then((data) => {
+                    this.buildings = data.data.data;
+                })
+                .catch((e) => {
+                    errorMessage('Opps!', e.message, 'top-right')
+                });
+        }
+    },
+
     created() {
-        axios.get('/api/visitor-registration?buildingUUID=' + this.id)
-            .then((data) => {
-                this.buildings = data.data.data;
-            })
-            .catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
-            });
+        this.getData();
     },
 }
 </script>

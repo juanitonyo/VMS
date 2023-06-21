@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="flex items-center justify-end mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" />
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
             </div>
         </div>
     </div>
@@ -329,7 +329,6 @@ export default {
 
         saveBuilding() {
             this.form.building_type = this.form.building_type.value
-
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
@@ -356,7 +355,6 @@ export default {
 
         updateBuilding() {
             this.form.building_type = this.form.building_type.value
-
             axios.put("/api/building/" + this.form.id, {
                 params: {
                     data: this.form
@@ -365,6 +363,7 @@ export default {
                 this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
+                this.form = new Form({})
                 this.open = !this.open;
                 createToast({
                     title: 'Success!',

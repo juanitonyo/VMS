@@ -319,6 +319,7 @@ import {
   BuildingOffice2Icon,
   TruckIcon,
   ChevronRightIcon,
+  ShareIcon
 } from '@heroicons/vue/24/outline'
 import {
   ChevronDownIcon,
@@ -378,6 +379,12 @@ const sideBarSecondaryNavigation = [
     href: "/app/settings",
     icon: CogIcon,
     access: permissions.settings ?? false,
+  },
+  {
+    name: "Sync Proptech Data",
+    href: "/app/sync",
+    icon: ShareIcon,
+    access: permissions.sync ?? false,
   },
 ];
 

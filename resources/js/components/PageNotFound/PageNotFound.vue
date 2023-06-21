@@ -1,8 +1,11 @@
 <template>
     <div class="flex flex-col items-center justify-center w-screen h-screen p-24">
-        <Vue3Lottie animationLink="https://assets3.lottiefiles.com/packages/lf20_afwjhfb2.json" :loop="true" />
+        <Vue3Lottie animationLink="https://assets5.lottiefiles.com/private_files/lf30_k6fpeaa5.json" :loop="true"
+            width="400px" />
         <!-- <router-link :to="'/visitor-registration/index/' + this.id" class="text-indigo-950 text-4xl font-black hover:text-indigo-800 hover:scale-105">Go back to
             Homepage?</router-link> -->
+        <p class="tracking-widest text-gray-300 text-3xl">404 | Page Not Found</p>
+
     </div>
 </template>
 

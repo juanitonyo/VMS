@@ -1,12 +1,12 @@
 //import './bootstrap';
 import "../css/app.css";
-import { createApp } from 'vue';
-import { createPinia } from 'pinia';
+import { createApp } from "vue";
+import { createPinia } from "pinia";
 import axios from "axios";
-import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
+import piniaPluginPersistedstate from "pinia-plugin-persistedstate";
 import VueProgressBar from "@aacassandra/vue3-progressbar";
 import Router from "@/router";
-import CKEditor from '@ckeditor/ckeditor5-vue';
+import CKEditor from "@ckeditor/ckeditor5-vue";
 import Form from "vform";
 import vSelect from "vue-select";
 import VueQrcodeReader from "vue3-qrcode-reader";
@@ -45,5 +45,4 @@ app.use(VueCookies, { expire: '1d' });
 app.config.globalProperties.$pusher = new Pusher("3158a287c22d410999e1", {
     cluster: "ap1",
 });
-
-app.mount('#app');
+app.mount("#app");

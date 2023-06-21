@@ -2,11 +2,11 @@
     <div class="flex justify-center items-center">
         <div class="flex flex-col items-center justify-evenly w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
 
-            <img src="/logo/vms_logo.png" alt="logo" class="w-[250px] h-[93.64px]">
+            <img src="/logo/vms_logo.png" class="w-[250px] h-[93.64px]">
 
             <div class="flex flex-col">
                 <div class="text-center">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
+                    <h2 class="text-2xl font-black tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
                 </div>
             </div>

@@ -27,7 +27,7 @@
                         </div>
                     </router-link>
 
-                    <router-link :to="this.isDeliveryAllowed ? '/visitor-registration/delivery/' + this.id : '/#'">
+                    <router-link :to="this.isDeliveryAllowed ? '/visitor-registration/delivery/' + this.id : ''">
                         <div
                             :class="[this.isDeliveryAllowed ? 'hover:scale-105 ease-in-out duration-150 shadow-md shadow-slate-300 border-red-700' : 'border-gray-700' ,'relative w-[300px] h-[180px] border-2 rounded-xl flex flex-col justify-center items-center gap-y-2']">
                             <p :class="[this.isDeliveryAllowed ? 'text-red-600' : 'text-gray-600 opacity 70', 'text-xs absolute top-3']">Are you a delivery crew/ rider? Tap here</p>

@@ -3,9 +3,9 @@
         <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
             <div v-show="!isFormComplete" class="flex flex-col items-center gap-y-5 mx-[48px]">
 
-                <div class="flex flex-col gap-y-2 items-center justify-center mt-10">
+                <div class="flex flex-col gap-y-1 items-center justify-center mt-10">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                    <h4 class="text-gray-400 text-[10px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
+                    <h4 class="text-gray-400 text-[10px] text-center mb-4">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                 </div>
 
@@ -44,7 +44,8 @@
                                 :class="this.errors.email.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
                         </div>
                     </div>
-                    <span v-show="this.errors.email.error" class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
+                    <span v-show="this.errors.email.error"
+                        class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
                         {{ this.errors.email.label }}</span>
                 </div>
 
@@ -56,7 +57,8 @@
                                 :class="this.errors.contact.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
                         </div>
                     </div>
-                    <span v-show="this.errors.contact.error" class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
+                    <span v-show="this.errors.contact.error"
+                        class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
                         {{ this.errors.contact.label }}</span>
                 </div>
 
@@ -69,7 +71,8 @@
                                 :class="this.errors.valid_id.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[230px]'"></v-select>
                         </div>
                     </div>
-                    <span v-show="this.errors.valid_id.error" class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
+                    <span v-show="this.errors.valid_id.error"
+                        class="absolute -bottom-3.5 left-24 text-[9px] items-center w-max text-red-500">
                         {{ this.errors.valid_id.label }}</span>
                 </div>
 
@@ -114,7 +117,7 @@
             <div v-show="isFormComplete" class="flex flex-col items-center justify-center">
                 <div class="flex flex-col gap-y-2 items-center justify-center mt-10">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                    <h4 class="text-gray-400 text-[9px] text-center px-20 pb-5 lg:px-56">{{ this.buildings.address }}</h4>
+                    <h4 class="text-gray-400 text-[10px] text-center mb-5">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                     <div>
                         <div

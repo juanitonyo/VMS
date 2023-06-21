@@ -116,7 +116,6 @@ export default {
                     this.isAllowed = this.buildings.building_type.delivery_form
                 })
                 .catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
                 });
         }
     },
