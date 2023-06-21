@@ -467,8 +467,6 @@ export default {
             else{
                 this.health_form.push(id)
             }
-
-            console.log(this.health_form);
         },
 
         submitForm() {

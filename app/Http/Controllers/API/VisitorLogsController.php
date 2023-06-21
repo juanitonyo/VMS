@@ -57,6 +57,7 @@ class VisitorLogsController extends BaseController
      */
     public function store(VisitorLogsRequests $request)
     {
+        dd($request);
 
         $data = VisitorLogs::create($request->validated());
 

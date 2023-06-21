@@ -34,7 +34,7 @@
                         <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
                             class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
                     </div>
-                    <div v-show="this.selectedPurpose.person_to_visit">
+                    <div v-show="this.selectedPurpose != null && this.selectedPurpose.personToVisit">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
 
                         <div class="flex flex-row mt-2 gap-x-3">
@@ -107,7 +107,7 @@
                         </span>
                     </div>
 
-                    <div v-show="badHealth" class="flex justify-end mt-5">
+                    <div v-show="this.form.health_form.isEmpty()" class="flex justify-end mt-5">
                         <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view
                             form</button>
                     </div>
@@ -247,52 +247,50 @@
     </FormDialog>
     <FormDialog :isOpen="pop" :Title="'Health Declaration'">
         <template v-slot:body>
-            <form>
-                <p class="text-[10px] text-center">Are you currently experiencing or have experienced any of these symptoms
-                    in
-                    the last 24 hours?</p>
+            <p class="text-[10px] text-center">Are you currently experiencing or have experienced any of these symptoms
+                in
+                the last 24 hours?</p>
 
-                <div class="space-y-2 my-5">
+            <div class="space-y-2 my-5">
 
-                    <div class="w-full flex h-[45px] gap-x-3 shadow-sm shadow-slate-400 p-2 rounded-md select-none"
-                        v-for="symptom in this.symptoms">
-                        <input v-model="symptom.state" type="checkbox" v-bind:id="symptoms.id" v-on:click="saveToArray(symptom.id)">
-                        <img :src="symptom.image">
-                        <div class="flex flex-col">
-                            <p class="text-xs font-bold">{{ symptom.eng }}</p>
-                            <p class="text-xs italic text-gray-500">{{ symptom.tag }}</p>
-                        </div>
-                    </div>
-
-                    <div class="relative mb-6">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                viewBox="0 0 16 16">
-                                <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V9.5a.5.5 0 0 1 1 0v1.585a1.5 1.5 0 0 1 1 1.415z" />
-                                <path
-                                    d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z" />
-                            </svg>
-                        </div>
-                        <input type="text"
-                            class="peer bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md w-full pl-10 p-1.5"
-                            placeholder="--.- °C"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1').replace(/^0[^.]/, '0');">
+                <div class="w-full flex h-[45px] gap-x-3 shadow-sm shadow-slate-400 p-2 rounded-md select-none"
+                    v-for="symptom in this.symptoms">
+                    <input v-model="symptom.state" type="checkbox" v-bind:id="symptoms.id" v-on:click="saveToArray(symptom.id)">
+                    <img :src="symptom.image">
+                    <div class="flex flex-col">
+                        <p class="text-xs font-bold">{{ symptom.eng }}</p>
+                        <p class="text-xs italic text-gray-500">{{ symptom.tag }}</p>
                     </div>
                 </div>
 
-
-                <div class="mt-5">
-                    <button @click.prevent="submitForm()" type="button"
-                        class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
-                        Submit
-                    </button>
-                    <button
-                        class="mt-1 inline-flex w-full justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-400/90"
-                        @click.prevent="isOpen()" type="button">
-                        Close
-                    </button>
+                <div class="relative mb-6">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V9.5a.5.5 0 0 1 1 0v1.585a1.5 1.5 0 0 1 1 1.415z" />
+                            <path
+                                d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z" />
+                        </svg>
+                    </div>
+                    <input type="text"
+                        class="peer bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md w-full pl-10 p-1.5"
+                        placeholder="--.- °C"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1').replace(/^0[^.]/, '0');">
                 </div>
-            </form>
+            </div>
+
+
+            <div class="mt-5">
+                <button @click.prevent="submitForm()" type="button"
+                    class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
+                    Submit
+                </button>
+                <button
+                    class="mt-1 inline-flex w-full justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-400/90"
+                    @click.prevent="isOpen()" type="button">
+                    Close
+                </button>
+            </div>
         </template>
     </FormDialog>
 </template>
@@ -331,6 +329,7 @@ export default {
                 visitor_id: '',
                 building_id: '',
                 visit_purpose_id: '',
+                health_form: [],
                 log_type: ''
             }),
             buildings: {},
@@ -342,7 +341,7 @@ export default {
             profile_url: '',
             front_url: '',
             back_url: '',
-            selectedPurpose: '',
+            selectedPurpose: null,
             enableButton: false,
             isFormComplete: false,
             show: false,
@@ -350,7 +349,6 @@ export default {
             badHealth: false,
             goodHealth: false,
             permission: userAuthStore(),
-            isPersonToVisitAllowed: false,
             symptoms: [
             {
                     id: 0,
@@ -569,30 +567,25 @@ export default {
                 });
         },
 
-        checkPersonToVisit(item) {
-            console.log(item)
-        },
-
         submitForm() {
-            this.form = this.checkedIDs.join(" and ");
-            console.log(this.form)
+            this.form = this.health_form.join(" and ");
+            this.isOpen();
         },
 
         saveToArray(id) {
-            if(this.checkedIDs.includes(id)){
-                this.checkedIDs.pop(id);
+            if(this.health_form.includes(id)){
+                this.health_form.pop(id);
             }
             else{
-                this.checkedIDs.push(id)
+                this.health_form.push(id)
             }
-
-            console.log(this.checkedIDs);
         },
 
         isGood() {
             this.goodHealth = !this.goodHealth;
             this.badHealth = false
         },
+
         isBad() {
             this.badHealth = true
             this.goodHealth = false;
