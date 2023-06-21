@@ -115,10 +115,23 @@ const sidebarNavigation = reactive([
     access: permissions.visitors ?? false,
   },
   {
-    name: "Deliveries",
-    href: "/app/deliveries",
+    name: "Manage Deliveries",
+    href: "#",
     icon: TruckIcon,
-    access: permissions.deliveries ?? false,
+    access: (permissions.deliveries || permissions.expected) ?? false,
+    dropdown: false,
+    subMenu: [
+      {
+        name: "Delivery Log",
+        href: "/app/deliveries",
+        access: permissions.deliveries ?? false,
+      },
+      {
+        name: "Expected Deliveries",
+        href: "/app/expected",
+        access: permissions.expected ?? false,
+      },
+    ],
   },
 ]);
 

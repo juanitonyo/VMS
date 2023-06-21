@@ -260,7 +260,6 @@
 
     <FormDialog :isOpen="pop" :Title="'Health Declaration'">
         <template v-slot:body>
-            <form>
                 <p class="text-[10px] text-center">Are you currently experiencing or have experienced any of these symptoms
                     in
                     the last 24 hours?</p>
@@ -295,11 +294,10 @@
 
                 <div>
                     <button @click.prevent="submitForm()" type="button"
-                        class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
+                        class="mt-1 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
                         Submit
                     </button>
                 </div>
-            </form>
         </template>
     </FormDialog>
 </template>
@@ -582,10 +580,7 @@ export default {
         },
 
         submitForm() {
-            this.badHealth = true
-            this.good = true;
             this.form = this.checkedIDs.join(" and ");
-            console.log(this.form)
             this.isOpen();
         },
 

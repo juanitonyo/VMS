@@ -26,13 +26,13 @@
                                             Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Building</th>
-                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Visit Type</th>
-                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Status</th>
-                                        <th scope="col" class="px-2 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Checked In</th>
-                                        <th scope="col" class="px-2 py-3.5 text-center text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Checked Out</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Actions</th>
@@ -41,30 +41,46 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in this.data.data" :key="item.id">
-                                        <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-56">{{ item.visitor.name }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-48">{{
+                                            item.visitor.name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.building_name
                                         }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}
                                         </td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.visitor.status ?
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.visitor.status ?
                                             'Approved'
                                             : 'Pending Approval' }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{
                                             moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.is_checked_out ?
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.is_checked_out ?
                                             moment(item.updated_at).format('MMMM Do YYYY, h:mm:ss a') : "Not Yet" }}
                                         </td>
-                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs" v-if="permissions.update">
+                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center"
+                                            v-if="permissions.update">
+                                            <a class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer"
+                                                @click.prevent="setShow('Approval')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M4.5 12.75l6 6 9-13.5" />
+                                                </svg>
+                                            </a>
                                             <a @click.prevent="editVisitors(item)"
-                                                class="flex justify-center text-slate-800 hover:text-gray-500 cursor-pointer">
+                                                class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                                                 </svg>
                                             </a>
+                                            <a class="approve text-white bg-red-400 rounded-md p-1 cursor-pointer" @click.prevent="setShow('Disapproval')">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </a>
+
                                         </td>
                                     </tr>
                                 </tbody>
@@ -74,7 +90,7 @@
                 </div>
             </div>
             <div class="flex items-center justify-center mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
     </div>
@@ -87,8 +103,8 @@
                 <div class="flex items-center justify-center mt-6">
                     <img :src="'/uploads/profiles-visitor/' + this.account.visitor.profile_photo"
                         class="relative w-[100px] h-[100px] border border-black rounded-full ">
-                    <svg v-if="this.account.visitor.profile_photo == null" xmlns="http://www.w3.org/2000/svg"
-                        fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute">
+                    <svg v-if="this.account.visitor.profile_photo == null" xmlns="http://www.w3.org/2000/svg" fill="none"
+                        viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 absolute">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0 2.192 2.192 0 00-1.736 1.039l-.821 1.316z" />
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -138,11 +154,12 @@
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
-                            <p>{{ this.account.health_form != null || this.account.health_form !== '[]' ? this.account.health_form : 'N\/A' }}</p>
+                            <p>{{ this.account.health_form != null || this.account.health_form !== '[]' ?
+                                this.account.health_form : 'N\/A' }}</p>
                             <p>N/A</p>
                         </div>
                     </div>
-                    <form @submit.prevent="updateVisitor">
+                    <!-- <form @submit.prevent="updateVisitor">
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
@@ -156,15 +173,11 @@
                                 </Switch>
                             </SwitchGroup>
                         </div>
-                        <div class="flex justify-end py-4 ">
-                            <button type="button"
-                                class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                                @click="setOpen">Cancel</button>
-                            <button type="submit" @click.prevent="updateVisitor()"
-                                :class="[this.isChanged ? 'hover:bg-gray-500' : '', 'focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500 ml-4 inline-flex justify-center rounded-md bg-gray-600 py-2 px-3 text-sm font-semibold text-white shadow-sm']">
-                                Save</button>
-                        </div>
-                    </form>
+                    </form> -->
+                    <div class="flex justify-end w-full mt-10">
+                        <button type="button" class="rounded-md bg-gray-900 text-white py-2 px-6 text-sm font-semibold"
+                            @click="setOpen">Close</button>
+                    </div>
                 </div>
             </div>
         </template>
@@ -213,7 +226,8 @@
                                 <span v-show="this.editMode ? false : form.errors.has('visit_type')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forVisitType() }}</span>
                             </div>
-                            <v-select v-model="form.visit_purpose_id" placeholder="Search" :options="visit_type" label="label"
+                            <v-select v-model="form.visit_purpose_id" placeholder="Search" :options="visit_type"
+                                label="label"
                                 :class="this.editMode ? ' ' : [form.errors.has('visit_type') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
 
@@ -235,7 +249,8 @@
                                 <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
                                     v-if="form.errors.has('companion')" v-html="form.errors.get('companion')" />
                             </div>
-                            <textarea v-model="form.companions" class="focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300"
+                            <textarea v-model="form.companions"
+                                class="focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300"
                                 :class="this.editMode ? ' ' : [form.errors.has('companion') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white']"></textarea>
                             <p class="text-gray-500 text-[10px] text-left italic font-light">Note: Please type the name/s of
                                 the companion. If multiple names, seperate each with a comma ( , ).</p>
@@ -267,6 +282,27 @@
             </form>
         </template>
     </SliderVue>
+
+    <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
+        <template v-slot:dialogBody>
+
+            <p class="text-xs mb-1">Please state your reason:</p>
+            <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm"/>
+
+            <div class="mt-4 flex gap-1">
+                <button type="button"
+                    class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
+                    {{ statusChoice == 'Approval' ? 'Approve' : 'Disapprove' }}
+                </button>
+                <button type="button"
+                    class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90"
+                    @click.prevent="this.show = !this.show">
+                    Close
+                </button>
+            </div>
+
+        </template>
+    </DialogVue>
 </template>
 
 <script>
@@ -277,6 +313,7 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
 import moment from 'moment';
 import Form from 'vform';
+import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 
 export default {
     name: 'VisitorLogs',
@@ -308,12 +345,14 @@ export default {
                 target_date: ''
             }),
             visit_type: [],
-            building: []
+            building: [],
+            show: false,
+            statusChoice: ''
         }
     },
 
     components: {
-        SliderVue, NormalInput, Switch, SwitchGroup, SwitchLabel
+        SliderVue, NormalInput, Switch, SwitchGroup, SwitchLabel, DialogVue
     },
     methods: {
         editVisitors(item) {
@@ -330,10 +369,15 @@ export default {
             this.pop = !this.pop;
         },
 
+        setShow(choice) {
+            this.statusChoice = choice;
+            this.show = !this.show
+        },
+
         async getData(page = 1) {
             await axios.get('/api/get-logs?page=' + page).then((data) => {
                 this.data = data.data.data;
-                if(this.data.data[0].health_form === '[]') {
+                if (this.data.data[0].health_form === '[]') {
                     console.log(this.data.data[0])
                 }
             }).catch((e) => {
@@ -368,7 +412,7 @@ export default {
         },
 
         sendInvitation() {
-            axios.get('/api/send-email?').then((data) => {}).catch((error) => {})
+            axios.get('/api/send-email?').then((data) => { }).catch((error) => { })
         },
 
         updateVisitor() {

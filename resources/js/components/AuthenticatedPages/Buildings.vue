@@ -45,7 +45,8 @@
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}
                                         </td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type ? item.building_type.name : 'N/A'
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type ?
+                                            item.building_type.name : 'HOA Condo'
                                         }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 flex space-x-1.5">
                                             <button :disabled="item.status ? false : true"
@@ -78,7 +79,7 @@
                 </div>
             </div>
             <div class="flex items-center justify-end mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
     </div>
@@ -186,9 +187,9 @@
     <DialogVue :isOpen="pop" :dialogTitle="mode + ' QR | ' + form.building_name" :modalWidth="'max-w-3xl'">
         <template v-slot:dialogBody>
 
-            <div class="overflow-hidden shadow shadow-slate-400 sm:rounded-lg p-5 mt-4">
+            <div class="overflow-hidden shadow shadow-slate-400 sm:rounded-lg p-5 mt-4 flex-row md:flex-col">
                 <div class="flex justify-center items-center flex-col p-10">
-                    <div v-if="mode == 'Visitor'" class="flex flex-row justify-center items-center gap-10">
+                    <div v-if="mode == 'Visitor'" class="flex lg:flex-row flex-col justify-center items-center gap-10">
                         <img :src="qrName(mode, form.qr_id)" class="mt-5 w-40 h-40" />
 
                         <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
@@ -198,7 +199,7 @@
                         </a>
                     </div>
 
-                    <div v-else class="flex flex-row justify-center items-center gap-10 ">
+                    <div v-else class="flex lg:flex-row flex-col justify-center items-center gap-10 ">
                         <img :src="qrName(mode, form.qr_id)" class="mt-5 w-40 h-40" />
                         <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
                         <a target="_blank" :href="this.proxyURL + this.hostRoute + form.qr_id"
@@ -210,13 +211,13 @@
                 </div>
 
 
-                <div class="mt-4">
-                    <button type="button"
-                        class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
-                        @click.prevent="this.pop = !this.pop">
-                        Close
-                    </button>
-                </div>
+            </div>
+            <div class="mt-4">
+                <button type="button"
+                    class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
+                    @click.prevent="this.pop = !this.pop">
+                    Close
+                </button>
             </div>
 
         </template>
