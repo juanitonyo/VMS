@@ -8,7 +8,7 @@
 
                 <div class="flex flex-col items-center justify-center">
                     <h2 class="text-sm font-light tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                    <h4 class="text-gray-400 text-[11px] text-center">{{ this.buildings.address }}</h4>
+                    <h4 class="text-gray-400 text-xs text-center">{{ this.buildings.address }}</h4>
                 </div>
 
                 <div class='flex flex-col items-center justify-center gap-y-4 mt-4'>
@@ -116,7 +116,6 @@ export default {
                     this.isAllowed = this.buildings.building_type.delivery_form
                 })
                 .catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
                 });
         }
     },

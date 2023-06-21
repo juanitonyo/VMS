@@ -45,7 +45,7 @@
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}
                                         </td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type.name
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type ? item.building_type.name : 'N/A'
                                         }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 flex space-x-1.5">
                                             <button :disabled="item.status ? false : true"
@@ -78,7 +78,7 @@
                 </div>
             </div>
             <div class="flex items-center justify-end mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" />
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
             </div>
         </div>
     </div>
@@ -192,7 +192,7 @@
                         <img :src="qrName(mode, form.qr_id)" class="mt-5 w-40 h-40" />
 
                         <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
-                        <a target="_blank" :href="this.proxyURL + this.visitorRoute + form.qr_id"
+                        <a target="_blank" :href="this.visitorRoute + form.qr_id"
                             class="text-black bg-white w-36 h-8 border border-black hover:scale-105 duration-100 flex justify-center items-center rounded-md">
                             Go to Link
                         </a>
@@ -309,7 +309,6 @@ export default {
         },
 
         uploadImage() {
-            this.hideLabel = true;
             let input = this.$refs.buildingLogo;
             let file = input.files;
             if (file && file[0]) {
@@ -325,7 +324,6 @@ export default {
 
         saveBuilding() {
             this.form.building_type = this.form.building_type.value
-
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
@@ -352,7 +350,6 @@ export default {
 
         updateBuilding() {
             this.form.building_type = this.form.building_type.value
-            
             axios.put("/api/building/" + this.form.id, {
                 params: {
                     data: this.form
@@ -384,7 +381,8 @@ export default {
             await axios.get('/api/building?page=' + page).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
-                errorMessage('Opps!', e.message, 'top-right')
+                console.log(e.message)
+                // errorMessage('Opps!', e.message, 'top-right')
             });
         },
 

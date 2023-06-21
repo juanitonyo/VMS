@@ -18,18 +18,18 @@
                 <div class="flex flex-col border p-6 rounded-xl w-full space-y-5">
                     <div class="flex space-x-2">
                         <div v-for="(input, index) in inputs" :key="index">
-                            <input type="text" v-model="inputs[index]"
+                            <input type="text" v-model="inputs[index]" ref="inputs"
                                 class="caret-transparent border focus:outline-1 w-full sm:h-8 md:h-10 bg-gray-50 rounded-md text-center font-bold text-xl text-gray-600"
-                                maxlength="1"
+                                maxlength="1" @input="focusNextInput(index)"
                                 onkeypress="return (event.charCode !=8 && event.charCode ==0 || (event.charCode >= 48 && event.charCode <= 57))">
                         </div>
                     </div>
-                    <button @click.prevent="checkLogs" class="w-full h-8 rounded-full bg-indigo-600 text-white text-xs">
+                    <button :disabled="isDisabled" @click.prevent="checkLogs" class="w-full h-8 rounded-full text-white text-xs" :class="isDisabled ? 'bg-gray-500' : 'bg-indigo-600'">
                         Verify
                     </button>
                     <div class="text-center">
                         <button @click.prevent="sendOTP" class="text-indigo-600 text-center text-[10px]">Resend New
-                            Code</button>
+                            Code (110s)</button>
                     </div>
                 </div>
             </div>
@@ -51,6 +51,13 @@ export default {
             account: {}
         }
     },
+
+    computed: {
+        isDisabled() {
+            return this.inputs.some(input => input === '');
+        }
+    },
+
     methods: {
         checkLogs() {
             this.$Progress.start();
@@ -102,7 +109,12 @@ export default {
                 }).catch((error) => {
 
                 })
-        }
+        },
+        focusNextInput(index) {
+            if (this.inputs[index].length === 1 && index < this.inputs.length - 1) {
+                this.$refs.inputs[index + 1].focus();
+            }
+        },
     },
     created() {
         if(store.hiddenID == null) {

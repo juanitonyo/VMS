@@ -7,40 +7,61 @@
                     <p class="mt-2 text-xs text-gray-700">Transfer information from PropTech to VMS in synchronization</p>
                 </div>
 
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none" v-if="permissions.create">
+                <div class="mt-4 flex gap-1 sm:mt-0 sm:ml-16 sm:flex-none" v-if="permissions.create">
                     <button type="button" @click.prevent="syncData()"
-                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">SYNC PROPTECH</button>
+                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">SYNC
+                        PROPTECH</button>
+                    <button type="button" @click.prevent="processRecords()"
+                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">SYNC
+                        UNIT OWNERS</button>
                 </div>
 
             </div>
             <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8 ">
-                        
-                            
-                       
-
                         <div class=" shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg relative">
                             <div class="bg-gray-200 h-2 rounded-t-lg absolute w-full">
-                                <div class="bg-blue-500 h-full rounded-t-lg " :style="'width:'+progressBar+'%'"></div>
+                                <div class="bg-blue-500 h-full rounded-t-lg" :class="progressBar == 100 ? 'bg-green-500' : ''" :style="'width:' + progressBar + '%'"></div>
                             </div>
-                            <div class="overflow-y-auto h-96">
-                                <p v-for="(item,index) in messages" :key="index">{{ item }}</p>
+                            <div class="ease-in duration-300 delay-100 overflow-y-auto h-96 p-5 text-xs">
+                                <p class="w-full py-4 pl-2 rounded-md shadow-sm shadow-gray-400 mb-2" v-for="(item, index) in messages" :key="index">{{ item }}</p>
                             </div>
+                        </div>
+                        <div class="flex space-x-2 mt-2">
+
+                            <div class="text-sm flex items-center justify-center gap-1 text-white bg-green-400 rounded-md py-1 px-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
+                                </svg>
+                                <p>Data Count: {{ realtimeLength }} / {{ unitOwnersLength }}</p>
+                            </div>
+                            <div class="text-sm flex items-center justify-center gap-1 text-white bg-blue-400 rounded-md py-1 px-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                                    stroke="currentColor" class="w-6 h-6">
+                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                        d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
+                                </svg>
+                                <p>Data Saved: 0</p>
+                            </div>
+                            <ul>
+                                <li v-for="item in currentData" :key="item.id">{{ item.name }}</li>
+                            </ul>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
 </template>
 
 <script>
 import axios from 'axios';
 import { userAuthStore } from "@/store/auth";
 import moment from 'moment';
+import { createToast } from 'mosha-vue-toastify'
 
 export default {
     name: 'sync',
@@ -54,42 +75,150 @@ export default {
         return {
             permissions: {},
             data: {},
-            messages:[],
-            counter:1,
+            messages: [],
+            counter: 1,
             progressBar: 0,
+            currentData: [],
+            dataCount: 0,
+            realtimeLength: 0,
+            unitOwnersLength: 0,
+            syncTimeTriggered: '',
         }
     },
     components: {
     },
     methods: {
         async syncData() {
-            await axios.get('http://proptech-api.test/api/vms/sync-buildings')
+            this.counter = 1;
+            this.progressBar = 0;
+            await axios.get('https://proptech-api.globalland.com.ph/api/vms/sync-buildings')
                 .then((data) => {
-                   
                     data.data.forEach((item, index) => {
                         setTimeout(() => {
                             this.progressBar = (this.counter++ / data.data.length) * 100;
-                            console.log(this.progressBar)
+                            // this.messages.push(data.data.messasge)
                             this.saveBuilding(item);
                         }, index * 150);
                     })
-                    
+
                 })
                 .catch((e) => {
-                    
+
                 });
         },
+        async syncUnitOwners() {
+            this.syncTimeTriggered = new Date().toISOString();
+            this.fetchLatestData();
 
-        saveBuilding(buildingData){
+            await axios.post('/api/get-unit-owners-length').then((data) => {
+                this.unitOwnersLength = data.data.data
+
+            })
+
+            await axios.post('/api/sync-unit-owners').then((data) => {
+                if (data.data.success) {
+                    clearInterval(this.interval);
+                }
+            })
+        },
+        async processRecords() {
+            this.syncTimeTriggered = new Date().toISOString();
+            createToast({
+                title: 'Please wait!',
+                description: 'Syncing data is ongoing....'
+            },
+                {
+                    position: 'top-right',
+                    showIcon: 'true',
+                    type: 'success',
+                    toastBackgroundColor: '#00bcd4',
+                    hideProgressBar: 'true',
+                    toastBackgroundColor: '#00bcd4',
+                })
+            try {
+                const response = await axios.get('https://proptech-api.globalland.com.ph/api/vms/sync-unit-owners');
+                const records = response.data;
+
+                const batchSize = 150;
+                const totalBatches = Math.ceil(records.length / batchSize);
+                console.log(records.length)
+
+                for (let i = 0; i < totalBatches; i++) {
+                    const start = i * batchSize;
+                    const end = start + batchSize;
+
+                    const batchRecords = records.slice(start, end);
+
+                    await axios.post('/api/sync-unit-owners', { data: batchRecords, date_generated: this.syncTimeTriggered, total_length: records.length });
+
+                    await this.delay(5000);
+                }
+
+                createToast({
+                    title: 'Success!',
+                    description: 'Unit Owners Syncing Complete!'
+                },
+                    {
+                        position: 'top-right',
+                        showIcon: 'true',
+                        type: 'success',
+                        toastBackgroundColor: '#00bcd4',
+                        hideProgressBar: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                    })
+            } catch (error) {
+                console.error('Error occurred:', error);
+            }
+        },
+        delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        },
+
+
+        fetchLatestData() {
+            this.currentData = []
+            axios.get('/api/fetch-realtime-data', {
+                syncTimeTriggered: this.syncTimeTriggered
+            }).then((data) => {
+                this.realtimeLength = data.data.data.length
+                this.currentData = data.data.data
+            })
+        },
+
+        saveBuilding(buildingData) {
             axios.post('/api/sync-building', buildingData).then((data) => {
-                console.log(data)
+                this.messages.push(data.data.message)
             }).catch((error) => {
                 this.messages.push(error.response.data.data)
             })
-        }
+        },
+        subscribeToJobChannel() {
+            const channel = this.$pusher.subscribe('sync-unitowners-channel');
+            channel.bind('pusher:subscription_succeeded', () => console.log('subscription succeeded'))
+            channel.bind('sync-unitowners-broadcast', event => {
+                // console.log(event);
+                createToast({
+                    title: 'Syncing Data...',
+                    description: event.data.user_initial_count + ' out of ' + event.data.user_total_count
+                },
+                    {
+                        position: 'top-right',
+                        showIcon: 'true',
+                        type: 'success',
+                        toastBackgroundColor: '#00bcd4',
+                        hideProgressBar: 'true',
+                        timeout: 30000,
+                        toastBackgroundColor: '#00bcd4',
+                    })
+            })
+
+        },
     },
     created() {
- 
+        this.subscribeToJobChannel();
+    },
+    mounted() {
+        // this.interval = setInterval(this.fetchLatestData, 5000);
     },
     beforeMount() {
         this.permissions = {

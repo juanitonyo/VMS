@@ -86,7 +86,7 @@ export default {
     methods: {
 
         async isExisting() {
-            await axios.get('/api/visitor-query?given=' + this.given + '&building_ID=' + this.buildings.id)
+            await axios.get('/api/visitor-query?given=' + this.given + '&building_id=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
 
@@ -94,7 +94,7 @@ export default {
                         this.$router.push('/visitor-registration/signIn/reg/' + this.id);
                     }
 
-                    if(this.account.status) {
+                    else if(this.account.status) {
                         if (this.account.refCode == this.given || this.account.email == this.given){
                             store.setHiddenParam(this.account.id);
                             if(this.account.latest_log.is_checked_out) {
@@ -114,6 +114,11 @@ export default {
                                 this.$router.push('/visitor-registration/checkout/' + this.id);
                             }
                         }
+                    }
+
+                    else if(this.account.latest_log == null) {
+                        store.setHiddenParam(this.account.id);
+                        this.$router.push('/visitor-registration/checkin/' + this.id);
                     }
 
                     else {

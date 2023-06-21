@@ -14,9 +14,10 @@
             <div class="flex flex-col items-center justify-center">
                 <p class="text-[10px] text-gray-400 text-center">By registering your account, you agree to <br>our <a
                         href="#" class="underline text-blue-800 font-bold">Privacy Policy</a> and <a href="#"
-                        class="underline text-blue-800 font-bold">Terms of Use</a></p>
+                        class="underline text-blue-800 font-bold">Terms of Use</a>
+                </p>
 
-                <a :href="'/login-google?building_id=' + id" type="button"
+                <a :href="'/login-google?building-id='+id" type="button"
                     class="text-white bg-red-500 hover:bg-red-500/90 focus:ring-2 focus:outline-none focus:ring-red-500/50 font-medium rounded-lg text-xs py-2.5 mt-3 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full">
                     <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
                         data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">

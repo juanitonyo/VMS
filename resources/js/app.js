@@ -11,6 +11,7 @@ import Form from "vform";
 import vSelect from "vue-select";
 import VueQrcodeReader from "vue3-qrcode-reader";
 import VueCookies from "vue-cookies";
+import Pusher from "pusher-js";
 
 import moshaToast from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
@@ -40,6 +41,8 @@ app.use(VueProgressBar, options);
 app.use(CKEditor);
 app.component("v-select", vSelect);
 app.use(VueQrcodeReader);
-app.use(VueCookies, { expire: "1d" });
-
+app.use(VueCookies, { expire: '1d' });
+app.config.globalProperties.$pusher = new Pusher("3158a287c22d410999e1", {
+    cluster: "ap1",
+});
 app.mount("#app");

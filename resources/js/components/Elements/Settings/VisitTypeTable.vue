@@ -66,7 +66,7 @@
                     </table>
                 </div>
                 <div class="flex items-center justify-end mt-3">
-                    <TailwindPagination :data="data" @pagination-change-page="getData" />
+                    <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
                 </div>
             </div>
         </div>
@@ -280,7 +280,7 @@ export default {
         async getData(page = 1) {
             await axios.get('/api/visit-type?page=' + page).then((data) => {
                 this.data = data.data.data;
-                console.log(this.data)
+                console.log(this.data);
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')
             });

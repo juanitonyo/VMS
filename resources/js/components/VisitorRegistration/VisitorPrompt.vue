@@ -5,8 +5,8 @@
 
             <div class="flex flex-col items-center justify-center md:m-1">
                 <p class="m-3 text-2xl md:text-3xl font-bold uppercase">{{ this.buildings.building_name }}</p>
-                <img :src="'/uploads/images/' + this.buildings.logo" alt="no photo"
-                    class="shadow-lg shadow-indigo-200 rounded-md flex items-center justify-center">
+                <img :src="[this.buildings.logo ? '/uploads/images/' + this.buildings.logo : '/logo/vms_logo.png']" alt="no photo"
+                    class="shadow-lg shadow-indigo-200 rounded-md flex items-center justify-center" :class="this.buildings.logo ? '' : 'w-[500px] p-10 opacity-75'">
             </div>
 
             <div class="flex text-center justify-center items-center text-xs md:text-xs text-gray-600 mt-3">

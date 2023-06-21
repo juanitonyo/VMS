@@ -16,7 +16,7 @@ return new class extends Migration
             $table->uuid('qr_id');
             $table->integer('proptech_id')->nullable();
             $table->string('building_name')->unique();
-            $table->string('registration_name')->unique()->nullable();
+            $table->string('registration_name')->nullable();
             $table->string('logo')->nullable();
             $table->longText('description')->nullable();
             $table->longText('address')->nullable();

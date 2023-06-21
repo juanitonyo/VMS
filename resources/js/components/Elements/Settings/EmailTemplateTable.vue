@@ -63,7 +63,7 @@
                     </table>
                 </div>
                 <div class="flex items-center justify-end mt-3">
-                    <TailwindPagination :data="data" @pagination-change-page="getData" />
+                    <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
                 </div>
             </div>
         </div>
@@ -192,7 +192,7 @@ export default {
 
             editor: ClassicEditor,
             editorConfig: {
-                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading'],
+                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading', 'sourceediting'],
                 heading: {
                     options: [
                         { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
@@ -200,6 +200,16 @@ export default {
                         { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
                     ]
                 },
+                htmlSupport: {
+                    allow: [
+                        {
+                            name: /.*/,
+                            attributes: true,
+                            classes: true,
+                            styles: true
+                        }
+                    ]
+                }
             },
 
             placeholder: 'Choose a purpose: ',

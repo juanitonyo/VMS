@@ -44,6 +44,8 @@
                                     <div class="flex justify-between">
                                         <label for="first_name" class="text-xs">First Name</label>
                                         <span v-show="form.errors.has('first_name')"
+                                        <label for="first_name" class="text-xs">First Name</label>
+                                        <span v-show="form.errors.has('first_name')"
                                             class="text-[10px] items-center w-max text-red-500">
                                             {{ form.errors.get('first_name') }}</span>
                                     </div>
@@ -251,7 +253,7 @@ export default {
                 contact: null,
                 front_id: null,
                 back_id: null,
-                gov_id: '',
+                gov_id: null,
                 profile_photo: null,
                 policy: true,
                 role: 'host'

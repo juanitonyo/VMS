@@ -28,52 +28,53 @@
 
                 <form @submit.prevent="checkInVisitor()">
                     <div class="check_purpose space-y-3 mt-5">
-                        <v-select v-model="selectedPurpose" id="dropdown"
+                        <v-select @change="console.log(this.selectedPurpose)" v-model="selectedPurpose" id="dropdown"
                             :placeholder="'What is the purpose of your visit? Tap here to select'" :options="visitType"
                             label="label" class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                         <!-- split the companions -->
                         <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
                             class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
                     </div>
+                    <div v-show="this.selectedPurpose != null && this.selectedPurpose.personToVisit">
+                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
 
-                    <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
+                        <div class="flex flex-row mt-2 gap-x-3">
+                            <div class="buildingSelect flex flex-col gap-y-1">
+                                <label for="buildingName" class="text-gray-400 text-[10px]">Building/Phase</label>
+                                <v-select id="dropdown" :options="purpose" label="label"
+                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[165px]"></v-select>
+                            </div>
 
-                    <div class="flex flex-row mt-2 gap-x-3">
-                        <div class="buildingSelect flex flex-col gap-y-1">
-                            <label for="buildingName" class="text-gray-400 text-[10px]">Building/Phase</label>
-                            <v-select id="dropdown" :options="purpose" label="label"
-                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[165px]"></v-select>
+                            <div class="flex flex-col gap-y-1">
+                                <label for="flrBlk" class="text-gray-400 text-[10px]">Floor/Block</label>
+                                <input type="text"
+                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
+                            </div>
+
+                            <div class="flex flex-col gap-y-1">
+                                <label for="unitLot" class="text-gray-400 text-[10px]">Unit/Lot</label>
+                                <input type="text"
+                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
+                            </div>
                         </div>
 
-                        <div class="flex flex-col gap-y-1">
-                            <label for="flrBlk" class="text-gray-400 text-[10px]">Floor/Block</label>
-                            <input type="text"
-                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
-                        </div>
-
-                        <div class="flex flex-col gap-y-1">
-                            <label for="unitLot" class="text-gray-400 text-[10px]">Unit/Lot</label>
-                            <input type="text"
-                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
-                        </div>
-                    </div>
-
-                    <div class="host flex flex-col space-y-2 mt-3">
-                        <input type="text" disabled value="" placeholder="Principal buyer's details"
-                            class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
-                        <input type="text" disabled value="" placeholder="Principal buyer’s contact number"
-                            class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
-                        <label for="visitName" class="text-gray-400 text-[10px]">
-                            <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
+                        <div class="host flex flex-col space-y-2 mt-3">
+                            <input type="text" disabled value="" placeholder="Principal buyer's details"
+                                class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
+                            <input type="text" disabled value="" placeholder="Principal buyer’s contact number"
+                                class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
+                            <label for="visitName" class="text-gray-400 text-[10px]">
+                                <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
                                 class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80"> -->
-                            <v-select :options="user" label="label"
-                                :placeholder="'Who will you visit? Enter the host’s name here'"
-                                class="text-[10px] border border-blue-700 rounded-[3px] h-7 w-80"></v-select>
-                        </label>
-                        <label for="visitContact" class="text-gray-400 text-[10px]">
-                            <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
-                                class="text-[9px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80">
-                        </label>
+                                <v-select :options="user" label="label"
+                                    :placeholder="'Who will you visit? Enter the host’s name here'"
+                                    class="text-[10px] border border-blue-700 rounded-[3px] h-7 w-80"></v-select>
+                            </label>
+                            <label for="visitContact" class="text-gray-400 text-[10px]">
+                                <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
+                                    class="text-[9px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80">
+                            </label>
+                        </div>
                     </div>
 
                     <div>
@@ -256,7 +257,7 @@
 
         </template>
     </FormDialog>
-    
+
     <FormDialog :isOpen="pop" :Title="'Health Declaration'">
         <template v-slot:body>
             <form>
@@ -276,7 +277,7 @@
                         </div>
                     </div>
 
-                    <div class="relative mb-6">
+                    <div class="relative">
                         <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                                 viewBox="0 0 16 16">
@@ -292,16 +293,10 @@
                     </div>
                 </div>
 
-
-                <div class="mt-5">
+                <div>
                     <button @click.prevent="submitForm()" type="button"
                         class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
                         Submit
-                    </button>
-                    <button
-                        class="mt-1 inline-flex w-full justify-center rounded-md bg-gray-400 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-400/90"
-                        @click.prevent="isOpen()" type="button">
-                        Close
                     </button>
                 </div>
             </form>
@@ -364,6 +359,7 @@ export default {
             badHealth: false,
             goodHealth: false,
             permission: userAuthStore(),
+            isPersonToVisitAllowed: false,
             symptoms: [
                 {
                     id: 0,
@@ -543,6 +539,7 @@ export default {
             await axios.get('/api/visitor-registration?buildingUUID=' + this.id)
                 .then((data) => {
                     this.buildings = data.data.data;
+                    console.log(this.buildings);
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
@@ -572,6 +569,7 @@ export default {
             await axios.get('/api/get-visit-types/')
                 .then((data) => {
                     this.visitType = data.data.data;
+                    console.log(this.visitType)
                 })
                 .catch((e) => {
 

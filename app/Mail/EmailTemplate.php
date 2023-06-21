@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class UserRegistrationPassword extends Mailable
+class EmailTemplate extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -28,7 +28,7 @@ class UserRegistrationPassword extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'User Registration Password',
+            subject: $this->mailData['subject'],
         );
     }
 
@@ -38,7 +38,7 @@ class UserRegistrationPassword extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'emails.registration',
+            view: 'emails.body',
         );
     }
 
