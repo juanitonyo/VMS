@@ -110,7 +110,7 @@
                         </span>
                     </div>
 
-                    <div v-show="this.form.health_form.isEmpty()" class="flex justify-end mt-5">
+                    <div class="flex justify-end mt-5">
                         <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view
                             form</button>
                     </div>

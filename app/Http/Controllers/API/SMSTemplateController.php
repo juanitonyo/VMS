@@ -45,7 +45,7 @@ class SMSTemplateController extends BaseController
         CURLOPT_FOLLOWLOCATION => true,
         CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
         CURLOPT_CUSTOMREQUEST => 'POST',
-        CURLOPT_POSTFIELDS => array('number' => $data->contact,'message' => 'test'),
+        CURLOPT_POSTFIELDS => array('number' => $data->contact,'message' => 'Your One-Time Pin is '.$otp.'. Please do not share this to anyone.'),
         CURLOPT_HTTPHEADER => array(
             'Authorization: Bearer 2|6IjBwPqcZgSeYzrlZK3UKP7T64jhumjL71w7zCIb'
         ),

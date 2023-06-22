@@ -95,7 +95,7 @@ export default {
                     }
 
                     else if(this.account.status) {
-                        if (this.account.refCode == this.given || this.account.email == this.given){
+                        if (this.account.ref_code == this.given || this.account.email == this.given){
                             store.setHiddenParam(this.account.id);
                             if(this.account.latest_log.is_checked_out) {
                                 this.$router.push('/visitor-registration/checkin/' + this.id);
