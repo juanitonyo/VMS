@@ -33,11 +33,11 @@ class EmailTemplateController extends BaseController
     }
 
     public function sendEmail(Request $request) {
-        // if($request->emailPurpose == 'checkin') {
+        if($request->emailPurpose == 'checkin') {
             $data = Visitors::with('latestLog')->where('id', $request->id)->first();
             $building = Building::where('qr_id', $request->buildingID)->first();
             $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first()->name;
-            // $mailBody = EmailTemplate::where('', $request->emailPurpose)->first()->body;
+            $mailBody = EmailTemplate::where('', $request->emailPurpose)->first()->body;
 
             $mailData = [
                 'subject' => "Check-in Info",
@@ -50,15 +50,18 @@ class EmailTemplateController extends BaseController
                 'building_name' => $building->building_name,
                 'building_address' => $building->address,
                 'checked_in' => $data->latestLog->created_at,
-                // 'mailBody' => $mailBody
+                'mailBody' => $mailBody
             ];
 
-            // foreach ($mailData as $placeholder => $value) {
-            //     $mailData['mailBody'] = str_replace("{!! $placeholder !!}", $value, $mailData['mailBody']);
-            // }
+            foreach ($mailData as $placeholder => $value) {
+                $mailData['mailBody'] = str_replace("{!! $placeholder !!}", $value, $mailData['mailBody']);
+            }
 
             Mail::to($data['email'])->send(new MailEmailTemplate($mailData));
-        // }
+        }
+        else if($request->emailPurpose == 'invitation') {
+            return $this->sendResponse($request, "Invitation has been sent!");
+        }
     }
 
     /**

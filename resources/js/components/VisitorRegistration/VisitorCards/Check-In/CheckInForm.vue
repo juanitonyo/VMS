@@ -66,9 +66,9 @@
                             <label for="visitName" class="text-gray-400 text-[10px]">
                                 <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
                                 class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80"> -->
-                                <v-select :options="user" label="label"
+                                <v-select v-model="this.selectedUnitOwner" id="dropdown" :options="unitOwners" label="label"
                                     :placeholder="'Who will you visit? Enter the host’s name here'"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] h-7 w-80"></v-select>
+                                    class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                             </label>
                             <label for="visitContact" class="text-gray-400 text-[10px]">
                                 <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
@@ -334,23 +334,28 @@ export default {
             good: false,
             id: window.location.href.split('/').pop(),
             form: new Form({
+                user_id: '',
                 visitor_id: '',
                 building_id: '',
                 visit_purpose_id: '',
-                health_form: [],
-                log_type: ''
+                health_form: '',
+                log_type: '',
+                checked_in_by: ''
             }),
             buildings: {},
             visitor: {},
+            unitOwners: [],
             visitType: [],
             user: [],
             purpose: [],
             hosts: [],
             checkedIDs: [],
+            health_form: [],
             profile_url: '',
             front_url: '',
             back_url: '',
             selectedPurpose: null,
+            selectedUnitOwner: null,
             enableButton: false,
             isFormComplete: false,
             show: false,
@@ -501,7 +506,9 @@ export default {
             this.form.visitor_id = this.visitor.id
             this.form.building_id = this.visitor.building_id
             this.form.visit_purpose_id = this.selectedPurpose.value
+            this.form.user_id = this.selectedUnitOwner.value
             this.form.log_type = this.permission.authenticated ? 'Invitee' : 'Walk-In'
+            this.form.checked_in_by = this.visitor.name + ' [Visitor]'
 
             this.form.post('/api/visitor-logs/')
                 .then((data) => {
@@ -512,7 +519,7 @@ export default {
         },
 
         sendEmail() {
-            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id)
+            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id + '&emailPurpose=checkin')
                 .then((data) => {
                     store.setHiddenParam(store.hiddenID);
                     this.$router.push('/visitor-registration/success/checkin/' + this.id);
@@ -574,8 +581,17 @@ export default {
                 });
         },
 
+        async syncUnitOwners() {
+            await axios.get('/api/get-unitowners-by-building?uuid=' + this.id)
+                .then((data) => {
+                    this.unitOwners = data.data.data
+                }).catch((error) => {
+
+                });
+        },
+
         submitForm() {
-            this.form = this.health_form.join(" and ");
+            this.form.health_form = this.health_form.join(" and ");
             this.isOpen();
         },
 
@@ -605,6 +621,7 @@ export default {
         this.syncData(store.hiddenID);
         this.getData();
         this.syncVisitType();
+        this.syncUnitOwners();
         this.moment = moment;
         if (store.hiddenID == null) {
             this.$router.back();

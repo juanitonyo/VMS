@@ -25,6 +25,7 @@ class Visitors extends Model
         'valid_id',
         'policy',
         'status',
+        'status_remarks',
         'remember_otp'
     ];
 

@@ -21,12 +21,14 @@ class VisitorsController extends BaseController
         return $this->sendResponse($data, "Fetched all Visitors in Array");
     }
 
+    public function getIndexByUser(Request $request) {
+        $data = Visitors::with('building')->where('user_id', $request->id)->latest()->paginate(10);
+        return $this->sendResponse($data, "Fetched all Visitors in Array");
+    }
+
     public function existingVisitor(Request $request) {
 
         $data = Visitors::with('latestLog')->where([
-            ['contact', $request->given],
-            ['building_id', $request->building_id]
-        ])->orWhere([
             ['ref_code', $request->given],
             ['building_id', $request->building_id]
         ])->orWhere([

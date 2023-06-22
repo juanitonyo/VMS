@@ -95,38 +95,20 @@ export default {
                     }
 
                     else if(this.account.status) {
-                        if (this.account.ref_code == this.given || this.account.email == this.given){
-                            store.setHiddenParam(this.account.id);
-                            if(this.account.latest_log.is_checked_out) {
-                                this.$router.push('/visitor-registration/checkin/' + this.id);
-                            }
-                            else {
-                                this.$router.push('/visitor-registration/checkout/' + this.id);
-                            }
-                        }
-                        else if (this.account.contact == this.given) {
-                            store.setHiddenParam(this.account.id);
-                            store.setHiddenBuilding(this.account.building_id)
-                            if(this.account.latest_log.is_checked_out) {
-                                this.$router.push('/visitor-registration/otp');
-                            }
-                            else {
-                                this.$router.push('/visitor-registration/checkout/' + this.id);
-                            }
-                        }
-                    }
-
-                    else if(this.account.latest_log == null) {
                         store.setHiddenParam(this.account.id);
-                        this.$router.push('/visitor-registration/checkin/' + this.id);
+
+                        if(this.account.latest_log == null || this.account.latest_log.is_checked_out) {
+                            this.$router.push('/visitor-registration/checkin/' + this.id);
+                        }
+                        else if (!this.account.latest_log.is_checked_out) {
+                            this.$router.push('/visitor-registration/checkout/' + this.id);
+                        }
                     }
 
                     else {
                         this.$router.push('/visitor-registration/approval');
                     }
 
-                    // console.log(this.given)
-                
                 })
                 .catch((error) => {
                     

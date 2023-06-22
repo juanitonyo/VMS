@@ -182,6 +182,7 @@
 import axios from 'axios';
 import moment from 'moment';
 import { TailwindPagination } from 'laravel-vue-pagination';
+import { userAuthStore } from "@/store/auth";
 
 export default {
     name: 'Dashboard',
@@ -208,42 +209,66 @@ export default {
         }
     },
     methods: {
-
-        async getData() {
-            await axios.get('/api/visitor-registration/')
-                .then((data) => {
-                    this.buildings = data.data.data;
-                })
-                .catch((e) => {
-                    errorMessage('Opps!', e.message, 'top-right')
-                });
-        },
         getVisitors() {
-            axios.get('/api/visitors/')
+            if(userAuthStore().user.role_id == 2) {
+                axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id)
                 .then((data) => {
                     this.visitors = data.data.data;
                     this.numVisitors = this.visitors.total;
+                    console.log(this.visitors)
                 }).catch((e) => {
 
                 });
+            }
+            else {
+                axios.get('/api/visitors/')
+                    .then((data) => {
+                        this.visitors = data.data.data;
+                        this.numVisitors = this.visitors.total;
+                    }).catch((e) => {
+    
+                    });
+            }
         },
         getVisitorLogs(page = 1) {
-            axios.get('/api/visitor-logs?page=' + page)
-                .then((data) => {
-                    this.visitorLogs = data.data.data;
-                    this.numLogs = this.visitorLogs.total;
-                }).catch((e) => {
-
-                });
+            if(userAuthStore().user.role_id == 2) {
+                axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id)
+                    .then((data) => {
+                        this.visitorLogs = data.data.data;
+                        this.numLogs = this.visitorLogs.total;
+                    }).catch((e) => {
+    
+                    });
+            }
+            else {
+                axios.get('/api/visitor-logs?page=' + page)
+                    .then((data) => {
+                        this.visitorLogs = data.data.data;
+                        this.numLogs = this.visitorLogs.total;
+                    }).catch((e) => {
+    
+                    });
+            }
         },
         getCheckOuts(page = 1) {
-            axios.get('/api/get-checkouts?page=' + page)
+            if(userAuthStore().user.role_id == 2) {
+                axios.get('/api/get-checkouts-by-user?page=' + page + '&id=' + userAuthStore().user.id)
                 .then((data) => {
                     this.visitorCheckOuts = data.data.data;
                     this.numCheckouts = this.visitorCheckOuts.total;
                 }).catch((e) => {
 
                 });
+            }
+            else {
+                axios.get('/api/get-checkouts?page=' + page)
+                    .then((data) => {
+                        this.visitorCheckOuts = data.data.data;
+                        this.numCheckouts = this.visitorCheckOuts.total;
+                    }).catch((e) => {
+    
+                    });
+            }
         }
     },
     created() {
@@ -251,6 +276,13 @@ export default {
         this.getVisitors();
         this.getCheckOuts();
         this.moment = moment;
+    },
+    beforeMount() {
+        this.permissions = {
+            view: userAuthStore().role.permissions.visitors.includes('view') ?? false,
+            create: userAuthStore().role.permissions.visitors.includes('create') ?? false,
+            update: userAuthStore().role.permissions.visitors.includes('update') ?? false
+        }
     }
 }
 

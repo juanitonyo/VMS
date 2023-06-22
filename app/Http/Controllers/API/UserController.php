@@ -8,6 +8,7 @@ use App\Models\UserBuildings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
 use App\Mail\UserRegistrationPassword;
+use App\Models\Building;
 use App\Models\EmailTemplate;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -42,21 +43,18 @@ class UserController extends BaseController
      */
     public function store(UserRequest $request)
     {
-
         $validated = $request->validated();
 
         $hashPass = Hash::make('sysadmin');
         $validated['password'] = $hashPass;
-        $validated['role_id'] = $request->role['id'];
         $data = User::create($validated);
        
         if ($request->building) {
-
-                UserBuildings::create([
-                    'user_id' => $data->id,
-                    'building_id' => $request->building['value']
-                ]);
-            }
+            UserBuildings::create([
+                'user_id' => $data->id,
+                'building_id' => $request->building['value']
+            ]);
+        }
 
         return $this->sendResponse($data, "Saved data to table.");
     }
@@ -113,5 +111,20 @@ class UserController extends BaseController
         return $this->sendResponse($users , 'Data save job dispatched');
     }
 
+    public function getUsersInBuildings(Request $request){
+        $buildingID = Building::where('qr_id', $request->uuid)->first()->id;
 
+        $users = DB::select("SELECT * FROM hosts WHERE building_id LIKE ?", ['%'.$buildingID.'%']);
+
+        $array = [];
+
+        foreach($users as $user) {
+            $array[] = [
+                'value' => $user->user_id,
+                'label' => $user->first_name.' '.$user->last_name
+            ];
+        }
+
+        return $this->sendResponse($array, "Fetched Unit Owners by Building");
+    }
 }

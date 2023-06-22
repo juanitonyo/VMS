@@ -18,8 +18,11 @@ return new class extends Migration
             $table->integer('building_id');
             $table->integer('visit_purpose_id');
             $table->string('log_type');
+            $table->string('checked_in_by')->nullable();
+            $table->string('checked_out_by')->nullable();
             $table->string('health_form')->nullable();
             $table->boolean('is_checked_out')->default(false);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

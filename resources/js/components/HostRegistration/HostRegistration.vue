@@ -9,21 +9,19 @@
                                 <p class="text-lg font-semibold">User Registration</p>
                                 <p class="font-medium text-lg text-blue-800">{{ this.buildings.building_name }}</p>
                                 <p class="text-[10px]">{{ this.buildings.address }}</p>
-                            </div>
-
-                            <!-- <div class="flex justify-center items-center flex-col lg:mt-16 my-4">
-                                <div class="lg:w-40 w-28">
-                                    <label :style="{ 'background-image': `url(${profile_url})` }"
-                                        class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 rounded-full justify-center items-center cursor-pointer transition duration-500 bg-cover bg-center">
-                                        <img v-show="!hideLabel_profile" class="lg:w-8 w-6 mt-3 lg:mt-0"
-                                            src="https://www.svgrepo.com/show/33565/upload.svg" />
-                                        <input type="file" ref="profile" class="opacity-0" @input="uploadProfilePhoto"
-                                            accept="image/png, image/jpeg, image/jpg, image/svg">
-                                    </label>
+                                <div class="flex justify-center items-center flex-col lg:mt-5 my-4">
+                                    <div class="lg:w-40 w-28">
+                                        <label :style="{ 'background-image': `url(${profile_url})` }"
+                                            class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 rounded-full justify-center items-center cursor-pointer transition duration-500 bg-cover bg-center">
+                                            <img v-show="!hideLabel_profile" class="lg:w-8 w-6 mt-3 lg:mt-0"
+                                                src="https://www.svgrepo.com/show/33565/upload.svg" />
+                                            <input type="file" ref="profile" class="opacity-0" @input="uploadProfilePhoto"
+                                                accept="image/png, image/jpeg, image/jpg, image/svg">
+                                        </label>
+                                    </div>
+                                    <p class="text-[10px] mt-5">Upload Photo</p>
                                 </div>
-                                <p class="text-[10px]">Upload Photo</p>
-                            </div> -->
-
+                            </div>
                         </div>
 
                         <div class="lg:col-span-2">

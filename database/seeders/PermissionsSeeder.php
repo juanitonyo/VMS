@@ -22,6 +22,7 @@ class PermissionsSeeder extends Seeder
             'visitors' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
             'deliveries' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
             'sync' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
+            'expected' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
         ];
 
         foreach ($arrayOfPermissions as $module => $permissions) {
