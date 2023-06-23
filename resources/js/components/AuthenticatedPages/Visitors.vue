@@ -57,7 +57,7 @@
                                         </td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center"
                                             v-if="permissions.update">
-                                            <a v-show="item.status == 0 || item.status == -1"
+                                            <a v-show="item.status == 0"
                                                 class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer"
                                                 @click.prevent="setShow('Approval', item)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -412,7 +412,7 @@ export default {
                     this.$Progress.finish();
                     this.getData();
                     this.pop = !this.pop;
-                    this.sendInvitation();
+                    this.sendInvitation(data.data.data.id);
                     createToast({
                         title: 'Success!',
                         description: 'Data has been saved.'
@@ -430,8 +430,8 @@ export default {
                 })
         },
 
-        sendInvitation() {
-            axios.get('/api/send-email?emailPurpose=invitation').then((data) => { this.show = !this.show }).catch((error) => { })
+        sendInvitation(id) {
+            axios.get('/api/send-email?id=' + id + '&emailPurpose=invitation').then((data) => { this.show = !this.show }).catch((error) => { })
         },
 
         updateVisitor(triggered) {
@@ -446,10 +446,9 @@ export default {
             else if(triggered == 'Check Out') {
                 this.log.checked_out_by = userAuthStore().user.name + ' [System Manager]'
                 this.log.is_checked_out = 1
-                console.log(this.log.checked_out_by)
             }
 
-            axios.put("/api/visitor-logs/" + this.log.visitor.id, {
+            axios.put("/api/visitor-logs/" + this.log.id, {
                 params: {
                     data: this.log
                 }

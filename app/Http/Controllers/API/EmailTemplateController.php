@@ -5,8 +5,7 @@ namespace App\Http\Controllers\API;
 use App\Models\EmailTemplate;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\EmailTemplateRequest;
-use App\Mail\CheckInEmailTemplate;
-use App\Mail\EmailTemplate as MailEmailTemplate;
+use App\Mail\MailTemplate;
 use App\Mail\UserRegistrationPassword;
 use App\Models\Building;
 use App\Models\InvitationLogs;
@@ -34,35 +33,46 @@ class EmailTemplateController extends BaseController
     }
 
     public function sendEmail(Request $request) {
+        
         if($request->emailPurpose == 'checkin') {
             $data = Visitors::with('latestLog')->where('id', $request->id)->first();
             $building = Building::where('qr_id', $request->buildingID)->first();
             $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first()->name;
-            $mailBody = EmailTemplate::where('purpose', $request->emailPurpose)->first()->body;
-
-            $mailData = [
-                'subject' => "Check-in Info",
-                'email' => $data['email'],
-                'uuid' => $request->building_id,
-                'name' => $data['name'],
-                'ref_code' => $data['ref_code'],
-                'visit_type' => $visitType,
-                'contact' => $data['contact'],
-                'building_name' => $building->building_name,
-                'building_address' => $building->address,
-                'checked_in' => $data->latestLog->created_at,
-                'mailBody' => $mailBody
-            ];
-
-            foreach ($mailData as $placeholder => $value) {
-                $mailData['mailBody'] = str_replace("{!! $placeholder !!}", $value, $mailData['mailBody']);
-            }
-
-            Mail::to($data['email'])->send(new CheckInEmailTemplate($mailData));
+            $name = $data['name'];
+            $time = $data->latestLog->created_at;
+            $subject = 'VMS | Your Check-In Details';
         }
+
         else if($request->emailPurpose == 'invitation') {
-            return $this->sendResponse($request, "Invitation has been sent!");
+            $data = InvitationLogs::where('id', $request->id)->latest()->first();
+            $building = Building::where('id', $data->building_id)->first();
+            $visitType = VisitTypes::where('id', $data->visit_purpose_id)->first()->name;
+            $name = $data['first_name'].' '.$data['last_name'];
+            $time = $data->target_date;
+            $subject = 'VMS | You are invited to '.$building->building_name;
         }
+        
+        $mailBody = EmailTemplate::where('purpose', $request->emailPurpose)->first()->body;
+
+        $mailData = [
+            'subject' => $subject,
+            'email' => $data['email'],
+            'uuid' => $building,
+            'name' => $name,
+            'ref_code' => $data['ref_code'],
+            'visit_type' => $visitType,
+            'contact' => $data['contact'],
+            'building_name' => $building->building_name,
+            'building_address' => $building->address,
+            'checked_in' => $time,
+            'mailBody' => $mailBody
+        ];
+
+        foreach ($mailData as $placeholder => $value) {
+            $mailData['mailBody'] = str_replace("{!! $placeholder !!}", $value, $mailData['mailBody']);
+        }
+
+        Mail::to($data['email'])->send(new MailTemplate($mailData));
     }
 
     /**

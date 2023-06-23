@@ -214,7 +214,12 @@ export default {
 
             placeholder: 'Choose a purpose: ',
 
-            option: ['Register', 'Reset Password', 'invitation'],
+            option: [
+                { label: 'Register', value: 'register' }, 
+                { label: 'Reset Password', value: 'reset-password' }, 
+                { label: 'Invitation', value: 'invitation' }, 
+                { label: 'Check-In', value: 'checkin' }
+            ],
         }
     },
     methods: {
@@ -235,6 +240,7 @@ export default {
             this.pop = !this.pop;
         },
         saveTemplate() {
+            this.form.purpose = this.form.purpose.value;
             this.$Progress.start();
             this.form.post('/api/email-template')
                 .then((data) => {

@@ -393,7 +393,7 @@ export default {
                     tag: 'Wala sa mga Nabanggit'
                 },
             ],
-            checkedIDs: [],
+            health_form: [],
         }
     },
 
@@ -420,7 +420,6 @@ export default {
             await axios.get('/api/sync-visitor/')
                 .then((data) => {
                     this.visitor = data.data.data;
-                    this.$cookies.remove("asCookie");
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')
@@ -437,18 +436,18 @@ export default {
         },
 
         saveToArray(id) {
-            if (this.checkedIDs.includes(id)) {
-                this.checkedIDs.pop(id);
+            if (this.health_form.includes(id)) {
+                this.health_form.pop(id);
             }
             else {
-                this.checkedIDs.push(id)
+                this.health_form.push(id)
             }
 
-            console.log(this.checkedIDs);
+            console.log(this.health_form);
         },
 
         submitForm() {
-            this.form = this.checkedIDs.join(" and ");
+            this.form = this.health_form.join(" and ");
             console.log(this.form)
         }
     },

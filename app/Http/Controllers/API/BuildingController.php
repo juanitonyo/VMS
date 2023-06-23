@@ -176,6 +176,7 @@ class BuildingController extends BaseController
         $data = Building::create([
             'proptech_id' => $request->id,
             'building_name' => $request->name,
+            'building_type' => 1,
             'registration_name' => $request->registration_name,
             'address' => $request->full_address ?? "",
         ]);

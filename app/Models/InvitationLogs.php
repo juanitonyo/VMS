@@ -17,6 +17,7 @@ class InvitationLogs extends Model
         'visit_purpose_id',
         'location',
         'contact',
+        'ref_code',
         'companions',
         'target_date'
     ];

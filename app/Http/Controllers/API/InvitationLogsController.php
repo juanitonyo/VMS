@@ -3,8 +3,11 @@
 namespace App\Http\Controllers\API;
 
 use App\Http\Requests\Settings\InvitationLogsRequest;
+use App\Models\Building;
 use App\Models\InvitationLogs;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 class InvitationLogsController extends BaseController
 {
@@ -20,6 +23,23 @@ class InvitationLogsController extends BaseController
 
     public function getInvitation(Request $request) {
 
+        $data = InvitationLogs::where([
+            ['email', $request->given],
+            ['building_id', $request->building_id]
+        ])->orWhere([
+            ['ref_code', $request->given],
+            ['building_id', $request->building_id]
+        ])->latest()->first();
+
+        if($data == null) {
+            return $this->sendError("Invitation not found.", $data);
+        }
+        
+        else if($data['target_date'] > Carbon::now()) {
+            return $this->sendError("Your check-in is too early.");
+        }
+
+        return $this->sendResponse($data, "Data exist");
     }
 
     /**
@@ -35,7 +55,10 @@ class InvitationLogsController extends BaseController
      */
     public function store(InvitationLogsRequest $request)
     {
-        $data = InvitationLogs::create($request->validated());
+        $validated = $request->validated();
+        $validated['ref_code'] = Str::random(6);
+
+        $data = InvitationLogs::create($validated);
 
         return $this->sendResponse($data, "Data stored in table");
     }
