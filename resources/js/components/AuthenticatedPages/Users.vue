@@ -71,7 +71,7 @@
                                             }}
                                         </td>
                                         <td class="w-72 px-3 py-4 text-xs text-gray-500">
-                                            {{ item.role.title }}
+                                            {{ item.role_id.title }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
                                             item.status == true ? 'Active' : 'Inactive' }}</td>
@@ -119,11 +119,11 @@
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
                                 Role</label>
-                            <v-select v-model="form.role" :options="roles" label="title" placeholder="search" :class="form.errors.has('role')
+                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="form.errors.has('role_id')
                                 ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
                                 : ''
                                 "></v-select>
-                            <span v-show="form.errors.has('role')"
+                            <span v-show="form.errors.has('role_id')"
                                 class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
@@ -209,7 +209,7 @@ export default {
                 id: "",
                 name: "",
                 email: "",
-                role: "",
+                role_id: "",
                 building: "",
                 password: "",
                 status: false,
@@ -225,7 +225,7 @@ export default {
             this.resetForm();
         },
         saveUser() {
-            console.log(this.form);
+            this.form.role_id = this.form.role_id.id
             this.$Progress.start();
             this.form
                 .post("/api/user")
@@ -297,7 +297,7 @@ export default {
                 id: "",
                 name: "",
                 email: "",
-                role: "",
+                role_id: "",
                 building: "",
                 status: false,
             });

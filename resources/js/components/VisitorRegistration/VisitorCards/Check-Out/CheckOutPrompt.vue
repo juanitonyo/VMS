@@ -93,19 +93,14 @@ export default {
                         this.$router.push('/visitor-registration/signIn/reg/' + this.id);
                     }
 
-                    if(this.account.status) {
+                    else if(this.account.latest_log.status) {
                         store.setHiddenParam(this.account.id);
 
-                        if (this.account.ref_code == this.given || this.account.email == this.given){
-                            if(!this.account.latest_log.is_checked_out) {
-                                this.$router.push('/visitor-registration/checkout/' + this.id);
-                            }
-                            else {
-                                this.$router.push('/visitor-registration/checkin/' + this.id);
-                            }
-                        }
-                        else {
+                        if (!this.account.latest_log.is_checked_out){
                             this.$router.push('/visitor-registration/checkout/' + this.id);
+                        }
+                        else if (this.account.latest_log == null || this.account.latest_log.is_checked_out) {
+                            this.$router.push('/visitor-registration/checkin/' + this.id);
                         }
                     }
 
@@ -114,7 +109,7 @@ export default {
                     }
                 })
                 .catch((e) => {
-
+                    
                 });
         },
 

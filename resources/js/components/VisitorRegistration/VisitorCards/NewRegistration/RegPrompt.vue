@@ -28,7 +28,7 @@
                     Sign up with Google
                 </a>
 
-                <button type="button"
+                <a :href="'/login-facebook?building-id='+id" type="button"
                     class="text-white bg-blue-500 hover:bg-blue-500/90 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs py-2.5 mt-3 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full">
                     <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
                         data-icon="facebook-f" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 512">
@@ -37,7 +37,7 @@
                         </path>
                     </svg>
                     Sign up with Facebook
-                </button>
+                </a>
                 <div class="my-8 relative">
                     <hr class="w-64 h-px bg-gray-300">
                     <p class="absolute -top-2 px-3 font-medium text-gray-400 text-sm bg-white left-[43%]">or</p>

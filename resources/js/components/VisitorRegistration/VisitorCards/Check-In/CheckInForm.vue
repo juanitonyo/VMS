@@ -28,9 +28,9 @@
 
                 <form @submit.prevent="checkInVisitor()">
                     <div class="check_purpose space-y-3 mt-5">
-                        <v-select @change="console.log(this.selectedPurpose)" v-model="selectedPurpose" id="dropdown"
-                            :placeholder="'What is the purpose of your visit? Tap here to select'" :options="visitType"
-                            label="label" class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
+                        <v-select v-model="this.selectedPurpose" id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
+                            :options="visitType" label="label"
+                            class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                         <!-- split the companions -->
                         <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
                             class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
@@ -66,9 +66,9 @@
                             <label for="visitName" class="text-gray-400 text-[10px]">
                                 <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
                                 class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80"> -->
-                                <v-select :options="user" label="label"
+                                <v-select v-model="this.selectedUnitOwner" id="dropdown" :options="unitOwners" label="label"
                                     :placeholder="'Who will you visit? Enter the host’s name here'"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] h-7 w-80"></v-select>
+                                    class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                             </label>
                             <label for="visitContact" class="text-gray-400 text-[10px]">
                                 <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
@@ -110,13 +110,13 @@
                         </span>
                     </div>
 
-                    <div v-show="badHealth" class="flex justify-end mt-5">
+                    <div class="flex justify-end mt-5">
                         <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view
                             form</button>
                     </div>
 
                     <!-- if no hdf, stay here. else single-->
-                    <div
+                    <div 
                         class="relative flex flex-row items-center justify-center w-[310px] text-gray-600 font-extralight mt-3 gap-x-3">
                         <input type="checkbox" class="absolute top-0 left-0 w-5 h-5" @change="isChecked()">
                         <span class="ml-10 text-[10px] leading-4">By supplying the information on VMS registration form, I
@@ -260,44 +260,44 @@
 
     <FormDialog :isOpen="pop" :Title="'Health Declaration'">
         <template v-slot:body>
-                <p class="text-[10px] text-center">Are you currently experiencing or have experienced any of these symptoms
-                    in
-                    the last 24 hours?</p>
+            <p class="text-[10px] text-center">Are you currently experiencing or have experienced any of these symptoms
+                in
+                the last 24 hours?</p>
 
-                <div class="space-y-2 my-5">
+            <div class="space-y-2 my-5">
 
-                    <div class="w-full flex h-[45px] gap-x-3 shadow-sm shadow-slate-400 p-2 rounded-md select-none"
-                        v-for="symptom in symptoms" :key="symptom.id" @click="toggleCheckbox(symptom)">
-                        <input v-model="symptom.state" type="checkbox" :id="symptom.id" v-bind:checked="symptom.state">
-                        <img :src="symptom.image">
-                        <div class="flex flex-col">
-                            <p class="text-xs font-bold">{{ symptom.eng }}</p>
-                            <p class="text-xs italic text-gray-500">{{ symptom.tag }}</p>
-                        </div>
-                    </div>
-
-                    <div class="relative">
-                        <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
-                                viewBox="0 0 16 16">
-                                <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V9.5a.5.5 0 0 1 1 0v1.585a1.5 1.5 0 0 1 1 1.415z" />
-                                <path
-                                    d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z" />
-                            </svg>
-                        </div>
-                        <input type="text"
-                            class="peer bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md w-full pl-10 p-1.5"
-                            placeholder="--.- °C"
-                            oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1').replace(/^0[^.]/, '0');">
-                    </div>
+                <div class="w-full flex h-[45px] gap-x-3 shadow-sm shadow-slate-400 p-2 rounded-md select-none"
+                    v-for="symptom in this.symptoms">
+                <input v-model="symptom.state" type="checkbox" v-bind:id="symptoms.id" v-on:click="saveToArray(symptom.id)">
+                <img :src="symptom.image">
+                <div class="flex flex-col">
+                    <p class="text-xs font-bold">{{ symptom.eng }}</p>
+                    <p class="text-xs italic text-gray-500">{{ symptom.tag }}</p>
                 </div>
+            </div>
 
-                <div>
-                    <button @click.prevent="submitForm()" type="button"
-                        class="mt-1 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
-                        Submit
-                    </button>
+                <div class="relative">
+                    <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                            viewBox="0 0 16 16">
+                            <path d="M9.5 12.5a1.5 1.5 0 1 1-2-1.415V9.5a.5.5 0 0 1 1 0v1.585a1.5 1.5 0 0 1 1 1.415z" />
+                            <path
+                                d="M5.5 2.5a2.5 2.5 0 0 1 5 0v7.55a3.5 3.5 0 1 1-5 0V2.5zM8 1a1.5 1.5 0 0 0-1.5 1.5v7.987l-.167.15a2.5 2.5 0 1 0 3.333 0l-.166-.15V2.5A1.5 1.5 0 0 0 8 1z" />
+                        </svg>
+                    </div>
+                    <input type="text"
+                        class="peer bg-gray-50 border border-gray-300 text-gray-900 text-xs rounded-md w-full pl-10 p-1.5"
+                        placeholder="--.- °C"
+                        oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..?)\../g, '$1').replace(/^0[^.]/, '0');">
                 </div>
+            </div>
+
+            <div>
+                <button @click.prevent="submitForm()" type="button"
+                    class="mt-3 inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
+                    Submit
+                </button>
+            </div>
         </template>
     </FormDialog>
 </template>
@@ -334,22 +334,28 @@ export default {
             good: false,
             id: window.location.href.split('/').pop(),
             form: new Form({
+                user_id: '',
                 visitor_id: '',
                 building_id: '',
                 visit_purpose_id: '',
-                log_type: ''
+                health_form: '',
+                log_type: '',
+                checked_in_by: ''
             }),
             buildings: {},
             visitor: {},
+            unitOwners: [],
             visitType: [],
             user: [],
             purpose: [],
             hosts: [],
             checkedIDs: [],
+            health_form: [],
             profile_url: '',
             front_url: '',
             back_url: '',
-            selectedPurpose: '',
+            selectedPurpose: null,
+            selectedUnitOwner: null,
             enableButton: false,
             isFormComplete: false,
             show: false,
@@ -357,7 +363,6 @@ export default {
             badHealth: false,
             goodHealth: false,
             permission: userAuthStore(),
-            isPersonToVisitAllowed: false,
             symptoms: [
                 {
                     id: 0,
@@ -501,7 +506,9 @@ export default {
             this.form.visitor_id = this.visitor.id
             this.form.building_id = this.visitor.building_id
             this.form.visit_purpose_id = this.selectedPurpose.value
+            this.form.user_id = this.selectedUnitOwner.value
             this.form.log_type = this.permission.authenticated ? 'Invitee' : 'Walk-In'
+            this.form.checked_in_by = this.visitor.name + ' [Visitor]'
 
             this.form.post('/api/visitor-logs/')
                 .then((data) => {
@@ -512,7 +519,7 @@ export default {
         },
 
         sendEmail() {
-            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id)
+            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id + '&emailPurpose=checkin')
                 .then((data) => {
                     store.setHiddenParam(store.hiddenID);
                     this.$router.push('/visitor-registration/success/checkin/' + this.id);
@@ -574,25 +581,27 @@ export default {
                 });
         },
 
-        toggleCheckbox(symptom) {
-            symptom.state = !symptom.state;
-            this.saveToArray(symptom.id, symptom.state);
+        async syncUnitOwners() {
+            await axios.get('/api/get-unitowners-by-building?uuid=' + this.id)
+                .then((data) => {
+                    this.unitOwners = data.data.data
+                }).catch((error) => {
+
+                });
         },
 
         submitForm() {
-            this.form = this.checkedIDs.join(" and ");
+            this.form.health_form = this.health_form.join(" and ");
             this.isOpen();
         },
 
         saveToArray(id) {
-            if (this.checkedIDs.includes(id)) {
-                this.checkedIDs.pop(id);
+            if(this.health_form.includes(id)){
+                this.health_form.pop(id);
             }
-            else {
-                this.checkedIDs.push(id)
+            else{
+                this.health_form.push(id)
             }
-
-            console.log(this.checkedIDs);
         },
 
         isGood() {
@@ -600,6 +609,7 @@ export default {
             this.badHealth = false
             this.good = true;
         },
+
         isBad() {
             this.goodHealth = false;
             this.good = false;
@@ -611,6 +621,7 @@ export default {
         this.syncData(store.hiddenID);
         this.getData();
         this.syncVisitType();
+        this.syncUnitOwners();
         this.moment = moment;
         if (store.hiddenID == null) {
             this.$router.back();

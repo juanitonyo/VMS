@@ -47,9 +47,9 @@
                                         }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}
                                         </td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.visitor.status ?
-                                            'Approved'
-                                            : 'Pending Approval' }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.status == 0 ?
+                                                'Pending Approval' : item.status == 1 ? 
+                                                    'Approved' : 'Disapproved' }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{
                                             moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.is_checked_out ?
@@ -57,14 +57,22 @@
                                         </td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center"
                                             v-if="permissions.update">
-                                            <a class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer"
-                                                @click.prevent="setShow('Approval')">
+                                            <a v-show="item.status == 0 || item.status == -1" class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer"
+                                                @click.prevent="setShow('Approval', item)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </a>
+                                            <a v-show="item.status == 1" class="approve text-white bg-red-400 rounded-md p-1 cursor-pointer" 
+                                                @click.prevent="setShow('Disapproval', item)">
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                            </a>    
                                             <a @click.prevent="editVisitors(item)"
                                                 class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -73,14 +81,23 @@
                                                         d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                                                 </svg>
                                             </a>
-                                            <a class="approve text-white bg-red-400 rounded-md p-1 cursor-pointer" @click.prevent="setShow('Disapproval')">
+                                            <a v-show="item.is_checked_out && item.status" @click.prevent="setShow('Invite', item)"
+                                                class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M6 18L18 6M6 6l12 12" />
+                                                    <path stroke-linecap="round" stroke-linejoin="round" 
+                                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                                    <polyline points="22,6 12,13 2,6"></polyline>
                                                 </svg>
                                             </a>
-
+                                            <a v-show="!item.is_checked_out && item.status" @click.prevent="setShow('Check Out', item)"
+                                                class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                <path stroke-linecap="round" stroke-linejoin="round" 
+                                                    d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9"/>
+                                                </svg>
+                                            </a>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -140,40 +157,25 @@
                             <p>{{ this.account.log_type }}</p>
                             <p>N/A</p>
                             <p>{{ this.account.visitor.valid_id }}</p>
-                            <p>N/A</p>
-                            <p>N/A</p>
+                            <p>{{ this.account.user == null ? 'None' : this.account.user.first_name + ' ' + this.account.user.last_name }}</p>
+                            <p>{{ this.account.user == null ? 'None' : this.account.user.email }}</p>
                             <p>{{ this.account.visitor.ref_code }}</p>
                             <p>{{ this.account.building.building_name }}</p>
                             <p>{{ this.account.visit_type.name }}</p>
                             <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
-                            <p>N/A</p>
+                            <p>{{ this.account.checked_in_by == null ? 'N/A' : this.account.checked_in_by }}</p>
                             <p>{{ this.account.created_at == this.account.updated_at ? 'Not Yet' :
                                 moment(this.account.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
+                            <p></p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
-                            <p>{{ this.account.health_form != null || this.account.health_form !== '[]' ?
-                                this.account.health_form : 'N\/A' }}</p>
+                            <p>{{ this.health_form == null ? "None" : this.health_form }}</p>
                             <p>N/A</p>
                         </div>
                     </div>
-                    <!-- <form @submit.prevent="updateVisitor">
-                        <div class="sm:col-span-3 mt-3">
-                            <SwitchGroup as="div" class="flex items-center justify-between">
-                                <span class="flex flex-grow flex-col">
-                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
-                                        Status</SwitchLabel>
-                                </span>
-                                <Switch v-model="this.status"
-                                    :class="[this.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
-                                    <span aria-hidden="true"
-                                        :class="[this.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                                </Switch>
-                            </SwitchGroup>
-                        </div>
-                    </form> -->
                     <div class="flex justify-end w-full mt-10">
                         <button type="button" class="rounded-md bg-gray-900 text-white py-2 px-6 text-sm font-semibold"
                             @click="setOpen">Close</button>
@@ -290,9 +292,9 @@
             <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm"/>
 
             <div class="mt-4 flex gap-1">
-                <button type="button"
+                <button @click.prevent="this.statusChoice == 'Invite' ? sendInvitation() : updateVisitor(statusChoice)" type="button"
                     class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
-                    {{ statusChoice == 'Approval' ? 'Approve' : 'Disapprove' }}
+                    {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve' : 'Disapprove' : statusChoice }}
                 </button>
                 <button type="button"
                     class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90"
@@ -327,10 +329,10 @@ export default {
         return {
             permissions: {},
             data: {},
+            log: {},
             editMode: false,
             open: false,
             pop: false,
-            status: false,
             isChanged: false,
             account: {},
             form: new Form({
@@ -359,7 +361,6 @@ export default {
             this.editMode = true
             this.open = !this.open
             this.account = item
-            this.status = this.account.visitor.status;
         },
         setOpen() {
             this.editMode = false;
@@ -369,20 +370,29 @@ export default {
             this.pop = !this.pop;
         },
 
-        setShow(choice) {
+        setShow(choice, item) {
             this.statusChoice = choice;
+            this.log = item;
             this.show = !this.show
         },
 
         async getData(page = 1) {
-            await axios.get('/api/get-logs?page=' + page).then((data) => {
-                this.data = data.data.data;
-                if (this.data.data[0].health_form === '[]') {
-                    console.log(this.data.data[0])
-                }
-            }).catch((e) => {
-                // errorMessage('Opps!', e.message, 'top-right')
-            });
+            if(userAuthStore().user.role_id == 2) {
+                await axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id).then((data) => {
+                    this.data = data.data.data;
+                    console.log(this.data)
+                }).catch((e) => {
+                    // errorMessage('Opps!', e.message, 'top-right')
+                });
+            }
+            else {
+                await axios.get('/api/get-logs?page=' + page).then((data) => {
+                    this.data = data.data.data;
+                    console.log(this.data)
+                }).catch((e) => {
+                    // errorMessage('Opps!', e.message, 'top-right')
+                });
+            }
         },
 
         saveInvitation() {
@@ -394,6 +404,7 @@ export default {
                     this.$Progress.finish();
                     this.getData();
                     this.pop = !this.pop;
+                    this.sendInvitation();
                     createToast({
                         title: 'Success!',
                         description: 'Data has been saved.'
@@ -412,20 +423,31 @@ export default {
         },
 
         sendInvitation() {
-            axios.get('/api/send-email?').then((data) => { }).catch((error) => { })
+            axios.get('/api/send-email?emailPurpose=invitation').then((data) => { this.show = !this.show }).catch((error) => { })
         },
 
-        updateVisitor() {
-            this.account.visitor.status = !this.account.visitor.status;
-            axios.put("/api/visitors/" + this.account.visitor.id, {
+        updateVisitor(triggered) {
+            if(triggered == 'Approval') {
+                this.log.status = 1
+            }
+
+            else if(triggered == 'Disapproval') {
+                this.log.status = -1
+            }
+
+            else if(triggered == 'Check Out') {
+                this.log.checked_out_by = userAuthStore().user.name
+                this.log.is_checked_out = 1
+            }
+
+            axios.put("/api/visitor-logs/" + this.log.visitor.id, {
                 params: {
-                    data: this.account.visitor
+                    data: this.log
                 }
             }).then((data) => {
-                this.editMode = false;
                 this.$Progress.finish();
                 this.getData();
-                this.open = !this.open;
+                this.show = !this.show
                 createToast({
                     title: 'Success!',
                     description: 'Data has been updated.'
@@ -476,7 +498,6 @@ export default {
         this.syncVisitType();
         this.syncBuilding();
         this.moment = moment;
-        // console.log(this.permissions)
     },
     beforeMount() {
         this.permissions = {

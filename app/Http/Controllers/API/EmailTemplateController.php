@@ -37,7 +37,7 @@ class EmailTemplateController extends BaseController
             $data = Visitors::with('latestLog')->where('id', $request->id)->first();
             $building = Building::where('qr_id', $request->buildingID)->first();
             $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first()->name;
-            $mailBody = EmailTemplate::where('purpose', $request->emailPurpose)->first()->body;
+            $mailBody = EmailTemplate::where('', $request->emailPurpose)->first()->body;
 
             $mailData = [
                 'subject' => "Check-in Info",
@@ -45,11 +45,11 @@ class EmailTemplateController extends BaseController
                 'uuid' => $request->building_id,
                 'name' => $data['name'],
                 'ref_code' => $data['ref_code'],
-                'purpose' => $visitType,
+                'visit_type' => $visitType,
                 'contact' => $data['contact'],
                 'building_name' => $building->building_name,
                 'building_address' => $building->address,
-                'time' => $data->latestLog->created_at,
+                'checked_in' => $data->latestLog->created_at,
                 'mailBody' => $mailBody
             ];
 
@@ -59,8 +59,8 @@ class EmailTemplateController extends BaseController
 
             Mail::to($data['email'])->send(new MailEmailTemplate($mailData));
         }
-        if($request->emailPurpose == 'invitation') {
-            
+        else if($request->emailPurpose == 'invitation') {
+            return $this->sendResponse($request, "Invitation has been sent!");
         }
     }
 

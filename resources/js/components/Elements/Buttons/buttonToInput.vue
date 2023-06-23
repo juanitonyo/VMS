@@ -6,7 +6,7 @@
                 label }}</a>
 
         <div v-show="!isButton" class="relative">
-            <input :value="modelValue" @input="updateValue" :placeholder="'Mobile No. / Reference Code '"
+            <input :value="modelValue" @input="updateValue" :placeholder="'Email / Reference Code '"
                 :class="'placeholder:text-gray-400 text-blue-900 border border-blue-800 pr-10 bg-white hover:bg-gray-50 text-center focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-[335px]'">
             <button class="absolute right-3 top-2 hover:scale-105" @click="isPop">
                 <img src="/Visitor_Homepage_Assets/qrButton.png" class="w-6 h-6">
