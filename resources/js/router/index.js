@@ -25,6 +25,7 @@ const Roles = () => import("@/components/AuthenticatedPages/Roles.vue");
 const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
 const SyncPropTech = () => import("@/components/AuthenticatedPages/SyncPropTech.vue");
 const Expected = () => import("@/components/AuthenticatedPages/ExpectedDeliveries.vue");
+const InviteLog = () => import("@/components/AuthenticatedPages/InviteLog.vue");
 
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
@@ -206,6 +207,15 @@ const routes = [
                 component: Expected,
                 meta: {
                     title: `VMS | Expected Deliveries`,
+                    ability: "",
+                },
+            },
+            {
+                name: "invitelog",
+                path: "/app/invite",
+                component: InviteLog,
+                meta: {
+                    title: `VMS | Invitation Logs`,
                     ability: "",
                 },
             },

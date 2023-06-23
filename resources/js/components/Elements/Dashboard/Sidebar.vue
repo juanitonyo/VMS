@@ -109,10 +109,23 @@ const sidebarNavigation = reactive([
     access: permissions.buildings ?? false,
   },
   {
-    name: "Visitors",
-    href: "/app/visitors",
+    name: "Manage Visitors",
+    href: "#",
     icon: UserGroupIcon,
-    access: permissions.visitors ?? false,
+    access: (permissions.visitors || permissions.inviteLog) ?? false,
+    dropdown: false,
+    subMenu: [
+      {
+        name: "Visitor Log",
+        href: "/app/visitors",
+        access: permissions.visitors ?? false,
+      },
+      {
+        name: "Invitation Log",
+        href: "/app/invite",
+        access: permissions.inviteLog ?? false,
+      },
+    ],
   },
   {
     name: "Manage Deliveries",
