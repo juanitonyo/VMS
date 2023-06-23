@@ -268,7 +268,7 @@
 
 
                 <div class="mt-1">
-                    <button @click.prevent="submitForm()" type="button"
+                    <button :disabled="!this.visitor.latest_log.status" @click.prevent="submitForm()" type="button"
                         class="inline-flex w-full justify-center rounded-md bg-blue-600 px-3 py-2 text-sm font-semibold text-white shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-blue-600/90">
                         Submit
                     </button>
@@ -409,11 +409,13 @@ export default {
         },
 
         checkOutVisitor() {
-            this.log.health_form = this.health_form
+            this.visitor.latest_log.health_form = this.health_form
+            this.visitor.latest_log.checked_out_by = this.visitor.name + ' [Visitor]'
+            this.visitor.latest_log.is_checked_out = 1
 
             axios.put("/api/visitor-logs/" + this.visitor.id, {
                 params: {
-                    data: this.log
+                    data: this.visitor.latest_log
                 }
             }).then((data) => {
                 this.$router.push('/visitor-registration/success/checkout/' + this.id);

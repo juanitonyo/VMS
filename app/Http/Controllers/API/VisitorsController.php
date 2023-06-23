@@ -76,7 +76,7 @@ class VisitorsController extends BaseController
 
         if($existingData == null) {
             if($request->profile_photo){
-                $profile_photo_binary = $request->profile_photo;
+                $profile_photo_binary = base64_decode($request->profile_photo);
                 $profile_photo_link = time().'.' . explode('/', explode(':', substr($profile_photo_binary, 0, strpos($profile_photo_binary, ';')))[1])[1];
                 
                 if(!File::exists('uploads/profiles-visitor/'.$profile_photo_link)) {
@@ -87,7 +87,7 @@ class VisitorsController extends BaseController
             }
     
             if($request->front_id){
-                $front_id_binary = $request->front_id;
+                $front_id_binary = base64_decode($request->front_id);
                 $front_id_link = time().'.' . explode('/', explode(':', substr($front_id_binary, 0, strpos($front_id_binary, ';')))[1])[1];
                 
                 if(!File::exists('uploads/frontID/'.$front_id_link)) {
@@ -98,7 +98,7 @@ class VisitorsController extends BaseController
             }
     
             if($request->back_id){
-                $back_id_binary = $request->back_id;
+                $back_id_binary = base64_decode($request->back_id);
                 $back_id_link = time().'.' . explode('/', explode(':', substr($back_id_binary, 0, strpos($back_id_binary, ';')))[1])[1];
                 
                 if(!File::exists('uploads/backID/'.$back_id_link)) {

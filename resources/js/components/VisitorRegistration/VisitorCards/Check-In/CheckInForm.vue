@@ -518,7 +518,7 @@ export default {
         },
 
         sendEmail() {
-            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id + '&emailPurpose=checkin')
+            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id + '&emailPurpose=' + 'checkin')
                 .then((data) => {
                     store.setHiddenParam(store.hiddenID);
                     this.$router.push('/visitor-registration/success/checkin/' + this.id);

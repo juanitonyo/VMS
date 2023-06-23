@@ -166,7 +166,7 @@
                             <p>{{ this.account.checked_in_by == null ? 'N/A' : this.account.checked_in_by }}</p>
                             <p>{{ this.account.created_at == this.account.updated_at ? 'Not Yet' :
                                 moment(this.account.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
-                            <p></p>
+                            <p>{{ this.account.checked_out_by == null ? 'N/A' : this.account.checked_out_by }}</p>
                             <p>N/A</p>
                             <p>N/A</p>
                             <p>N/A</p>
@@ -436,34 +436,34 @@ export default {
             }
 
             else if(triggered == 'Check Out') {
-                this.log.checked_out_by = userAuthStore().user.name
+                this.log.checked_out_by = userAuthStore().user.name + ' [System Manager]'
                 this.log.is_checked_out = 1
                 console.log(this.log.checked_out_by)
             }
 
-            // axios.put("/api/visitor-logs/" + this.log.visitor.id, {
-            //     params: {
-            //         data: this.log
-            //     }
-            // }).then((data) => {
-            //     this.$Progress.finish();
-            //     this.getData();
-            //     this.show = !this.show
-            //     createToast({
-            //         title: 'Success!',
-            //         description: 'Data has been updated.'
-            //     },
-            //         {
-            //             position: 'top-left',
-            //             showIcon: 'true',
-            //             type: 'success',
-            //             toastBackgroundColor: '#00bcd4',
-            //             hideProgressBar: 'true',
-            //             toastBackgroundColor: '#00bcd4',
-            //         })
-            // }).catch((error) => {
-            //     this.$Progress.fail();
-            // })
+            axios.put("/api/visitor-logs/" + this.log.visitor.id, {
+                params: {
+                    data: this.log
+                }
+            }).then((data) => {
+                this.$Progress.finish();
+                this.getData();
+                this.show = !this.show
+                createToast({
+                    title: 'Success!',
+                    description: 'Data has been updated.'
+                },
+                    {
+                        position: 'top-left',
+                        showIcon: 'true',
+                        type: 'success',
+                        toastBackgroundColor: '#00bcd4',
+                        hideProgressBar: 'true',
+                        toastBackgroundColor: '#00bcd4',
+                    })
+            }).catch((error) => {
+                this.$Progress.fail();
+            })
         },
 
         forBuilding() {
