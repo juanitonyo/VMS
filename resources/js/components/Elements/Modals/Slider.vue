@@ -11,11 +11,11 @@
                     <div class="bg-gray-900 py-6 px-4 sm:px-6 rounded-tl-md">
                       <div class="flex items-center justify-between">
                         <DialogTitle class="text-base font-semibold leading-6 text-white">{{ title }}</DialogTitle>
-                        <div class="ml-3 flex h-7 items-center">
+                        <!-- <div class="ml-3 flex h-7 items-center">
                           <button type="button" class="rounded-md text-white" @click="setOpen = false">
                             <p class="text-lg font-bold"> X </p>
                           </button>
-                        </div>
+                        </div> -->
                       </div>
                       <div class="mt-1">
                         <p class="text-sm text-gray-200">{{ description }}</p>
