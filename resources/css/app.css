@@ -49,23 +49,27 @@
     font-size: 9px;
 }
 
-.check_purpose::placeholder{
-    font-size: 9px;
+.check_purpose .vs__search::placeholder{
     color: #808080;
 }
 
-.check_purpose::placeholder:focus{
+/* .check_purpose::placeholder{
     font-size: 9px;
     color: #808080;
-}
+} */
 
 .check_purpose .vs__dropdown-toggle{
     height:28px; 
     border: none;
 }
 
-.check_purpose .vs__search::placeholder{
-    color: gray;
+.check_purpose .vs__dropdown-menu{
+    max-height: 110px;
+    color: black;
+}
+
+.check_purpose .vs__selected{
+    height: 20px;
 }
 
 .withguest::placeholder{

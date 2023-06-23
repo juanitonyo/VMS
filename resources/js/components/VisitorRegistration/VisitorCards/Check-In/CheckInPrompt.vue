@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-center items-center">
-        <div class="flex flex-col items-center justify-evenly w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
+    <div class="flex justify-center items-center min-h-screen min-w-screen">
+        <div class="flex flex-col items-center justify-center space-y-20">
 
             <img src="/logo/vms_logo.png" class="w-[250px] h-[93.64px]">
 
@@ -90,14 +90,14 @@ export default {
                 .then((data) => {
                     this.account = data.data.data;
 
-                    if(this.account == null) { 
+                    if (this.account == null) {
                         this.$router.push('/visitor-registration/signIn/reg/' + this.id);
                     }
 
-                    else if(this.account.status) {
+                    else if (this.account.status) {
                         store.setHiddenParam(this.account.id);
 
-                        if(this.account.latest_log == null || this.account.latest_log.is_checked_out) {
+                        if (this.account.latest_log == null || this.account.latest_log.is_checked_out) {
                             this.$router.push('/visitor-registration/checkin/' + this.id);
                         }
                         else if (!this.account.latest_log.is_checked_out) {
@@ -111,7 +111,7 @@ export default {
 
                 })
                 .catch((error) => {
-                    
+
                 });
         },
 
