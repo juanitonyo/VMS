@@ -1,117 +1,111 @@
 <template>
-    <div class="flex justify-center items-center">
-
-        <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
-            <div class="flex flex-col items-center gap-y-5">
-                <div class="flex justify-end items-center w-[360px] h-10 mt-8">
-                    <button @click.prevent="isPop()">
-                        <img src="/Visitor_Homepage_Assets/hamburgerMenu.png" alt="No Photo">
-                    </button>
-                </div>
-
-                <div class="flex flex-col gap-y-2 items-center justify-center">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                    <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
-                </div>
-
-                <div class="flex flex-row mt-4 gap-x-5">
-                    <img :src="'/uploads/profiles/' + this.visitor.profilePhoto" alt="Photo not available"
-                        class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
-                    <div class="flex flex-col justify-center pl-2 w-36">
-                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
-                        }}</p>
-                        <p class="text-[9px] text-blue-800 font-light">Visit: Invitee</p>
-                        <p class="text-[9px] text-blue-800 font-light">Status: Pending Approval</p>
-                    </div>
-                </div>
-
-                <form>
-                    <div class="check_purpose space-y-3 mt-5">
-                        <v-select id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
-                            :options="purpose" label="label"
-                            class="text-[10px] border border-blue-700 rounded-[3px] pl-1 h-[28px] w-80"></v-select>
-                        <input type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
-                            class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-3 pt-1 pb-[80px] w-80">
-                    </div>
-
-                    <p class="text-sm text-blue-900 font-semibold leading-[20px] mt-5">Person To Visit</p>
-
-                    <div class="space-y-3">
-                        <div class="flex flex-col mt-4 gap-y-3">
-
-                            <div class="flex flex-row items-center justify-between">
-                                <label for="unitOwner" class="text-[10px] text-gray-500 mr-5">Unit Owner's Name</label>
-                                <input type="text"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[207px]">
-                            </div>
-
-                            <div class="flex flex-row items-center justify-between">
-                                <label for="propertyAddress" class="text-[10px] text-gray-500 mr-5">Property Address</label>
-                                <input type="text"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[207px]">
-                            </div>
-
-                            <div class="flex flex-row items-center justify-between">
-                                <label for="contact" class="text-[10px] text-gray-500 mr-5">Mobile Number</label>
-                                <input type="tel"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[207px]">
-                            </div>
-
-                        </div>
-                    </div>
-
-
-                    <!-- show only when status approved -->
-                    <div v-show="status == true">
-                        <p class="text-sm text-blue-900 font-semibold leading-[20px] my-3">How are you feeling today?</p>
-
-                        <div class="flex gap-x-3">
-
-                            <button
-                                class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
-                                @click="isGood" type="button">
-                                <img src="/Visitor_Homepage_Assets/happy.png" class="w-[36px] h-[35px]">
-                                <span class="text-[10px] text-gray-500">I am prefectly fine</span>
-                            </button>
-
-                            <button
-                                class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
-                                @click.prevent="isOpen()">
-                                <img src="/Visitor_Homepage_Assets/sad.png" class="w-[36px] h-[35px]">
-                                <span class="text-[10px] text-gray-500">I feel not so good today</span>
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                    <div v-show="goodHealth"
-                        class="relative flex flex-row items-center justify-center w-[320px] text-gray-600 font-extralight mt-5 gap-x-3">
-                        <input type="checkbox" class="absolute top-1 left-0 w-5 h-5 " @change="isChecked()">
-                        <span class=" ml-8 text-[11px] leading-4">I hereby affirm that I am in good physical condition and
-                            do
-                            not suffer from any COVID-19 symptoms which would prevent on reporting physically in my office /
-                            work station/ project site..
-                        </span>
-                    </div>
-
-                    <div v-show="badHealth" class="flex justify-end mt-5">
-                        <a href="#" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view form</a>
-                    </div>
-
-                    <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
-                        <router-link :to="enableButton ? '/visitor-registration/success/invite/' + this.id : '/#'">
-                            <input type="submit" value="Next" :disabled="!enableButton"
-                                :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
-                                class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
-                        </router-link>
-                        <router-link :to="'/visitor-registration/SignIn/invite/' + this.id"
-                            class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                    </div>
-
-                </form>
-
+    <div class="flex justify-center items-center min-h-screen min-w-screen">
+        <div class="flex flex-col items-center justify-center gap-y-5 mx-12">
+            <div class="self-end mt-8">
+                <button @click.prevent="isPop()">
+                    <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
+                </button>
             </div>
+
+            <div class="flex flex-col gap-y-2 items-center justify-center">
+                <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
+                <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
+            </div>
+
+            <div class="flex flex-row mt-4 gap-x-5">
+                <img :src="'/uploads/profiles/' + this.visitor.profilePhoto" alt="Photo not available"
+                    class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
+                <div class="flex flex-col justify-center pl-2 w-36">
+                    <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
+                    }}</p>
+                    <p class="text-[9px] text-blue-800 font-light">Visit: Invitee</p>
+                    <p class="text-[9px] text-blue-800 font-light">Status: Pending Approval</p>
+                </div>
+            </div>
+
+            <form>
+                <div class="check_purpose space-y-3 mt-5">
+                    <v-select id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
+                        :options="purpose" label="label"
+                        class="text-[10px] border border-blue-700 rounded-[3px] pl-1 h-[28px] w-80"></v-select>
+                    <input type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
+                        class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-3 pt-1 pb-[80px] w-80">
+                </div>
+
+                <p class="text-sm text-blue-900 font-semibold leading-[20px] mt-5">Person To Visit</p>
+
+                <div class="space-y-3">
+                    <div class="flex flex-col mt-4 gap-y-3">
+
+                        <div class="flex flex-row items-center justify-between">
+                            <label for="unitOwner" class="text-[10px] text-gray-500 mr-5">Unit Owner's Name</label>
+                            <input type="text"
+                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[207px]">
+                        </div>
+
+                        <div class="flex flex-row items-center justify-between">
+                            <label for="propertyAddress" class="text-[10px] text-gray-500 mr-5">Property Address</label>
+                            <input type="text"
+                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[207px]">
+                        </div>
+
+                        <div class="flex flex-row items-center justify-between">
+                            <label for="contact" class="text-[10px] text-gray-500 mr-5">Mobile Number</label>
+                            <input type="tel"
+                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[207px]">
+                        </div>
+
+                    </div>
+                </div>
+
+                <!-- show only when status approved -->
+                <div v-show="status == true">
+                    <p class="text-sm text-blue-900 font-semibold leading-[20px] my-3">How are you feeling today?</p>
+
+                    <div class="flex gap-x-3">
+
+                        <button
+                            class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
+                            @click="isGood" type="button">
+                            <img src="/Visitor_Homepage_Assets/happy.png" class="w-[36px] h-[35px]">
+                            <span class="text-[10px] text-gray-500">I am prefectly fine</span>
+                        </button>
+
+                        <button
+                            class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
+                            @click.prevent="isOpen()">
+                            <img src="/Visitor_Homepage_Assets/sad.png" class="w-[36px] h-[35px]">
+                            <span class="text-[10px] text-gray-500">I feel not so good today</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div v-show="goodHealth"
+                    class="relative flex flex-row items-center justify-center w-[320px] text-gray-600 font-extralight mt-5 gap-x-3">
+                    <input type="checkbox" class="absolute top-1 left-0 w-5 h-5 " @change="isChecked()">
+                    <span class=" ml-8 text-[11px] leading-4">I hereby affirm that I am in good physical condition and
+                        do
+                        not suffer from any COVID-19 symptoms which would prevent on reporting physically in my office /
+                        work station/ project site..
+                    </span>
+                </div>
+
+                <div v-show="badHealth" class="flex justify-end mt-5">
+                    <a href="#" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view form</a>
+                </div>
+
+                <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
+                    <router-link :to="enableButton ? '/visitor-registration/success/invite/' + this.id : '/#'">
+                        <input type="submit" value="Next" :disabled="!enableButton"
+                            :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
+                            class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
+                    </router-link>
+                    <router-link :to="'/visitor-registration/SignIn/invite/' + this.id"
+                        class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -245,8 +239,7 @@
                 <div class="mt-3">
                     <div class="flex flex-row items-center justify-center">
                         <label for="fullname" class="text-[10px] text-gray-500 w-[144px]">Type</label>
-                        <p
-                            class="text-[10px] border rounded-[3px] border-blue-700 h-[28px] py-1.5 pl-2 w-full">
+                        <p class="text-[10px] border rounded-[3px] border-blue-700 h-[28px] py-1.5 pl-2 w-full">
                             {{ this.permission != null ? 'Invitee' : 'Walk-In' }}</p>
                     </div>
                 </div>
@@ -261,8 +254,7 @@
                 <div class="mt-3 ">
                     <div class="flex flex-row justify-center items-center">
                         <label for="contact" class="text-[10px] text-gray-500 w-[144px]">Approved</label>
-                        <p
-                            class="text-[10px] border rounded-[3px] border-blue-700 h-[28px] py-1.5 pl-2 w-full">
+                        <p class="text-[10px] border rounded-[3px] border-blue-700 h-[28px] py-1.5 pl-2 w-full">
                             {{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
                     </div>
                 </div>

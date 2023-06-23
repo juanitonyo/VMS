@@ -67,7 +67,7 @@ export default {
     created() {
         this.getData();
         this.moment = moment;
-        setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 5000);
+        // setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 5000);
     }
 }
 </script>

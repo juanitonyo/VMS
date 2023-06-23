@@ -20,6 +20,3 @@
                         <tr>
                             <td style="width:8px"></td>
                             <td>
-                                <div style="border-style:solid;border-width:thin;border-color:#dadce0;border-radius:8px;padding:40px 20px"
-                                    align="center">
-			

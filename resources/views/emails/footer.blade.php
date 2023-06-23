@@ -1,9 +1,3 @@
-<hr style="margin-top: 32px; color: rgb(212, 206, 206)">
-
-<div align="left">
-    <p>Stay Safe and Healthy!</p>
-    <p>From, {{ $mailData['building_name'] }}!</p>
-</div>
 </div>
 </td>
 <td style="width:8px"></td>
