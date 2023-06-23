@@ -14,8 +14,8 @@
                         leave-from="opacity-100 translate-y-0 sm:scale-100"
                         leave-to="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95">
                         <DialogPanel
-                            class="transform rounded-2xl bg-white text-left shadow-xl transition-all">
-                            <div class="flex flex-col p-5 w-96">
+                            class="w-[380px] p-6 transform rounded-2xl bg-white text-left shadow-xl transition-all">
+                            <div class="flex flex-col">
                                 <button @click.prevent="isOpen = false" class="flex self-end w-5">
                                     <XMarkIcon class="w-6 text-blue-800"/>
                                 </button>

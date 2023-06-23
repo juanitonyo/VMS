@@ -1,13 +1,13 @@
 <template>
-    <div class="flex justify-center items-center">
-        <div class="flex flex-col items-center justify-evenly w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
+    <div class="flex justify-center items-center min-h-screen min-w-screen">
+        <div class="flex flex-col items-center justify-center space-y-20">
 
             <img src="/logo/vms_logo.png" class="w-[250px] h-[93.64px]">
 
             <div class="flex flex-col">
                 <div class="text-center">
                     <h2 class="text-2xl font-black tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                    <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
+                    <h4 class="text-gray-400 text-[10px] text-center w-80">{{ this.buildings.address }}</h4>
                 </div>
             </div>
 
@@ -16,7 +16,7 @@
                         href="#" class="underline text-blue-800 font-bold">Privacy Policy</a> and <a href="#"
                         class="underline text-blue-800 font-bold">Terms of Use</a></p>
 
-                <button type="button"
+                <a href="/login-google" type="button"
                     class="text-white bg-red-500 hover:bg-red-500/90 focus:ring-2 focus:outline-none focus:ring-red-500/50 font-medium rounded-lg text-xs py-2.5 mt-3 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full">
                     <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
                         data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
@@ -55,6 +55,7 @@
 
 <script>
 import axios from 'axios';
+import { Form } from 'vform';
 import buttonToInput from '../../../Elements/Buttons/buttonToInput.vue'
 import { useStore } from '../../../../store/visitor';
 import { createToast } from "mosha-vue-toastify";
@@ -62,27 +63,30 @@ import { createToast } from "mosha-vue-toastify";
 const store = useStore();
 
 export default {
-    name: 'Invite Sign In / Prompt',
+    name: 'Check In Prompt',
+
+    components: {
+        buttonToInput,
+    },
     props: {
         data: {
             type: Array,
             default: []
         },
     },
-
-    components: {
-        buttonToInput,
-    },
     data() {
         return {
             data: {},
             id: window.location.href.split('/').pop(),
+            given: '',
+            account: {},
+            log: {},
             buildings: {},
             given: ''
         }
     },
-
     methods: {
+
         async isExisting() {
             await axios.get('/api/get-invitation?given=' + this.given + '&building_id=' + this.buildings.id)
                 .then((data) => {
@@ -117,7 +121,6 @@ export default {
                 });
         }
     },
-
     created() {
         this.getData();
     },

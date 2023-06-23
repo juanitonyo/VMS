@@ -7,12 +7,6 @@
                     <p class="mt-2 text-xs text-gray-700">Log of all visitors in the database</p>
                 </div>
 
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none" v-if="permissions.create">
-                    <button type="button" @click.prevent="setPop()"
-                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Send
-                        Invitation</button>
-                </div>
-
             </div>
             <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -191,106 +185,6 @@
         </template>
     </SliderVue>
 
-    <SliderVue :setOpen="pop" :title="'Send Invitation'" :description="'Invite someone to your location'">
-        <template v-slot:slider-body>
-            <form @submit.prevent="saveInvitation">
-                <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
-                    <div class="my-4 grid grid-cols-1">
-
-                        <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.email" label="Email" id="email"
-                                :hasError="this.editMode ? false : form.errors.has('email')"
-                                :errorMessage="this.editMode ? false : form.errors.get('email')"></NormalInput>
-                        </div>
-
-                        <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.first_name" label="First Name" id="first_name"
-                                :hasError="this.editMode ? false : form.errors.has('first_name')"
-                                :errorMessage="this.editMode ? false : form.errors.get('first_name')"></NormalInput>
-                        </div>
-
-
-                        <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.last_name" label="Last Name" id="last_name"
-                                :hasError="this.editMode ? false : form.errors.has('last_name')"
-                                :errorMessage="this.editMode ? false : form.errors.get('last_name')"></NormalInput>
-                        </div>
-
-                        <div class="sliderPurpose sm:col-span-3 mt-3">
-                            <div class="flex justify-between">
-                                <label for="building"
-                                    class="block text-sm font-medium leading-6 text-gray-900">Building</label>
-                                <span v-show="this.editMode ? false : form.errors.has('building')"
-                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forBuilding() }}</span>
-                            </div>
-                            <v-select v-model="form.building_id" placeholder="Search" :options="building" label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('building') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
-                        </div>
-
-                        <div class="sliderPurpose sm:col-span-3 mt-3">
-                            <div class="flex justify-between">
-                                <label for="visit_type" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
-                                    Visit</label>
-                                <span v-show="this.editMode ? false : form.errors.has('visit_type')"
-                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forVisitType() }}</span>
-                            </div>
-                            <v-select v-model="form.visit_purpose_id" placeholder="Search" :options="visit_type"
-                                label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('visit_type') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
-                        </div>
-
-                        <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.location" label="Location" id="location"
-                                :hasError="this.editMode ? false : form.errors.has('location')"
-                                :errorMessage="this.editMode ? false : form.errors.get('location')"></NormalInput>
-                        </div>
-
-                        <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.contact" label="Contact" id="contact"
-                                :hasError="this.editMode ? false : form.errors.has('contact')"
-                                :errorMessage="this.editMode ? false : form.errors.get('contact')"></NormalInput>
-                        </div>
-
-                        <div class="sm:col-span-3 mt-3">
-                            <div class="flex justify-between">
-                                <label class="block text-sm font-medium leading-6 text-gray-900">Companion/s</label>
-                                <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
-                                    v-if="form.errors.has('companion')" v-html="form.errors.get('companion')" />
-                            </div>
-                            <textarea v-model="form.companions"
-                                class="focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300"
-                                :class="this.editMode ? ' ' : [form.errors.has('companion') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white']"></textarea>
-                            <p class="text-gray-500 text-[10px] text-left italic font-light">Note: Please type the name/s of
-                                the companion. If multiple names, seperate each with a comma ( , ).</p>
-                        </div>
-
-                        <div class="sm:col-span-3 mt-3">
-                            <!-- <NormalInput label="Target Date / Time" id="dateTime"
-                                :hasError="this.editMode ? false : form.errors.has('dateTime')"
-                                :errorMessage="this.editMode ? false : form.errors.get('dateTime')"></NormalInput> -->
-                            <div class="flex justify-between">
-                                <label class="block text-sm font-medium leading-6 text-gray-900">Target Date</label>
-                                <div class="text-[10px] text-red-600 dark:text-red-500 mt-1" v-if="form.errors.has('date')"
-                                    v-html="form.errors.get('date')" />
-                            </div>
-                            <input v-model="form.target_date" type="date"
-                                :class="this.editMode ? ' ' : [form.errors.has('date') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white', 'focus:outline-none px-3 py-2 text-xs w-full rounded-md border border-gray-300']" />
-                        </div>
-
-
-                    </div>
-                </div>
-                <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
-                    <button type="button"
-                        class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                        @click="setPop">Cancel</button>
-                    <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">Send</button>
-                </div>
-            </form>
-        </template>
-    </SliderVue>
-
     <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
 
@@ -322,7 +216,6 @@ import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
 import moment from 'moment';
-import Form from 'vform';
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 
 export default {
@@ -340,21 +233,8 @@ export default {
             log: {},
             editMode: false,
             open: false,
-            pop: false,
             isChanged: false,
             account: {},
-            form: new Form({
-                email: '',
-                first_name: '',
-                last_name: '',
-                building_id: '',
-                visit_purpose_id: '',
-                location: '',
-                contact: '',
-                companions: '',
-                target_date: ''
-            }),
-            visit_type: [],
             building: [],
             show: false,
             statusChoice: ''
@@ -373,9 +253,6 @@ export default {
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
-        },
-        setPop() {
-            this.pop = !this.pop;
         },
 
         setShow(choice, item) {
@@ -472,39 +349,9 @@ export default {
                 this.$Progress.fail();
             })
         },
-
-        forBuilding() {
-            return this.editMode ? ' ' : this.form.errors.get('building')
-        },
-
-        forVisitType() {
-            return this.editMode ? ' ' : this.form.errors.get('visit_type')
-        },
-
-        async syncVisitType() {
-            await axios.get('/api/get-visit-types/')
-                .then((data) => {
-                    this.visit_type = data.data.data;
-                })
-                .catch((e) => {
-
-                });
-        },
-
-        async syncBuilding() {
-            await axios.get('/api/get-buildings/')
-                .then((data) => {
-                    this.building = data.data.data;
-                })
-                .catch((e) => {
-
-                });
-        },
     },
     created() {
         this.getData();
-        this.syncVisitType();
-        this.syncBuilding();
         this.moment = moment;
     },
     beforeMount() {

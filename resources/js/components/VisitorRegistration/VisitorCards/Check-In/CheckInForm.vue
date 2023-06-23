@@ -1,150 +1,147 @@
 <template>
-    <div class="flex justify-center items-center">
-        <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
-            <div class="flex flex-col items-center gap-y-5">
-                <div class="flex justify-end items-center w-[360px] h-10 mt-8">
-                    <button @click.prevent="isPop()">
-                        <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
-                    </button>
-                </div>
-
-                <div class="flex flex-col gap-y-2 items-center justify-center">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                    <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
-                </div>
-
-                <div class="flex flex-row mt-4 gap-x-5">
-                    <img :src="this.profile_url" alt="Photo not available"
-                        class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
-                    <div class="flex flex-col justify-center pl-2 w-36">
-                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
-                        }}</p>
-                        <p class="text-[9px] text-blue-800 font-light">Visit: Walk-In</p>
-                        <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' :
-                            'Pending Approval' }}</p>
-                    </div>
-                </div>
-
-                <form @submit.prevent="checkInVisitor()">
-                    <div class="check_purpose space-y-3 mt-5">
-                        <v-select v-model="this.selectedPurpose" id="dropdown" :placeholder="'What is the purpose of your visit? Tap here to select'"
-                            :options="visitType" label="label"
-                            class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
-                        <!-- split the companions -->
-                        <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
-                            class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
-                    </div>
-                    <div v-show="this.selectedPurpose != null && this.selectedPurpose.personToVisit">
-                        <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
-
-                        <div class="flex flex-row mt-2 gap-x-3">
-                            <div class="buildingSelect flex flex-col gap-y-1">
-                                <label for="buildingName" class="text-gray-400 text-[10px]">Building/Phase</label>
-                                <v-select id="dropdown" :options="purpose" label="label"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[165px]"></v-select>
-                            </div>
-
-                            <div class="flex flex-col gap-y-1">
-                                <label for="flrBlk" class="text-gray-400 text-[10px]">Floor/Block</label>
-                                <input type="text"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
-                            </div>
-
-                            <div class="flex flex-col gap-y-1">
-                                <label for="unitLot" class="text-gray-400 text-[10px]">Unit/Lot</label>
-                                <input type="text"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
-                            </div>
-                        </div>
-
-                        <div class="host flex flex-col space-y-2 mt-3">
-                            <input type="text" disabled value="" placeholder="Principal buyer's details"
-                                class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
-                            <input type="text" disabled value="" placeholder="Principal buyer’s contact number"
-                                class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
-                            <label for="visitName" class="text-gray-400 text-[10px]">
-                                <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
-                                class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80"> -->
-                                <v-select v-model="this.selectedUnitOwner" id="dropdown" :options="unitOwners" label="label"
-                                    :placeholder="'Who will you visit? Enter the host’s name here'"
-                                    class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
-                            </label>
-                            <label for="visitContact" class="text-gray-400 text-[10px]">
-                                <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
-                                    class="text-[9px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80">
-                            </label>
-                        </div>
-                    </div>
-
-                    <div>
-                        <p class="text-xs text-blue-900 font-semibold leading-[20px] my-3">How are you feeling today?</p>
-
-                        <div class="flex gap-x-3 w-80">
-
-                            <button :disabled="good" :class="badHealth ? '' : 'hover:scale-105 ease-in-out duration-300'"
-                                class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 focus:border-2 focus:border-blue-500 focus:scale-105"
-                                @click="isGood" type="button">
-                                <img src="/Visitor_Homepage_Assets/happy.png" class="w-[36px] h-[35px]">
-                                <span class="text-[10px] text-gray-500">I am prefectly fine</span>
-                            </button>
-
-                            <button
-                                class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
-                                @click="isBad" type="button" v-on:blur="">
-                                <img src="/Visitor_Homepage_Assets/sad.png" class="w-[36px] h-[35px]">
-                                <span class="text-[10px] text-gray-500">I feel not so good today</span>
-                            </button>
-
-                        </div>
-
-                    </div>
-
-                    <div v-show="goodHealth"
-                        class="relative flex flex-row items-center justify-center w-[320px] text-gray-600 font-extralight mt-5 gap-x-3">
-                        <input type="checkbox" class="absolute top-1 left-0 w-5 h-5" @change="isChecked()">
-                        <span class=" ml-8 text-[11px] leading-4">I hereby affirm that I am in good physical condition and
-                            do
-                            not suffer from any COVID-19 symptoms which would prevent on reporting physically in my office /
-                            work station/ project site..
-                        </span>
-                    </div>
-
-                    <div class="flex justify-end mt-5">
-                        <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view
-                            form</button>
-                    </div>
-
-                    <!-- if no hdf, stay here. else single-->
-                    <div 
-                        class="relative flex flex-row items-center justify-center w-[310px] text-gray-600 font-extralight mt-3 gap-x-3">
-                        <input type="checkbox" class="absolute top-0 left-0 w-5 h-5" @change="isChecked()">
-                        <span class="ml-10 text-[10px] leading-4">By supplying the information on VMS registration form, I
-                            affirm
-                            that I have read,
-                            understood and
-                            hereby
-                            accept the terms of Globalland Property Management, Inc. (“Company”) <a href=""
-                                class="underline text-blue-700 font-semibold"> Web Application Privacy Policy</a> and
-                            I
-                            hereby consent to the collection, use, storage, processing, retention and disclosure by the
-                            Company
-                            of
-                            all
-                            the personal information (hereafter, “Personal Information”) I may have provided herein.
-                        </span>
-                    </div>
-
-                    <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
-                        <button type="submit" :disabled="!enableButton"
-                            :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
-                            class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
-                            Check In
-                        </button>
-                        <router-link :to="'/visitor-registration/SignIn/checkin/' + this.id"
-                            class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
-                    </div>
-                </form>
+    <div class="flex justify-center items-center min-h-screen min-w-screen">
+        <div class="flex flex-col items-center justify-center gap-y-5 mx-12">
+            <div class="self-end mt-8">
+                <button @click.prevent="isPop()">
+                    <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
+                </button>
             </div>
+
+            <div class="flex flex-col gap-y-2 items-center justify-center">
+                <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
+                <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
+            </div>
+
+            <div class="flex flex-row mt-4 gap-x-5">
+                <img :src="this.profile_url" alt="Photo not available"
+                    class="flex items-center justify-center w-20 h-20 rounded-full border border-slate-200 text-[10px] text-center">
+                <div class="flex flex-col justify-center pl-2 w-36">
+                    <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
+                    }}</p>
+                    <p class="text-[9px] text-blue-800 font-light">Visit: Walk-In</p>
+                    <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' :
+                        'Pending Approval' }}</p>
+                </div>
+            </div>
+
+            <form @submit.prevent="checkInVisitor()">
+                <div class="check_purpose space-y-3 mt-5">
+                    <v-select v-model="this.selectedPurpose" id="dropdown"
+                        :placeholder="'What is the purpose of your visit? Tap here to select'" :options="visitType"
+                        label="label" class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
+                    <!-- split the companions -->
+                    <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
+                        class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
+                </div>
+                <div v-show="this.selectedPurpose != null && this.selectedPurpose.personToVisit">
+                    <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
+
+                    <div class="flex flex-row mt-2 gap-x-3">
+                        <div class="buildingSelect flex flex-col gap-y-1">
+                            <label for="buildingName" class="text-gray-400 text-[10px]">Building/Phase</label>
+                            <v-select id="dropdown" :options="purpose" label="label"
+                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[165px]"></v-select>
+                        </div>
+
+                        <div class="flex flex-col gap-y-1">
+                            <label for="flrBlk" class="text-gray-400 text-[10px]">Floor/Block</label>
+                            <input type="text"
+                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
+                        </div>
+
+                        <div class="flex flex-col gap-y-1">
+                            <label for="unitLot" class="text-gray-400 text-[10px]">Unit/Lot</label>
+                            <input type="text"
+                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
+                        </div>
+                    </div>
+
+                    <div class="check_purpose flex flex-col space-y-2 mt-3">
+                        <input type="text" disabled value="" placeholder="Principal buyer's details"
+                            class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
+                        <input type="text" disabled value="" placeholder="Principal buyer’s contact number"
+                            class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
+                        <label for="visitName" class="text-gray-400 text-[10px]">
+                            <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
+                                class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80"> -->
+                            <v-select v-model="this.selectedUnitOwner" id="dropdown" :options="unitOwners" label="label"
+                                :placeholder="'Who will you visit? Enter the host’s name here'"
+                                class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
+                        </label>
+                        <label for="visitContact" class="text-gray-400 text-[10px]">
+                            <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
+                                class="text-[9px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80">
+                        </label>
+                    </div>
+                </div>
+
+                <div>
+                    <p class="text-xs text-blue-900 font-semibold leading-[20px] my-3">How are you feeling today?</p>
+
+                    <div class="flex gap-x-3 w-80">
+
+                        <button :disabled="good" :class="badHealth ? '' : 'hover:scale-105 ease-in-out duration-300'"
+                            class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 focus:border-2 focus:border-blue-500 focus:scale-105"
+                            @click="isGood" type="button">
+                            <img src="/Visitor_Homepage_Assets/happy.png" class="w-[36px] h-[35px]">
+                            <span class="text-[10px] text-gray-500">I am prefectly fine</span>
+                        </button>
+
+                        <button
+                            class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
+                            @click="isBad" type="button" v-on:blur="">
+                            <img src="/Visitor_Homepage_Assets/sad.png" class="w-[36px] h-[35px]">
+                            <span class="text-[10px] text-gray-500">I feel not so good today</span>
+                        </button>
+
+                    </div>
+
+                </div>
+
+                <div v-show="goodHealth"
+                    class="relative flex flex-row items-center justify-center w-[320px] text-gray-600 font-extralight mt-5 gap-x-3">
+                    <input type="checkbox" class="absolute top-1 left-0 w-5 h-5" @change="isChecked()">
+                    <span class=" ml-8 text-[11px] leading-4">I hereby affirm that I am in good physical condition and
+                        do
+                        not suffer from any COVID-19 symptoms which would prevent on reporting physically in my office /
+                        work station/ project site..
+                    </span>
+                </div>
+
+                <div class="flex justify-end mt-5">
+                    <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view
+                        form</button>
+                </div>
+
+                <!-- if no hdf, stay here. else single-->
+                <div
+                    class="relative flex flex-row items-center justify-center w-[310px] text-gray-600 font-extralight mt-3 gap-x-3">
+                    <input type="checkbox" class="absolute top-0 left-0 w-5 h-5" @change="isChecked()">
+                    <span class="ml-10 text-[10px] leading-4">By supplying the information on VMS registration form, I
+                        affirm
+                        that I have read,
+                        understood and
+                        hereby
+                        accept the terms of Globalland Property Management, Inc. (“Company”) <a href=""
+                            class="underline text-blue-700 font-semibold"> Web Application Privacy Policy</a> and
+                        I
+                        hereby consent to the collection, use, storage, processing, retention and disclosure by the
+                        Company
+                        of
+                        all
+                        the personal information (hereafter, “Personal Information”) I may have provided herein.
+                    </span>
+                </div>
+
+                <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
+                    <button type="submit" :disabled="!enableButton" :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
+                        class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
+                        Check In
+                    </button>
+                    <router-link :to="'/visitor-registration/SignIn/checkin/' + this.id"
+                        class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
+                </div>
+            </form>
         </div>
     </div>
 
@@ -166,7 +163,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-col justify-center mx-[12px]">
+            <div class="flex flex-col justify-center">
                 <div class="flex flex-col mt-8 ">
                     <div class="flex flex-row items-center justify-center">
                         <label for="fullname" class="text-[10px] text-gray-500 w-[144px]">Name</label>
@@ -267,13 +264,14 @@
 
                 <div class="w-full flex h-[45px] gap-x-3 shadow-sm shadow-slate-400 p-2 rounded-md select-none"
                     v-for="symptom in this.symptoms">
-                <input v-model="symptom.state" type="checkbox" v-bind:id="symptoms.id" v-on:click="saveToArray(symptom.id)">
-                <img :src="symptom.image">
-                <div class="flex flex-col">
-                    <p class="text-xs font-bold">{{ symptom.eng }}</p>
-                    <p class="text-xs italic text-gray-500">{{ symptom.tag }}</p>
+                    <input v-model="symptom.state" type="checkbox" v-bind:id="symptoms.id"
+                        v-on:click="saveToArray(symptom.id)">
+                    <img :src="symptom.image">
+                    <div class="flex flex-col">
+                        <p class="text-xs font-bold">{{ symptom.eng }}</p>
+                        <p class="text-xs italic text-gray-500">{{ symptom.tag }}</p>
+                    </div>
                 </div>
-            </div>
 
                 <div class="relative">
                     <div class="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
@@ -595,10 +593,10 @@ export default {
         },
 
         saveToArray(id) {
-            if(this.health_form.includes(id)){
+            if (this.health_form.includes(id)) {
                 this.health_form.pop(id);
             }
-            else{
+            else {
                 this.health_form.push(id)
             }
         },

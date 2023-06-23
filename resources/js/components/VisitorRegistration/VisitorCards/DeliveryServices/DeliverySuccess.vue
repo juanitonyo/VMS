@@ -1,21 +1,20 @@
 <template>
-    <div class="flex justify-center items-center">
-        <div class="w-[420px] rounded-lg shadow-md shadow-slate-300 min-h-screen">
-            <div class="flex flex-col items-center justify-center w-full min-h-screen gap-y-8">
+    <div class="flex justify-center items-center min-h-screen min-w-screen">
+        <div class="flex flex-col items-center justify-center w-full min-h-screen gap-y-8">
 
-                <div class="text-[10px] text-blue-900 flex flex-col items-center text-center gap-y-3">
-                    <Vue3Lottie animationLink="https://assets1.lottiefiles.com/packages/lf20_rc5d0f61.json" :loop="false" :width="150" :height="150"/>
-                    <p class="text-base tracking-wide text-green-500 font-bold">Checked-In</p>
-                </div>
-                <div class="text-[10px] text-blue-900 flex flex-col text-center">
-                    <p>Time recorded</p>
-                    <p>MMMM DD, YYYY, 0:00 PM</p>
-                </div>
-
-                <router-link :to="'/visitor-registration/index/' + this.id">
-                    <button class="text-xs text-white bg-blue-800 rounded-md pl-3 h-[33px] w-80">Thank You</button>
-                </router-link>
+            <div class="text-[10px] text-blue-900 flex flex-col items-center text-center gap-y-3">
+                <Vue3Lottie animationLink="https://assets1.lottiefiles.com/packages/lf20_rc5d0f61.json" :loop="false"
+                    :width="150" :height="150" />
+                <p class="text-base tracking-wide text-green-500 font-bold">Checked-In</p>
             </div>
+            <div class="text-[10px] text-blue-900 flex flex-col text-center">
+                <p>Time recorded</p>
+                <p>MMMM DD, YYYY, 0:00 PM</p>
+            </div>
+
+            <router-link :to="'/visitor-registration/index/' + this.id">
+                <button class="text-xs text-white bg-blue-800 rounded-md pl-3 h-[33px] w-80">Thank You</button>
+            </router-link>
         </div>
     </div>
 </template>

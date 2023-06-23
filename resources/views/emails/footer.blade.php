@@ -1,3 +1,5 @@
+</div>
+</td>
 <td style="width:8px"></td>
 </tr>
 </tbody>
