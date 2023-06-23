@@ -35,10 +35,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('sync-visitor', 'VisitorsController@syncVisitor');
     Route::get('visitor-query', 'VisitorsController@existingVisitor');
     Route::get('validate-form', 'VisitorsController@validateForm');
-    Route::get('check-otp', 'VisitorsController@checkOTP');
     Route::get('get-index-by-user', 'VisitorsController@getIndexByUser');
-    
-    Route::get('send-otp', 'SMSTemplateController@sendOTP');
     
     Route::get('send-email', 'EmailTemplateController@sendEmail');
     

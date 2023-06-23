@@ -47,14 +47,6 @@ class VisitorsController extends BaseController
         
     }
 
-    public function checkOTP(Request $request) {
-        $data = Visitors::with('building')->where([
-            'remember_otp' => $request->otp,
-            ])->first();
-
-        return $this->sendResponse($data, "Fetched data");
-    }
-
     /**
      * Show the form for creating a new resource.
      */

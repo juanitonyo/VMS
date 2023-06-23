@@ -438,31 +438,32 @@ export default {
             else if(triggered == 'Check Out') {
                 this.log.checked_out_by = userAuthStore().user.name
                 this.log.is_checked_out = 1
+                console.log(this.log.checked_out_by)
             }
 
-            axios.put("/api/visitor-logs/" + this.log.visitor.id, {
-                params: {
-                    data: this.log
-                }
-            }).then((data) => {
-                this.$Progress.finish();
-                this.getData();
-                this.show = !this.show
-                createToast({
-                    title: 'Success!',
-                    description: 'Data has been updated.'
-                },
-                    {
-                        position: 'top-left',
-                        showIcon: 'true',
-                        type: 'success',
-                        toastBackgroundColor: '#00bcd4',
-                        hideProgressBar: 'true',
-                        toastBackgroundColor: '#00bcd4',
-                    })
-            }).catch((error) => {
-                this.$Progress.fail();
-            })
+            // axios.put("/api/visitor-logs/" + this.log.visitor.id, {
+            //     params: {
+            //         data: this.log
+            //     }
+            // }).then((data) => {
+            //     this.$Progress.finish();
+            //     this.getData();
+            //     this.show = !this.show
+            //     createToast({
+            //         title: 'Success!',
+            //         description: 'Data has been updated.'
+            //     },
+            //         {
+            //             position: 'top-left',
+            //             showIcon: 'true',
+            //             type: 'success',
+            //             toastBackgroundColor: '#00bcd4',
+            //             hideProgressBar: 'true',
+            //             toastBackgroundColor: '#00bcd4',
+            //         })
+            // }).catch((error) => {
+            //     this.$Progress.fail();
+            // })
         },
 
         forBuilding() {

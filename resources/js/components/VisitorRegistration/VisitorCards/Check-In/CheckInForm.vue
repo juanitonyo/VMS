@@ -19,8 +19,7 @@
                     <div class="flex flex-col justify-center pl-2 w-36">
                         <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
                         }}</p>
-                        <p class="text-[9px] text-blue-800 font-light">Visit: {{ this.permission.authenticated ? 'Invitee' :
-                            'Walk-In' }}</p>
+                        <p class="text-[9px] text-blue-800 font-light">Visit: Walk-In</p>
                         <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' :
                             'Pending Approval' }}</p>
                     </div>
@@ -507,7 +506,7 @@ export default {
             this.form.building_id = this.visitor.building_id
             this.form.visit_purpose_id = this.selectedPurpose.value
             this.form.user_id = this.selectedUnitOwner.value
-            this.form.log_type = this.permission.authenticated ? 'Invitee' : 'Walk-In'
+            this.form.log_type = 'Walk-In'
             this.form.checked_in_by = this.visitor.name + ' [Visitor]'
 
             this.form.post('/api/visitor-logs/')
@@ -624,7 +623,7 @@ export default {
         this.syncUnitOwners();
         this.moment = moment;
         if (store.hiddenID == null) {
-            this.$router.back();
+            this.$router.push('/visitor-registration/SignIn/checkin/' + this.id);
         }
     },
 }

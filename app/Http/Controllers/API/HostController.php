@@ -84,8 +84,8 @@ class HostController extends BaseController
     public function update(HostRequest $request, $id)
     {
         $data = Host::findOrFail($id)->update([
-            'firstName' => $request->params['data']['firstName'],
-            'lastName' => $request->params['data']['lastName'],
+            'first_name' => $request->params['data']['first_name'],
+            'last_name' => $request->params['data']['last_name'],
             'email' => $request->params['data']['email'],
             'password' => $request->params['data']['password'],
             'location' => $request->params['data']['location'],
