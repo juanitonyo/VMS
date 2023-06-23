@@ -14,4 +14,12 @@
         <tbody>
             <tr style="32px"></tr>
             <tr align="center">
+                <table border="0" cellspacing="0" cellpadding="0"
+                    style="padding-bottom:20px;max-width:516px;min-width:220px">
+                    <tbody>
+                        <tr>
+                            <td style="width:8px"></td>
+                            <td>
+                                <div style="border-style:solid;border-width:thin;border-color:#dadce0;border-radius:8px;padding:40px 20px"
+                                    align="center">
 			

@@ -1,4 +1,5 @@
 @include('emails.header')
+<h2 align="left">Hi there, <span style="font-size: 18px">{{ $mailData['name'] }}!</span></h2>
 <table border="0" cellspacing="0" cellpadding="0"
     style="padding-bottom:20px;max-width:516px;min-width:220px">
     <tbody>

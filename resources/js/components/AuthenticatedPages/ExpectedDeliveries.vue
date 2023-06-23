@@ -6,7 +6,13 @@
                     <h1 class="text-2xl font-extrabold leading-6 text-gray-900">EXPECTED DELIVERIES</h1>
                     <p class="mt-2 text-xs text-gray-700">A catalog of all expected deliveries in the database</p>
                 </div>
+
+                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                    <button type="button"
+                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">Delivery Notifications</button>
+                </div>
             </div>
+
 
             <div class="mt-8 flow-root">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">

@@ -58,7 +58,7 @@
                             </div>
                         </div>
 
-                        <div class="check_purpose flex flex-col space-y-2 mt-3">
+                        <div class="host flex flex-col space-y-2 mt-3">
                             <input type="text" disabled value="" placeholder="Principal buyer's details"
                                 class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
                             <input type="text" disabled value="" placeholder="Principal buyer’s contact number"

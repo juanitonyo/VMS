@@ -211,7 +211,7 @@ const routes = [
                 },
             },
             {
-                name: "invitelog",
+                name: "invite",
                 path: "/app/invite",
                 component: InviteLog,
                 meta: {
