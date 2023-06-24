@@ -11,9 +11,17 @@
                         name, title, email and role.
                     </p>
                 </div>
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex sm:space-x-1 sm:space-y-0 space-y-1 space-x-0">
+                    <button type="button"
+                        class="relative block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white ">
+                        Pending Host
+                        <div class="absolute bottom-auto left-0 right-auto top-0 z-10 inline-block -translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-blue-500 px-2 py-1 text-xs">
+                            7
+                        </div>
+                    </button>
+
                     <button @click.prevent="setOpen" type="button"
-                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white ">
                         Add User
                     </button>
                 </div>
