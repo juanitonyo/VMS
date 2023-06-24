@@ -20,6 +20,7 @@ class Building extends Model
         'building_type',
         'logo',
         'status',
+        'health_form'
     ];
 
     public function buildingType(): HasOne

@@ -12,7 +12,6 @@ class BuildingTypes extends Model
     protected $fillable = [
         'name',
         'description',
-        'health_form',
         'delivery_form',
         'status',
     ];

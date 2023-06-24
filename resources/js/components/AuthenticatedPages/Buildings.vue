@@ -7,7 +7,10 @@
                     <p class="mt-2 text-xs text-gray-700">Viewing and Adding types of Buildings</p>
                 </div>
 
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex gap-1">
+                    <button type="button"
+                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800">Export
+                        CSV</button>
                     <button @click.prevent="setOpen" type="button" v-if="permissions.create"
                         class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
                         Building</button>
@@ -125,20 +128,6 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <SwitchGroup as="div" class="flex items-center justify-between">
-                                <span class="flex flex-grow flex-col">
-                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
-                                        Status</SwitchLabel>
-                                </span>
-                                <Switch v-model="form.status"
-                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
-                                    <span aria-hidden="true"
-                                        :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                                </Switch>
-                            </SwitchGroup>
-                        </div>
-
-                        <div class="sm:col-span-3 mt-3">
                             <label for="build_logo" class="block text-sm font-medium leading-6 text-gray-900">{{ (editMode ?
                                 'Edit' : 'Upload') + ' Logo' }}</label>
                             <div class="flex flex-col items-center justify-center mt-2">
@@ -169,6 +158,38 @@
                                 </div>
                             </div>
                         </div>
+
+                        <p class="text-sm mt-5 font-bold">Advance Settings</p>
+
+                        <div class="sm:col-span-3 mt-3">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+                                        Status</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.status"
+                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
+
+                        <div class="sm:col-span-3 mt-2">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+                                        Delivery
+                                        Health Declaration Form</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.health_form"
+                                    :class="[form.health_form ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.health_form ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
+
                     </div>
                 </div>
                 <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
@@ -275,6 +296,7 @@ export default {
                 building_type: '',
                 logo: null,
                 status: false,
+                health_form: false,
                 errors: []
             }),
             image_url: '',
@@ -285,10 +307,10 @@ export default {
 
     methods: {
         goToLink(role, qr_id) {
-            if(role === 'visitor') {
+            if (role === 'visitor') {
                 this.$router.push('/visitor-registration/' + qr_id);
             }
-            else if(role === 'homeowner') {
+            else if (role === 'homeowner') {
                 this.$router.push('/homeowner-registration/' + qr_id);
             }
         },
@@ -307,11 +329,11 @@ export default {
         },
 
         editBuilding(item) {
+            console.log(item);
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
             this.image_url = '/uploads/images/' + this.form.logo;
-            this.form.building_type = { value: item.building_type.id, label: item.building_type.name };
         },
 
         uploadImage() {
@@ -402,6 +424,7 @@ export default {
         async getBuildingTypes() {
             await axios.get('/api/get-building-types').then((data) => {
                 this.building_types = data.data.data
+                console.log(this.building_types)
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });

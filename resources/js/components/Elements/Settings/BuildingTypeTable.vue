@@ -5,10 +5,11 @@
             <p class="mt-2 text-xs text-gray-700">A roster of all building types associated with your account, including
                 their category, description and location.</p>
         </div>
-        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex gap-1">
+            <button type="button"
+                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800">Export CSV</button>
             <button @click.prevent="setOpen" type="button"
-                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
-                Entry</button>
+                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800">Add Entry</button>
         </div>
     </div>
     <div class="mt-8 flow-root">
@@ -83,7 +84,9 @@
                                 :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
                         </div>
 
-                        <div class="sm:col-span-3 mt-5">
+                        <p class="text-sm mt-5 font-bold">Advance Settings</p>
+
+                        <!-- <div class="sm:col-span-3 mt-5">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>Add
@@ -95,7 +98,7 @@
                                         :class="[form.health_form ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
-                        </div>
+                        </div> -->
 
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -171,7 +174,6 @@ export default {
                 id: '',
                 name: '',
                 description: '',
-                health_form: false,
                 delivery_form: false,
                 status: false,
             }),
