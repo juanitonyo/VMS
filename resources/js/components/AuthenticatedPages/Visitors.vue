@@ -110,11 +110,13 @@
             </div>
         </div>
     </div>
-
+    
     <SliderVue :setOpen="open" :title="(editMode ? 'View ' : 'Add ') + 'Visitors'"
         :description="'A visitor in the database'">
         <template v-slot:slider-body>
             <div class="relative flex-1 py-2 sm:px-4 space-y-5">
+
+                <p class="italic text-sm text-center mt-5">Visitor Details</p>
 
                 <div class="flex items-center justify-center mt-6">
                     <img :src="'/uploads/profiles-visitor/' + this.account.visitor.profile_photo"
@@ -127,59 +129,95 @@
                             d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0zM18.75 10.5h.008v.008h-.008V10.5z" />
                     </svg>
                 </div>
-                <p class="italic text-xs text-center">Visitor Details</p>
-                <div class="my-3 mx-5 grid grid-cols-1">
-                    <div class="grid grid-cols-2 text-xs">
-                        <div class="col-span-1 font-bold text-gray-800">
-                            <p>Name of Visitor:</p>
-                            <p>Type of Registration:</p>
-                            <p>Location:</p>
-                            <p>Identification:</p>
-                            <p>Person To Visit:</p>
-                            <p>Person To Visit Email:</p>
-                            <p>Reference Code:</p>
-                            <p>Building:</p>
-                            <p>Type of Visit:</p>
-                            <p>Checked in at:</p>
-                            <p>Checked in by:</p>
-                            <p>Checked out at:</p>
-                            <p>Checked out by:</p>
-                            <p>Approved by:</p>
-                            <p>Rating:</p>
-                            <p>No. of visits in this building:</p>
-                            <p>Remarks:</p>
-                            <p>Health Form:</p>
-                            <p>Temperature:</p>
-                        </div>
-                        <div class="col-span-1 justify-self-end italic text-right text-gray-500">
-                            <p>{{ this.account.visitor.name }}</p>
-                            <p>{{ this.account.log_type }}</p>
-                            <p>N/A</p>
-                            <p>{{ this.account.visitor.valid_id }}</p>
-                            <p>{{ this.account.user == null ? 'None' : this.account.user.first_name + ' ' +
-                                this.account.user.last_name }}</p>
-                            <p>{{ this.account.user == null ? 'None' : this.account.user.email }}</p>
-                            <p>{{ this.account.visitor.ref_code }}</p>
-                            <p>{{ this.account.building.building_name }}</p>
-                            <p>{{ this.account.visit_type.name }}</p>
-                            <p>{{ moment(this.account.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
-                            <p>{{ this.account.checked_in_by == null ? 'N/A' : this.account.checked_in_by }}</p>
-                            <p>{{ this.account.created_at == this.account.updated_at ? 'Not Yet' :
-                                moment(this.account.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</p>
-                            <p>{{ this.account.checked_out_by == null ? 'N/A' : this.account.checked_out_by }}</p>
-                            <p>N/A</p>
-                            <p>N/A</p>
-                            <p>N/A</p>
-                            <p>N/A</p>
-                            <p>N/A</p>
-                            <p>{{ this.health_form == null ? "None" : this.health_form }}</p>
-                            <p>N/A</p>
-                        </div>
-                    </div>
-                    <div class="flex justify-end w-full mt-10">
-                        <button type="button" class="rounded-md bg-gray-900 text-white py-2 px-6 text-sm font-semibold"
-                            @click="setOpen">Close</button>
-                    </div>
+                <div class="my-3 mx-5">
+                    <table class="w-full text-[10px]">
+                        <tbody>
+                            <tr>
+                                <td class="font-bold text-gray-800">Name of Visitor:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.visitor.name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Type of Registration:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.log_type }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Location:</td>
+                                <td class="italic text-right text-gray-600">N/A</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Identification:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.visitor.valid_id }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Person To Visit:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.user == null ? 'None' :
+                                    this.account.user.first_name + ' ' + this.account.user.last_name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Person To Visit Email:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.user == null ? 'None' :
+                                    this.account.user.email }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Reference Code:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.visitor.ref_code }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Building:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.building.building_name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Type of Visit:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.visit_type.name }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Checked in at:</td>
+                                <td class="italic text-right text-gray-600">{{ moment(this.account.created_at).format('MMMM Do YYYY, h: mm: ss a') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Checked in by:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.checked_in_by == null ? 'N/A' :
+                                        this.account.checked_in_by }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Checked out at:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.created_at ==
+                                    this.account.updated_at ? 'Not Yet' : moment(this.account.updated_at).format('MMMM Do YYYY, h: mm: ss a') }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Checked out by:</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.checked_out_by == null ? 'N/A' : this.account.checked_out_by }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Approved by:</td>
+                                <td class="italic text-right text-gray-600">N/A</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Rating:</td>
+                                <td class="italic text-right text-gray-600">N/A</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">No. of visits in this building:</td>
+                                <td class="italic text-right text-gray-600">N/A</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Remarks:</td>
+                                <td class="italic text-right text-gray-600">N/A</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Health Form:</td>
+                                <td class="italic text-right text-gray-600">{{ this.health_form == null ? "None" : this.health_form }}</td>
+                            </tr>
+                            <tr>
+                                <td class="font-bold text-gray-800">Temperature:</td>
+                                <td class="italic text-right text-gray-600">N/A</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="flex justify-end w-full mt-10">
+                    <button type="button" class="rounded-md bg-gray-900 text-white py-2 px-6 text-sm font-semibold"
+                        @click="setOpen">Close</button>
                 </div>
             </div>
         </template>
@@ -320,7 +358,7 @@ export default {
                 this.log.status = -1
             }
 
-            else if(triggered == 'Check Out') {
+            else if (triggered == 'Check Out') {
                 this.log.checked_out_by = userAuthStore().user.name + ' [System Manager]'
                 this.log.is_checked_out = 1
             }

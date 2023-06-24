@@ -82,7 +82,7 @@
                                     class="block text-sm font-medium leading-6 text-gray-900">Choose
                                     Purpose</label>
                                 <span v-show="this.editMode ? false : form.errors.has('purpose')"
-                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                                    class="text-[10px] text-red-600 dark:text-red-500">{{ form.errors.get('purpose') }}</span>
                             </div>
                             <v-select v-model="form.purpose" placeholder="Search" :options="option" label="label"
                                 :class="this.editMode ? '' : forClass()"></v-select>
@@ -95,9 +95,13 @@
                         </div>
 
                         <div class="editor sm:col-span-3 mt-3">
-                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Body</label>
+                            <div class="flex justify-between">
+                                <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Body</label>
+                                <span v-show="form.errors.has('body')"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ form.errors.get('body') }}</span>
+                            </div>
                             <div>
-                                <ckeditor v-model="form.body" :editor="editor" :config="editorConfig"></ckeditor>
+                                <ckeditor :class="form.errors.has('body') ? 'border border-red-400 rounded-md bg-red-700' : ''" v-model="form.body" :editor="editor" :config="editorConfig"></ckeditor>
                             </div>
                         </div>
 
@@ -192,7 +196,7 @@ export default {
 
             editor: ClassicEditor,
             editorConfig: {
-                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading', 'sourceediting'],
+                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading'],
                 heading: {
                     options: [
                         { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },

@@ -27,10 +27,11 @@ class BuildingRequest extends FormRequest
     public function createRules() :array {
         return [
             'building_name' => 'required|unique:buildings|max:100',
-            'description' => 'required',
             'address' => 'required',
             'building_type' => 'required',
+            'description' => 'required',
             'status' => 'required',
+            'health_form' => 'required',
             
         ];
     }
@@ -38,10 +39,11 @@ class BuildingRequest extends FormRequest
     public function updateRules(){
         return [
             'params.data.building_name' => 'required|max:100|unique:buildings,id'.$this->get('id'),
-            'params.data.description' => 'required',
             'params.data.address' => 'required',
             'params.data.building_type' => 'required',
+            'params.data.description' => 'required',
             'params.data.status' => 'required',
+            'params.data.health_form' => 'required',
         ];
     }
 }

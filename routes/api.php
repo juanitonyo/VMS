@@ -47,8 +47,6 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('get-index-log-by-user-id', 'VisitorLogsController@getIndexByUserID');
     Route::get('get-checkouts-by-user', 'VisitorLogsController@getTotalCheckoutForUser');
     
-    Route::get('get-hosts', 'HostController@getHostQuery');
-    
     Route::get('get-roles', 'RolesController@getRoles');
 
     Route::get('get-invitation', 'InvitationLogsController@getInvitation');

@@ -19,19 +19,6 @@ class HostController extends BaseController
         return $this->sendResponse($data, "Fetched all Host in Array");
     }
 
-    public function getHostQuery() {
-        $data = Host::where('building_id', Cookie::get('buildingUUID'))->get();
-        $arr = [];
-        foreach($data as $item) {
-            $arr[] = [
-                'value' => $item->id,
-                'label' => $item->firstName.' '.$item->lastName
-            ];
-        }
-
-        return $this->sendResponse($arr, "Fetched hosts in table");
-    }
-
     /**
      * Show the form for creating a new resource.
      */

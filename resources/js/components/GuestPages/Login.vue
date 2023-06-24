@@ -46,6 +46,8 @@
 <script setup>
   import {ref} from 'vue';
   import {userAuthStore} from '@/store/auth';
+  import router from "@/router";
+
   const form = ref({
     email: '',
     password: '',
@@ -55,6 +57,10 @@
 
   function handleLogin(){
     store.login(form);
+  }
+
+  if(store.user != null) {
+    router.push({ path: "/app" })
   }
 
 </script>

@@ -14,8 +14,7 @@ return new class extends Migration
         Schema::create('building_types', function (Blueprint $table) {
             $table->id();
             $table->string('name', 100);
-            $table->string('description');
-            $table->boolean('health_form')->default(false);
+            $table->string('description')->nullable();
             $table->boolean('delivery_form')->default(false);
             $table->boolean('status')->default(false);
             $table->timestamps();

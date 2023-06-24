@@ -12,6 +12,7 @@ use Illuminate\Support\Facades\Event;
 use App\Events\SyncUnitOwnersEvent;
 use App\Models\User;
 use App\Models\Host;
+use App\Models\UserBuildings;
 use Illuminate\Support\Facades\Hash;
 
 
@@ -59,7 +60,13 @@ class SyncUnitOwnersJob implements ShouldQueue
                         'email' => $item['email'],
                         'contact' => $item['mobile'],
                         'location' => $item['full_address'],
-                        'password' =>$newRecords->password,
+                    ]
+                );
+
+                UserBuildings::updateOrCreate(
+                    ['user_id' => $newRecords->id],
+                    [
+                        'building_id' => $item['project_site_ids'],
                     ]
                 );
             } else {
@@ -74,6 +81,11 @@ class SyncUnitOwnersJob implements ShouldQueue
                         'contact' => $item['mobile'],
                         'location' => $item['full_address'],
                         'password' => $user->password,
+                    ]);
+
+                UserBuildings::where('user_id', $user->id)
+                    ->update([
+                        'building_id' => $item['project_site_ids'],
                     ]);
             }
         }

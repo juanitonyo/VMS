@@ -27,7 +27,7 @@ class BuildingController extends BaseController
         $relationship = 'buildingType';
         $data = Building::query()
                 ->when(Building::with('buildingType')->get(), function ($query) use ($relationship) {
-                    return $query->with($relationship);
+                    return $query->with($relationship)->orderBy('building_name', 'asc');
                 })
                 ->paginate(10);
         return $this->sendResponse($data, "All buildings in array");
@@ -111,6 +111,7 @@ class BuildingController extends BaseController
      */
     public function update(BuildingRequest $request, $id)
     {
+
         $logo_link = "";
         $data = Building::findOrFail($id);
 
@@ -146,6 +147,7 @@ class BuildingController extends BaseController
             'address' => $request->params['data']['address'],
             'building_type' => $request->params['data']['building_type'],
             'status' => $request->params['data']['status'],
+            'health_form' => $request->params['data']['health_form'],
           ]);
          
         
@@ -220,6 +222,7 @@ class BuildingController extends BaseController
     public function getUnitOwnersLength(){
         $data = Http::get('http://proptech-api.test/api/vms/sync-unit-owners');
         $res = $data->body();
+        dd($res);
 
         return $this->sendResponse(count(json_decode($res)) , 'Unit Owners');
     }

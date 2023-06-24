@@ -20,10 +20,11 @@ class Building extends Model
         'building_type',
         'logo',
         'status',
+        'health_form'
     ];
 
     public function buildingType(): HasOne
     {
-        return $this->hasOne(BuildingTypes::class, 'id', 'building_type')->select(['id','name', 'delivery_form', 'health_form']);
+        return $this->hasOne(BuildingTypes::class, 'id', 'building_type')->select(['id','name', 'delivery_form']);
     }
 }

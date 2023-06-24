@@ -36,7 +36,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M20.25 6.375c0 2.278-3.694 4.125-8.25 4.125S3.75 8.653 3.75 6.375m16.5 0c0-2.278-3.694-4.125-8.25-4.125S3.75 4.097 3.75 6.375m16.5 0v11.25c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125V6.375m16.5 0v3.75m-16.5-3.75v3.75m16.5 0v3.75C20.25 16.153 16.556 18 12 18s-8.25-1.847-8.25-4.125v-3.75m16.5 0c0 2.278-3.694 4.125-8.25 4.125s-8.25-1.847-8.25-4.125" />
                                 </svg>
-                                <p>Data Count: {{ realtimeLength }} / {{ unitOwnersLength }}</p>
+                                <p>Data Count: {{ this.realtimeLength }} / {{ this.unitOwnersLength }}</p>
                             </div>
                             <div class="text-sm flex items-center justify-center gap-1 text-white bg-blue-400 rounded-md py-1 px-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
@@ -44,7 +44,7 @@
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M10.125 2.25h-4.5c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125v-9M10.125 2.25h.375a9 9 0 019 9v.375M10.125 2.25A3.375 3.375 0 0113.5 5.625v1.5c0 .621.504 1.125 1.125 1.125h1.5a3.375 3.375 0 013.375 3.375M9 15l2.25 2.25L15 12" />
                                 </svg>
-                                <p>Data Saved: 0</p>
+                                <p>Data Saved: {{ this.dataCount }}</p>
                             </div>
                             <ul>
                                 <li v-for="item in currentData" :key="item.id">{{ item.name }}</li>

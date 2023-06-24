@@ -22,6 +22,7 @@ return new class extends Migration
             $table->longText('address')->nullable();
             $table->string('building_type')->nullable();
             $table->boolean('status')->default(true);
+            $table->boolean('health_form')->default(false);
             $table->timestamps();
         });
     }

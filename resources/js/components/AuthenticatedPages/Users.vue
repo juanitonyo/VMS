@@ -11,9 +11,17 @@
                         name, title, email and role.
                     </p>
                 </div>
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex-none">
+                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex sm:space-x-1 sm:space-y-0 space-y-1 space-x-0">
+                    <button type="button"
+                        class="relative block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white ">
+                        Pending Host
+                        <div class="absolute bottom-auto left-0 right-auto top-0 z-10 inline-block -translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-blue-500 px-2 py-1 text-xs">
+                            7
+                        </div>
+                    </button>
+
                     <button @click.prevent="setOpen" type="button"
-                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">
+                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white ">
                         Add User
                     </button>
                 </div>
@@ -117,17 +125,19 @@
                             </NormalInput>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
-                            <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
-                                Role</label>
+                            <div class="flex justify-between">
+                                <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
+                                    Role</label>
+                                <span v-show="form.errors.has('role_id')"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ forRole(form.errors.get('role_id')) }}</span>
+                            </div>
                             <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="form.errors.has('role_id')
-                                ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
+                                ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700'
                                 : ''
                                 "></v-select>
-                            <span v-show="form.errors.has('role_id')"
-                                class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
-                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
                                 Buildings</label>
 
                             <v-select v-model="form.building" :options="buildings" label="label" placeholder="search"
@@ -222,17 +232,21 @@ export default {
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
-            this.resetForm();
+            this.form = new Form({});
+        },
+        forRole(message) {
+            const error = message;
+            return error ? error.replace('role id', 'role') : ''
         },
         saveUser() {
-            this.form.role_id = this.form.role_id.id
+            console.log(this.form)
             this.$Progress.start();
             this.form
                 .post("/api/user")
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    this.resetForm();
+                    this.form = new Form({});
                     this.open = !this.open;
                     createToast(
                         {
@@ -273,7 +287,7 @@ export default {
                     this.editMode = false;
                     this.$Progress.finish();
                     this.getData();
-                    this.resetForm();
+                    this.this.form = new Form({});;
                     this.open = !this.open;
                     createToast(
                         {
@@ -291,16 +305,6 @@ export default {
                     );
                 })
                 .catch((error) => { });
-        },
-        resetForm() {
-            this.form = new Form({
-                id: "",
-                name: "",
-                email: "",
-                role_id: "",
-                building: "",
-                status: false,
-            });
         },
         async getData() {
             await axios
