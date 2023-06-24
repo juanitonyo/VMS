@@ -10,6 +10,7 @@ class InvitationLogs extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'first_name',
         'last_name',
         'email',

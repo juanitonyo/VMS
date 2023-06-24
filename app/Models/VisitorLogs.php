@@ -30,6 +30,11 @@ class VisitorLogs extends Model
         return $this->belongsTo(Visitors::class, 'visitor_id');
     }
 
+    public function invited(): BelongsTo
+    {
+        return $this->belongsTo(InvitationLogs::class, 'user_id', 'user_id');
+    }
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(Host::class, 'user_id', 'user_id');

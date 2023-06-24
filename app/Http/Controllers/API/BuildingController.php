@@ -14,6 +14,7 @@ use App\Jobs\SyncUnitOwnersJob;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Events\SyncUnitOwnersEvent;
+use App\Models\BuildingTypes;
 
 class BuildingController extends BaseController
 {
@@ -171,7 +172,6 @@ class BuildingController extends BaseController
         if ($validator->fails()) {
             return $this->sendError([], " The entry for \"".$request->name."\" already exists in the records." );
         }
-
 
         $data = Building::create([
             'proptech_id' => $request->id,
