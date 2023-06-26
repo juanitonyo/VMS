@@ -16,7 +16,7 @@
                         href="#" class="underline text-blue-800 font-bold">Privacy Policy</a> and <a href="#"
                         class="underline text-blue-800 font-bold">Terms of Use</a></p>
 
-                <a href="/login-google" type="button"
+                <button href="/login-google" type="button"
                     class="text-white bg-red-500 hover:bg-red-500/90 focus:ring-2 focus:outline-none focus:ring-red-500/50 font-medium rounded-lg text-xs py-2.5 mt-3 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full">
                     <svg class="w-4 h-4 mr-2 -ml-1" aria-hidden="true" focusable="false" data-prefix="fab"
                         data-icon="google" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 488 512">
@@ -25,7 +25,7 @@
                         </path>
                     </svg>
                     Sign in with Google
-                </a>
+                </button>
                 <!-- bg-red-500 hover:bg-red-500/90 focus:ring-2 focus:outline-none focus:ring-red-500/50 -->
                 <button type="button"
                     class="text-white bg-blue-500 hover:bg-blue-500/90 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs py-2.5 mt-3 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-full">
@@ -58,6 +58,7 @@ import axios from 'axios';
 import { Form } from 'vform';
 import buttonToInput from '../../../Elements/Buttons/buttonToInput.vue'
 import { useStore } from '../../../../store/visitor';
+import { createToast } from "mosha-vue-toastify";
 
 const store = useStore();
 
@@ -81,37 +82,32 @@ export default {
             account: {},
             log: {},
             buildings: {},
+            given: ''
         }
     },
     methods: {
 
         async isExisting() {
-            await axios.get('/api/visitor-query?given=' + this.given + '&building_id=' + this.buildings.id)
+            await axios.get('/api/get-invitation?given=' + this.given + '&building_id=' + this.buildings.id)
                 .then((data) => {
                     this.account = data.data.data;
 
-                    if (this.account == null) {
-                        this.$router.push('/visitor-registration/signIn/reg/' + this.id);
-                    }
-
-                    else if (this.account.status) {
-                        store.setHiddenParam(this.account.id);
-
-                        if (this.account.latest_log == null || this.account.latest_log.is_checked_out) {
-                            this.$router.push('/visitor-registration/checkin/' + this.id);
-                        }
-                        else if (!this.account.latest_log.is_checked_out) {
-                            this.$router.push('/visitor-registration/checkout/' + this.id);
-                        }
-                    }
-
-                    else {
-                        this.$router.push('/visitor-registration/approval');
-                    }
-
+                    console.log('Data returned');
                 })
                 .catch((error) => {
-
+                    createToast(
+                        {
+                            title: "Opps!",
+                            description: error.response.data.message,
+                        },
+                        {
+                            showIcon: "true",
+                            position: "top-right",
+                            type: "danger",
+                            hideProgressBar: "true",
+                            transition: "bounce",
+                        }
+                    );
                 });
         },
 

@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('email');
             $table->string('building_id');
             $table->string('visit_purpose_id');
+            $table->string('ref_code');
             $table->string('location');
             $table->string('contact');
             $table->string('companions');

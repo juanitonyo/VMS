@@ -88,6 +88,7 @@ class VisitorsController extends BaseController
     
             if($request->front_id){
                 $front_id_binary = $request->front_id;
+                $front_id_binary = $request->front_id;
                 $front_id_link = time().'.' . explode('/', explode(':', substr($front_id_binary, 0, strpos($front_id_binary, ';')))[1])[1];
                 
                 if(!File::exists('uploads/frontID/'.$front_id_link)) {

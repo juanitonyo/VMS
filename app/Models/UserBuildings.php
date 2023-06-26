@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserBuildings extends Model
 {
@@ -14,12 +16,16 @@ class UserBuildings extends Model
         'building_id'
     ];
 
+    // protected $casts = [
+    //     'building_id' => 'array'
+    // ];
+
     protected $attributes = [
         'status' => 1,
     ];
 
-    public function building()
+    public function building(): HasMany
     {
-        return $this->hasOne(Building::class, 'id', 'building_id');
+        return $this->hasMany(Building::class, 'id', 'building_id');
     }
 }

@@ -25,7 +25,7 @@ class UserController extends BaseController
         $data = User::whereHas('userBuilding')
             ->with(['userBuilding.building', 'role'])
             ->latest()
-            ->paginate(100);
+            ->paginate(10);
 
         return $this->sendResponse($data, "All users in array");
     }
@@ -44,6 +44,8 @@ class UserController extends BaseController
     public function store(UserRequest $request)
     {
         $validated = $request->validated();
+
+        $validated['role_id'] = $request['role_id']['id'];
 
         $hashPass = Hash::make('sysadmin');
         $validated['password'] = $hashPass;

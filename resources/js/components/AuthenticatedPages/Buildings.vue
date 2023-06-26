@@ -51,7 +51,7 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in data.data" :key="item.id">
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900 ">{{ item.building_name }}
+                                        <td class="px-3 py-4 text-xs text-gray-900 ">{{ item.building_name }}
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}
                                         </td>
@@ -128,12 +128,14 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
-                            <div class="mt-2">
-                                <textarea v-model="form.address" type="text" name="build" id="building"
-                                    autocomplete="building"
-                                    class="block w-full h-40 px-3 rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" />
+                            <div class="flex justify-between">
+                                <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
+                                <span v-show="this.editMode ? false : form.errors.has('building_type')"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ forMessage('address') }}</span>
                             </div>
+                            <textarea v-model="form.address" type="text" name="build" id="building"
+                                autocomplete="building"
+                                class="block w-full h-40 px-3 rounded-md py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" :class="form.errors.has('address') ? 'border border-red-400 rounded-md bg-red-50' : ' '" />
                         </div>
 
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
@@ -141,11 +143,11 @@
                                 <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose
                                     Building Types</label>
                                 <span v-show="this.editMode ? false : form.errors.has('building_type')"
-                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage('building_type') }}</span>
                             </div>
                             <v-select v-model="form.building_type" placeholder="search" :options="building_types"
                                 label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('building_type') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                                :class="this.editMode ? ' ' : [form.errors.has('building_type') ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ' ']"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -216,7 +218,7 @@
                 <div class="flex flex-shrink-0 justify-end px-4 py-4 ">
                     <button type="button"
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                        @click="setOpen">Cancel</button>
+                        @click="setOpen(); this.getData()">Cancel</button>
                     <button type="submit"
                         class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">{{
                             editMode
@@ -378,6 +380,7 @@ export default {
             this.open = !this.open;
             this.form = item;
             this.image_url = '/uploads/images/' + this.form.logo;
+            this.form.building_type = { value: item.building_type.id, label: item.building_type.name }
         },
 
         deleteBuilding(item) {
@@ -400,7 +403,6 @@ export default {
         },
 
         saveBuilding() {
-            this.form.building_type = this.form.building_type.value
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {
@@ -459,7 +461,6 @@ export default {
                 this.data = data.data.data;
             }).catch((e) => {
                 console.log(e.message)
-                // errorMessage('Opps!', e.message, 'top-right')
             });
         },
 
@@ -483,8 +484,8 @@ export default {
             return this.form.errors.has('building_type') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''
         },
 
-        forMessage() {
-            return this.editMode ? '' : this.form.errors.get('building_type')
+        forMessage(error) {
+            return this.editMode ? '' : this.form.errors.get(error)
         }
     },
 

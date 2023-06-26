@@ -68,8 +68,7 @@
                                         </td>
                                         <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
                                             {{
-                                                item.user_building.building
-                                                    .buildingName
+                                                item.user_building.building ?? ''
                                             }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
@@ -80,7 +79,7 @@
                                             }}
                                         </td>
                                         <td class="w-72 px-3 py-4 text-xs text-gray-500">
-                                            {{ item.role_id.title }}
+                                            {{ item.role.title }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
                                             item.status == true ? 'Active' : 'Inactive' }}</td>
@@ -115,7 +114,7 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.name" label="Name" id="user-name" :hasError="this.editMode
+                            <NormalInput v-model="form.name" label="name" id="user-name" :hasError="this.editMode
                                 ? false
                                 : form.errors.has('name')
                                 " :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
@@ -128,26 +127,28 @@
                             </NormalInput>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
-                            <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
-                                Role</label>
-                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="form.errors.has('role_id')
-                                ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
+                            <div class="flex justify-between">
+                                <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
+                                    Role</label>
+                                <span v-show="this.errors.role_id.error"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ this.errors.role_id.label }}</span>
+                            </div>
+                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="this.errors.role_id.error
+                                ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700'
                                 : ''
                                 "></v-select>
-                            <span v-show="form.errors.has('role_id')"
-                                class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
-                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-2">Choose
+                            <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
                                 Buildings</label>
 
                             <v-select v-model="form.building" :options="buildings" label="label" placeholder="search"
-                                :class="form.errors.has('building')
+                                :class="this.errors.building.error
                                     ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
                                     : ''
                                     "></v-select>
-                            <span v-show="form.errors.has('building')"
-                                class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
+                            <span v-show="this.errors.building.error"
+                                class="text-xs/2 text-red-600 dark:text-red-500">{{ this.errors.building.label }}</span>
                         </div>
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -187,6 +188,7 @@
         </template>
     </SliderVue>
 
+    <!-- Pending Host Button -->
     <DialogVue :isOpen="pendingHost" :dialogTitle="'Pending Host'" :modalWidth="'max-w-5xl'">
         <template v-slot:dialogBody>
             <div class="mt-8 flow-root">
@@ -256,6 +258,7 @@
         </template>
     </DialogVue>
 
+    <!-- Add Entry Button -->
     <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
 
@@ -296,6 +299,12 @@ import Form from "vform";
 
 export default {
     name: "Users",
+    props:{
+        data: {
+            type: Object,
+            default: {}
+        }
+    },
     components: {
         SliderVue,
         Switch,
@@ -304,7 +313,7 @@ export default {
         SwitchLabel,
         NormalInput,
         DialogVue,
-        TailwindPagination,
+        TailwindPagination
     },
     data() {
         return {
@@ -320,34 +329,66 @@ export default {
                 password: "",
                 status: false,
             }),
+            errors: {
+                role_id: { error: false, label: '' },
+                building: { error: false, label: '' },
+            },
             roles: Object,
             buildings: Object,
             pendingHost: false,
+            exisitingData: {},
             statusChoice: '',
+            isFormComplete: false,
             show: false
         };
     },
     methods: {
 
+        // Opening and Closing of Dialog Vue Component
         setShow(choice) {
             this.statusChoice = choice;
             this.show = !this.show
         },
 
+        // Opening and Closing of Slider Vue Component
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
-            this.resetForm();
+            this.form = new Form({});
         },
+
+        validateform() {
+            if (this.form.role_id == '') {
+                this.errors.role_id.error = true;
+                this.errors.role_id.label = 'The role field is required.'
+            }
+            else {
+                this.errors.role_id.error = false;
+            }
+            if (this.form.building == '') {
+                this.errors.building.error = true;
+                this.errors.building.label = 'The building field is required.'
+            }
+            else {
+                this.errors.building.error = false;
+            }
+            if (this.errors.role_id.error || this.errors.building.error) {
+                this.isFormComplete = false;
+            }
+            else {
+                this.isFormComplete = true;
+            }
+        },
+
         saveUser() {
-            this.form.role_id = this.form.role_id.id
+            console.log(this.form)
             this.$Progress.start();
             this.form
                 .post("/api/user")
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
-                    this.resetForm();
+                    this.form = new Form({});
                     this.open = !this.open;
                     createToast(
                         {
@@ -372,6 +413,7 @@ export default {
         openPending() {
             this.pendingHost = !this.pendingHost;
         },
+
         editUser(item) {
             this.editMode = true;
             this.open = !this.open;
@@ -392,7 +434,7 @@ export default {
                     this.editMode = false;
                     this.$Progress.finish();
                     this.getData();
-                    this.resetForm();
+                    this.this.form = new Form({});;
                     this.open = !this.open;
                     createToast(
                         {
@@ -411,20 +453,10 @@ export default {
                 })
                 .catch((error) => { });
         },
-        resetForm() {
-            this.form = new Form({
-                id: "",
-                name: "",
-                email: "",
-                role_id: "",
-                building: "",
-                status: false,
-            });
-        },
         async getData(page = 1) {
-            await axios.get("/api/user?page=" + page)
-                .then((data) => {
+            await axios.get("/api/user?page=" + page).then((data) => {
                     this.data = data.data.data;
+                    console.log(this.data)
                 })
                 .catch((e) => {
                     errorMessage("Opps!", e.message, "top-right");

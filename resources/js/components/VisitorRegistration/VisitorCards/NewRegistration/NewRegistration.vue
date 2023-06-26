@@ -350,7 +350,6 @@ export default {
                 this.form.post('/api/visitors')
                     .then((data) => {
                         this.account = data.data.data;
-
                         this.$Progress.finish();
                         store.setHiddenParam(this.account.id);
                         this.$router.push('/visitor-registration/success/' + this.id);
@@ -380,7 +379,6 @@ export default {
             await axios.get('/api/sync-visitor/')
                 .then((data) => {
                     this.account = data.data.data;
-
                     if (this.account.google_id != null) {
                         this.isGoogleExist = !this.isGoogleExist;
                         this.form.name = this.account.name;

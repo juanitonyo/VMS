@@ -14,6 +14,7 @@ use App\Jobs\SyncUnitOwnersJob;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Events\SyncUnitOwnersEvent;
+use App\Models\BuildingTypes;
 
 class BuildingController extends BaseController
 {
@@ -26,7 +27,7 @@ class BuildingController extends BaseController
         $relationship = 'buildingType';
         $data = Building::query()
                 ->when(Building::with('buildingType')->get(), function ($query) use ($relationship) {
-                    return $query->with($relationship);
+                    return $query->with($relationship)->orderBy('building_name', 'asc');
                 })
                 ->paginate(10);
         return $this->sendResponse($data, "All buildings in array");
@@ -110,6 +111,7 @@ class BuildingController extends BaseController
      */
     public function update(BuildingRequest $request, $id)
     {
+
         $logo_link = "";
         $data = Building::findOrFail($id);
 

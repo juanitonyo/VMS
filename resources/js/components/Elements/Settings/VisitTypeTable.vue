@@ -114,7 +114,7 @@
                             </div>
                             <v-select v-model="form.building_type" placeholder="Search" :options="building_types"
                                 label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('building_type') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                                :class="form.errors.has('building_type') ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ' '"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">

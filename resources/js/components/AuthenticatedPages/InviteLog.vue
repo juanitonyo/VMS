@@ -114,82 +114,83 @@
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.email" label="Email" id="email"
-                                :hasError="this.editMode ? false : form.errors.has('email')"
-                                :errorMessage="this.editMode ? false : form.errors.get('email')"></NormalInput>
+                                :hasError="form.errors.has('email')"
+                                :errorMessage="form.errors.get('email')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.first_name" label="First Name" id="first_name"
-                                :hasError="this.editMode ? false : form.errors.has('first_name')"
-                                :errorMessage="this.editMode ? false : form.errors.get('first_name')"></NormalInput>
+                                :hasError="form.errors.has('first_name')"
+                                :errorMessage="form.errors.get('first_name')"></NormalInput>
                         </div>
 
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.last_name" label="Last Name" id="last_name"
-                                :hasError="this.editMode ? false : form.errors.has('last_name')"
-                                :errorMessage="this.editMode ? false : form.errors.get('last_name')"></NormalInput>
+                                :hasError="form.errors.has('last_name')"
+                                :errorMessage="form.errors.get('last_name')"></NormalInput>
                         </div>
 
                         <div class="sliderPurpose sm:col-span-3 mt-3">
                             <div class="flex justify-between">
                                 <label for="building"
                                     class="block text-sm font-medium leading-6 text-gray-900">Building</label>
-                                <span v-show="this.editMode ? false : form.errors.has('building')"
-                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forBuilding() }}</span>
+                                <span v-show="form.errors.has('building_id')"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ forBuilding(form.errors.get('building_id')) }}</span>
                             </div>
                             <v-select v-model="form.building_id" placeholder="Search" :options="building" label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('building') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                                :class="form.errors.has('building_id') ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ' '"></v-select>
                         </div>
 
                         <div class="sliderPurpose sm:col-span-3 mt-3">
                             <div class="flex justify-between">
                                 <label for="visit_type" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
                                     Visit</label>
-                                <span v-show="this.editMode ? false : form.errors.has('visit_type')"
-                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forVisitType() }}</span>
+                                <span v-show="form.errors.has('visit_purpose_id')"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ forVisitType(form.errors.get('visit_purpose_id')) }}</span>
                             </div>
                             <v-select v-model="form.visit_purpose_id" placeholder="Search" :options="visit_type"
                                 label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('visit_type') ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : ' ']"></v-select>
+                                :class="form.errors.has('visit_purpose_id') ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ' '"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.location" label="Location" id="location"
-                                :hasError="this.editMode ? false : form.errors.has('location')"
-                                :errorMessage="this.editMode ? false : form.errors.get('location')"></NormalInput>
+                                :hasError="form.errors.has('location')"
+                                :errorMessage="form.errors.get('location')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.contact" label="Contact" id="contact"
-                                :hasError="this.editMode ? false : form.errors.has('contact')"
-                                :errorMessage="this.editMode ? false : form.errors.get('contact')"></NormalInput>
+                                :hasError="form.errors.has('contact')"
+                                :errorMessage="form.errors.get('contact')"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <div class="flex justify-between">
                                 <label class="block text-sm font-medium leading-6 text-gray-900">Companion/s</label>
-                                <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
-                                    v-if="form.errors.has('companion')" v-html="form.errors.get('companion')" />
+                                <span v-show="form.errors.has('companions')"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ form.errors.get('companions') }}</span>
                             </div>
                             <textarea v-model="form.companions"
                                 class="focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300"
-                                :class="this.editMode ? ' ' : [form.errors.has('companion') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white']"></textarea>
+                                :class="form.errors.has('companions') ? 'border-red-500 bg-red-50' : ' '"></textarea>
                             <p class="text-gray-500 text-[10px] text-left italic font-light">Note: Please type the name/s of
                                 the companion. If multiple names, seperate each with a comma ( , ).</p>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <!-- <NormalInput label="Target Date / Time" id="dateTime"
-                                :hasError="this.editMode ? false : form.errors.has('dateTime')"
-                                :errorMessage="this.editMode ? false : form.errors.get('dateTime')"></NormalInput> -->
+                                :hasError="form.errors.has('dateTime')"
+                                :errorMessage="form.errors.get('dateTime')"></NormalInput> -->
                             <div class="flex justify-between">
                                 <label class="block text-sm font-medium leading-6 text-gray-900">Target Date</label>
-                                <div class="text-[10px] text-red-600 dark:text-red-500 mt-1" v-if="form.errors.has('date')"
-                                    v-html="form.errors.get('date')" />
+                                <span v-show="form.errors.has('target_date')"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ form.errors.get('target_date') }}</span>
                             </div>
                             <input v-model="form.target_date" type="date"
-                                :class="this.editMode ? ' ' : [form.errors.has('date') ? 'border-red-500 bg-red-50' : 'border border-gray-300 bg-white', 'focus:outline-none px-3 py-2 text-xs w-full rounded-md border border-gray-300']" />
+                                class="focus:outline-none px-3 py-2 text-xs w-full rounded-md border border-gray-300"
+                                :class="form.errors.has('target_date') ? 'border-red-500 bg-red-50' : ''" />
                         </div>
 
 
@@ -239,6 +240,7 @@ export default {
 
     methods: {
         setPop() {
+            this.form = new Form({})
             this.pop = !this.pop;
         },
 
@@ -246,13 +248,6 @@ export default {
             axios.get('/api/send-email?emailPurpose=invitation').then((data) => { this.show = !this.show }).catch((error) => { })
         },
 
-        forBuilding() {
-            return this.editMode ? ' ' : this.form.errors.get('building')
-        },
-
-        forVisitType() {
-            return this.editMode ? ' ' : this.form.errors.get('visit_type')
-        },
         async syncVisitType() {
             await axios.get('/api/get-visit-types/')
                 .then((data) => {
@@ -261,6 +256,16 @@ export default {
                 .catch((e) => {
 
                 });
+        },
+
+        forBuilding(message) {
+            const error = message;
+            return error ? error.replace('building id', 'building') : ''
+        },
+
+        forVisitType(message) {
+            const error = message;
+            return error ? error.replace('visit purpose id', 'visit purpose') : ''
         },
 
         async syncBuilding() {
@@ -274,9 +279,6 @@ export default {
         },
 
         saveInvitation() {
-            this.form.building_id = this.form.building_id.value
-            this.form.visit_purpose_id = this.form.visit_purpose_id.value
-
             this.form.post('/api/invitation/')
                 .then((data) => {
                     this.$Progress.finish();

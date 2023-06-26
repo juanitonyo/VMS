@@ -47,6 +47,40 @@ class RoleHasPermissionSeeder extends Seeder
                         }
                     }
                     break;
+
+                    case 'unit-owner':
+                        $modules = ['dashboard', 'visitors', 'deliveries'];
+    
+                        foreach ($modules as $module_key => $module) {
+                            $permissions = \App\Models\Permissions::where('module', $module)->get();
+    
+                            foreach ($permissions as $permission_key => $permission) {
+    
+                                $role_has_permissions =  DB::table('role_has_permissions')->insert([
+                                    'role_id'=> $role->id,
+                                    'permission_id' => $permission->id,
+                                    'created_at' => now(),
+                                ]);
+                            }
+                        }
+                        break;
+
+                    case 'guard':
+                        $modules = ['dashboard', 'visitors', 'deliveries'];
+    
+                        foreach ($modules as $module_key => $module) {
+                            $permissions = \App\Models\Permissions::where('module', $module)->get();
+    
+                            foreach ($permissions as $permission_key => $permission) {
+    
+                                $role_has_permissions =  DB::table('role_has_permissions')->insert([
+                                    'role_id'=> $role->id,
+                                    'permission_id' => $permission->id,
+                                    'created_at' => now(),
+                                ]);
+                            }
+                        }
+                        break;
                 
                 default:
                     # code...

@@ -48,7 +48,7 @@ class VisitorLogsController extends BaseController
     }
 
     public function getVisitorLogsByUserID(Request $request) {
-        $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')->where('user_id', $request->id)->latest()->paginate(10);
+        $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')->where('user_id', $request->id)->latest()->paginate(5);
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
@@ -101,7 +101,7 @@ class VisitorLogsController extends BaseController
     {
         // dd($request);
 
-        $data = VisitorLogs::where('visitor_id', $id)->latest()->first()->update([
+        $data = VisitorLogs::findOrFail($id)->update([
             'checked_in_by' => $request->params['data']['checked_in_by'],
             'checked_out_by' => $request->params['data']['checked_out_by'],
             'is_checked_out' => $request->params['data']['is_checked_out'],

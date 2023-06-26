@@ -71,11 +71,14 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border ">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
-                            <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Message</label>
-                            <div class="mt-2">
-                                <textarea v-model="form.message" type="text" name="sms" id="sms" autocomplete="sms"
-                                    class="block w-full h-[356px] resize-none px-3 rounded-md border focus:outline-none py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 text-xs" />
+                            <div class="flex justify-between">
+                                <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Message</label>
+                                <span v-show="form.errors.has('message')"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ form.errors.get('message') }}</span>
                             </div>
+                                <textarea v-model="form.message" type="text" name="sms" id="sms" autocomplete="sms"
+                                    class="block w-full h-[356px] resize-none px-3 rounded-md border focus:outline-none py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 text-xs mt-1"
+                                    :class="form.errors.has('message') ? 'border border-red-400 rounded-md bg-red-50' : ''" />
                         </div>
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.description" label="Description" id="sms"
