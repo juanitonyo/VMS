@@ -80,7 +80,6 @@ class SyncUnitOwnersJob implements ShouldQueue
                         'email' => $item['email'],
                         'contact' => $item['mobile'],
                         'location' => $item['full_address'],
-                        'password' => $user->password,
                     ]);
 
                 UserBuildings::where('user_id', $user->id)

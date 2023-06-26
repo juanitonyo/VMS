@@ -25,7 +25,7 @@ class UserController extends BaseController
         $data = User::whereHas('userBuilding')
             ->with(['userBuilding.building', 'role'])
             ->latest()
-            ->paginate(100);
+            ->paginate(10);
 
         return $this->sendResponse($data, "All users in array");
     }

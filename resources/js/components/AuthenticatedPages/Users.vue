@@ -67,8 +67,7 @@
                                         </td>
                                         <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
                                             {{
-                                                item.user_building.building
-                                                    .buildingName
+                                                item.user_building.building == null ? item.user_building.building_id : item.user_building.building.building_name
                                             }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
@@ -311,6 +310,7 @@ export default {
                 .get("/api/user")
                 .then((data) => {
                     this.data = data.data.data;
+                    
                 })
                 .catch((e) => {
                     errorMessage("Opps!", e.message, "top-right");

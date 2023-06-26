@@ -222,7 +222,6 @@ class BuildingController extends BaseController
     public function getUnitOwnersLength(){
         $data = Http::get('http://proptech-api.test/api/vms/sync-unit-owners');
         $res = $data->body();
-        dd($res);
 
         return $this->sendResponse(count(json_decode($res)) , 'Unit Owners');
     }
