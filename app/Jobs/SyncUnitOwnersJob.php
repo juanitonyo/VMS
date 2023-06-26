@@ -42,7 +42,7 @@ class SyncUnitOwnersJob implements ShouldQueue
                     ['proptech_user_id' => $item['model_id']],
                     [
                         'name' => $item['first_name'] .' '.$item['last_name'],
-                        'role_id' => 1,
+                        'role_id' => 3,
                         'email' => $item['email'],
                         'contact' => $item['mobile'],
                         'password' => Hash::make('password'),

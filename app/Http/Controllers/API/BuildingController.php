@@ -21,8 +21,14 @@ class BuildingController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        if($request->search) {
+            
+            $data = Building::where('building_name', 'LIKE', '%'.$request->search.'%')->orderBy('building_name', 'asc')->paginate(20);
+
+            return $this->sendResponse($data, 'Queued data in table');
+        }
        // $data = Building::with('building_type')->paginate(10);
         $relationship = 'buildingType';
         $data = Building::query()

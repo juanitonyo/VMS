@@ -20,12 +20,12 @@ class UserController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
         $data = User::whereHas('userBuilding')
             ->with(['userBuilding.building', 'role'])
             ->latest()
-            ->paginate(10);
+            ->paginate(700);
 
         return $this->sendResponse($data, "All users in array");
     }
