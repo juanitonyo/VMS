@@ -104,15 +104,15 @@
             </div>
             <div class="flex items-center justify-between mt-3">
                 <p class="text-sm">Showing
-                    <select v-model="size" name="length" class="text-center bg-white">
-                        <option value="10" selected>10</option>
+                    <select v-model="limitPage" name="length" class="text-center bg-white">
+                        <option selected value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
                     Entries
                 </p>
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" :perPage="size"/>
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
             </div>
         </div>
     </div>
@@ -123,10 +123,7 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.name" label="name" id="user-name" :hasError="this.editMode
-                                ? false
-                                : form.errors.has('name')
-                                " :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
+                            <NormalInput v-model="form.name" label="name" id="name" :hasError="this.editMode ? false : form.errors.has('name')" :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
                         </div>
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.email" label="Email" id="user-email" :hasError="this.editMode
@@ -327,6 +324,7 @@ export default {
     data() {
         return {
             data: {},
+            limitPage: 10,
             editMode: false,
             open: false,
             form: new Form({
@@ -428,6 +426,10 @@ export default {
             this.editMode = true;
             this.open = !this.open;
             this.form = item
+            this.form.role_id = {
+                value: item.role.id,
+                label: item.role.title
+            }
             this.form.building = {
                 value: item.user_building.building.id,
                 label: item.user_building.building.buildingName,
@@ -464,7 +466,7 @@ export default {
                 .catch((error) => { });
         },
         async getData(page = 1) {
-            await axios.get("/api/user?page=" + page).then((data) => {
+            await axios.get("/api/user?page=" + page + "&limit=" + this.limitPage).then((data) => {
                     this.data = data.data.data;
                     this.size = data.data.data.per_page;
                     console.log(this.size)

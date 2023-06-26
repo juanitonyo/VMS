@@ -238,19 +238,19 @@
                         <img :src="qrName(mode, form.qr_id)" class="mt-5 w-40 h-40" />
 
                         <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
-                        <button @click.prevent="goToLink('visitor', form.qr_id)"
+                        <a :href="this.url + '/visitor-registration/' + form.qr_id" target="_blank"
                             class="text-black bg-white w-36 h-8 border border-black hover:scale-105 duration-100 flex justify-center items-center rounded-md">
                             Go to Link
-                        </button>
+                        </a>
                     </div>
 
                     <div v-else class="flex lg:flex-row flex-col justify-center items-center gap-10 ">
                         <img :src="qrName(mode, form.qr_id)" class="mt-5 w-40 h-40" />
                         <h1 class="font-extrabold text-xl my-5 text-gray-900">OR</h1>
-                        <button @click.prevent="goToLink('homeowner', form.qr_id)"
+                        <a :href="this.url + '/homeowner-registration/' + form.qr_id" target="_blank"
                             class="text-black bg-white w-36 h-8 border border-black hover:scale-105 duration-100 flex justify-center items-center rounded-md">Go
                             to Link
-                        </button>
+                        </a>
                     </div>
 
                 </div>
@@ -347,20 +347,13 @@ export default {
             }),
             image_url: '',
             building_types: [],
-            url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
+            url: '',
+            qr_url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
             deletePrompt: false
         }
     },
 
     methods: {
-        goToLink(role, qr_id) {
-            if (role === 'visitor') {
-                this.$router.push('/visitor-registration/' + qr_id);
-            }
-            else if (role === 'homeowner') {
-                this.$router.push('/homeowner-registration/' + qr_id);
-            }
-        },
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
@@ -467,9 +460,9 @@ export default {
 
         qrName(mode, uuid) {
             if (mode == 'Visitor')
-                return this.url + this.proxyURL + this.visitorRoute + uuid;
+                return this.qr_url + this.url + '/visitor-registration/' + uuid;
             else (mode == 'Host')
-            return this.url + this.proxyURL + this.hostRoute + uuid;
+                return this.qr_url + this.url + '/homeowner-registration/' + uuid;
         },
 
         async getBuildingTypes() {
@@ -494,6 +487,7 @@ export default {
         this.getData();
         this.getBuildingTypes();
         this.moment = moment;
+        this.url = new URL(window.location.href).origin
     },
     beforeMount() {
         this.permissions = {
