@@ -130,10 +130,10 @@
                             <div class="flex justify-between">
                                 <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
                                     Role</label>
-                                <span v-show="this.editMode ? form.errors.has('role_id') : ''"
-                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ this.editMode ? forRole(form.errors.get('role_id')) : '' }}</span>
+                                <span v-show="this.editMode && form.errors.has('role_id')"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ this.editMode ? [form.errors.has('role_id') ? forRole(form.errors.get('role_id')) : ''] : '' }}</span>
                             </div>
-                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="form.errors.has('role_id')
+                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="this.editMode && form.errors.has('role_id')
                                 ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700'
                                 : ''
                                 "></v-select>
@@ -147,7 +147,7 @@
                                     ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
                                     : ''
                                     "></v-select>
-                            <span v-show="this.editMode ? form.errors.has('building') : ''"
+                            <span v-show="this.editMode && form.errors.has('role_id')"
                                 class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
                         </div>
                         <div class="sm:col-span-3 mt-3">
@@ -328,9 +328,14 @@ export default {
                 password: "",
                 status: false,
             }),
+            errors: {
+                role_id: { error: false, label: '' },
+                building_id: { error: false, label: '' },
+            },
             roles: Object,
             buildings: Object,
             pendingHost: false,
+            exisitingData: {},
             statusChoice: '',
             show: false
         };
@@ -350,9 +355,30 @@ export default {
             this.form = new Form({});
         },
 
-        validationForEditMode() {
-
+        validateform() {
+            if (this.form.role_id == '') {
+                this.errors.role_id.error = true;
+                this.errors.role_id.label = 'The role field is required.'
+            }
+            else {
+                this.errors.role_id.error = false;
+            }
+            if (this.form.building == '') {
+                this.errors.building.error = true;
+                this.errors.building.label = 'The building field is required.'
+            }
+            else {
+                this.errors.building.error = false;
+            }
+            if (this.errors.role_id.error || this.errors.building.error) {
+                this.isFormComplete = false;
+            }
+            else {
+                this.isFormComplete = true;
+            }
         },
+
+
 
         saveUser() {
             console.log(this.form)
@@ -387,6 +413,7 @@ export default {
         openPending() {
             this.pendingHost = !this.pendingHost;
         },
+
         editUser(item) {
             this.editMode = true;
             this.open = !this.open;
