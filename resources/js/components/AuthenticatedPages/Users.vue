@@ -114,7 +114,7 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.name" label="Name" id="user-name" :hasError="this.editMode
+                            <NormalInput v-model="form.name" label="name" id="user-name" :hasError="this.editMode
                                 ? false
                                 : form.errors.has('name')
                                 " :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
@@ -130,10 +130,10 @@
                             <div class="flex justify-between">
                                 <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
                                     Role</label>
-                                <span v-show="this.editMode && form.errors.has('role_id')"
-                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ this.editMode ? [form.errors.has('role_id') ? forRole(form.errors.get('role_id')) : ''] : '' }}</span>
+                                <span v-show="this.errors.role_id.error"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ this.errors.role_id.label }}</span>
                             </div>
-                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="this.editMode && form.errors.has('role_id')
+                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="this.errors.role_id.error
                                 ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700'
                                 : ''
                                 "></v-select>
@@ -143,12 +143,12 @@
                                 Buildings</label>
 
                             <v-select v-model="form.building" :options="buildings" label="label" placeholder="search"
-                                :class="form.errors.has('building')
+                                :class="this.errors.building.error
                                     ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
                                     : ''
                                     "></v-select>
-                            <span v-show="this.editMode && form.errors.has('role_id')"
-                                class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
+                            <span v-show="this.errors.building.error"
+                                class="text-xs/2 text-red-600 dark:text-red-500">{{ this.errors.building.label }}</span>
                         </div>
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -292,7 +292,6 @@ import {
 import { TailwindPagination } from 'laravel-vue-pagination';
 import NormalInput from "@/components/Elements/Inputs/NormalInput.vue";
 import SliderVue from "@/components/Elements/Modals/Slider.vue";
-import { TailwindPagination } from 'laravel-vue-pagination';
 import { createToast } from "mosha-vue-toastify";
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import axios from "axios";
@@ -332,13 +331,14 @@ export default {
             }),
             errors: {
                 role_id: { error: false, label: '' },
-                building_id: { error: false, label: '' },
+                building: { error: false, label: '' },
             },
             roles: Object,
             buildings: Object,
             pendingHost: false,
             exisitingData: {},
             statusChoice: '',
+            isFormComplete: false,
             show: false
         };
     },
@@ -379,8 +379,6 @@ export default {
                 this.isFormComplete = true;
             }
         },
-
-
 
         saveUser() {
             console.log(this.form)
