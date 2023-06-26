@@ -1,7 +1,7 @@
 <template>
     <div class="mt-8">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <div class="container w-full rounded-full border h-16 mb-5 flex items-center pl-10 space-x-20">
+            <div class="container w-full rounded-full border h-16 mb-5 flex justify-center items-center pl-10 space-x-20">
                 <div class="flex items-center space-x-5">
                     <button @click.prevent="showFilter()">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
