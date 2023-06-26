@@ -68,7 +68,7 @@
                                         </td>
                                         <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
                                             {{
-                                                item.user_building.building == null ? item.user_building.building_id : item.user_building.building.building_name
+                                                item.user_building.building ?? ''
                                             }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
@@ -79,7 +79,7 @@
                                             }}
                                         </td>
                                         <td class="w-72 px-3 py-4 text-xs text-gray-500">
-                                            {{ item.role_id.title }}
+                                            {{ item.role.title }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
                                             item.status == true ? 'Active' : 'Inactive' }}</td>
@@ -102,7 +102,9 @@
                     </div>
                 </div>
             </div>
-
+            <div class="flex items-center justify-end mt-3">
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
+            </div>
         </div>
     </div>
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'User'"
@@ -128,8 +130,8 @@
                             <div class="flex justify-between">
                                 <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
                                     Role</label>
-                                <span v-show="form.errors.has('role_id')"
-                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ forRole(form.errors.get('role_id')) }}</span>
+                                <span v-show="this.editMode ? form.errors.has('role_id') : ''"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ this.editMode ? forRole(form.errors.get('role_id')) : '' }}</span>
                             </div>
                             <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="form.errors.has('role_id')
                                 ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700'
@@ -145,7 +147,7 @@
                                     ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
                                     : ''
                                     "></v-select>
-                            <span v-show="form.errors.has('building')"
+                            <span v-show="this.editMode ? form.errors.has('building') : ''"
                                 class="text-xs/2 text-red-600 dark:text-red-500">{{}}</span>
                         </div>
                         <div class="sm:col-span-3 mt-3">
@@ -186,6 +188,7 @@
         </template>
     </SliderVue>
 
+    <!-- Pending Host Button -->
     <DialogVue :isOpen="pendingHost" :dialogTitle="'Pending Host'" :modalWidth="'max-w-5xl'">
         <template v-slot:dialogBody>
             <div class="mt-8 flow-root">
@@ -253,6 +256,7 @@
         </template>
     </DialogVue>
 
+    <!-- Add Entry Button -->
     <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
 
@@ -286,6 +290,7 @@ import {
 } from "@headlessui/vue";
 import NormalInput from "@/components/Elements/Inputs/NormalInput.vue";
 import SliderVue from "@/components/Elements/Modals/Slider.vue";
+import { TailwindPagination } from 'laravel-vue-pagination';
 import { createToast } from "mosha-vue-toastify";
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import axios from "axios";
@@ -293,6 +298,12 @@ import Form from "vform";
 
 export default {
     name: "Users",
+    props:{
+        data: {
+            type: Object,
+            default: {}
+        }
+    },
     components: {
         SliderVue,
         Switch,
@@ -300,7 +311,8 @@ export default {
         SwitchGroup,
         SwitchLabel,
         NormalInput,
-        DialogVue
+        DialogVue,
+        TailwindPagination
     },
     data() {
         return {
@@ -325,20 +337,23 @@ export default {
     },
     methods: {
 
+        // Opening and Closing of Dialog Vue Component
         setShow(choice) {
             this.statusChoice = choice;
             this.show = !this.show
         },
 
+        // Opening and Closing of Slider Vue Component
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
             this.form = new Form({});
         },
-        forRole(message) {
-            const error = message;
-            return error ? error.replace('role id', 'role') : ''
+
+        validationForEditMode() {
+
         },
+
         saveUser() {
             console.log(this.form)
             this.$Progress.start();
@@ -411,12 +426,10 @@ export default {
                 })
                 .catch((error) => { });
         },
-        async getData() {
-            await axios
-                .get("/api/user")
-                .then((data) => {
+        async getData(page = 1) {
+            await axios.get("/api/user?page=" + page).then((data) => {
                     this.data = data.data.data;
-                    
+                    console.log(this.data)
                 })
                 .catch((e) => {
                     errorMessage("Opps!", e.message, "top-right");

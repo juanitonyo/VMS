@@ -16,9 +16,9 @@ class UserBuildings extends Model
         'building_id'
     ];
 
-    protected $casts = [
-        'building_id' => 'array'
-    ];
+    // protected $casts = [
+    //     'building_id' => 'array'
+    // ];
 
     protected $attributes = [
         'status' => 1,
@@ -26,6 +26,6 @@ class UserBuildings extends Model
 
     public function building(): HasMany
     {
-        return $this->hasMany(Building::whereIn('id', $this->building_id));
+        return $this->hasMany(Building::class, 'id', 'building_id');
     }
 }

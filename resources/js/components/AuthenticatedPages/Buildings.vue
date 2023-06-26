@@ -451,7 +451,6 @@ export default {
                 this.data = data.data.data;
             }).catch((e) => {
                 console.log(e.message)
-                // errorMessage('Opps!', e.message, 'top-right')
             });
         },
 
