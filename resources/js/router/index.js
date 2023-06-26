@@ -26,6 +26,7 @@ const Settings = () => import("@/components/AuthenticatedPages/Settings.vue");
 const SyncPropTech = () => import("@/components/AuthenticatedPages/SyncPropTech.vue");
 const Expected = () => import("@/components/AuthenticatedPages/ExpectedDeliveries.vue");
 const InviteLog = () => import("@/components/AuthenticatedPages/InviteLog.vue");
+const QRCode = () => import("@/components/AuthenticatedPages/QRCode.vue");
 
 const Buildings = () => import("@/components/AuthenticatedPages/Buildings.vue");
 const Visitors = () => import("@/components/AuthenticatedPages/Visitors.vue");
@@ -216,6 +217,15 @@ const routes = [
                 component: InviteLog,
                 meta: {
                     title: `VMS | Invitation Logs`,
+                    ability: "",
+                },
+            },
+            {
+                name: "qrcode",
+                path: "/app/qrcode",
+                component: QRCode,
+                meta: {
+                    title: `VMS | QR Summary`,
                     ability: "",
                 },
             },

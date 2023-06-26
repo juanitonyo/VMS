@@ -71,7 +71,8 @@ import {
   BuildingOffice2Icon,
   TruckIcon,
   ChevronRightIcon,
-  ShareIcon
+  ShareIcon,
+  QrCodeIcon
 } from "@heroicons/vue/24/outline";
 
 let permissions = userAuthStore().role.permissions;
@@ -160,6 +161,12 @@ const sideBarSecondaryNavigation = [
     href: "/app/sync",
     icon: ShareIcon,
     access: permissions.sync ?? false,
+  },
+  {
+    name: "QR Codes",
+    href: "/app/qrcode",
+    icon: QrCodeIcon,
+    access: permissions.qrcode ?? false,
   },
 ];
 </script>

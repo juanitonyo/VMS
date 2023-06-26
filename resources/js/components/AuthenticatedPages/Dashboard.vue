@@ -1,6 +1,13 @@
 <template>
     <div class="mt-8">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <div class="container w-full rounded-full border h-16 mb-5 flex items-center pl-10">
+                <div class="flex flex-col text-xs ">
+                    <label for="from" class="text-gray-400 text-[9px]">from date</label>
+                    <input type="date" name="from" id="from" class="uppercase">
+                </div>
+                
+            </div>
             <h2 class="text-2xl font-extrabold leading-6 text-gray-900">Overview</h2>
             <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 <!-- Cards -->
@@ -114,8 +121,7 @@
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
                                             person.visitor.email }}
                                         </td>
-                                        <td
-                                            class="whitespace-nowrap py-4 px-4 pr-3 text-xs font-medium text-gray-900">
+                                        <td class="whitespace-nowrap py-4 px-4 pr-3 text-xs font-medium text-gray-900">
                                             {{ person.visitor.name }}</td>
                                         <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(person.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
@@ -210,15 +216,15 @@ export default {
     },
     methods: {
         getVisitors() {
-            if(userAuthStore().user.role_id == 2) {
+            if (userAuthStore().user.role_id == 2) {
                 axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id)
-                .then((data) => {
-                    this.visitors = data.data.data;
-                    this.numVisitors = this.visitors.total;
-                    console.log(this.visitors)
-                }).catch((e) => {
+                    .then((data) => {
+                        this.visitors = data.data.data;
+                        this.numVisitors = this.visitors.total;
+                        console.log(this.visitors)
+                    }).catch((e) => {
 
-                });
+                    });
             }
             else {
                 axios.get('/api/visitors/')
@@ -226,18 +232,18 @@ export default {
                         this.visitors = data.data.data;
                         this.numVisitors = this.visitors.total;
                     }).catch((e) => {
-    
+
                     });
             }
         },
         getVisitorLogs(page = 1) {
-            if(userAuthStore().user.role_id == 2) {
+            if (userAuthStore().user.role_id == 2) {
                 axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id)
                     .then((data) => {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
                     }).catch((e) => {
-    
+
                     });
             }
             else {
@@ -246,19 +252,19 @@ export default {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
                     }).catch((e) => {
-    
+
                     });
             }
         },
         getCheckOuts(page = 1) {
-            if(userAuthStore().user.role_id == 2) {
+            if (userAuthStore().user.role_id == 2) {
                 axios.get('/api/get-checkouts-by-user?page=' + page + '&id=' + userAuthStore().user.id)
-                .then((data) => {
-                    this.visitorCheckOuts = data.data.data;
-                    this.numCheckouts = this.visitorCheckOuts.total;
-                }).catch((e) => {
+                    .then((data) => {
+                        this.visitorCheckOuts = data.data.data;
+                        this.numCheckouts = this.visitorCheckOuts.total;
+                    }).catch((e) => {
 
-                });
+                    });
             }
             else {
                 axios.get('/api/get-checkouts?page=' + page)
@@ -266,7 +272,7 @@ export default {
                         this.visitorCheckOuts = data.data.data;
                         this.numCheckouts = this.visitorCheckOuts.total;
                     }).catch((e) => {
-    
+
                     });
             }
         }

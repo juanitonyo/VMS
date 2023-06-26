@@ -28,16 +28,18 @@
                                     Person to Visit</th>
                                 <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">
                                     Visit Approval</th>
-                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">Status
+                                <th scope="col" class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">
+                                    Status
                                 </th>
-                                <th scope="col" class="text-center py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">Date Created</th>
-                                <th scope="col" class="text-left py-3.5 px-4 text-sm font-semibold text-gray-900">Action</th>
+                                <th scope="col" class="text-center py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 ">
+                                    Date Created</th>
+                                <th scope="col" class="text-center py-4 px-4 text-sm font-semibold text-gray-900">Action
+                                </th>
                             </tr>
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white">
                             <tr v-for="item in data.data" :key="item.id">
-                                <td
-                                    class="whitespace-nowrap py-4 pl-4 pr-3 text-xs text-left w-5 font-bold text-gray-900 ">
+                                <td class="whitespace-nowrap py-4 pl-4 pr-3 text-xs text-left w-5 font-bold text-gray-900 ">
                                     {{ item.name }}</td>
                                 <td class="px-3 py-4 text-xs text-center w-64 break-all text-gray-500">{{
                                     item.building_type_name.name }}</td>
@@ -50,15 +52,25 @@
                                 <td class="px-3 py-4 text-xs text-center w-80 break-all text-gray-500">{{
                                     moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}
                                 </td>
-                                <td class="whitespace-nowrap py-4 px-4 text-center text-xs font-medium sm:pr-6">
+                                <td
+                                    class="flex items-center justify-center py-4 px-4 text-center text-xs font-medium w-full gap-2">
                                     <a @click.prevent="editVisitType(item)" href="#"
                                         class="flex justify-center text-slate-800 hover:text-indigo-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                            class="w-5 h-5">
-                                            <path fill-rule="evenodd"
-                                                d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                                                clip-rule="evenodd" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                         </svg>
+                                    </a>
+
+                                    <a @click.prevent="deleteVisitType(item)" href="#"
+                                        class="flex justify-center text-slate-800 hover:text-red-900">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                                        </svg>
+
                                     </a>
                                 </td>
                             </tr>
@@ -66,7 +78,7 @@
                     </table>
                 </div>
                 <div class="flex items-center justify-end mt-3">
-                    <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
+                    <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
                 </div>
             </div>
         </div>
@@ -85,7 +97,8 @@
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3">
                             <div class="flex justify-between">
-                                <label for="building_type" class="block text-sm font-medium leading-6 text-gray-900">Building
+                                <label for="building_type"
+                                    class="block text-sm font-medium leading-6 text-gray-900">Building
                                     Type</label>
                                 <span v-show="this.editMode ? false : form.errors.has('building_type')"
                                     class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
@@ -100,6 +113,8 @@
                                 :hasError="this.editMode ? false : form.errors.has('description')"
                                 :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
                         </div>
+
+                        <p class="text-sm mt-5 font-bold">Advance Settings</p>
 
                         <div class="sm:col-span-3 mt-8 flex justify-between">
                             <SwitchGroup as="div" class="flex">
@@ -119,7 +134,7 @@
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900 mr-5" passive>
                                         Visit Approval</SwitchLabel>
                                 </span>
-                                <Switch v-model="form.visit_approval"
+                                <Switch v-model="form.visit_approval" :disabled="!form.person_to_visit"
                                     :class="[form.visit_approval ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.visit_approval ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
@@ -168,6 +183,28 @@
             </form>
         </template>
     </SliderVue>
+
+    <DialogVue :isOpen="deletePrompt" :dialogTitle="'Delete?'" :modalWidth="'max-w-lg'">
+        <template v-slot:dialogBody>
+
+            <div class="text-[16px] text-center my-10">
+                <p>Are you sure you want to delete <span class="font-bold">{{ form.name }}</span>?</p>
+            </div>
+
+            <div class="mt-4 flex items-center justify-center gap-2">
+                <button type="button"
+                    class="inline-flex w-full justify-center rounded-md bg-red-500 py-2 px-5 text-sm font-semibold text-white">
+                    Delete
+                </button>
+                <button type="button"
+                    class="inline-flex w-full justify-center rounded-md bg-gray-900 py-2 px-5 text-sm font-semibold text-white"
+                    @click.prevent="this.deletePrompt = !this.deletePrompt">
+                    Close
+                </button>
+            </div>
+
+        </template>
+    </DialogVue>
 </template>
 
 <script>
@@ -180,6 +217,7 @@ import { createToast } from 'mosha-vue-toastify';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import NormalInput from "../Inputs/NormalInput.vue";
 import { TailwindPagination } from 'laravel-vue-pagination';
+import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 
 export default {
     name: "VisitType",
@@ -190,7 +228,7 @@ export default {
         },
     },
     components: {
-        SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, TailwindPagination
+        SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, TailwindPagination, DialogVue
     },
     data() {
         return {
@@ -208,6 +246,14 @@ export default {
                 auto_approve: false,
                 status: false,
             }),
+            deletePrompt: false
+        }
+    },
+    watch: {
+        'form.person_to_visit': function (b) {
+            if (!b) {
+                this.form.visit_approval = false;
+            }
         }
     },
     methods: {
@@ -216,6 +262,10 @@ export default {
             this.open = !this.open;
             this.getbuildingType_ids();
             this.form = new Form({});
+        },
+        deleteVisitType(item) {
+            this.form = item;
+            this.deletePrompt = !this.deletePrompt;
         },
         saveVisitType() {
             this.$Progress.start();
