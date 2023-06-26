@@ -24,6 +24,7 @@ class PermissionsSeeder extends Seeder
             'sync' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
             'expected' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
             'invite' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
+            'qrcode' => ['view' => 'View', 'create' => 'Create', 'update' => 'Update'],
         ];
 
         foreach ($arrayOfPermissions as $module => $permissions) {

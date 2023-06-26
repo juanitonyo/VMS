@@ -153,7 +153,7 @@
                   <div class="flex justify-between">
                     <label for="firstName" class="text-xs">First Name</label>
                   </div>
-                  <input type="text" name="firstName" id="firstName" placeholder="Juan"
+                  <input disabled type="text" name="firstName" id="firstName" placeholder="Juan"
                     class="text-xs border rounded px-4 mt-1 h-8 w-full" />
                 </div>
 
@@ -161,7 +161,7 @@
                   <div class="flex justify-between">
                     <label for="lastName" class="text-xs">Last Name</label>
                   </div>
-                  <input type="text" name="lastName" id="lastName" placeholder="Dela Cruz"
+                  <input disabled type="text" name="lastName" id="lastName" placeholder="Dela Cruz"
                     class="text-xs border rounded px-4 mt-1 h-8 w-full" />
                 </div>
 
@@ -169,7 +169,7 @@
                   <div class="flex justify-between">
                     <label for="email" class="text-xs">Email Address</label>
                   </div>
-                  <input type="text" name="email" id="email" class="text-xs border rounded px-4 mt-1 h-8 w-full"
+                  <input disabled type="text" name="email" id="email" class="text-xs border rounded px-4 mt-1 h-8 w-full"
                     placeholder="example@domain.com" autocomplete="off" />
                 </div>
 
@@ -188,13 +188,13 @@
                   </button>
                 </div>
 
-                <div class="md:col-span-3 relative">
+                <!-- <div class="md:col-span-3 relative">
                   <div class="flex justify-between">
                     <label for="location" class="text-xs">Unit Number / Location</label>
                   </div>
                   <input type="text" name="location" id="location" placeholder="Enter Unit / Location"
                     class="text-xs border rounded px-4 mt-1 h-8 w-full" />
-                </div>
+                </div> -->
 
                 <div class="md:col-span-2 relative">
                   <div class="flex justify-between">
@@ -210,7 +210,7 @@
                   </div>
                   <div class="valid_ids flex items-center mt-1">
                     <v-select id="gov_id" :options="gov_id" :placeholder="'Valid ID'"
-                      class="text-xs border rounded px-4 mt-1 h-8 w-full">
+                      class="text-xs border rounded px-4 h-8 w-full">
                     </v-select>
                   </div>
                 </div>
@@ -319,7 +319,8 @@ import {
   BuildingOffice2Icon,
   TruckIcon,
   ChevronRightIcon,
-  ShareIcon
+  ShareIcon,
+  QrCodeIcon
 } from '@heroicons/vue/24/outline'
 import {
   ChevronDownIcon,
@@ -411,6 +412,12 @@ const sideBarSecondaryNavigation = [
     href: "/app/sync",
     icon: ShareIcon,
     access: permissions.sync ?? false,
+  },
+  {
+    name: "QR Codes",
+    href: "/app/qrcode",
+    icon: QrCodeIcon,
+    access: permissions.qrcode ?? false,
   },
 ];
 

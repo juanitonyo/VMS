@@ -173,12 +173,10 @@ class BuildingController extends BaseController
             return $this->sendError([], " The entry for \"".$request->name."\" already exists in the records." );
         }
 
-        $buildingType = DB::select("SELECT id FROM building_types WHERE name LIKE ?", ['%HOA%Condo%']);
-
         $data = Building::create([
             'proptech_id' => $request->id,
             'building_name' => $request->name,
-            'building_type' => $buildingType,
+            'building_type' => 1,
             'registration_name' => $request->registration_name,
             'address' => $request->full_address ?? "",
         ]);

@@ -12,11 +12,12 @@
                     </p>
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex sm:space-x-1 sm:space-y-0 space-y-1 space-x-0">
-                    <button type="button"
+                    <button type="button" @click.prevent="openPending()"
                         class="relative block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white ">
                         Pending Host
-                        <div class="absolute bottom-auto left-0 right-auto top-0 z-10 inline-block -translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-blue-500 px-2 py-1 text-xs">
-                            7
+                        <div
+                            class="absolute bottom-auto left-0 right-auto top-0 inline-block -translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-blue-500 px-2 py-1 text-xs">
+                            0
                         </div>
                     </button>
 
@@ -34,7 +35,7 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col"
-                                            class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">
+                                            class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900 sm:pl-6">
                                             Name
                                         </th>
                                         <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
@@ -52,7 +53,7 @@
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Status
                                         </th>
-                                        <th scope="col" class="text-center py-3.5 pl-3 pr-4 sm:pr-6">
+                                        <th scope="col" class="text-center px-3 py-3.5 font-semibold sm:pr-6">
                                             Action
                                         </th>
                                     </tr>
@@ -183,6 +184,96 @@
             </form>
         </template>
     </SliderVue>
+
+    <DialogVue :isOpen="pendingHost" :dialogTitle="'Pending Host'" :modalWidth="'max-w-5xl'">
+        <template v-slot:dialogBody>
+            <div class="mt-8 flow-root">
+                <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
+                        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
+                            <table class="min-w-full divide-y divide-gray-300">
+                                <thead class="bg-gray-50 font-poppins">
+                                    <tr>
+                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                            Name
+                                        </th>
+                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                            Assigned Building
+                                        </th>
+                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                            Location
+                                        </th>
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                            Created At
+                                        </th>
+                                        <th scope="col" class="text-center px-3 py-3.5">
+                                            Action
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody class="divide-y divide-gray-200 bg-white">
+                                    <tr>
+                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6"></td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
+                                        <td
+                                            class="flex items-center justify-center gap-1 whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
+                                            <a @click.prevent="setShow('Approval')" class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M4.5 12.75l6 6 9-13.5" />
+                                                </svg>
+                                            </a>
+                                            <a @click.prevent="setShow('Disapproval')" class="disapprove text-white bg-red-400 rounded-md p-1 cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-4 w-full flex justify-end">
+                <button type="button" class="w-40 rounded-md bg-gray-900 py-2 px-5 text-sm font-semibold text-white"
+                    @click.prevent="this.pendingHost = !this.pendingHost">
+                    Close
+                </button>
+            </div>
+
+        </template>
+    </DialogVue>
+
+    <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
+        <template v-slot:dialogBody>
+
+            <p class="text-xs mb-1">Please state your reason:</p>
+            <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm" />
+
+            <div class="mt-4 flex gap-1">
+                <button
+                    type="button"
+                    class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
+                    {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
+                        : 'Disapprove' : statusChoice }}
+                </button>
+                <button type="button"
+                    class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90"
+                    @click.prevent="this.show = !this.show">
+                    Close
+                </button>
+            </div>
+
+        </template>
+    </DialogVue>
 </template>
 
 <script>
@@ -195,6 +286,7 @@ import {
 import NormalInput from "@/components/Elements/Inputs/NormalInput.vue";
 import SliderVue from "@/components/Elements/Modals/Slider.vue";
 import { createToast } from "mosha-vue-toastify";
+import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import axios from "axios";
 import Form from "vform";
 
@@ -207,6 +299,7 @@ export default {
         SwitchGroup,
         SwitchLabel,
         NormalInput,
+        DialogVue
     },
     data() {
         return {
@@ -224,9 +317,18 @@ export default {
             }),
             roles: Object,
             buildings: Object,
+            pendingHost: false,
+            statusChoice: '',
+            show: false
         };
     },
     methods: {
+
+        setShow(choice) {
+            this.statusChoice = choice;
+            this.show = !this.show
+        },
+
         setOpen() {
             this.editMode = false;
             this.open = !this.open;
@@ -260,6 +362,10 @@ export default {
                 .catch((error) => {
                     this.$Progress.fail();
                 });
+        },
+
+        openPending() {
+            this.pendingHost = !this.pendingHost;
         },
         editUser(item) {
             this.editMode = true;
