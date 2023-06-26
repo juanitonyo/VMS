@@ -59,8 +59,8 @@
     store.login(form);
   }
 
-  if(store.user != null) {
-    router.push({ path: "/app" })
-  }
+  // if(store.user != null) {
+  //   router.push({ path: "/app" })
+  // }
 
 </script>

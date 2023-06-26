@@ -24,6 +24,7 @@ class UserController extends BaseController
     {
         $data = User::whereHas('userBuilding')
             ->with(['userBuilding.building', 'role'])
+            ->orderBy('name','asc')
             ->latest()
             ->paginate(10);
 

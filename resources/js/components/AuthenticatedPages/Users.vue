@@ -60,10 +60,10 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in data.data" :key="item.id">
-                                        <td class="w-80 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">
+                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">
                                             {{ item.name }}
                                         </td>
-                                        <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
+                                        <td class="w-96 break-all px-3 py-4 text-xs text-gray-500">
                                             {{ item.email }}
                                         </td>
                                         <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
@@ -78,7 +78,7 @@
                                                 : "No"
                                             }}
                                         </td>
-                                        <td class="w-72 px-3 py-4 text-xs text-gray-500">
+                                        <td class="w-40 px-3 py-4 text-xs text-gray-500">
                                             {{ item.role.title }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
@@ -102,8 +102,17 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-end mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
+            <div class="flex items-center justify-between mt-3">
+                <p class="text-sm">Showing
+                    <select v-model="size" name="length" class="text-center bg-white">
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    Entries
+                </p>
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" :perPage="size"/>
             </div>
         </div>
     </div>
@@ -339,7 +348,8 @@ export default {
             exisitingData: {},
             statusChoice: '',
             isFormComplete: false,
-            show: false
+            show: false,
+            size: ''
         };
     },
     methods: {
@@ -456,7 +466,8 @@ export default {
         async getData(page = 1) {
             await axios.get("/api/user?page=" + page).then((data) => {
                     this.data = data.data.data;
-                    console.log(this.data)
+                    this.size = data.data.data.per_page;
+                    console.log(this.size)
                 })
                 .catch((e) => {
                     errorMessage("Opps!", e.message, "top-right");
