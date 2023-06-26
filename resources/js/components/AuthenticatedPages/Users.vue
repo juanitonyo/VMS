@@ -103,7 +103,9 @@
                     </div>
                 </div>
             </div>
-
+            <div class="flex items-center justify-end mt-3">
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
+            </div>
         </div>
     </div>
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'User'"
@@ -219,14 +221,16 @@
                                         <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
                                         <td
                                             class="flex items-center justify-center gap-1 whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
-                                            <a @click.prevent="setShow('Approval')" class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
+                                            <a @click.prevent="setShow('Approval')"
+                                                class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </a>
-                                            <a @click.prevent="setShow('Disapproval')" class="disapprove text-white bg-red-400 rounded-md p-1 cursor-pointer">
+                                            <a @click.prevent="setShow('Disapproval')"
+                                                class="disapprove text-white bg-red-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -259,8 +263,7 @@
             <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm" />
 
             <div class="mt-4 flex gap-1">
-                <button
-                    type="button"
+                <button type="button"
                     class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
                     {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
                         : 'Disapprove' : statusChoice }}
@@ -283,6 +286,7 @@ import {
     SwitchGroup,
     SwitchLabel,
 } from "@headlessui/vue";
+import { TailwindPagination } from 'laravel-vue-pagination';
 import NormalInput from "@/components/Elements/Inputs/NormalInput.vue";
 import SliderVue from "@/components/Elements/Modals/Slider.vue";
 import { createToast } from "mosha-vue-toastify";
@@ -299,7 +303,8 @@ export default {
         SwitchGroup,
         SwitchLabel,
         NormalInput,
-        DialogVue
+        DialogVue,
+        TailwindPagination,
     },
     data() {
         return {
@@ -416,9 +421,8 @@ export default {
                 status: false,
             });
         },
-        async getData() {
-            await axios
-                .get("/api/user")
+        async getData(page = 1) {
+            await axios.get("/api/user?page=" + page)
                 .then((data) => {
                     this.data = data.data.data;
                 })
