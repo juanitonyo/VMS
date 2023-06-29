@@ -1,7 +1,7 @@
 <template>
     <div class="mt-8">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <DateFilter></DateFilter>
+            <DateFilter @filter-date="filterData"></DateFilter>
             <h2 class="text-2xl font-extrabold leading-6 text-gray-900">Overview</h2>
             <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 <!-- Cards -->
@@ -213,7 +213,7 @@ export default {
     methods: {
         getVisitors() {
             if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
+                axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
                     .then((data) => {
                         this.visitors = data.data.data;
                         this.numVisitors = this.visitors.total;
@@ -222,7 +222,7 @@ export default {
                     });
             }
             else {
-                axios.get('/api/visitors/filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
+                axios.get('/api/visitors/filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
                     .then((data) => {
                         this.visitors = data.data.data;
                         this.numVisitors = this.visitors.total;
@@ -233,7 +233,7 @@ export default {
         },
         getVisitorLogs(page = 1) {
             if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
+                axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
                     .then((data) => {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
@@ -242,7 +242,7 @@ export default {
                     });
             }
             else {
-                axios.get('/api/visitor-logs?page=' + page + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
+                axios.get('/api/visitor-logs?page=' + page + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
                     .then((data) => {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
@@ -253,7 +253,7 @@ export default {
         },
         getCheckOuts(page = 1) {
             if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-checkouts-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
+                axios.get('/api/get-checkouts-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
                     .then((data) => {
                         this.visitorCheckOuts = data.data.data;
                         this.numCheckouts = this.visitorCheckOuts.total;
@@ -262,7 +262,7 @@ export default {
                     });
             }
             else {
-                axios.get('/api/get-checkouts?page=' + page + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
+                axios.get('/api/get-checkouts?page=' + page + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
                     .then((data) => {
                         this.visitorCheckOuts = data.data.data;
                         this.numCheckouts = this.visitorCheckOuts.total;
@@ -272,7 +272,9 @@ export default {
             }
         },
 
-        filterData() {
+        filterData({ value1, value2 }) {
+            this.filterOn = value1
+            this.filterBefore = value2
             this.getVisitorLogs();
             this.getVisitors();
             this.getCheckOuts();
