@@ -101,7 +101,7 @@
                 </div>
             </div>
 
-            <div class="flex my-10 justify-between gap-x-2 w-full">
+            <div class="flex my-6 justify-between gap-x-2 w-full">
                 <a :href="'/visitor-registration/SignIn/reg/' + this.id"
                     class="w-full h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">
                     Close</a>

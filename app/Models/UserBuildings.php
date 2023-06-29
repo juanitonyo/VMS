@@ -25,6 +25,6 @@ class UserBuildings extends Model
 
     public function building()
     {
-        return $this->select(Building::class, 'id', 'building_id');
+        return $this->hasMany(Building::class, 'id', 'building_id');
     }
 }
