@@ -11,7 +11,7 @@
             VMS Tabs
           </div>
           <div v-for="item in sidebarNavigation" v-if="permissions">
-            <router-link v-if="item.access" @click="item.dropdown = !item.dropdown" :key="item.name" :to="item.href"
+            <router-link v-if="item.access" @click="toggleDropdown(item)" :key="item.name" :to="item.href"
               :class="[
                 useRoute().path == item.href
                   ? 'bg-gray-50 text-gray-700'
@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { reactive } from "vue";
+import { reactive, ref } from "vue";
 import { userAuthStore } from "@/store/auth";
 import { useRoute } from "vue-router";
 import {
@@ -76,6 +76,22 @@ import {
 } from "@heroicons/vue/24/outline";
 
 let permissions = userAuthStore().role.permissions;
+let activeDropdown = ref(null);
+
+const toggleDropdown = (item) => {
+  if (activeDropdown.value === item) {
+    // Clicked on the same dropdown item, so close it
+    item.dropdown = false;
+    activeDropdown.value = null;
+  } else {
+    // Close the previously active dropdown and open the clicked one
+    if (activeDropdown.value) {
+      activeDropdown.value.dropdown = false;
+    }
+    item.dropdown = true;
+    activeDropdown.value = item;
+  }
+};
 
 const sidebarNavigation = reactive([
   {

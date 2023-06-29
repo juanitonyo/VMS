@@ -2,14 +2,23 @@
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
             <h1 class="text-2xl font-extrabold leading-6 text-gray-900">Building Type Table</h1>
-            <p class="mt-2 text-xs text-gray-700">A roster of all building types associated with your account, including
+            <p class="mt-2 text-xs text-gray-700 w-[400px]">A roster of all building types associated with your account,
+                including
                 their category, description and location.</p>
         </div>
-        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex gap-1">
-            <button type="button"
-                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800">Export CSV</button>
+        <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex items-center gap-1">
+            <div class="relative">
+                <input type="text" name="search" class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80"
+                    placeholder="Search: Building Type">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="absolute w-4 h-4 top-1.5 right-2">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                </svg>
+            </div>
             <button @click.prevent="setOpen" type="button"
-                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800">Add Entry</button>
+                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800">Add
+                Entry</button>
         </div>
     </div>
     <div class="mt-8 flow-root">
@@ -58,9 +67,12 @@
                         </tbody>
                     </table>
                 </div>
-            </div>
-            <div class="flex items-center justify-end mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
+                <div class="flex items-center justify-between mt-3">
+                    <button type="button"
+                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800">Export
+                        CSV</button>
+                    <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
+                </div>
             </div>
         </div>
     </div>

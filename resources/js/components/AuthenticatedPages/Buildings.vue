@@ -7,10 +7,17 @@
                     <p class="mt-2 text-xs text-gray-700">Viewing and Adding types of Buildings</p>
                 </div>
 
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex gap-1">
-                    <button type="button"
-                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800">Export
-                        CSV</button>
+                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex gap-1 items-center">
+                    <div class="relative">
+                        <input type="text" name="search"
+                            class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80"
+                            placeholder="Search: Building Name">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="absolute w-4 h-4 top-1.5 right-2">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                        </svg>
+                    </div>
                     <button @click.prevent="setOpen" type="button" v-if="permissions.create"
                         class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
                         Building</button>

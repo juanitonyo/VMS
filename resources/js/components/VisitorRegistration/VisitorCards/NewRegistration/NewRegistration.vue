@@ -25,7 +25,7 @@
                 <div class="flex flex-row items-center ">
                     <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
                     <div class="flex flex-col">
-                        <input v-model="form.name" :disabled="isGoogleExist" placeholder="Juan Dela Cruz"
+                        <input v-model="form.name" type="text" :disabled="isGoogleExist" placeholder="Juan Dela Cruz"
                             :class="this.errors.name.error ? 'text-[10px] border border-red-700 bg-red-100/25 rounded-[3px] pl-2 h-[28px] w-[230px]' : 'focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[230px]'">
                     </div>
                 </div>

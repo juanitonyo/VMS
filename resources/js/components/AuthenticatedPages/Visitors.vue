@@ -18,6 +18,7 @@
                     Entries
                 </p>
             </div>
+            <DateFilter class="mt-5"></DateFilter>
             <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -267,6 +268,7 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
 import moment from 'moment';
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
+import DateFilter from '../Elements/DateFilter/DateFilter.vue';
 
 export default {
     name: 'VisitorLogs',
@@ -293,7 +295,7 @@ export default {
     },
 
     components: {
-        SliderVue, NormalInput, Switch, SwitchGroup, SwitchLabel, DialogVue, TailwindPagination
+        SliderVue, NormalInput, Switch, SwitchGroup, SwitchLabel, DialogVue, DateFilter, TailwindPagination
     },
     methods: {
         editVisitors(item) {
