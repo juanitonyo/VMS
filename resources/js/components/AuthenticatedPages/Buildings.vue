@@ -92,7 +92,8 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-end mt-3">
+            <div class="flex items-center justify-between mt-3">
+                <p class="text-sm">{{ 'Showing ' + this.data.from + ' to ' + this.data.to + ' of ' + this.data.total + ' entries.' }}</p>
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
@@ -112,7 +113,7 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.description" label="Description" id="building"
+                            <NormalInput v-model="form.description" label="Description" id="description"
                                 :hasError="this.editMode ? false : form.errors.has('description')"
                                 :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
                         </div>
@@ -120,24 +121,25 @@
                         <div class="sm:col-span-3 mt-3">
                             <div class="flex justify-between">
                                 <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
-                                <span v-show="this.editMode ? false : form.errors.has('building_type')"
-                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ forMessage('address') }}</span>
+                                <span v-show="form.errors && (form.errors.has('address') ?? false)" v-html="form.errors && (form.errors.has('address') ?? false) ? form.errors.get('address') : ''"
+                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1"></span>
                             </div>
                             <textarea v-model="form.address" type="text" name="build" id="building"
                                 autocomplete="building"
-                                class="block w-full h-40 px-3 rounded-md py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" :class="form.errors.has('address') ? 'border border-red-400 rounded-md bg-red-50' : ' '" />
+                                class="block w-full h-40 px-3 rounded-md py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" 
+                                :class="form.errors && (form.errors.has('address') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''" />
                         </div>
 
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <div class="flex justify-between">
                                 <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose
                                     Building Types</label>
-                                <span v-show="this.editMode ? false : form.errors.has('building_type')"
-                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage('building_type') }}</span>
+                                <span v-show="form.errors && (form.errors.has('building_type') ?? false)" v-html="form.errors && (form.errors.has('building_type') ?? false) ? form.errors.get('building_type') : ''"
+                                    class="text-[10px] text-red-600 dark:text-red-500"></span>
                             </div>
                             <v-select v-model="form.building_type" placeholder="search" :options="building_types"
                                 label="label"
-                                :class="this.editMode ? ' ' : [form.errors.has('building_type') ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ' ']"></v-select>
+                                :class="form.errors && (form.errors.has('building_type') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -173,22 +175,8 @@
                         </div>
 
                         <p class="text-sm mt-5 font-bold">Advance Settings</p>
-
+                        
                         <div class="sm:col-span-3 mt-3">
-                            <SwitchGroup as="div" class="flex items-center justify-between">
-                                <span class="flex flex-grow flex-col">
-                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
-                                        Status</SwitchLabel>
-                                </span>
-                                <Switch v-model="form.status"
-                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
-                                    <span aria-hidden="true"
-                                        :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
-                                </Switch>
-                            </SwitchGroup>
-                        </div>
-
-                        <div class="sm:col-span-3 mt-2">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
@@ -199,6 +187,19 @@
                                     :class="[form.health_form ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.health_form ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
+                                </Switch>
+                            </SwitchGroup>
+                        </div>
+                        <div class="sm:col-span-3 mt-2">
+                            <SwitchGroup as="div" class="flex items-center justify-between">
+                                <span class="flex flex-grow flex-col">
+                                    <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
+                                        Status</SwitchLabel>
+                                </span>
+                                <Switch v-model="form.status"
+                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    <span aria-hidden="true"
+                                        :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
                             </SwitchGroup>
                         </div>
@@ -462,14 +463,6 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
-
-        forClass() {
-            return this.form.errors.has('building_type') ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''
-        },
-
-        forMessage(error) {
-            return this.editMode ? '' : this.form.errors.get(error)
-        }
     },
 
     created() {

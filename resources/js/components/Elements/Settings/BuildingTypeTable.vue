@@ -74,14 +74,14 @@
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.name" label="Building Type" id="building-name"
-                                :hasError="this.editMode ? false : form.errors.has('name')"
-                                :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
+                                :hasError="form.errors && (form.errors.has('name') ?? false)"
+                                :errorMessage="form.errors && (form.errors.has('name') ?? false) ? form.errors.get('name') : ''"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.description" label="Description" id="building-name"
-                                :hasError="this.editMode ? false : form.errors.has('description')"
-                                :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
+                                :hasError="form.errors && (form.errors.has('description') ?? false)"
+                                :errorMessage="form.errors && (form.errors.has('description') ?? false) ? form.errors.get('description') : ''"></NormalInput>
                         </div>
 
                         <p class="text-sm mt-5 font-bold">Advance Settings</p>

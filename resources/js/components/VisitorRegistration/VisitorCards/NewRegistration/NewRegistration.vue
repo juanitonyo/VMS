@@ -2,7 +2,7 @@
     <div class="flex justify-center items-center min-h-screen min-w-screen">
         <div v-show="!isFormComplete" class="flex flex-col items-center justify-center gap-y-5">
 
-            <div class="flex flex-col gap-y-1 items-center justify-center mt-10">
+            <div class="flex flex-col gap-y-1 items-center justify-center mt-10 w-80">
                 <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                 <h4 class="text-gray-400 text-[10px] text-center mb-4">{{ this.buildings.address }}</h4>
                 <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
@@ -343,7 +343,7 @@ export default {
                     store.setHiddenParam(this.account.id);
                     this.$router.push('/visitor-registration/success/' + this.id);
                 }).catch((error) => {
-
+                    this.isFormComplete = !this.isFormComplete
                 })
             }
             else {
@@ -357,6 +357,7 @@ export default {
                         this.$Progress.fail();
                         this.existingAccount = error.response.data.data;
                         this.compareExistToForm(this.existingAccount);
+                        this.isFormComplete = !this.isFormComplete
                     })
             }
         },

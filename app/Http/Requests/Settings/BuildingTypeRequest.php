@@ -37,7 +37,6 @@ class BuildingTypeRequest extends FormRequest
         return [
             'params.data.name' => 'required|max:100|unique:building_types,id,'.$this->get('id'),
             'params.data.description' => 'required',
-            'params.data.health_form' => 'required',
             'params.data.delivery_form' => 'required',
             'params.data.status' => 'required',
         ];

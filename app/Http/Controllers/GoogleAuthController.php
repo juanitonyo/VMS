@@ -21,40 +21,29 @@ class GoogleAuthController extends Controller
     }
 
     public function callbackGoogle(Request $request) {
-        dd($request->all());
-
         try {
             $google_user = Socialite::driver('google')->user();
         
             $user = Visitors::where('email', $google_user->getEmail())->first();
             $building_uid = session('building_uid');
             if ($user) {
+                session(['account_id' => $user->id]);
                 return redirect()->intended('/visitor-registration/checkin/' .  $building_uid )->withCookie(cookie('id', $user->id, 1440, $httpOnly = false));
             } else {
                 
                
                 $refID = Building::where('qr_id',  $building_uid )->first()->id;
         
-                $autoApproval = VisitTypes::where([
-                    'id' => $refID,
-                    'auto_approve' => true
-                ])->first();
-        
-                if ($autoApproval != null) {
-                    $validated = true;
-                } else {
-                    $validated = false;
-                }
-        
                 $new_user = Visitors::create([
                     'name' => $google_user->getName(),
                     'email' => $google_user->getEmail(),
                     'google_id' => $google_user->getId(),
                     'ref_code' => Str::random(6),
-                    'status' => $validated
                 ]);
         
-                return redirect()->intended('/visitor-registration/create/' .  $building_uid )->withCookie(cookie('id', $new_user->id, 1440, $httpOnly = false));
+                session(['account_id' => $new_user->id]);
+
+                return redirect()->intended('/visitor-registration/create/' .  $building_uid );
             }
         
         } catch (\Throwable $th) {

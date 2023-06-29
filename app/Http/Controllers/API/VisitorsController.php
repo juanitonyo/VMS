@@ -41,6 +41,8 @@ class VisitorsController extends BaseController
     
     public function syncVisitor(Request $request) {
 
+        dd(session('account_id'));
+
         $data = Visitors::with('latestLog')->where('id', $request->id)->first();        
 
         return $this->sendResponse($data, "Fetched data in table");

@@ -92,26 +92,28 @@
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.name" label="Visit Type Name" id="visitType"
-                                :hasError="this.editMode ? false : form.errors.has('name')"
-                                :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
+                                :hasError="form.errors && (form.errors.has('name') ?? false)"
+                                :errorMessage="form.errors && (form.errors.has('name') ?? false) ? form.errors.get('name') : ''"></NormalInput>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3">
                             <div class="flex justify-between">
                                 <label for="building_type"
                                     class="block text-sm font-medium leading-6 text-gray-900">Building
                                     Type</label>
-                                <span v-show="this.editMode ? false : form.errors.has('building_type')"
-                                    class="text-[10px] text-red-600 dark:text-red-500">{{ forMessage() }}</span>
+                                <span class="text-[10px] text-red-600 dark:text-red-500"
+                                    v-show="form.errors && (form.errors.has('building_type') ?? false)"
+                                    v-html="form.errors && (form.errors.has('building_type')) ? form.errors.get('building_type') : ''"
+                                    ></span>
                             </div>
                             <v-select v-model="form.building_type" placeholder="Search" :options="building_types"
                                 label="label"
-                                :class="form.errors.has('building_type') ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ' '"></v-select>
+                                :class="form.errors && (form.errors.has('building_type') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.description" label="Description" id="building"
-                                :hasError="this.editMode ? false : form.errors.has('description')"
-                                :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
+                                :hasError="form.errors && (form.errors.has('description') ?? false)"
+                                :errorMessage="form.errors && (form.errors.has('description') ?? false) ? form.errors.get('description') : ''"></NormalInput>
                         </div>
 
                         <p class="text-sm mt-5 font-bold">Advance Settings</p>

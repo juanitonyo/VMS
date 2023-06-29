@@ -35,7 +35,7 @@ class BuildingController extends BaseController
                 ->when(Building::with('buildingType')->get(), function ($query) use ($relationship) {
                     return $query->with($relationship)->orderBy('building_name', 'asc');
                 })
-                ->paginate(10);
+                ->paginate(20);
         return $this->sendResponse($data, "All buildings in array");
     }
 

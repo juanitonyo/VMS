@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class UserBuildings extends Model
@@ -24,8 +23,8 @@ class UserBuildings extends Model
         'status' => 1,
     ];
 
-    public function building(): HasMany
+    public function building()
     {
-        return $this->hasMany(Building::class, 'id', 26);
+        return $this->select(Building::class, 'id', 'building_id');
     }
 }

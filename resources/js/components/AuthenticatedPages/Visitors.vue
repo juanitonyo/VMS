@@ -51,7 +51,7 @@
                                         </td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center"
                                             v-if="permissions.update">
-                                            <a v-show="item.status == 0"
+                                            <a v-show="!item.is_checked_out && item.status == 0"
                                                 class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer"
                                                 @click.prevent="setShow('Approval', item)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -60,7 +60,7 @@
                                                         d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </a>
-                                            <a v-show="item.status == 1"
+                                            <a v-show="!item.is_checked_out && item.status == 0"
                                                 class="approve text-white bg-red-400 rounded-md p-1 cursor-pointer"
                                                 @click.prevent="setShow('Disapproval', item)">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -88,7 +88,7 @@
                                                     <polyline points="22,6 12,13 2,6"></polyline>
                                                 </svg>
                                             </a>
-                                            <a v-show="!item.is_checked_out && item.status"
+                                            <a v-show="!item.is_checked_out && item.status == 1"
                                                 @click.prevent="setShow('Check Out', item)"
                                                 class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -181,8 +181,8 @@
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Checked out at:</td>
-                                <td class="italic text-right text-gray-600">{{ this.account.created_at ==
-                                    this.account.updated_at ? 'Not Yet' : moment(this.account.updated_at).format('MMMM Do YYYY, h: mm: ss a') }}</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.is_checked_out ? 
+                                    moment(this.account.updated_at).format('MMMM Do YYYY, h: mm: ss a') : 'Not Yet' }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Checked out by:</td>

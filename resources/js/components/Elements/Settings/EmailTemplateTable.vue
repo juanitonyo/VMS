@@ -81,34 +81,38 @@
                                 <label for="email_subj"
                                     class="block text-sm font-medium leading-6 text-gray-900">Choose
                                     Purpose</label>
-                                <span v-show="this.editMode ? false : form.errors.has('purpose')"
-                                    class="text-[10px] text-red-600 dark:text-red-500">{{ form.errors.get('purpose') }}</span>
+                                <span class="text-[10px] text-red-600 dark:text-red-500"
+                                    v-show="form.errors && (form.errors.has('purpose') ?? false)"
+                                    v-html="form.errors && (form.errors.has('purpose')) ? form.errors.get('purpose') : ''"
+                                    ></span>
                             </div>
                             <v-select v-model="form.purpose" placeholder="Search" :options="option" label="label"
-                                :class="this.editMode ? '' : forClass()"></v-select>
+                                :class="form.errors && (form.errors.has('purpose') ?? false) ? 'bg-red-50 border rounded-md border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.subject" label="Subject" id="email_subj"
-                                :hasError="this.editMode ? false : form.errors.has('subject')"
-                                :errorMessage="this.editMode ? false : form.errors.get('subject')"></NormalInput>
+                                :hasError="form.errors && (form.errors.has('subject') ?? false)"
+                                :errorMessage="form.errors && (form.errors.has('subject') ?? false) ? form.errors.get('subject') : ''"></NormalInput>
                         </div>
 
                         <div class="editor sm:col-span-3 mt-3">
                             <div class="flex justify-between">
                                 <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Body</label>
-                                <span v-show="form.errors.has('body')"
-                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ form.errors.get('body') }}</span>
+                                <span class="text-[10px] text-red-600 dark:text-red-500 mt-1"
+                                    v-show="form.errors && (form.errors.has('body') ?? false)"
+                                    v-html="form.errors && (form.errors.has('body')) ? form.errors.get('body') : ''"
+                                    ></span>
                             </div>
                             <div>
-                                <ckeditor :class="form.errors.has('body') ? 'border border-red-400 rounded-md bg-red-700' : ''" v-model="form.body" :editor="editor" :config="editorConfig"></ckeditor>
+                                <ckeditor :class="form.errors && (form.errors.has('body') ?? false) ? 'border border-red-400 rounded-md bg-red-700' : ''" v-model="form.body" :editor="editor" :config="editorConfig"></ckeditor>
                             </div>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.description" label="Description" id="email_subj"
-                                :hasError="this.editMode ? false : form.errors.has('description')"
-                                :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
+                                :hasError="form.errors && (form.errors.has('description') ?? false)"
+                                :errorMessage="form.errors && (form.errors.has('description') ?? false) ? form.errors.get('description') : ''"></NormalInput>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -314,12 +318,6 @@ export default {
                 // errorMessage('Opps!', e.message, 'top-right')
             });
         },
-        forClass() {
-            return this.form.errors.has('purpose') ? 'bg-red-50 border rounded-md border-red-500 text-red-900 placeholder-red-700' : ''
-        },
-        forMessage() {
-            return this.editMode ? ' ' : this.form.errors.get('purpose')
-        }
     },
     created() {
         this.getData();
