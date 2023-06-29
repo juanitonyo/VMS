@@ -86,7 +86,7 @@ const sidebarNavigation = reactive([
   },
   {
     name: "Manage Users",
-    href: "#",
+    href: "/app/users",
     icon: UsersIcon,
     access: (permissions.users || permissions.roles) ?? false,
     dropdown: false,
@@ -111,7 +111,7 @@ const sidebarNavigation = reactive([
   },
   {
     name: "Manage Visitors",
-    href: "#",
+    href: "/app/visitors",
     icon: UserGroupIcon,
     access: (permissions.visitors || permissions.invite) ?? false,
     dropdown: false,
@@ -130,7 +130,7 @@ const sidebarNavigation = reactive([
   },
   {
     name: "Manage Deliveries",
-    href: "#",
+    href: "/app/deliveries",
     icon: TruckIcon,
     access: (permissions.deliveries || permissions.expected) ?? false,
     dropdown: false,

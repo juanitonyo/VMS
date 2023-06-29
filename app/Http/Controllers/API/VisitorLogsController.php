@@ -14,15 +14,21 @@ class VisitorLogsController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = VisitorLogs::with('visitor')->latest()->paginate(5);
+        $data = VisitorLogs::where([
+            ['created_at', '>=', $request->filter1],
+            ['created_at', '<=', $request->filter2],
+        ])->with('visitor')->latest()->paginate($request->limit);
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
-    public function getVisitorLogs()
+    public function getVisitorLogs(Request $request)
     {
-        $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')->latest()->paginate(10);
+        $data = VisitorLogs::where([
+            ['created_at', '>=', $request->filter1],
+            ['created_at', '<=', $request->filter2],
+        ])->with('visitor', 'user', 'building', 'visitType')->latest()->paginate(10);
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
@@ -37,18 +43,27 @@ class VisitorLogsController extends BaseController
         return $this->sendResponse($data, "Fetched data from table.");
     }
 
-    public function totalCheckOut() {
-        $data = VisitorLogs::with('visitor')->where('is_checked_out', 1)->latest()->paginate(5);
+    public function totalCheckOut(Request $request) {
+        $data = VisitorLogs::with('visitor')->where('is_checked_out', 1)->where([
+            ['created_at', '>=', $request->filter1],
+            ['created_at', '<=', $request->filter2],
+        ])->latest()->paginate(5);
         return $this->sendResponse($data, "Fetched check outs in table");
     }
     
     public function getIndexByUserID(Request $request) {
-        $data = VisitorLogs::with('visitor')->where('user_id', $request->id)->latest()->paginate(5);
+        $data = VisitorLogs::with('visitor')->where('user_id', $request->id)->where([
+            ['created_at', '>=', $request->filter1],
+            ['created_at', '<=', $request->filter2],
+        ])->latest()->paginate($request->limit);
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
     public function getVisitorLogsByUserID(Request $request) {
-        $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')->where('user_id', $request->id)->latest()->paginate(5);
+        $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')->where('user_id', $request->id)->where([
+            ['created_at', '>=', $request->filter1],
+            ['created_at', '<=', $request->filter2],
+        ])->latest()->paginate($request->limit);
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
@@ -56,6 +71,9 @@ class VisitorLogsController extends BaseController
         $data = VisitorLogs::with('visitor')->where([
             'user_id' => $request->id,
             'is_checked_out' => 1
+        ])->where([
+            ['created_at', '>=', $request->filter1],
+            ['created_at', '<=', $request->filter2],
         ])->latest()->paginate(5);
         return $this->sendResponse($data, "Fetched check outs in table");
     }

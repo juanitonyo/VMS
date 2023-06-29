@@ -6,7 +6,17 @@
                     <h1 class="text-2xl font-extrabold leading-6 text-gray-900">VISITORS</h1>
                     <p class="mt-2 text-xs text-gray-700">Log of all visitors in the database</p>
                 </div>
-
+            </div>
+            <div class="mt-3">
+                <p class="text-sm">Showing
+                    <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white border-2">
+                        <option selected value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    Entries
+                </p>
             </div>
             <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -105,7 +115,8 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-center mt-3">
+            <div class="flex items-center justify-between mt-3">
+                <p class="text-sm">{{ 'Showing ' + this.data.from + ' to ' + this.data.to + ' of ' + this.data.total + ' entries.' }}</p>
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
@@ -182,7 +193,7 @@
                             <tr>
                                 <td class="font-bold text-gray-800">Checked out at:</td>
                                 <td class="italic text-right text-gray-600">{{ this.account.is_checked_out ? 
-                                    moment(this.account.updated_at).format('MMMM Do YYYY, h: mm: ss a') : 'Not Yet' }}</td>
+                                    moment(this.account.updated_at).format('MMMM Do YYYY, h: mm: ss a') : 'Not Yet'}}{{ this.account.status == -1 ? ' [Disapproved]' : '' }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Checked out by:</td>
@@ -250,6 +261,7 @@
 <script>
 import axios from 'axios';
 import { userAuthStore } from "@/store/auth";
+import { TailwindPagination } from 'laravel-vue-pagination';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
@@ -275,12 +287,13 @@ export default {
             account: {},
             building: [],
             show: false,
-            statusChoice: ''
+            statusChoice: '',
+            limitPage: ''
         }
     },
 
     components: {
-        SliderVue, NormalInput, Switch, SwitchGroup, SwitchLabel, DialogVue
+        SliderVue, NormalInput, Switch, SwitchGroup, SwitchLabel, DialogVue, TailwindPagination
     },
     methods: {
         editVisitors(item) {
@@ -301,7 +314,8 @@ export default {
 
         async getData(page = 1) {
             if (userAuthStore().user.role_id == 2) {
-                await axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id).then((data) => {
+                await axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&limit=' + this.limitPage)
+                .then((data) => {
                     this.data = data.data.data;
                     console.log(this.data)
                 }).catch((e) => {
@@ -309,7 +323,7 @@ export default {
                 });
             }
             else {
-                await axios.get('/api/get-logs?page=' + page).then((data) => {
+                await axios.get('/api/get-logs?page=' + page + '&limit=' + this.limitPage).then((data) => {
                     this.data = data.data.data;
                     console.log(this.data)
                 }).catch((e) => {

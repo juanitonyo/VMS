@@ -6,6 +6,7 @@
                     <h1 class="text-2xl font-extrabold leading-6 text-gray-900">QR CODE SUMMARY</h1>
                     <p class="mt-2 text-xs text-gray-700">A summary of QR codes of all the buildings</p>
                 </div>
+                
                 <div class="relative">
                     <input v-model="this.search" @input="getData" type="text" name="search" class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80"
                         placeholder="Search: Building Name">
@@ -17,8 +18,20 @@
                 </div>
             </div>
 
+            <div class="mt-3">
+                <p class="text-sm">Showing
+                    <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white border-2">
+                        <option selected value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    Entries
+                </p>
+            </div>
+
             <div class="flex flex-col">
-                <div v-for="item in data.data" class="flex mt-8 gap-2">
+                <div v-for="item in data.data" class="flex mt-3 gap-2">
 
                     <div class="card p-5 border border-gray-300 w-1/2 lg:h-56 h-80 rounded-xl">
                         <div
@@ -51,9 +64,10 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-end mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"
-                    :perPage="size" />
+            <div class="flex items-center justify-between mt-3">
+                <p class="text-sm">{{ 'Showing ' + this.data.from + ' to ' + this.data.to + ' of ' + this.data.total + ' entries.' }}</p>
+                
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
             </div>
         </div>
     </div>
@@ -78,12 +92,13 @@ export default {
         return {
             data: {},
             url: '',
-            search: ''
+            search: '',
+            limitPage: ''
         }
     },
     methods: {
         async getData(page = 1) {
-            await axios.get('/api/building?page=' + page + '&search=' + this.search).then((data) => {
+            await axios.get('/api/building?page=' + page + '&search=' + this.search + '&limit=' + this.limitPage).then((data) => {
                 this.data = data.data.data
             }).catch((error) => {
 

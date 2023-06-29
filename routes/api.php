@@ -61,7 +61,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'sms-template' => 'SMSTemplateController',  
         'building' => 'BuildingController',
         'visitors' => 'VisitorsController',
-        'host' => 'HostController',
+        'hostp' => 'HostController',
         'visit-type' => 'VisitTypesController',
         'visitor-logs' => 'VisitorLogsController',
         'delivery' => 'DeliveryController',

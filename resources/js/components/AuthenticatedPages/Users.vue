@@ -113,7 +113,9 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-end mt-3">
+            <div class="flex items-center justify-between mt-3">
+                <p class="text-sm">{{ 'Showing ' + this.data.from + ' to ' + this.data.to + ' of ' + this.data.total + ' entries.' }}</p>
+                
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
             </div>
         </div>

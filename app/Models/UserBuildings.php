@@ -23,8 +23,8 @@ class UserBuildings extends Model
         'status' => 1,
     ];
 
-    public function building()
+    public function building(): HasMany
     {
-        return $this->select(Building::class, 'id', 'building_id');
+        return $this->hasMany(Building::class, 'id', 'building_id');
     }
 }

@@ -24,18 +24,18 @@
 
                 <div class="flex flex-col text-xs ">
                     <label for="from" class="text-blue-700 text-[9px] pl-1">from date</label>
-                    <input type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
+                    <input v-model="this.filterOn" type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
                 </div>
 
                 <div class="w-[1px] bg-gray-300 h-10"></div>
 
                 <div class="flex flex-col text-xs ">
                     <label for="from" class="text-blue-700 text-[9px] pl-1">to date</label>
-                    <input type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
+                    <input v-model="this.filterBefore" type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
                 </div>
 
 
-                <button class="border border-blue-500 rounded-full px-10 py-[1px] text-sm hover:bg-blue-500 hover:text-white">
+                <button @click.prevent="filterData" class="border border-blue-500 rounded-full px-10 py-[1px] text-sm hover:bg-blue-500 hover:text-white">
                     Filter
                 </button>
             </div>
@@ -55,7 +55,7 @@
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Visitors</dt>
-                                    <p class="text-2xl font-bold text-indigo-900">{{ this.numVisitors }}</p>
+                                    <p class="text-2xl font-bold text-indigo-900">{{ this.numLogs }}</p>
                                 </dl>
                             </div>
                         </div>
@@ -243,23 +243,24 @@ export default {
             numVisitors: '',
             numLogs: '',
             numCheckouts: '',
-            onFilter: false
+            onFilter: false,
+            filterOn: '',
+            filterBefore: ''
         }
     },
     methods: {
         getVisitors() {
             if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id)
+                axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitors = data.data.data;
                         this.numVisitors = this.visitors.total;
-                        console.log(this.visitors)
                     }).catch((e) => {
 
                     });
             }
             else {
-                axios.get('/api/visitors/')
+                axios.get('/api/visitors/filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitors = data.data.data;
                         this.numVisitors = this.visitors.total;
@@ -270,7 +271,7 @@ export default {
         },
         getVisitorLogs(page = 1) {
             if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id)
+                axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
@@ -279,7 +280,7 @@ export default {
                     });
             }
             else {
-                axios.get('/api/visitor-logs?page=' + page)
+                axios.get('/api/visitor-logs?page=' + page + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
@@ -290,7 +291,7 @@ export default {
         },
         getCheckOuts(page = 1) {
             if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-checkouts-by-user?page=' + page + '&id=' + userAuthStore().user.id)
+                axios.get('/api/get-checkouts-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitorCheckOuts = data.data.data;
                         this.numCheckouts = this.visitorCheckOuts.total;
@@ -299,7 +300,7 @@ export default {
                     });
             }
             else {
-                axios.get('/api/get-checkouts?page=' + page)
+                axios.get('/api/get-checkouts?page=' + page + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitorCheckOuts = data.data.data;
                         this.numCheckouts = this.visitorCheckOuts.total;
@@ -311,13 +312,21 @@ export default {
 
         showFilter() {
             this.onFilter = !this.onFilter;
+        },
+
+        filterData() {
+            this.getVisitorLogs();
+            this.getVisitors();
+            this.getCheckOuts();
         }
     },
     created() {
+        this.moment = moment;
+        this.filterOn = moment().format('YYYY-MM-DD');
+        this.filterBefore = moment().format('YYYY-MM-DD');
         this.getVisitorLogs();
         this.getVisitors();
         this.getCheckOuts();
-        this.moment = moment;
     },
     beforeMount() {
         this.permissions = {
