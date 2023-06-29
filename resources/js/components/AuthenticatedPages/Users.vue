@@ -27,7 +27,18 @@
                     </button>
                 </div>
             </div>
-            <div class="mt-8 flow-root">
+            <div class="mt-3">
+                <p class="text-sm">Showing
+                    <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white border-2">
+                        <option selected value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    Entries
+                </p>
+            </div>
+            <div class="mt-3 flow-root">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
@@ -67,9 +78,9 @@
                                             {{ item.email }}
                                         </td>
                                         <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
-                                            {{
-                                                item.user_building.building ?? ''
-                                            }}
+                                            <span v-for="building in item.user_building.building" :key="building.id">
+                                                <p>{{ building.building_name }}</p>
+                                            </span>
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
                                             {{
@@ -102,16 +113,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-between mt-3">
-                <p class="text-sm">Showing
-                    <select v-model="limitPage" name="length" class="text-center bg-white">
-                        <option selected value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                    Entries
-                </p>
+            <div class="flex items-center justify-end mt-3">
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
             </div>
         </div>
@@ -123,38 +125,39 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.name" label="name" id="name" :hasError="this.editMode ? false : form.errors.has('name')" :errorMessage="this.editMode ? false : form.errors.get('name')"></NormalInput>
+                            <NormalInput v-model="form.name" label="name" id="name" 
+                                :hasError="form.errors && (form.errors.has('name') ?? false)" 
+                                :errorMessage="form.errors && (form.errors.has('name') ?? false) ? form.errors.get('name') : ''"></NormalInput>
                         </div>
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.email" label="Email" id="user-email" :hasError="this.editMode
-                                ? false
-                                : form.errors.has('email')
-                                " :errorMessage="this.editMode ? false : form.errors.get('email')">
+                            <NormalInput v-model="form.email" label="Email" id="user-email" 
+                                :hasError="form.errors && (form.errors.has('email') ?? false)" 
+                                :errorMessage="form.errors && (form.errors.has('email') ?? false) ? form.errors.get('email') : ''">
                             </NormalInput>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <div class="flex justify-between">
-                                <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
-                                    Role</label>
-                                <span v-show="this.errors.role_id.error"
-                                    class="text-[10px] text-red-600 dark:text-red-500 mt-1">{{ this.errors.role_id.label }}</span>
+                                <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose Role</label>
+                                <span class="text-[10px] text-red-600 dark:text-red-500 mt-1"
+                                    v-show="form.errors && (form.errors.has('role_id') ?? false)"
+                                    v-html="form.errors && (form.errors.has('role_id') ?? false) ? form.errors.get('role_id').replace(' id', '') : ''"
+                                    ></span>
                             </div>
-                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" :class="this.errors.role_id.error
-                                ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700'
-                                : ''
-                                "></v-select>
+                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" 
+                                :class="form.errors && (form.errors.has('role_id') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"
+                                ></v-select>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
                                 Buildings</label>
 
                             <v-select v-model="form.building" :options="buildings" label="label" placeholder="search"
-                                :class="this.errors.building.error
-                                    ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700'
-                                    : ''
-                                    "></v-select>
-                            <span v-show="this.errors.building.error"
-                                class="text-xs/2 text-red-600 dark:text-red-500">{{ this.errors.building.label }}</span>
+                                :class="form.errors && (form.errors.has('building') ?? false) ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"
+                                ></v-select>
+                            <span class="text-xs/2 text-red-600 dark:text-red-500"
+                                v-show="form.errors && (form.errors.has('building') ?? false)"
+                                v-html="form.errors && (form.errors.has('building') ?? false) ? form.errors.get('building') : ''"
+                                ></span>
                         </div>
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -400,8 +403,8 @@ export default {
                     this.open = !this.open;
                     createToast(
                         {
-                            title: "Success!",
-                            description: "Data has been saved.",
+                            title: "Account has been added successfully!",
+                            description: "Login details are sent via mail.",
                         },
                         {
                             position: "top-left",

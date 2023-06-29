@@ -78,12 +78,12 @@
                             </div>
                                 <textarea v-model="form.message" type="text" name="sms" id="sms" autocomplete="sms"
                                     class="block w-full h-[356px] resize-none px-3 rounded-md border focus:outline-none py-1.5 text-gray-900 shadow-sm placeholder:text-gray-400 text-xs mt-1"
-                                    :class="form.errors.has('message') ? 'border border-red-400 rounded-md bg-red-50' : ''" />
+                                    :class="form.errors && (form.errors.has('message') ?? false) ? 'border border-red-400 rounded-md bg-red-50' : ''" />
                         </div>
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.description" label="Description" id="sms"
-                                :hasError="this.editMode ? false : form.errors.has('description')"
-                                :errorMessage="this.editMode ? false : form.errors.get('description')"></NormalInput>
+                                :hasError="form.errors && (form.errors.has('description') ?? false)"
+                                :errorMessage="form.errors && (form.errors.has('description') ?? false) ? form.errors.get('description') : ''"></NormalInput>
                         </div>
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">

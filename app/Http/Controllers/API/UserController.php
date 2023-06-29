@@ -24,9 +24,8 @@ class UserController extends BaseController
     {
         $data = User::whereHas('userBuilding')
             ->with(['userBuilding.building', 'role'])
-            ->orderBy('name','asc')
-            ->latest()
-            ->paginate(700);
+            ->orderBy('name', 'asc')
+            ->paginate($request->limit);
 
         return $this->sendResponse($data, "All users in array");
     }

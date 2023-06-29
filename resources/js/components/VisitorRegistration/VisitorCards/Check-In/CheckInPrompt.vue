@@ -94,21 +94,20 @@ export default {
                         this.$router.push('/visitor-registration/signIn/reg/' + this.id);
                     }
 
-                    else if (this.account.status) {
+                    else if(this.account.latest_log.status == 0) {
+                        this.$router.push('/visitor-registration/approval');
+                    }
+
+                    else {
                         store.setHiddenParam(this.account.id);
 
-                        if (this.account.latest_log == null || this.account.latest_log.is_checked_out) {
+                        if (this.account.latest_log == null || this.account.latest_log.is_checked_out || this.account.latest_log.status == -1) {
                             this.$router.push('/visitor-registration/checkin/' + this.id);
                         }
                         else if (!this.account.latest_log.is_checked_out) {
                             this.$router.push('/visitor-registration/checkout/' + this.id);
                         }
                     }
-
-                    else {
-                        this.$router.push('/visitor-registration/approval');
-                    }
-
                 })
                 .catch((error) => {
 

@@ -75,7 +75,7 @@
                     </div>
                 </div>
 
-                <div>
+                <div v-show="true">
                     <p class="text-xs text-blue-900 font-semibold leading-[20px] my-3">How are you feeling today?</p>
 
                     <div class="flex gap-x-3 w-80">
@@ -87,12 +87,18 @@
                             <span class="text-[10px] text-gray-500">I am prefectly fine</span>
                         </button>
 
-                        <button
-                            class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
-                            @click="isBad" type="button" v-on:blur="">
-                            <img src="/Visitor_Homepage_Assets/sad.png" class="w-[36px] h-[35px]">
-                            <span class="text-[10px] text-gray-500">I feel not so good today</span>
-                        </button>
+                        <div>
+                            <button
+                                class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
+                                @click="isBad" type="button" v-on:blur="">
+                                <img src="/Visitor_Homepage_Assets/sad.png" class="w-[36px] h-[35px]">
+                                <span class="text-[10px] text-gray-500">I feel not so good today</span>
+                            </button>
+                            <div v-show="!this.health_form.length == 0 && !this.health_form.includes(10)" class="justify-end mt-5">
+                                <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view
+                                    form</button>
+                            </div>
+                        </div>
 
                     </div>
 
@@ -108,13 +114,9 @@
                     </span>
                 </div>
 
-                <div class="flex justify-end mt-5">
-                    <button @click.prevent="isBad" class="underline text-red-500 text-[10px]">With Symptoms. Tap to view
-                        form</button>
-                </div>
 
                 <!-- if no hdf, stay here. else single-->
-                <div
+                <div 
                     class="relative flex flex-row items-center justify-center w-[310px] text-gray-600 font-extralight mt-3 gap-x-3">
                     <input type="checkbox" class="absolute top-0 left-0 w-5 h-5" @change="isChecked()">
                     <span class="ml-10 text-[10px] leading-4">By supplying the information on VMS registration form, I
@@ -239,7 +241,7 @@
                     <div class="flex flex-row justify-center items-center">
                         <label for="contact" class="text-[10px] text-gray-500 w-[144px]">Approved</label>
                         <p class="text-[10px] border rounded-[3px] border-blue-700 h-[28px] py-1.5 pl-2 w-full">
-                            {{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
+                            {{ this.visitor.status == 1 ? 'Approved' : this.visitor.status == 0 ? 'Pending Approval' : 'Disapproved' }}</p>
                     </div>
                 </div>
 
@@ -262,10 +264,9 @@
 
             <div class="space-y-2 my-5">
 
-                <div class="w-full flex h-[45px] gap-x-3 shadow-sm shadow-slate-400 p-2 rounded-md select-none"
-                    v-for="symptom in this.symptoms">
-                    <input v-model="symptom.state" type="checkbox" v-bind:id="symptoms.id"
-                        v-on:click="saveToArray(symptom.id)">
+                <div v-for="symptom in this.symptoms"
+                    class="w-full flex h-[45px] gap-x-3 shadow-sm shadow-slate-400 p-2 rounded-md select-none">
+                    <input v-model="symptom.state" type="checkbox" v-bind:id="symptoms.id" v-on:click="saveToArray(symptom.id)">
                     <img :src="symptom.image">
                     <div class="flex flex-col">
                         <p class="text-xs font-bold">{{ symptom.eng }}</p>
@@ -503,7 +504,7 @@ export default {
             this.form.visitor_id = this.visitor.id
             this.form.building_id = this.visitor.building_id
             this.form.visit_purpose_id = this.selectedPurpose.value
-            this.form.user_id = this.selectedUnitOwner.value
+            // this.form.user_id = this.selectedUnitOwner.value
             this.form.log_type = 'Walk-In'
             this.form.checked_in_by = this.visitor.name + ' [Visitor]'
 
@@ -571,7 +572,6 @@ export default {
             await axios.get('/api/get-visit-types/')
                 .then((data) => {
                     this.visitType = data.data.data;
-                    console.log(this.visitType)
                 })
                 .catch((e) => {
 
@@ -611,6 +611,7 @@ export default {
             this.goodHealth = false;
             this.good = false;
             this.pop = !this.pop;
+            console.log(this.health_form)
         },
     },
 
@@ -620,9 +621,6 @@ export default {
         this.syncVisitType();
         this.syncUnitOwners();
         this.moment = moment;
-        if (store.hiddenID == null) {
-            this.$router.push('/visitor-registration/SignIn/checkin/' + this.id);
-        }
     },
 }
 </script>
