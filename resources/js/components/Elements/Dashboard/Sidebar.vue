@@ -80,9 +80,11 @@ let activeDropdown = ref(null);
 
 const toggleDropdown = (item) => {
   if (activeDropdown.value === item) {
+    // Clicked on the same dropdown item, so close it
     item.dropdown = false;
     activeDropdown.value = null;
   } else {
+    // Close the previously active dropdown and open the clicked one
     if (activeDropdown.value) {
       activeDropdown.value.dropdown = false;
     }

@@ -1,6 +1,6 @@
 <template>
     <div class="container w-full rounded-full border h-16 mb-5 flex justify-evenly items-center">
-        <div class="flex items-center space-x-5">
+        <div class="flex items-center space-x-5" :class="isHidden">
             <p class="text-xs">Filter By:</p>
             <div class="flex space-x-1 text-xs text-white">
                 <button class="focus:bg-blue-600 rounded-full w-14 bg-blue-500 py-1">Day</button>
@@ -27,3 +27,15 @@
         </button>
     </div>
 </template>
+
+<script>
+
+export default{
+    props:{
+        isHidden:{
+            type: String,
+            default: '',
+        }
+    }
+}
+</script>
