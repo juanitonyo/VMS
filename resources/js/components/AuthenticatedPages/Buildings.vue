@@ -24,7 +24,20 @@
                 </div>
 
             </div>
-            <div class="mt-8 flow-root" v-if="permissions.view">
+
+            <div class="mt-3">
+                <p class="text-sm">Showing
+                    <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white border-2">
+                        <option selected value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    Entries
+                </p>
+            </div>
+
+            <div class="mt-3 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-auto shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
@@ -332,6 +345,7 @@ export default {
             open: false,
             pop: false,
             mode: '',
+            limitPage: '',
             form: new Form({
                 building_name: '',
                 address: '',
@@ -448,7 +462,7 @@ export default {
         },
 
         async getData(page = 1) {
-            await axios.get('/api/building?page=' + page).then((data) => {
+            await axios.get('/api/building?page=' + page + '&limit=' + this.limitPage).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
                 console.log(e.message)

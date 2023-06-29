@@ -16,9 +16,19 @@ class VisitorsController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index() {
-        $data = Visitors::with('building')->latest()->paginate(10);
-        return $this->sendResponse($data, "Fetched all Visitors in Array");
+    public function index(Request $request) {
+
+        if($request->filter1 && $request->filter2) {
+            $data = Visitors::where([
+                ['created_at', '>=', $request->filter1],
+                ['created_at', '<=', $request->filter2],
+            ])->latest()->paginate(10);
+            return $this->sendResponse($data, "Fetched all Visitors in Array");
+        }
+        else {
+            $data = Visitors::with('building')->latest()->paginate(10);
+            return $this->sendResponse($data, "Fetched all Visitors in Array");
+        }
     }
 
     public function getIndexByUser(Request $request) {

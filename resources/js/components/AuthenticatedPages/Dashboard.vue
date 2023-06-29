@@ -1,7 +1,44 @@
 <template>
     <div class="mt-8">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
-            <DateFilter></DateFilter>
+            <div class="container w-full rounded-full border h-16 mb-5 flex items-center pl-10 space-x-20">
+                <div class="flex items-center space-x-5">
+                    <button @click.prevent="showFilter()">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                            stroke="currentColor" class="w-5 h-5 hover:text-blue-700"
+                            :class="onFilter ? 'text-blue-700' : 'text-black'">
+                            <path stroke-linecap="round" stroke-linejoin="round"
+                                d="M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" />
+                        </svg>
+                    </button>
+                    <TransitionRoot :show="this.onFilter" enter="transition ease-in-out duration-300 transform"
+                        enter-from="-translate-x-5 opacity-0" enter-to="translate-x-0 opacity-100"
+                        leave="transition ease-in-out duration-300 transform" leave-from="translate-x-0 opacity-100"
+                        leave-to="-translate-x-5 opacity-0" class="flex space-x-1 text-xs text-white">
+                        <button class="focus:bg-blue-600 rounded-full w-14 bg-blue-500 py-1">Day</button>
+                        <button class="focus:bg-blue-600 rounded-full w-14 bg-blue-500">Week</button>
+                        <button class="focus:bg-blue-600 rounded-full w-14 bg-blue-500">Month</button>
+                        <button class="focus:bg-blue-600 rounded-full w-14 bg-blue-500">Year</button>
+                    </TransitionRoot>
+                </div>
+
+                <div class="flex flex-col text-xs ">
+                    <label for="from" class="text-blue-700 text-[9px] pl-1">from date</label>
+                    <input v-model="this.filterOn" type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
+                </div>
+
+                <div class="w-[1px] bg-gray-300 h-10"></div>
+
+                <div class="flex flex-col text-xs ">
+                    <label for="from" class="text-blue-700 text-[9px] pl-1">to date</label>
+                    <input v-model="this.filterBefore" type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
+                </div>
+
+
+                <button @click.prevent="filterData" class="border border-blue-500 rounded-full px-10 py-[1px] text-sm hover:bg-blue-500 hover:text-white">
+                    Filter
+                </button>
+            </div>
             <h2 class="text-2xl font-extrabold leading-6 text-gray-900">Overview</h2>
             <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 <!-- Cards -->
@@ -18,7 +55,7 @@
                             <div class="ml-5 w-0 flex-1">
                                 <dl>
                                     <dt class="truncate text-sm font-medium text-gray-700">Total Visitors</dt>
-                                    <p class="text-2xl font-bold text-indigo-900">{{ this.numVisitors }}</p>
+                                    <p class="text-2xl font-bold text-indigo-900">{{ this.numLogs }}</p>
                                 </dl>
                             </div>
                         </div>
@@ -206,22 +243,24 @@ export default {
             numVisitors: '',
             numLogs: '',
             numCheckouts: '',
+            onFilter: false,
+            filterOn: '',
+            filterBefore: ''
         }
     },
     methods: {
         getVisitors() {
             if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id)
+                axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitors = data.data.data;
                         this.numVisitors = this.visitors.total;
-                        console.log(this.visitors)
                     }).catch((e) => {
 
                     });
             }
             else {
-                axios.get('/api/visitors/')
+                axios.get('/api/visitors/filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitors = data.data.data;
                         this.numVisitors = this.visitors.total;
@@ -232,7 +271,7 @@ export default {
         },
         getVisitorLogs(page = 1) {
             if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id)
+                axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
@@ -241,7 +280,7 @@ export default {
                     });
             }
             else {
-                axios.get('/api/visitor-logs?page=' + page)
+                axios.get('/api/visitor-logs?page=' + page + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
@@ -252,7 +291,7 @@ export default {
         },
         getCheckOuts(page = 1) {
             if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-checkouts-by-user?page=' + page + '&id=' + userAuthStore().user.id)
+                axios.get('/api/get-checkouts-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitorCheckOuts = data.data.data;
                         this.numCheckouts = this.visitorCheckOuts.total;
@@ -261,7 +300,7 @@ export default {
                     });
             }
             else {
-                axios.get('/api/get-checkouts?page=' + page)
+                axios.get('/api/get-checkouts?page=' + page + '&filter1=' + moment(this.filterOn).format('YYYY-MM-DD') + '&filter2=' + moment(this.filterBefore).format('YYYY-MM-DD'))
                     .then((data) => {
                         this.visitorCheckOuts = data.data.data;
                         this.numCheckouts = this.visitorCheckOuts.total;
@@ -269,13 +308,21 @@ export default {
 
                     });
             }
+        },
+
+        filterData() {
+            this.getVisitorLogs();
+            this.getVisitors();
+            this.getCheckOuts();
         }
     },
     created() {
+        this.moment = moment;
+        this.filterOn = moment().format('YYYY-MM-DD');
+        this.filterBefore = moment().format('YYYY-MM-DD');
         this.getVisitorLogs();
         this.getVisitors();
         this.getCheckOuts();
-        this.moment = moment;
     },
     beforeMount() {
         this.permissions = {

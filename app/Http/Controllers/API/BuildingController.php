@@ -25,7 +25,7 @@ class BuildingController extends BaseController
     {
         if($request->search) {
             
-            $data = Building::where('building_name', 'LIKE', '%'.$request->search.'%')->orderBy('building_name', 'asc')->paginate(20);
+            $data = Building::where('building_name', 'LIKE', '%'.$request->search.'%')->orderBy('building_name', 'asc')->paginate($request->limit);
 
             return $this->sendResponse($data, 'Queued data in table');
         }
@@ -35,7 +35,7 @@ class BuildingController extends BaseController
                 ->when(Building::with('buildingType')->get(), function ($query) use ($relationship) {
                     return $query->with($relationship)->orderBy('building_name', 'asc');
                 })
-                ->paginate(20);
+                ->paginate($request->limit);
         return $this->sendResponse($data, "All buildings in array");
     }
 
