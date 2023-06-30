@@ -18,7 +18,7 @@
                     Entries
                 </p>
             </div>
-            <DateFilter class="mt-5"></DateFilter>
+            <DateFilter class="mt-5" @filter-date="filterDate"></DateFilter>
             <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -117,7 +117,7 @@
                 </div>
             </div>
             <div class="flex items-center justify-between mt-3">
-                <p class="text-sm">{{ 'Showing ' + this.data.from + ' to ' + this.data.to + ' of ' + this.data.total + ' entries.' }}</p>
+                <p class="text-sm">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ?? false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.</p>
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
@@ -316,7 +316,7 @@ export default {
 
         async getData(page = 1) {
             if (userAuthStore().user.role_id == 2) {
-                await axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&limit=' + this.limitPage)
+                await axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filter2)
                 .then((data) => {
                     this.data = data.data.data;
                     console.log(this.data)
@@ -325,7 +325,7 @@ export default {
                 });
             }
             else {
-                await axios.get('/api/get-logs?page=' + page + '&limit=' + this.limitPage).then((data) => {
+                await axios.get('/api/get-logs?page=' + page + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore).then((data) => {
                     this.data = data.data.data;
                     console.log(this.data)
                 }).catch((e) => {
@@ -403,10 +403,17 @@ export default {
                 this.$Progress.fail();
             })
         },
+        filterDate({ value1, value2 }) {
+            this.filterOn = value1
+            this.filterBefore = value2
+            this.getData()
+        }
     },
     created() {
-        this.getData();
         this.moment = moment;
+        this.filterOn = moment().format('YYYY-MM-DD');
+        this.filterBefore = moment().format('YYYY-MM-DD')
+        this.getData();
     },
     beforeMount() {
         this.permissions = {
