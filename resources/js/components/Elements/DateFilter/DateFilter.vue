@@ -1,6 +1,6 @@
 <template>
-    <div class="container w-full rounded-full border h-16 mb-5 flex justify-evenly items-center">
-        <div class="flex items-center space-x-5" :class="isHidden">
+    <div class="container w-full md:rounded-full rounded-md border md:h-16 h-80 mb-5 flex justify-evenly items-center md:flex-row flex-col">
+        <div class="flex items-center md:flex-row flex-col space-y-3 md:space-y-0 md:space-x-5 md:m-0 mx-5" :class="isHidden">
             <p class="text-xs">Filter By:</p>
             <div class="flex space-x-1 text-xs text-white">
                 <button class="focus:bg-blue-600 rounded-full w-14 bg-blue-500 py-1">Day</button>
@@ -15,7 +15,7 @@
             <input v-model="this.value1" type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
         </div>
 
-        <div class="w-[1px] bg-gray-300 h-10"></div>
+        <div class="md:w-[1px] w-60 bg-gray-300 md:h-10 h-[1px]"></div>
 
         <div class="flex flex-col text-xs">
             <label for="from" class="text-blue-700 text-[10px] pl-1">To date</label>

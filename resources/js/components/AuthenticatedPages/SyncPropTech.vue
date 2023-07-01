@@ -3,16 +3,16 @@
         <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-2xl font-extrabold leading-6 text-gray-900">PROPTECH DATA SYNC</h1>
+                    <h1 class="text-2xl font-extrabold leading-6 text-blue-800">PROPTECH DATA SYNC</h1>
                     <p class="mt-2 text-xs text-gray-700">Transfer information from PropTech to VMS in synchronization</p>
                 </div>
 
                 <div class="mt-4 flex gap-1 sm:mt-0 sm:ml-16 sm:flex-none" v-if="permissions.create">
                     <button type="button" @click.prevent="syncData()"
-                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">SYNC
+                        class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">SYNC
                         PROPTECH</button>
                     <button type="button" @click.prevent="processRecords()"
-                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">SYNC
+                        class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">SYNC
                         UNIT OWNERS</button>
                 </div>
 
@@ -30,7 +30,7 @@
                         </div>
                         <div class="flex space-x-2 mt-2">
 
-                            <div class="text-sm flex items-center justify-center gap-1 text-white bg-green-400 rounded-md py-1 px-2">
+                            <div class="text-sm flex items-center justify-center gap-1 text-blue-800 bg-white border border-blue-800 rounded-md py-1 px-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -38,7 +38,7 @@
                                 </svg>
                                 <p>Data Count: {{ this.realtimeLength }} / {{ this.unitOwnersLength }}</p>
                             </div>
-                            <div class="text-sm flex items-center justify-center gap-1 text-white bg-blue-400 rounded-md py-1 px-2">
+                            <div class="text-sm flex items-center justify-center gap-1 text-blue-800 bg-white border border-blue-800 rounded-md py-1 px-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"

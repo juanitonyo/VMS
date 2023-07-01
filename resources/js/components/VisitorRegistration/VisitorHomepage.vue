@@ -1,5 +1,5 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen min-w-screen">
+    <div class="flex justify-center items-center min-h-screen min-w-screen" :class="pm ? 'bg-gradient-to-br from-white to-blue-100' : ''">
         <div class="flex flex-col items-center justify-center gap-y-4">
 
             <img src="/logo/vms_logo.png" alt="logo" class="w-[180px]">
@@ -9,28 +9,30 @@
                 <h4 class="text-[10px] text-gray-400 text-center w-80">{{ this.buildings.address }}</h4>
             </div>
 
-            <div v-show="pm" class="actions flex items-center justify-center gap-5">
+            <div v-show="pm" class="actions flex items-center justify-center gap-1.5 w-[280px] text-xs font-light">
                 <button
-                    class="w-9 h-8 text-blue-700 border border-blue-700 rounded-md py-0.5 flex items-center justify-center">
+                    class="w-full h-8 text-blue-700 border border-blue-700 rounded-md p-0.5 gap-1 flex items-center justify-center">
                     <img src="/Visitor_Homepage_Assets/qrButton.png" class="w-5 h-5">
+                    Scan QR
                 </button>
 
                 <button
-                    class="w-9 h-8 text-blue-700 border border-blue-700 rounded-md py-0.5 flex items-center justify-center">
+                    class="w-full h-8 text-blue-700 border border-blue-700 rounded-md p-0.5 gap-1 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-8 h-5">
+                        stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M15.75 9V5.25A2.25 2.25 0 0013.5 3h-6a2.25 2.25 0 00-2.25 2.25v13.5A2.25 2.25 0 007.5 21h6a2.25 2.25 0 002.25-2.25V15m3 0l3-3m0 0l-3-3m3 3H9" />
                     </svg>
+                    Sign In
                 </button>
 
                 <button
-                    class="w-9 h-8 text-blue-700 border border-blue-700 rounded-md py-0.5 flex items-center justify-center">
+                    class="w-full h-8 text-blue-700 border border-blue-700 rounded-md p-0.5 gap-1 flex items-center justify-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="w-8 h-5">
+                        stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5.636 5.636a9 9 0 1012.728 0M12 3v9" />
                     </svg>
-
+                    Sign Out
                 </button>
             </div>
 

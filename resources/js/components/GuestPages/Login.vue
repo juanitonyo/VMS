@@ -1,5 +1,5 @@
 <template>
-  <div class="flex min-h-full flex-col justify-center py-12 sm:px-6 lg:px-8 font-poppins">
+  <div class="flex min-h-screen flex-col items-center justify-center py-12 sm:px-6 lg:px-8 font-poppins">
     <div class="sm:mx-auto sm:w-full sm:max-w-md">
       <img class="w-64 mx-auto" src="/logo/vms_logo.png" alt="Your Company" />
       <!-- <h2 class="mt-6 text-center text-2xl text-transparent font-bold bg-clip-text bg-gradient-to-r from-indigo-950 via-slate-600 to-blue-600 tracking-tight text-gray-900">Visitor Management<br>System</h2> -->
