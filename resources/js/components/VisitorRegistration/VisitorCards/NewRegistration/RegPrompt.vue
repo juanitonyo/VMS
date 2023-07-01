@@ -2,12 +2,12 @@
     <div class="flex justify-center items-center min-h-screen min-w-screen">
         <div class="flex flex-col items-center justify-center space-y-20">
 
-            <img src="/logo/vms_logo.png" class="w-[250px] h-[93.64px]">
+            <img src="/logo/vms_logo.png" class="w-[255px] h-[95px]">
 
             <div class="flex flex-col">
                 <div class="text-center">
                     <h2 class="text-2xl font-black tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                    <h4 class="text-gray-400 text-[10px] text-center w-80">{{ this.buildings.address }}</h4>
+                    <h4 class="text-gray-400 text-[10px] text-center w-72">{{ this.buildings.address }}</h4>
                 </div>
             </div>
 

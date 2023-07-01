@@ -1,22 +1,22 @@
 <template>
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-            <h1 class="text-2xl font-extrabold leading-6 text-gray-900">Visit Types Table</h1>
+            <h1 class="text-2xl font-extrabold leading-6 text-blue-800">Visit Types Table</h1>
             <p class="mt-2 text-xs text-gray-600">List of all User Visit Types</p>
         </div>
 
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex items-center gap-1">
             <div class="relative">
-                <input type="text" name="search" class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80"
-                    placeholder="Search: Visit Type">
+                <input type="text" name="search" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80"
+                    placeholder="Search">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                    stroke="currentColor" class="absolute w-4 h-4 top-1.5 right-2">
+                    stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
                     <path stroke-linecap="round" stroke-linejoin="round"
                         d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                 </svg>
             </div>
             <button @click="setOpen" type="button"
-                class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
+                class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
                 Entry</button>
         </div>
     </div>
@@ -102,7 +102,8 @@
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.name" label="Visit Type Name" id="visitType"
                                 :hasError="form.errors && (form.errors.has('name') ?? false)"
-                                :errorMessage="form.errors && (form.errors.has('name') ?? false) ? form.errors.get('name') : ''"></NormalInput>
+                                :errorMessage="form.errors && (form.errors.has('name') ?? false) ? form.errors.get('name') : ''">
+                            </NormalInput>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3">
                             <div class="flex justify-between">
@@ -111,8 +112,7 @@
                                     Type</label>
                                 <span class="text-[10px] text-red-600 dark:text-red-500"
                                     v-show="form.errors && (form.errors.has('building_type') ?? false)"
-                                    v-html="form.errors && (form.errors.has('building_type')) ? form.errors.get('building_type') : ''"
-                                    ></span>
+                                    v-html="form.errors && (form.errors.has('building_type')) ? form.errors.get('building_type') : ''"></span>
                             </div>
                             <v-select v-model="form.building_type" placeholder="Search" :options="building_types"
                                 label="label"
@@ -122,7 +122,8 @@
                         <div class="sm:col-span-3 mt-3">
                             <NormalInput v-model="form.description" label="Description" id="building"
                                 :hasError="form.errors && (form.errors.has('description') ?? false)"
-                                :errorMessage="form.errors && (form.errors.has('description') ?? false) ? form.errors.get('description') : ''"></NormalInput>
+                                :errorMessage="form.errors && (form.errors.has('description') ?? false) ? form.errors.get('description') : ''">
+                            </NormalInput>
                         </div>
 
                         <p class="text-sm mt-5 font-bold">Advance Settings</p>
@@ -134,7 +135,7 @@
                                         Person to Visit</SwitchLabel>
                                 </span>
                                 <Switch v-model="form.person_to_visit"
-                                    :class="[form.person_to_visit ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    :class="[form.person_to_visit ? 'bg-blue-800' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.person_to_visit ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
@@ -146,7 +147,7 @@
                                         Visit Approval</SwitchLabel>
                                 </span>
                                 <Switch v-model="form.visit_approval" :disabled="!form.person_to_visit"
-                                    :class="[form.visit_approval ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    :class="[form.visit_approval ? 'bg-blue-800' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.visit_approval ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
@@ -161,7 +162,7 @@
                                         Status</SwitchLabel>
                                 </span>
                                 <Switch v-model="form.status"
-                                    :class="[form.status ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    :class="[form.status ? 'bg-blue-800' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.status ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>
@@ -173,7 +174,7 @@
                                         Auto Approve</SwitchLabel>
                                 </span>
                                 <Switch v-model="form.auto_approve"
-                                    :class="[form.auto_approve ? 'bg-gray-600' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
+                                    :class="[form.auto_approve ? 'bg-blue-800' : 'bg-gray-200', 'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2']">
                                     <span aria-hidden="true"
                                         :class="[form.auto_approve ? 'translate-x-5' : 'translate-x-0', 'pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out']" />
                                 </Switch>

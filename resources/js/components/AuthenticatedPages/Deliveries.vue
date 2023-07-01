@@ -3,7 +3,7 @@
         <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-2xl font-extrabold leading-6 text-gray-900">DELIVERIES</h1>
+                    <h1 class="text-2xl font-extrabold leading-6 text-blue-800">DELIVERIES</h1>
                     <p class="mt-2 text-xs text-gray-700">A catalog of all deliveries in the database</p>
                 </div>
 

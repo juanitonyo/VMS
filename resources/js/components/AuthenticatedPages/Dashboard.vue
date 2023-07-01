@@ -1,8 +1,8 @@
 <template>
     <div class="mt-8">
         <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8">
+            <h2 class="text-2xl font-extrabold leading-6 text-blue-800 mb-2">Overview</h2>
             <DateFilter @filter-date="filterData"></DateFilter>
-            <h2 class="text-2xl font-extrabold leading-6 text-gray-900">Overview</h2>
             <div class="mt-2 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 <!-- Cards -->
                 <div class="overflow-hidden rounded-lg bg-white shadow-sm shadow-indigo-300">
@@ -84,7 +84,7 @@
     </div>
     <div class="mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 mt-5">
         <div class="flex justify-between">
-            <h2 class="text-2xl font-extrabold leading-6 text-gray-900 py-4">Visitor Logs</h2>
+            <h2 class="text-2xl font-extrabold leading-6 text-blue-900 py-4">Visitor Logs</h2>
         </div>
         <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
             <div class="sm:flex sm:items-center">
@@ -133,7 +133,7 @@
         <div id="checkout" class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10 mt-4">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-base font-semibold leading-6 text-gray-900">Checked Out</h1>
+                    <h1 class="text-base font-semibold leading-6 text-gray-800">Checked Out</h1>
                     <p class="mt-2 text-xs text-gray-700">A list of 5 latest checked out users including their name,
                         email and time.</p>
                 </div>

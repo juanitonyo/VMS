@@ -3,7 +3,7 @@
         <div class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10">
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
-                    <h1 class="text-2xl font-extrabold leading-6 text-gray-900">
+                    <h1 class="text-2xl font-extrabold leading-6 text-blue-800">
                         USERS
                     </h1>
                     <p class="mt-2 text-xs text-gray-700">
@@ -13,16 +13,16 @@
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex sm:space-x-1 sm:space-y-0 space-y-1 space-x-0">
                     <button type="button" @click.prevent="openPending()"
-                        class="relative block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white ">
+                        class="relative block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white ">
                         Pending Host
                         <div
-                            class="absolute bottom-auto left-0 right-auto top-0 inline-block -translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-blue-500 px-2 py-1 text-xs">
+                            class="absolute bottom-auto left-0 right-auto top-0 inline-block -translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-gray-800 px-2 py-1 text-xs">
                             0
                         </div>
                     </button>
 
                     <button @click.prevent="setOpen" type="button"
-                        class="block rounded-md bg-gray-900 py-2 px-3 text-center text-sm font-semibold text-white ">
+                        class="block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white ">
                         Add User
                     </button>
                 </div>
@@ -169,7 +169,7 @@
                                 </span>
                                 <Switch v-model="form.status" :class="[
                                     form.status
-                                        ? 'bg-gray-600'
+                                        ? 'bg-blue-800'
                                         : 'bg-gray-200',
                                     'relative inline-flex h-6 w-11 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2',
                                 ]">
@@ -191,7 +191,7 @@
                         Cancel
                     </button>
                     <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-gray-900 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
+                        class="ml-4 inline-flex justify-center rounded-md bg-blue-800 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
                         {{ editMode ? "Update" : "Save" }}
                     </button>
                 </div>
@@ -260,7 +260,7 @@
             </div>
 
             <div class="mt-4 w-full flex justify-end">
-                <button type="button" class="w-40 rounded-md bg-gray-900 py-2 px-5 text-sm font-semibold text-white"
+                <button type="button" class="w-40 rounded-md bg-blue-800 py-2 px-5 text-sm font-semibold text-white"
                     @click.prevent="this.pendingHost = !this.pendingHost">
                     Close
                 </button>
