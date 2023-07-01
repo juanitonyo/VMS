@@ -86,7 +86,7 @@ export default {
     methods: {
 
         async isExisting() {
-            await axios.get('/api/visitor-query?given=' + this.given + '&building_id=' + this.buildings.id)
+            await axios.get('/api/visitor-query?given=' + this.given + '&building_id=' + this.buildings.id + '&log_type=walkin')
                 .then((data) => {
                     this.account = data.data.data;
 
@@ -100,6 +100,7 @@ export default {
 
                     else {
                         store.setHiddenParam(this.account.id);
+                        store.setHiddenParam('WalkIn')
 
                         if (this.account.latest_log == null || this.account.latest_log.is_checked_out || this.account.latest_log.status == -1) {
                             this.$router.push('/visitor-registration/checkin/' + this.id);

@@ -32,10 +32,11 @@ class InvitationLogsRequest extends FormRequest
             'email' => 'required',
             'building_id' => 'required',
             'visit_purpose_id' => 'required',
+            'user_id' => 'required',
             'location' => 'required',
             'contact' => 'required',
-            'companions' => 'required',
-            'target_date' => 'required'
+            'target_date' => 'required',
+            'status' => 'required'
         ];
     }
 
@@ -47,10 +48,11 @@ class InvitationLogsRequest extends FormRequest
             'params.data.email' => 'required',
             'params.data.building_id' => 'required',
             'params.data.visit_purpose_id' => 'required',
+            'params.data.user_id' => 'required',
             'params.data.location' => 'required',
             'params.data.contact' => 'required',
-            'params.data.companions' => 'required',
-            'params.data.target_date' => 'required', 
+            'params.data.target_date' => 'required',
+            'params.data.status' => 'required',  
         ];
     }
 }

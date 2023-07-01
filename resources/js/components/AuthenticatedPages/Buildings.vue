@@ -9,8 +9,8 @@
 
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex gap-1 items-center">
                     <div class="relative">
-                        <input type="text" name="search"
-                            class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80"
+                        <input v-model="this.search" type="text" name="search" @input="getData"
+                            class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80"
                             placeholder="Search: Building Name">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
@@ -346,6 +346,7 @@ export default {
             pop: false,
             mode: '',
             limitPage: 10,
+            search: '',
             form: new Form({
                 building_name: '',
                 address: '',
@@ -462,7 +463,7 @@ export default {
         },
 
         async getData(page = 1) {
-            await axios.get('/api/building?page=' + page + '&limit=' + this.limitPage).then((data) => {
+            await axios.get('/api/building?page=' + page + '&limit=' + this.limitPage + '&search=' + this.search).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
                 console.log(e.message)

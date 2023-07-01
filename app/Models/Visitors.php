@@ -41,6 +41,6 @@ class Visitors extends Model
 
     public function latestLog(): HasOne
     {
-        return $this->hasOne(VisitorLogs::class, 'visitor_id', 'id')->latestOfMany();
+        return $this->hasOne(VisitorLogs::class, 'visitor_id', 'id')->where('log_type', 'Walk-In')->latestOfMany();
     }
 }

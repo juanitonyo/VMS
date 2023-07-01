@@ -16,14 +16,14 @@ class InvitationLogsController extends BaseController
      */
     public function index()
     {
-        $data = InvitationLogs::get();
+        $data = InvitationLogs::with(['building', 'visitType', 'latestLog'])->paginate(10);
 
         return $this->sendResponse($data, "Fetched data in table.");
     }
 
     public function getInvitation(Request $request) {
 
-        $data = InvitationLogs::where([
+        $data = InvitationLogs::with('latestLog')->where([
             ['email', $request->given],
             ['building_id', $request->building_id]
         ])->orWhere([
@@ -42,6 +42,12 @@ class InvitationLogsController extends BaseController
         return $this->sendResponse($data, "Data exist");
     }
 
+    public function syncInvitee(Request $request) {
+        $data = InvitationLogs::with(['latestLog', 'visitType', 'user'])->where('id', $request->id)->first();
+
+        return $this->sendResponse($data, "Fetched data in table");
+    }
+
     /**
      * Show the form for creating a new resource.
      */
@@ -57,6 +63,8 @@ class InvitationLogsController extends BaseController
     {
         $validated = $request->validated();
         $validated['ref_code'] = Str::random(6);
+        $validated['building_id'] = $validated['building_id']['value'];
+        $validated['visit_purpose_id'] = $validated['visit_purpose_id']['value'];
 
         $data = InvitationLogs::create($validated);
 

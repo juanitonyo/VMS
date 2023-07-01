@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center min-h-screen min-w-screen">
         <div class="flex flex-col items-center justify-center gap-y-5 mx-12">
-            <div class="self-end mt-8">
+            <div class="self-end mt-8" v-show="this.log == 'Walk-In'">
                 <button @click.prevent="isPop()">
                     <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
                 </button>
@@ -18,7 +18,7 @@
                 <div class="flex flex-col justify-center pl-2 w-36">
                     <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
                     }}</p>
-                    <p class="text-[9px] text-blue-800 font-light">Visit: Walk-In</p>
+                    <p class="text-[9px] text-blue-800 font-light">Visit: {{ this.log }}</p>
                     <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' :
                         'Pending Approval' }}</p>
                 </div>
@@ -26,7 +26,7 @@
 
             <form @submit.prevent="checkInVisitor()">
                 <div class="check_purpose space-y-3 mt-5">
-                    <v-select v-model="this.selectedPurpose" id="dropdown"
+                    <v-select v-model="this.selectedPurpose" id="dropdown" :disabled="this.log == 'Invitee'"
                         :placeholder="'What is the purpose of your visit? Tap here to select'" :options="visitType"
                         label="label" class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                     <!-- split the companions -->
@@ -39,37 +39,37 @@
                     <div class="flex flex-row mt-2 gap-x-3">
                         <div class="buildingSelect flex flex-col gap-y-1">
                             <label for="buildingName" class="text-gray-400 text-[10px]">Building/Phase</label>
-                            <v-select id="dropdown" :options="purpose" label="label"
+                            <v-select id="dropdown" :options="purpose" label="label" :disabled="this.log == 'Invitee'"
                                 class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[165px]"></v-select>
                         </div>
 
                         <div class="flex flex-col gap-y-1">
                             <label for="flrBlk" class="text-gray-400 text-[10px]">Floor/Block</label>
-                            <input type="text"
+                            <input type="text" :disabled="this.log == 'Invitee'"
                                 class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
                         </div>
 
                         <div class="flex flex-col gap-y-1">
                             <label for="unitLot" class="text-gray-400 text-[10px]">Unit/Lot</label>
-                            <input type="text"
+                            <input type="text" :disabled="this.log == 'Invitee'"
                                 class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[65px]">
                         </div>
                     </div>
 
                     <div class="check_purpose flex flex-col space-y-2 mt-3">
-                        <input type="text" disabled value="" placeholder="Principal buyer's details"
+                        <input type="text" disabled value="" placeholder="Principal buyer's details" :disabled="this.log == 'Invitee'"
                             class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
-                        <input type="text" disabled value="" placeholder="Principal buyer’s contact number"
+                        <input type="text" disabled value="" placeholder="Principal buyer’s contact number" :disabled="this.FormDialogog == 'Invitee'"
                             class="bg-[#EEEEEE] placeholder:italic text-[9px] rounded-[3px] pl-3 h-[28px] w-80">
                         <label for="visitName" class="text-gray-400 text-[10px]">
                             <!-- <input type="text" placeholder="Who will you visit? Enter the host’s name here"
                                 class=" text-[9px] border border-blue-700 rounded-[3px] pl-3 h-[28px] w-80"> -->
-                            <v-select v-model="this.selectedUnitOwner" id="dropdown" :options="unitOwners" label="label"
+                            <v-select v-model="this.selectedUnitOwner" id="dropdown" :options="unitOwners" label="label" :disabled="this.log == 'Invitee'"
                                 :placeholder="'Who will you visit? Enter the host’s name here'"
                                 class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                         </label>
                         <label for="visitContact" class="text-gray-400 text-[10px]">
-                            <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567"
+                            <input type="text" placeholder="Enter the host’s mobile number. Example : 09191234567" :disabled="this.log == 'Invitee'"
                                 class="text-[9px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-80">
                         </label>
                     </div>
@@ -149,7 +149,6 @@
 
     <FormDialog :isOpen="show" :Title="'My Account'">
         <template v-slot:body>
-
             <div class="flex justify-center items-center w-full">
                 <div class="w-[80px] flex flex-col gap-y-1">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
@@ -358,9 +357,8 @@ export default {
             isFormComplete: false,
             show: false,
             pop: false,
-            badHealth: false,
-            goodHealth: false,
             permission: userAuthStore(),
+            log: '',
             symptoms: [
                 {
                     id: 0,
@@ -504,8 +502,7 @@ export default {
             this.form.visitor_id = this.visitor.id
             this.form.building_id = this.visitor.building_id
             this.form.visit_purpose_id = this.selectedPurpose.value
-            // this.form.user_id = this.selectedUnitOwner.value
-            this.form.log_type = 'Walk-In'
+            this.form.log_type = store.hiddenLog
             this.form.checked_in_by = this.visitor.name + ' [Visitor]'
 
             this.form.post('/api/visitor-logs/')
@@ -517,7 +514,7 @@ export default {
         },
 
         sendEmail() {
-            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id + '&emailPurpose=' + 'checkin')
+            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id + '&emailPurpose=checkin&logType=' + this.log)
                 .then((data) => {
                     store.setHiddenParam(store.hiddenID);
                     this.$router.push('/visitor-registration/success/checkin/' + this.id);
@@ -549,8 +546,9 @@ export default {
                 });
         },
 
-        async syncData(id) {
-            await axios.get('/api/sync-visitor?id=' + id)
+        async syncData(id, log) {
+            if(log == 'Walk-In') {
+                await axios.get('/api/sync-visitor?id=' + id)
                 .then((data) => {
                     this.visitor = data.data.data;
 
@@ -566,6 +564,26 @@ export default {
                 })
                 .catch((e) => {
                 });
+            }
+            else if(log == 'Invitee') {
+                await axios.get('/api/sync-invitee?id=' + id)
+                .then((data) => {
+                    this.visitor = data.data.data;
+
+                    this.visitor.name = this.visitor.first_name + ' ' + this.visitor.last_name
+                    this.selectedPurpose = { 
+                        value: this.visitor.visit_type.id, 
+                        label: this.visitor.visit_type.name, 
+                        personToVisit: this.visitor.visit_type.person_to_visit 
+                    }
+                    this.selectedUnitOwner = {
+                        value: this.visitor.user.id,
+                        label: this.visitor.user.first_name + ' ' + this.visitor.user.last_name
+                    }
+                })
+                .catch((e) => {
+                });
+            }
         },
 
         async syncVisitType() {
@@ -616,7 +634,8 @@ export default {
     },
 
     created() {
-        this.syncData(store.hiddenID);
+        this.log = store.hiddenLog
+        this.syncData(store.hiddenID, this.log);
         this.getData();
         this.syncVisitType();
         this.syncUnitOwners();

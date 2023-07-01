@@ -106,6 +106,7 @@ export default {
         async getData(page = 1) {
             await axios.get('/api/building?page=' + page + '&search=' + this.search + '&limit=' + this.limitPage).then((data) => {
                 this.data = data.data.data
+                console.log(this.data)
             }).catch((error) => {
 
             })

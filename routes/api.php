@@ -50,6 +50,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('get-roles', 'RolesController@getRoles');
 
     Route::get('get-invitation', 'InvitationLogsController@getInvitation');
+    Route::get('sync-invitee', 'InvitationLogsController@syncInvitee');
     
     Route::get('get-unitowners-by-building', 'UserController@getUsersInBuildings');
     Route::get('fetch-realtime-data', 'UserController@getSyncedUnitOwners');
