@@ -12,30 +12,50 @@
 
         <div class="flex flex-col text-xs">
             <label for="from" class="text-blue-700 text-[10px] pl-1">From date</label>
-            <input type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
+            <input v-model="this.value1" type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
         </div>
 
         <div class="w-[1px] bg-gray-300 h-10"></div>
 
         <div class="flex flex-col text-xs">
             <label for="from" class="text-blue-700 text-[10px] pl-1">To date</label>
-            <input type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
+            <input v-model="this.value2" type="date" name="from" id="from" class="uppercase focus:outline-none w-32">
         </div>
 
-        <button class="border border-blue-500 rounded-full px-10 py-[1px] text-sm hover:bg-blue-500 hover:text-white">
+        <button @click="clickedFilter" class="border border-blue-500 rounded-full px-10 py-[1px] text-sm hover:bg-blue-500 hover:text-white">
             Filter
         </button>
     </div>
 </template>
 
 <script>
+import moment from 'moment';
 
 export default{
     props:{
         isHidden:{
             type: String,
             default: '',
+        },
+    },
+    data() {
+        return {
+            value1: '',
+            value2: ''
         }
+    },
+    methods: {
+        clickedFilter() {
+            this.$emit('filter-date', {
+                value1: moment(this.value1).format('YYYY-MM-DD'),
+                value2: moment(this.value2).format('YYYY-MM-DD')
+            });
+        }
+    },
+    created() {
+        this.moment = moment
+        this.value1 = moment().format('YYYY-MM-DD')
+        this.value2 = moment().format('YYYY-MM-DD')
     }
 }
 </script>

@@ -6,7 +6,7 @@
                     <h1 class="text-2xl font-extrabold leading-6 text-gray-900">
                         ROLES
                     </h1>
-                    <p class="mt-2 text-sm text-gray-700">
+                    <p class="mt-2 text-xs text-gray-700">
                         A list of all the user roles including their role type
                         and permissions.
                     </p>

@@ -6,12 +6,12 @@
                     <h1 class="text-2xl font-extrabold leading-6 text-gray-900">QR CODE SUMMARY</h1>
                     <p class="mt-2 text-xs text-gray-700">A summary of QR codes of all the buildings</p>
                 </div>
-                
+
                 <div class="relative">
-                    <input v-model="this.search" @input="getData" type="text" name="search" class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80"
-                        placeholder="Search: Building Name">
+                    <input v-model="this.search" @input="getData" type="text" name="search"
+                        placeholder="Search: Building Name" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="absolute w-4 h-4 top-1.5 right-2">
+                        stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                     </svg>
@@ -19,8 +19,8 @@
             </div>
 
             <div class="mt-3">
-                <p class="text-sm">Showing
-                    <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white border-2">
+                <p class="text-xs">Showing
+                    <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
                         <option selected value="10">10</option>
                         <option value="25">25</option>
                         <option value="50">50</option>
@@ -31,7 +31,7 @@
             </div>
 
             <div class="flex flex-col">
-                <div v-for="item in data.data"  class="flex mt-8 gap-2">
+                <div v-for="item in data.data" class="flex mt-3 gap-2">
 
                     <div class="card p-5 border border-gray-300 w-1/2 lg:h-56 h-80 rounded-xl">
                         <div
@@ -42,8 +42,10 @@
                                 <p class="leading-3">Unit Owner</p>
                                 <p class="font-semibold">{{ item.building_name }}</p>
                                 <p class="text-[10px] font-extralight text-gray-400 w-80">{{ item.address }}</p>
-                                <p class="mt-3 italic font-extralight text-gray-600 text-xs">{{ item.description ?? '' }}</p>
-                                <a :href="this.url + '/homeowner-registration/' + item.qr_id" target="_blank" class="font-light text-xs mt-3 text-blue-500">> Proceed to host registration</a>
+                                <p class="mt-3 italic font-extralight text-gray-600 text-xs">{{ item.description ?? '' }}
+                                </p>
+                                <a :href="this.url + '/homeowner-registration/' + item.qr_id" target="_blank"
+                                    class="font-light text-xs mt-3 text-blue-500">> Proceed to host registration</a>
                             </div>
                         </div>
                     </div>
@@ -57,17 +59,21 @@
                                 <p class="leading-3">Visitor</p>
                                 <p class="font-semibold">{{ item.building_name }}</p>
                                 <p class="text-[10px] font-extralight text-gray-400 w-80">{{ item.address }}</p>
-                                <p class="mt-3 italic font-extralight text-gray-600 text-xs">{{ item.description ?? '' }}</p>
-                                <a :href="this.url + '/visitor-registration/' + item.qr_id" target="_blank" class="font-light text-xs mt-3 text-blue-500">> Proceed to visitor registration</a>
+                                <p class="mt-3 italic font-extralight text-gray-600 text-xs">{{ item.description ?? '' }}
+                                </p>
+                                <a :href="this.url + '/visitor-registration/' + item.qr_id" target="_blank"
+                                    class="font-light text-xs mt-3 text-blue-500">> Proceed to visitor registration</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="flex items-center justify-between mt-3">
-                <p class="text-sm">{{ 'Showing ' + this.data.from + ' to ' + this.data.to + ' of ' + this.data.total + ' entries.' }}</p>
-                
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
+                <p class="text-sm">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ??
+                    false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.
+                </p>
+
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
     </div>
@@ -85,7 +91,7 @@ export default {
         }
     },
 
-    components:{
+    components: {
         TailwindPagination
     },
     data() {
@@ -93,7 +99,7 @@ export default {
             data: {},
             url: '',
             search: '',
-            limitPage: ''
+            limitPage: 10
         }
     },
     methods: {
