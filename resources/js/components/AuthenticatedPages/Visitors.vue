@@ -290,7 +290,7 @@ export default {
             building: [],
             show: false,
             statusChoice: '',
-            limitPage: ''
+            limitPage: 10
         }
     },
 

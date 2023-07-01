@@ -118,7 +118,7 @@
                                         <td class="whitespace-nowrap py-4 px-4 pr-3 text-xs font-medium text-gray-900">
                                             {{ person.visitor.name }}</td>
                                         <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
-                                            moment(person.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                            person.status != -1 ? moment(person.created_at).format('MMMM Do YYYY, h:mm:ss a') : 'Disapproved' }}</td>
                                     </tr>
                                 </tbody>
                             </table>

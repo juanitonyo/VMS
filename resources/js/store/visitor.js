@@ -4,6 +4,7 @@ export const useStore = defineStore('hiddenParam', {
     state: () => ({
         hiddenID: null,
         hiddenBuilding: null,
+        hiddenLog: null,
     }),
     actions: {
         setHiddenParam(param) {
@@ -11,6 +12,9 @@ export const useStore = defineStore('hiddenParam', {
         },
         setHiddenBuilding(param) {
             this.hiddenBuilding = param
+        },
+        setHiddenLog(param) {
+            this.hiddenLog = param;
         }
     },
 });

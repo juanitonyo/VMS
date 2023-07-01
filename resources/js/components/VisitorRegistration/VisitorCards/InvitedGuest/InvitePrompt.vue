@@ -88,26 +88,32 @@ export default {
     methods: {
 
         async isExisting() {
-            await axios.get('/api/get-invitation?given=' + this.given + '&building_id=' + this.buildings.id)
+            await axios.get('/api/get-invitation?given=' + this.given + '&building_id=' + this.buildings.id + '&log_type=invitee')
                 .then((data) => {
                     this.account = data.data.data;
 
-                    console.log('Data returned');
+                    if (this.account == null) {
+                        this.$router.push('/visitor-registration/signIn/reg/' + this.id);
+                    }
+
+                    else if((this.account.latest_log ?? false) && this.account.latest_log.status == 0) {
+                        this.$router.push('/visitor-registration/approval');
+                    }
+
+                    else {
+                        store.setHiddenParam(this.account.id);
+                        store.setHiddenLog('Invitee');
+
+                        if (this.account.latest_log == null || this.account.latest_log.is_checked_out || this.account.latest_log.status == -1) {
+                            this.$router.push('/visitor-registration/checkin/' + this.id);
+                        }
+                        else if (!this.account.latest_log.is_checked_out) {
+                            this.$router.push('/visitor-registration/checkout/' + this.id);
+                        }
+                    }
                 })
                 .catch((error) => {
-                    createToast(
-                        {
-                            title: "Opps!",
-                            description: error.response.data.message,
-                        },
-                        {
-                            showIcon: "true",
-                            position: "top-right",
-                            type: "danger",
-                            hideProgressBar: "true",
-                            transition: "bounce",
-                        }
-                    );
+
                 });
         },
 

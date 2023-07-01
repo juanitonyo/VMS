@@ -8,6 +8,7 @@ use App\Http\Requests\Settings\EmailTemplateRequest;
 use App\Mail\MailTemplate;
 use App\Mail\UserRegistrationPassword;
 use App\Models\Building;
+use App\Models\Host;
 use App\Models\InvitationLogs;
 use App\Models\Visitors;
 use App\Models\VisitTypes;
@@ -33,12 +34,20 @@ class EmailTemplateController extends BaseController
     }
 
     public function sendEmail(Request $request) {
+
+        $mailData = [];
         
         if($request->emailPurpose == 'checkin') {
-            $data = Visitors::with('latestLog')->where('id', $request->id)->first();
+            if($request->logType == 'Walk-In') {
+                $data = Visitors::with('latestLog')->where('id', $request->id)->latest()->first();
+                $name = $data['name'];
+            }
+            else if($request->logType == 'Invitee') {
+                $data = InvitationLogs::with('latestLog')->where('id', $request->id)->latest()->first();
+                $name = $data['first_name'].' '.$data['last_name'];
+            }
             $building = Building::where('qr_id', $request->buildingID)->first();
             $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first()->name;
-            $name = $data['name'];
             $time = $data->latestLog->created_at;
             $subject = 'VMS | Your Check-In Details';
         }
@@ -47,9 +56,11 @@ class EmailTemplateController extends BaseController
             $data = InvitationLogs::where('id', $request->id)->latest()->first();
             $building = Building::where('id', $data->building_id)->first();
             $visitType = VisitTypes::where('id', $data->visit_purpose_id)->first()->name;
+            $unitOwner = Host::where('id', $data->user_id)->first();
+            $mailData = ['unit_owner' => $unitOwner['first_name'].' '.$unitOwner['last_name'],];
             $name = $data['first_name'].' '.$data['last_name'];
             $time = $data->target_date;
-            $subject = 'VMS | You are invited to '.$building->building_name;
+            $subject = 'VMS | You are invited by '.$unitOwner['first_name'];
         }
         
         $mailBody = EmailTemplate::where('purpose', $request->emailPurpose)->first()->body;
