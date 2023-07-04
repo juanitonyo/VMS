@@ -15,19 +15,19 @@
 
     </div>
 
-    <FormDialog :isOpen="show" :Title="'Scan QR'">
+    <FormDialog :isOpen="show" :Title="'SCAN QR CODE'">
         <template v-slot:body>
             <div>
 
                 <div class="text-center">
                     <div class="qrScanner">
-                        <p class="text-xs text-gray-400 mb-3 italic text-center"> Note: Place the QR Code sent to you
+                        <p class="text-[10px] text-gray-400 mb-3 italic text-center"> Note: Place the QR Code sent to you
                             infront of the camera</p>
                         <qrcode-stream :camera="camera" @decode="onDecode" @init="onInit">
                             <button @click.prevent="switchCamera()"
-                                class="absolute bottom-2 p-1.5 bg-gray-100 rounded border border-gray-400 text-black hover:bg-gray-200">
+                                class="absolute bottom-2 p-1 bg-gray-100 rounded border border-gray-400 text-black hover:bg-gray-200">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                                    stroke="currentColor" class="w-6 h-6">
+                                    stroke="currentColor" class="w-5 h-5">
                                     <path stroke-linecap="round" stroke-linejoin="round"
                                         d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
                                 </svg>
@@ -97,8 +97,7 @@ export default {
             show: false,
             result: '',
             error: '',
-            camera: 'rear',
-            showResult: ''
+            camera: 'rear'
         }
     },
     created() {

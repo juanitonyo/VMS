@@ -27,7 +27,7 @@
                     </button>
                 </div>
             </div>
-            <div class="mt-3">
+            <div class="mt-3 flex justify-between items-center">
                 <p class="text-xs">Showing
                     <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
                         <option selected value="10">10</option>
@@ -37,6 +37,8 @@
                     </select>
                     Entries
                 </p>
+
+                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ?? false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.</p>
             </div>
             <div class="mt-3 flow-root">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -113,9 +115,7 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-between mt-3">
-                <p class="text-sm">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ?? false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.</p>
-                
+            <div class="flex items-center justify-end mt-3">
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
             </div>
         </div>
