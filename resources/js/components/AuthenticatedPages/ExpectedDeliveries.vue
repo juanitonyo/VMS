@@ -57,8 +57,7 @@
                                                         d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </a>
-                                            <a
-                                                class="reject text-white bg-yellow-500 rounded-md p-1 cursor-pointer">
+                                            <a class="reject text-white bg-yellow-500 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -80,9 +79,12 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="flex items-center justify-center mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
-            </div> -->
+            <div class="flex items-center justify-between mt-3">
+                <button type="button"
+                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
+                    CSV</button>
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
+            </div>
         </div>
     </div>
 

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Models\VisitTypes;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\VisitTypesRequest;
+use App\Exports\VisitTypesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VisitTypesController extends BaseController
 {
@@ -28,6 +30,11 @@ class VisitTypesController extends BaseController
             ]; 
         }
         return $this->sendResponse($arr, "All Visit Types in array");
+    }
+
+    public function export() 
+    {
+        return Excel::download(new VisitTypesExport, 'visittypes.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
     /**

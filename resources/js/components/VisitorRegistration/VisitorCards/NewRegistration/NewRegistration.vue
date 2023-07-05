@@ -8,7 +8,7 @@
                     <h4 class="text-gray-400 text-[10px] text-center mb-4">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                 </div>
-                
+
                 <div class="flex flex-col items-center justify-center w-[100px]">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
                         class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
@@ -118,16 +118,19 @@
         </div>
 
         <div v-show="isFormComplete">
-            <div class="flex flex-col gap-y-2 items-center">
-                <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                <h4 class="text-gray-400 text-[10px] text-center mb-5">{{ this.buildings.address }}</h4>
-                <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
-                <div>
+            <div class="flex flex-col items-center justify-center h-full">
+                <div class="text-center">
+                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
+                    <h4 class="text-gray-400 text-[10px] text-center mb-5 w-80">{{ this.buildings.address }}</h4>
+                    <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
+                </div>
+                <div class="w-80 mt-10">
                     <div
-                        class="relative flex flex-row items-center justify-center w-[340px] text-gray-600 font-extralight mt-10 gap-x-3">
-                        <input v-model="form.policy" type="checkbox" class="absolute top-0 left-0 w-5 h-5"
+                        class="relative flex flex-row items-center justify-center text-gray-600 font-extralight gap-x-3">
+                        <input v-model="form.policy" type="checkbox" class="absolute top-2 left-0 w-5 h-5"
                             @change="isChecked()">
-                        <span class="ml-10 text-xs leading-5">By supplying the information on VMS registration form, I
+                        <span class="ml-5 text-[10px] leading-5 w-64 text-justify">By supplying the information on VMS
+                            registration form, I
                             affirm
                             that I have read,
                             understood and

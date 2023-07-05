@@ -8,6 +8,8 @@ use App\Http\Requests\Settings\VisitorLogsRequests;
 use App\Models\Visitors;
 use App\Models\VisitTypes;
 use Illuminate\Support\Facades\Cookie;
+use App\Exports\VisitorLogsExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class VisitorLogsController extends BaseController
 {
@@ -16,10 +18,10 @@ class VisitorLogsController extends BaseController
      */
     public function index(Request $request)
     {
-        $data = VisitorLogs::where([
+        $data = VisitorLogs::where(
             ['created_at', '>=', $request->filter1],
             ['created_at', '<=', $request->filter2],
-        ])->with('visitor')->latest()->paginate($request->limit);
+        )->with('visitor')->latest()->paginate($request->limit);
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
@@ -76,6 +78,10 @@ class VisitorLogsController extends BaseController
             ['created_at', '<=', $request->filter2],
         ])->latest()->paginate(5);
         return $this->sendResponse($data, "Fetched check outs in table");
+    }
+    public function export() 
+    {
+        return Excel::download(new VisitorLogsExport, 'visitorlogs.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
     /**

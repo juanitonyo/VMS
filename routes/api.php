@@ -55,6 +55,14 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('get-unitowners-by-building', 'UserController@getUsersInBuildings');
     Route::get('fetch-realtime-data', 'UserController@getSyncedUnitOwners');
 
+    Route::get('export-building', 'BuildingController@export');
+    Route::get('export-building-type', 'BuildingTypesController@export');
+    Route::get('export-user', 'UserController@export');
+    Route::get('export-visit-type', 'VisitTypesController@export');
+    Route::get('export-visitor-log', 'VisitorLogsController@export');
+    // Route::get('export-expected-deliveries', 'Controller@export');
+    Route::get('export-deliveries', 'DeliveryController@export');
+
     Route::apiResources([
         'user' => 'UserController',
         'building-types' => 'BuildingTypesController',

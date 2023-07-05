@@ -6,6 +6,7 @@ use App\Models\Building;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingRequest;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
@@ -15,6 +16,8 @@ use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Events\SyncUnitOwnersEvent;
 use App\Models\BuildingTypes;
+use App\Exports\BuildingExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BuildingController extends BaseController
 {
@@ -23,42 +26,48 @@ class BuildingController extends BaseController
      */
     public function index(Request $request)
     {
-        if($request->search) {
-            
-            $data = Building::where('building_name', 'LIKE', '%'.$request->search.'%')->orderBy('building_name', 'asc')->paginate($request->limit);
+        if ($request->search) {
+
+            $data = Building::where('building_name', 'LIKE', '%' . $request->search . '%')->orderBy('building_name', 'asc')->paginate($request->limit);
 
             return $this->sendResponse($data, 'Queued data in table');
         }
-       // $data = Building::with('building_type')->paginate(10);
+        // $data = Building::with('building_type')->paginate(10);
         $relationship = 'buildingType';
         $data = Building::query()
-                ->when(Building::with('buildingType')->get(), function ($query) use ($relationship) {
-                    return $query->with($relationship)->orderBy('building_name', 'asc');
-                })
-                ->paginate($request->limit);
+            ->when(Building::with('buildingType')->get(), function ($query) use ($relationship) {
+                return $query->with($relationship)->orderBy('building_name', 'asc');
+            })
+            ->paginate($request->limit);
         return $this->sendResponse($data, "All buildings in array");
+    }
+
+    public function export() 
+    {
+        return Excel::download(new BuildingExport, 'building.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
     // get specific building
-    public function getBuilding(Request $request){
+    public function getBuilding(Request $request)
+    {
 
         $data = Building::with('buildingType')->where('qr_id', $request->buildingUUID)->first();
-       
-        return $this->sendResponse($data, "All buildings in array");
 
+        return $this->sendResponse($data, "All buildings in array");
     }
 
     // get active buildings
-    public function getBuildingsArray(){
+    public function getBuildingsArray()
+    {
         $data = Building::where('status', 1)->get();
 
         $array = [];
 
-        foreach($data as $item){
+        foreach ($data as $item) {
             $array[] = [
                 'value' => $item->id,
                 'label' => $item->building_name
-            ]; 
+            ];
         }
         return $this->sendResponse($array, "All buildings in array");
     }
@@ -79,14 +88,14 @@ class BuildingController extends BaseController
         $logo_link = "";
         $validated = $request->validated();
 
-        if($request->logo){
+        if ($request->logo) {
             $logo_binary = $request->logo;
-            $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
-            
-            if(!File::exists('uploads/images/'.$logo_link)) {
-                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+            $logo_link = time() . '.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
+
+            if (!File::exists('uploads/images/' . $logo_link)) {
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/' . $logo_link)->destroy();
             }
-            
+
             $validated['logo'] = $logo_link;
         }
 
@@ -121,26 +130,23 @@ class BuildingController extends BaseController
         $logo_link = "";
         $data = Building::findOrFail($id);
 
-        if($request->params['data']['logo']){
+        if ($request->params['data']['logo']) {
             $logo_binary = $request->params['data']['logo'];
 
-            if($data->logo != $request->params['data']['logo']) {
-                $logo_link = time().'.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
-            }
-            else {
+            if ($data->logo != $request->params['data']['logo']) {
+                $logo_link = time() . '.' . explode('/', explode(':', substr($logo_binary, 0, strpos($logo_binary, ';')))[1])[1];
+            } else {
                 $logo_link = $request->params['data']['logo'];
             }
 
-            if(!File::exists('uploads/images/'.$logo_link)) { //does not exists
-                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+            if (!File::exists('uploads/images/' . $logo_link)) { //does not exists
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/' . $logo_link)->destroy();
                 $data->update([
                     'logo' => $logo_link,
                 ]);
-            }
-
-            else if($data->logo != $logo_link) { // is existing
-                unlink('uploads/images/'.$data->logo);
-                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/'.$logo_link)->destroy();
+            } else if ($data->logo != $logo_link) { // is existing
+                unlink('uploads/images/' . $data->logo);
+                \Image::make($logo_binary)->fit(200, 200)->save('uploads/images/' . $logo_link)->destroy();
                 $data->update([
                     'logo' => $logo_link,
                 ]);
@@ -154,9 +160,9 @@ class BuildingController extends BaseController
             'building_type' => $request->params['data']['building_type'],
             'status' => $request->params['data']['status'],
             'health_form' => $request->params['data']['health_form'],
-          ]);
-         
-        
+        ]);
+
+
         return $this->sendResponse($request->validated(), "Updated Data");
     }
 
@@ -168,7 +174,8 @@ class BuildingController extends BaseController
         //
     }
 
-    public function syncBuilding(Request $request){
+    public function syncBuilding(Request $request)
+    {
 
         $validator = Validator::make($request->all(), [
             'name' => [
@@ -178,7 +185,7 @@ class BuildingController extends BaseController
         ]);
 
         if ($validator->fails()) {
-            return $this->sendError([], " The entry for \"".$request->name."\" already exists in the records." );
+            return $this->sendError([], " The entry for \"" . $request->name . "\" already exists in the records.");
         }
 
         $data = Building::create([
@@ -188,25 +195,26 @@ class BuildingController extends BaseController
             'registration_name' => $request->registration_name,
             'address' => $request->full_address ?? "",
         ]);
-        
-        return $this->sendResponse($data, "The \"".$request->name."\" has been successfully created.");
+
+        return $this->sendResponse($data, "The \"" . $request->name . "\" has been successfully created.");
     }
 
-    public function syncUnitOwners(Request $request) {
-            // $data = Http::get('http://proptech-api.test/api/vms/sync-unit-owners');
-            // $res = $data->body();
+    public function syncUnitOwners(Request $request)
+    {
+        // $data = Http::get('http://proptech-api.test/api/vms/sync-unit-owners');
+        // $res = $data->body();
 
-            // $records = json_decode($res, true); 
+        // $records = json_decode($res, true); 
 
-            // $chunks = array_chunk($records, 500);
+        // $chunks = array_chunk($records, 500);
 
-            // foreach ($chunks as $chunk) {
-            //     SyncUnitOwnersJob::dispatch($chunk)->onQueue('unitowners');
-            // }
-            // return $this->sendResponse([], 'Data save job dispatched');
+        // foreach ($chunks as $chunk) {
+        //     SyncUnitOwnersJob::dispatch($chunk)->onQueue('unitowners');
+        // }
+        // return $this->sendResponse([], 'Data save job dispatched');
         //    $data = $request->get('data');  
-         SyncUnitOwnersJob::dispatch($request->get('data'))->onQueue('unitowners');
-         $count = DB::select("
+        SyncUnitOwnersJob::dispatch($request->get('data'))->onQueue('unitowners');
+        $count = DB::select("
                 SELECT COUNT(*) as user_count
                 FROM users
                 WHERE created_at >= ?
@@ -214,24 +222,22 @@ class BuildingController extends BaseController
 
         $userCount = $count[0]->user_count;
 
-         event(new SyncUnitOwnersEvent([
+        event(new SyncUnitOwnersEvent([
             'user_initial_count' => $userCount,
             'user_total_count' => $request->get('total_length')
-         ]));
-         
-         return $this->sendResponse([
+        ]));
+
+        return $this->sendResponse([
             'user_initial_count' => $userCount,
             'user_total_count' => $request->get('total_length')
-         ], 'Data save job dispatched');   
+        ], 'Data save job dispatched');
     }
 
-    public function getUnitOwnersLength(){
+    public function getUnitOwnersLength()
+    {
         $data = Http::get('http://proptech-api.test/api/vms/sync-unit-owners');
         $res = $data->body();
 
-        return $this->sendResponse(count(json_decode($res)) , 'Unit Owners');
+        return $this->sendResponse(count(json_decode($res)), 'Unit Owners');
     }
-
-    
-    
 }

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\API;
 use App\Models\BuildingTypes;
 use Illuminate\Http\Request;
 use App\Http\Requests\Settings\BuildingTypeRequest;
+use App\Exports\BuildingTypesExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BuildingTypesController extends BaseController
 {
@@ -28,6 +30,11 @@ class BuildingTypesController extends BaseController
             ]; 
         }
         return $this->sendResponse($arr, "All buildings in array");
+    }
+
+    public function export() 
+    {
+        return Excel::download(new BuildingTypesExport, 'buildingtypes.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
     /**

@@ -36,7 +36,9 @@
                     Entries
                 </p>
 
-                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ?? false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.</p>
+                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ??
+                    false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.
+                </p>
             </div>
 
             <div class="mt-3 flow-root" v-if="permissions.view">
@@ -46,8 +48,7 @@
                             <table class="min-w-full divide-y divide-gray-300">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th scope="col"
-                                            class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Building Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Description</th>
@@ -66,7 +67,7 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in data.data" :key="item.id">
-                                        <td class="px-3 py-4 text-xs text-gray-900 ">{{ item.building_name }}
+                                        <td class="px-3 py-4 w-48 text-xs text-gray-900 ">{{ item.building_name }}
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}
                                         </td>
@@ -114,7 +115,10 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-end mt-3">
+            <div class="flex items-center justify-between mt-3">
+                <a href="/api/export-building" target="_blank"
+                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
+                    CSV</a>
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
@@ -141,13 +145,14 @@
 
                         <div class="sm:col-span-3 mt-3">
                             <div class="flex justify-between">
-                                <label for="building" class="block text-sm font-medium leading-6 text-gray-900">Address</label>
-                                <span v-show="form.errors && (form.errors.has('address') ?? false)" v-html="form.errors && (form.errors.has('address') ?? false) ? form.errors.get('address') : ''"
+                                <label for="building"
+                                    class="block text-sm font-medium leading-6 text-gray-900">Address</label>
+                                <span v-show="form.errors && (form.errors.has('address') ?? false)"
+                                    v-html="form.errors && (form.errors.has('address') ?? false) ? form.errors.get('address') : ''"
                                     class="text-[10px] text-red-600 dark:text-red-500 mt-1"></span>
                             </div>
-                            <textarea v-model="form.address" type="text" name="build" id="building"
-                                autocomplete="building"
-                                class="block w-full h-40 px-3 rounded-md py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6" 
+                            <textarea v-model="form.address" type="text" name="build" id="building" autocomplete="building"
+                                class="block w-full h-40 px-3 rounded-md py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
                                 :class="form.errors && (form.errors.has('address') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''" />
                         </div>
 
@@ -155,7 +160,8 @@
                             <div class="flex justify-between">
                                 <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900">Choose
                                     Building Types</label>
-                                <span v-show="form.errors && (form.errors.has('building_type') ?? false)" v-html="form.errors && (form.errors.has('building_type') ?? false) ? form.errors.get('building_type') : ''"
+                                <span v-show="form.errors && (form.errors.has('building_type') ?? false)"
+                                    v-html="form.errors && (form.errors.has('building_type') ?? false) ? form.errors.get('building_type') : ''"
                                     class="text-[10px] text-red-600 dark:text-red-500"></span>
                             </div>
                             <v-select v-model="form.building_type" placeholder="search" :options="building_types"
@@ -196,7 +202,7 @@
                         </div>
 
                         <p class="text-sm mt-5 font-bold">Advance Settings</p>
-                        
+
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
@@ -475,7 +481,7 @@ export default {
             if (mode == 'Visitor')
                 return this.qr_url + this.url + '/visitor-registration/' + uuid;
             else (mode == 'Host')
-                return this.qr_url + this.url + '/homeowner-registration/' + uuid;
+            return this.qr_url + this.url + '/homeowner-registration/' + uuid;
         },
 
         async getBuildingTypes() {
@@ -486,6 +492,7 @@ export default {
                 errorMessage('Opps!', e.message, 'top-right')
             });
         },
+
     },
 
     created() {

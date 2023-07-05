@@ -68,9 +68,9 @@
                     </table>
                 </div>
                 <div class="flex items-center justify-between mt-3">
-                    <button type="button"
-                        class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
-                        CSV</button>
+                    <a href="/api/export-building-type" target="_blank"
+                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
+                    CSV</a>
                     <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
                 </div>
             </div>

@@ -47,7 +47,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="item in this.data.data" :key="item.id">
+                                    <tr v-for="item in data.data" :key="item.id">
                                         <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-48">{{
                                             item.visitor.name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.building_name
@@ -118,7 +118,10 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-end mt-3">
+            <div class="flex items-center justify-between mt-3">
+                <a href="/api/export-visitor-log" target="_blank"
+                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
+                    CSV</a>
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
