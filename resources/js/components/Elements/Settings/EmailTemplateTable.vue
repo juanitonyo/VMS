@@ -209,7 +209,7 @@ export default {
 
             editor: ClassicEditor,
             editorConfig: {
-                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading'],
+                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading', 'sourceediting'],
                 heading: {
                     options: [
                         { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },

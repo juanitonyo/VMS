@@ -14,7 +14,10 @@ use App\Jobs\SyncUnitOwnersJob;
 use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use App\Events\SyncUnitOwnersEvent;
+use App\Exports\BuildingsExport;
 use App\Models\BuildingTypes;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class BuildingController extends BaseController
 {
@@ -46,6 +49,10 @@ class BuildingController extends BaseController
        
         return $this->sendResponse($data, "All buildings in array");
 
+    }
+
+    public function exportBuildings() {
+        return (new BuildingsExport)->download('buildings.xlsx')->deleteFileAfterSend(true);
     }
 
     // get active buildings

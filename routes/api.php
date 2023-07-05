@@ -28,6 +28,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     
     Route::get('get-buildings', 'BuildingController@getBuildingsArray');
     Route::get('visitor-registration', 'BuildingController@getBuilding');
+    Route::get('export-building', 'BuildingController@exportBuildings');
     Route::post('sync-building', 'BuildingController@syncBuilding');
     Route::post('sync-unit-owners', 'BuildingController@syncUnitOwners');
     Route::post('get-unit-owners-length', 'BuildingController@getUnitOwnersLength');

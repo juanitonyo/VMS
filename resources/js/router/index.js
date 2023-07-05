@@ -100,14 +100,6 @@ const routes = [
         ],
     },
     {
-        name: "404",
-        path: "/404",
-        component: PageNotFound,
-        meta: {
-            title: `Page Not Found`,
-        }
-    },
-    {
         // path: "*",
         path: "/:catchAll(.*)",
         redirect: { name: "404" }
@@ -461,7 +453,15 @@ const routes = [
             }
         ],
     },
-
+    {
+        name: 'guard',
+        path: "/guests",
+        component: VisitorHomepage,
+        meta: {
+            middleware: "indexguard",
+            title: `VMS | Guard`,
+        },
+    },
     {
         name: '404',
         path: "/pagenotfound",

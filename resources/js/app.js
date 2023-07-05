@@ -31,6 +31,10 @@ const options = {
     inverse: false,
 };
 
+CKEditor.editorConfig = function( config ) {
+    config.extraPlugins = 'SourceEditing';
+};
+
 const app = createApp({});
 const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);

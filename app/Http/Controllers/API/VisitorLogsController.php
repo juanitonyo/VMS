@@ -16,10 +16,11 @@ class VisitorLogsController extends BaseController
      */
     public function index(Request $request)
     {
-        $data = VisitorLogs::where([
-            ['created_at', '>=', $request->filter1],
-            ['created_at', '<=', $request->filter2],
-        ])->with('visitor')->latest()->paginate($request->limit);
+        $data = VisitorLogs::where(
+            ['created_at', '<=', $request->filter1],
+        )->orWhere(
+            ['created_at', '>=', $request->filter2],
+        )->with('visitor')->latest()->paginate($request->limit);
         return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
