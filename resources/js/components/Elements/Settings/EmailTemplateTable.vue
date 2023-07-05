@@ -177,12 +177,16 @@ import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { createToast } from 'mosha-vue-toastify'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
 // import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+
 import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
 import { Essentials } from '@ckeditor/ckeditor5-essentials';
 import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
 import { Link } from '@ckeditor/ckeditor5-link';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
 import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
+import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
+import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
+
 import NormalInput from "../Inputs/NormalInput.vue";
 import VueMultiselect from 'vue-multiselect';
 
@@ -221,7 +225,10 @@ export default {
                     Italic,
                     Link,
                     Paragraph,
-                    SourceEditing
+                    SourceEditing,
+                    Table,
+                    TableToolbar,
+                    GeneralHtmlSupport
                 ],
 
                 toolbar: {
@@ -231,7 +238,21 @@ export default {
                         'link',
                         'undo',
                         'redo',
-                        'sourceEditing'
+                        'sourceEditing',
+                        'insertTable'
+                    ]
+                },
+                table: {
+                    defaultHeadings: { rows: 1, columns: 1 }
+                },
+                htmlSupport: {
+                    allow: [
+                        {
+                            name: /.*/,
+                            attributes: true,
+                            classes: true,
+                            styles: true
+                        }
                     ]
                 },
 
