@@ -14,6 +14,8 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Exports\UserExport;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends BaseController
 {
@@ -28,6 +30,11 @@ class UserController extends BaseController
             ->paginate($request->limit);
 
         return $this->sendResponse($data, "All users in array");
+    }
+
+    public function export() 
+    {
+        return Excel::download(new UserExport, 'users.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
     /**

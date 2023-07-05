@@ -98,9 +98,9 @@
           <Menu as="div" class="relative">
             <MenuButton class="-m-1.5 flex items-center p-1.5">
               <span class="sr-only">Open user menu</span>
-              <img class="h-8 w-8 rounded-full bg-gray-50" src="https://picsum.photos/80" alt="No Photo" />
+              <img class="h-8 w-9 rounded-full bg-gray-50 text-[8px] flex items-center justify-center" src="/Visitor_Homepage_Assets/user_icon.jpg" alt="no photo" />
               <span class="hidden lg:flex lg:items-center">
-                <span class="ml-4 text-sm font-semibold leading-6 text-gray-900" aria-hidden="true">{{ user_full_name
+                <span class="ml-4 text-sm font-normal leading-6 text-gray-900" aria-hidden="true">{{ user_full_name
                 }}</span>
                 <ChevronDownIcon class="ml-2 h-5 w-5 text-gray-400" aria-hidden="true" />
               </span>

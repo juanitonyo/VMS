@@ -39,30 +39,30 @@
 
             <div class='flex flex-col items-center justify-center gap-y-4'>
                 <a :href="'/visitor-registration/SignIn/reg/' + this.id"
-                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[325px] h-20 sm:h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[300px] h-20 sm:h-[83px] p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                     <div class="block sm:shrink-0">
-                        <img src="/Visitor_Homepage_Assets/createNew.png" class="pl-2 h-14 sm:h-16 w-16 sm:w-26" />
+                        <img src="/Visitor_Homepage_Assets/createNew.png" class="pl-2 h-14 w-16 sm:w-16" />
                     </div>
 
                     <div class="flex flex-col justify-center pl-4">
-                        <h3 class="w-36 sm:w-52 text-sm sm:text-base font-bold text-blue-700">Guest <br>New Registration
+                        <h3 class="w-36 sm:w-52 text-sm sm:text-[16px] font-bold text-blue-700">Guest <br>New Registration
                         </h3>
-                        <p class="text-[9px] sm:text-[10px] text-gray-500">Create New Account</p>
+                        <p class="text-[10px] text-gray-500">Create New Account</p>
                     </div>
                 </a>
 
                 <a :href="'/visitor-registration/SignIn/checkin/' + this.id"
-                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[325px] h-20 sm:h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[300px] h-20 sm:h-[83px] p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
 
                     <div class="block sm:shrink-0">
-                        <img src="/Visitor_Homepage_Assets/check_in.png" class="pl-2 h-14 sm:h-16 w-16 sm:w-26" />
+                        <img src="/Visitor_Homepage_Assets/check_in.png" class="pl-2 h-14 w-16 sm:w-16" />
                     </div>
 
                     <div class="flex flex-col justify-center pl-4">
-                        <h3 class="w-36 sm:w-52 text-sm sm:text-base font-bold text-blue-700">Check - In</h3>
-                        <p class="w-36 sm:w-52 text-[9px] sm:text-[10px] text-gray-500">Log your check - in before entering
+                        <h3 class="w-36 sm:w-52 text-sm sm:text-[16px] font-bold text-blue-700">Check - In</h3>
+                        <p class="w-36 sm:w-44 text-[10px]  text-gray-500">Log your check - in before entering
                             the
                             building
                         </p>
@@ -70,16 +70,16 @@
                 </a>
 
                 <a :href="'/visitor-registration/SignIn/checkout/' + this.id"
-                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[325px] h-20 sm:h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[300px] h-20 sm:h-[83px] p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
 
                     <div class="block sm:shrink-0">
-                        <img src="/Visitor_Homepage_Assets/check_out.png" class="pl-2 h-14 sm:h-16 w-16 sm:w-26" />
+                        <img src="/Visitor_Homepage_Assets/check_out.png" class="pl-2 h-14 w-16 sm:w-16" />
                     </div>
 
                     <div class="flex flex-col justify-center pl-4">
-                        <h3 class="w-36 sm:w-52 text-sm sm:text-base font-bold text-blue-700">Check - Out</h3>
-                        <p class="w-36 sm:w-52 text-[9px] sm:text-[10px] text-gray-500">Log your check - out before exiting
+                        <h3 class="w-36 sm:w-52 text-sm sm:text-[16px] font-bold text-blue-700">Check - Out</h3>
+                        <p class="w-36 sm:w-44 text-[10px]  text-gray-500">Log your check - out before exiting
                             the
                             building
                         </p>
@@ -87,30 +87,30 @@
                 </a>
 
                 <a :href="'/visitor-registration/SignIn/invite/' + this.id"
-                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[325px] h-20 sm:h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[300px] h-20 sm:h-[83px] p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
 
                     <div class="block sm:shrink-0">
-                        <img src="/Visitor_Homepage_Assets/guest_invitation.png" class="pl-2 h-14 sm:h-16 w-16 sm:w-26" />
+                        <img src="/Visitor_Homepage_Assets/guest_invitation.png" class="pl-2 h-14 w-16 sm:w-16" />
                     </div>
 
                     <div class="flex flex-col justify-center pl-4">
-                        <h3 class="w-36 sm:w-52 text-sm sm:text-base font-bold text-blue-700">Invited Guest</h3>
-                        <p class="w-40 text-[9px] sm:text-[10px] text-gray-500">For expected guest with provided invitation
+                        <h3 class="w-36 sm:w-52 text-sm sm:text-[16px] font-bold text-blue-700">Invited Guest</h3>
+                        <p class="w-44 text-[10px]  text-gray-500">For expected guest with provided invitation
                         </p>
                     </div>
                 </a>
 
                 <a v-if="this.isAllowed" :href="'/visitor-registration/SignIn/delivery/' + this.id"
-                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[325px] h-20 sm:h-24 p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
+                    class=" select-none flex overflow-hidden rounded-lg border-2 border-blue-700 hover:scale-105 active:scale-105 w-[280px] sm:w-[300px] h-20 sm:h-[83px] p-3 shadow-md shadow-slate-400 justify-start ease-in-out duration-300">
 
                     <div class="block sm:shrink-0">
-                        <img src="/Visitor_Homepage_Assets/delivery_service.png" class="pl-2 h-14 sm:h-16 w-16 sm:w-26" />
+                        <img src="/Visitor_Homepage_Assets/delivery_service.png" class="pl-2 h-14 w-16 sm:w-16" />
                     </div>
 
                     <div class="flex flex-col justify-center pl-4">
-                        <h3 class="w-36 sm:w-52 text-sm sm:text-base font-bold text-blue-700">Delivery Service</h3>
-                        <p class="text-[9px] sm:text-[10px] text-gray-500">Fill out delivery registration form
+                        <h3 class="w-36 sm:w-52 text-sm sm:text-[16px] font-bold text-blue-700">Delivery Service</h3>
+                        <p class="text-[10px]  text-gray-500">Fill out delivery registration form
                         </p>
                     </div>
                 </a>

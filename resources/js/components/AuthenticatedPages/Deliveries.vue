@@ -44,83 +44,14 @@
                     </div>
                 </div>
             </div>
-            <!-- <div class="flex items-center justify-center mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
-            </div> -->
+            <div class="flex items-center justify-between mt-3">
+                <button type="button"
+                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
+                    CSV</button>
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
+            </div>
         </div>
     </div>
-<!-- 
-    <DialogVue :isOpen="pop" :dialogTitle="'Expected Deliveries'" :modalWidth="'max-w-6xl'">
-        <template v-slot:dialogBody>
-            <div class="mt-8 flow-root">
-                <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
-                    <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
-                        <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
-                            <table class="min-w-full divide-y divide-gray-300">
-                                <thead class="bg-gray-50">
-                                    <tr>
-                                        <th scope="col"
-                                            class="w-56 px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Rider Name</th>
-                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Mobile</th>
-                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Company</th>
-                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Building/s</th>
-                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Expected Date</th>
-                                        <th scope="col" class="px-2 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Status</th>
-                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Actions</th>
-
-                                    </tr>
-                                </thead>
-                                <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td
-                                            class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-5 items-center justify-center">
-                                            <a
-                                                class="flex justify-center text-green-500 hover:text-green-500/90 cursor-pointer">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M4.5 12.75l6 6 9-13.5" />
-                                                </svg>
-                                            </a>
-                                            <a
-                                                class="flex justify-center text-red-500 hover:text-red-500/90 cursor-pointer">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M6 18L18 6M6 6l12 12" />
-                                                </svg>
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="mt-4 flex justify-end">
-                <button type="button"
-                    class="inline-flex md:w-40 w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500"
-                    @click.prevent="this.pop = !this.pop">
-                    Close
-                </button>
-            </div>
-        </template>
-    </DialogVue> -->
 </template>
 
 <script>

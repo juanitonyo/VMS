@@ -16,7 +16,7 @@
                         class="relative block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white ">
                         Pending Host
                         <div
-                            class="absolute bottom-auto left-0 right-auto top-0 inline-block -translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-gray-800 px-2 py-1 text-xs">
+                            class="absolute bottom-auto left-0 right-auto top-0 inline-block -translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-gray-50 border border-blue-800 text-black px-2 py-1 text-xs">
                             0
                         </div>
                     </button>
@@ -38,7 +38,9 @@
                     Entries
                 </p>
 
-                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ?? false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.</p>
+                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ??
+                    false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.
+                </p>
             </div>
             <div class="mt-3 flow-root">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -115,8 +117,11 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-end mt-3">
-                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true"/>
+            <div class="flex items-center justify-between mt-3">
+                <a href="/api/export-user" target="_blank"
+                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
+                    CSV</a>
+                <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
     </div>
@@ -127,39 +132,37 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.name" label="name" id="name" 
-                                :hasError="form.errors && (form.errors.has('name') ?? false)" 
-                                :errorMessage="form.errors && (form.errors.has('name') ?? false) ? form.errors.get('name') : ''"></NormalInput>
+                            <NormalInput v-model="form.name" label="name" id="name"
+                                :hasError="form.errors && (form.errors.has('name') ?? false)"
+                                :errorMessage="form.errors && (form.errors.has('name') ?? false) ? form.errors.get('name') : ''">
+                            </NormalInput>
                         </div>
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.email" label="Email" id="user-email" 
-                                :hasError="form.errors && (form.errors.has('email') ?? false)" 
+                            <NormalInput v-model="form.email" label="Email" id="user-email"
+                                :hasError="form.errors && (form.errors.has('email') ?? false)"
                                 :errorMessage="form.errors && (form.errors.has('email') ?? false) ? form.errors.get('email') : ''">
                             </NormalInput>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <div class="flex justify-between">
-                                <label for="select-roles" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose Role</label>
+                                <label for="select-roles"
+                                    class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose Role</label>
                                 <span class="text-[10px] text-red-600 dark:text-red-500 mt-1"
                                     v-show="form.errors && (form.errors.has('role_id') ?? false)"
-                                    v-html="form.errors && (form.errors.has('role_id') ?? false) ? form.errors.get('role_id').replace(' id', '') : ''"
-                                    ></span>
+                                    v-html="form.errors && (form.errors.has('role_id') ?? false) ? form.errors.get('role_id').replace(' id', '') : ''"></span>
                             </div>
-                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search" 
-                                :class="form.errors && (form.errors.has('role_id') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"
-                                ></v-select>
+                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search"
+                                :class="form.errors && (form.errors.has('role_id') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"></v-select>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
                                 Buildings</label>
 
                             <v-select v-model="form.building" :options="buildings" label="label" placeholder="search"
-                                :class="form.errors && (form.errors.has('building') ?? false) ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"
-                                ></v-select>
+                                :class="form.errors && (form.errors.has('building') ?? false) ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
                             <span class="text-xs/2 text-red-600 dark:text-red-500"
                                 v-show="form.errors && (form.errors.has('building') ?? false)"
-                                v-html="form.errors && (form.errors.has('building') ?? false) ? form.errors.get('building') : ''"
-                                ></span>
+                                v-html="form.errors && (form.errors.has('building') ?? false) ? form.errors.get('building') : ''"></span>
                         </div>
                         <div class="sm:col-span-3 mt-3">
                             <SwitchGroup as="div" class="flex items-center justify-between">
@@ -310,7 +313,7 @@ import Form from "vform";
 
 export default {
     name: "Users",
-    props:{
+    props: {
         data: {
             type: Object,
             default: {}
@@ -472,10 +475,10 @@ export default {
         },
         async getData(page = 1) {
             await axios.get("/api/user?page=" + page + "&limit=" + this.limitPage).then((data) => {
-                    this.data = data.data.data;
-                    this.size = data.data.data.per_page;
-                    console.log(this.size)
-                })
+                this.data = data.data.data;
+                this.size = data.data.data.per_page;
+                console.log(this.size)
+            })
                 .catch((e) => {
                     errorMessage("Opps!", e.message, "top-right");
                 });

@@ -176,7 +176,13 @@ import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { createToast } from 'mosha-vue-toastify'
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+// import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
+import { ClassicEditor } from '@ckeditor/ckeditor5-editor-classic';
+import { Essentials } from '@ckeditor/ckeditor5-essentials';
+import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
+import { Link } from '@ckeditor/ckeditor5-link';
+import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
+import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
 import NormalInput from "../Inputs/NormalInput.vue";
 import VueMultiselect from 'vue-multiselect';
 
@@ -209,24 +215,27 @@ export default {
 
             editor: ClassicEditor,
             editorConfig: {
-                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading', 'sourceediting'],
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
+                plugins: [
+                    Essentials,
+                    Bold,
+                    Italic,
+                    Link,
+                    Paragraph,
+                    SourceEditing
+                ],
+
+                toolbar: {
+                    items: [
+                        'bold',
+                        'italic',
+                        'link',
+                        'undo',
+                        'redo',
+                        'sourceEditing'
                     ]
                 },
-                htmlSupport: {
-                    allow: [
-                        {
-                            name: /.*/,
-                            attributes: true,
-                            classes: true,
-                            styles: true
-                        }
-                    ]
-                }
+
+                allowedContent: true
             },
 
             placeholder: 'Choose a purpose: ',

@@ -9,7 +9,7 @@
                     <h2 class="text-2xl font-black tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center w-72">{{ this.buildings.address }}</h4>
                 </div>
-            </div>
+            </div>  
 
             <div class="flex flex-col items-center justify-center">
                 <p class="text-[10px] text-gray-400 text-center">By registering your account, you agree to <br>our <a
