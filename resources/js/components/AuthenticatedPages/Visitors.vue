@@ -247,7 +247,7 @@
     <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
 
-            <div class="sliderPurpose sm:col-span-3 my-3">
+            <div v-if="statusChoice == 'Invite'" class="sliderPurpose sm:col-span-3 my-3">
                 <label for="visit_type" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
                         Visit</label>
                 <v-select v-model="purpose" placeholder="Search" :options="visit_type" label="label"></v-select>
