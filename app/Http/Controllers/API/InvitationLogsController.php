@@ -63,8 +63,6 @@ class InvitationLogsController extends BaseController
     {
         $validated = $request->validated();
         $validated['ref_code'] = Str::random(6);
-        $validated['building_id'] = $validated['building_id']['value'];
-        $validated['visit_purpose_id'] = $validated['visit_purpose_id']['value'];
 
         $data = InvitationLogs::create($validated);
 

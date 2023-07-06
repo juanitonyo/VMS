@@ -246,7 +246,7 @@
             <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm" />
 
             <div class="mt-4 flex gap-1">
-                <button @click.prevent="this.statusChoice == 'Invite' ? sendInvitation() : updateVisitor(statusChoice)"
+                <button @click.prevent="this.statusChoice == 'Invite' ? saveInvitation(this.log) : updateVisitor(statusChoice)"
                     type="button"
                     class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
                     {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
@@ -265,6 +265,7 @@
 
 <script>
 import axios from 'axios';
+import Form from "vform";
 import { userAuthStore } from "@/store/auth";
 import { TailwindPagination } from 'laravel-vue-pagination';
 import { Switch, SwitchDescription, SwitchGroup, SwitchLabel } from '@headlessui/vue'
@@ -294,6 +295,7 @@ export default {
             building: [],
             show: false,
             statusChoice: '',
+            form: new Form({}),
             limitPage: 10
         }
     },
@@ -338,35 +340,33 @@ export default {
             }
         },
 
-        saveInvitation() {
-            this.form.building_id = this.form.building_id.value
-            this.form.visit_purpose_id = this.form.visit_purpose_id.value
+        saveInvitation(item) {
 
-            this.form.post('/api/invitation/')
-                .then((data) => {
-                    this.$Progress.finish();
-                    this.getData();
-                    this.pop = !this.pop;
-                    this.sendInvitation(data.data.data.id);
-                    createToast({
-                        title: 'Success!',
-                        description: 'Data has been saved.'
-                    },
-                        {
-                            position: 'top-left',
-                            showIcon: 'true',
-                            type: 'success',
-                            toastBackgroundColor: '#00bcd4',
-                            hideProgressBar: 'true',
-                            toastBackgroundColor: '#00bcd4',
-                        })
-                }).catch((error) => {
-                    this.$Progress.fail();
-                })
+            // this.form.post('/api/invitation/')
+            //     .then((data) => {
+            //         this.$Progress.finish();
+            //         this.getData();
+            //         this.pop = !this.pop;
+            //         this.sendInvitation(data.data.data.id);
+            //         createToast({
+            //             title: 'Success!',
+            //             description: 'Data has been saved.'
+            //         },
+            //             {
+            //                 position: 'top-left',
+            //                 showIcon: 'true',
+            //                 type: 'success',
+            //                 toastBackgroundColor: '#00bcd4',
+            //                 hideProgressBar: 'true',
+            //                 toastBackgroundColor: '#00bcd4',
+            //             })
+            //     }).catch((error) => {
+            //         this.$Progress.fail();
+            //     })
         },
 
         sendInvitation(id) {
-            axios.get('/api/send-email?id=' + id + '&emailPurpose=invitation').then((data) => { this.show = !this.show }).catch((error) => { })
+            axios.get('/api/send-email?id=' + id + '&emailPurpose=invitation&inviter=' + userAuthStore().user.name).then((data) => { this.show = !this.show }).catch((error) => { })
         },
 
         updateVisitor(triggered) {
