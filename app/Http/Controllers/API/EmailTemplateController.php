@@ -35,35 +35,35 @@ class EmailTemplateController extends BaseController
 
     public function sendEmail(Request $request) {
 
-        $mailData = [];
-
         if($request->emailPurpose == 'checkin') {
-            $subject = 'VMS | Your Check-In Details';
             $data = Visitors::with('latestLog')->where('id', $request->id)->latest()->first();
             $building = Building::where('id', $data->building_id)->first(['building_name', 'qr_id', 'address']);
             $name = $data['name'];
-            $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first('name');
+            $unitOwner = Host::where('user_id', $data->latestLog->user_id)->first(['name']);
+            $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first(['name']);
+            $mailBody = EmailTemplate::where('purpose', $request->emailPurpose)->first(['subject', 'body']);
             $time = $data->latestLog->created_at;
         }
 
         else if($request->emailPurpose == 'invitation') {
-            $subject = 'VMS | You are invited by '.$request->inviter;
             $data = InvitationLogs::where('id', $request->id)->first();
             $building = Building::where('id', $data->building_id)->first(['building_name', 'qr_id', 'address']);
             $name = $data['first_name'].' '.$data['last_name'];
+            $unitOwner = $request->inviter;
             $visitType = VisitTypes::where('id', $data->visit_purpose_id)->first(['name']);
+            $mailBody = EmailTemplate::where('purpose', $request->emailPurpose)->first(['subject', 'body']);
+            $mailBody['subject'] = $mailBody['subject'].' '.$request->inviter;
             $time = $data->target_date;
         }
-        
-        $mailBody = EmailTemplate::where('purpose', $request->emailPurpose)->first()->body;
 
         $mailData = [
-            'subject' => $subject,
+            'subject' => $mailBody['subject'],
             'email' => $data['email'],
             'uuid' => $building,
             'name' => $name,
             'ref_code' => $data['ref_code'],
             'visit_type' => $visitType['name'],
+            'unit_owner' => $unitOwner,
             'contact' => $data['contact'],
             'building_name' => $building->building_name,
             'building_address' => $building->address,
