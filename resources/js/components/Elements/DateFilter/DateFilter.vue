@@ -47,8 +47,8 @@ export default{
     methods: {
         clickedFilter() {
             this.$emit('filter-date', {
-                value1: moment(this.value1).format('YYYY-MM-DD'),
-                value2: moment(this.value2).format('YYYY-MM-DD')
+                value1: moment(this.value1).format('YYYY-MM-DD 00:00:00'),
+                value2: moment(this.value2).format('YYYY-MM-DD 23:59:59')
             });
         }
     },

@@ -500,6 +500,7 @@ export default {
 
         checkInVisitor() {
             this.form.visitor_id = this.visitor.id
+            this.form.user_id = this.unitOwners.id
             this.form.building_id = this.visitor.building_id
             this.form.visit_purpose_id = this.selectedPurpose.value
             this.form.log_type = store.hiddenLog
@@ -507,17 +508,17 @@ export default {
 
             this.form.post('/api/visitor-logs/')
                 .then((data) => {
-                    this.sendEmail();
+                    store.setHiddenParam(store.hiddenID);
+                    this.$router.push('/visitor-registration/success/checkin/' + this.id);
                 }).catch((e) => {
 
                 });
         },
 
         sendEmail() {
-            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id + '&emailPurpose=checkin&logType=' + this.log)
+            axios.get('/api/send-email?id=' + store.hiddenID + '&buildingID=' + this.id + '&emailPurpose=checkin')
                 .then((data) => {
-                    store.setHiddenParam(store.hiddenID);
-                    this.$router.push('/visitor-registration/success/checkin/' + this.id);
+                    this.checkInVisitor();
                 }).catch((error) => {
 
                 })
