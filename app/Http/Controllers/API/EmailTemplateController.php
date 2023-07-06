@@ -57,7 +57,7 @@ class EmailTemplateController extends BaseController
             $building = Building::where('id', $data->building_id)->first();
             $visitType = VisitTypes::where('id', $data->visit_purpose_id)->first()->name;
             $unitOwner = Host::where('id', $data->user_id)->first();
-            $mailData = ['unit_owner' => $unitOwner['first_name'].' '.$unitOwner['last_name'],];
+            $mailData = ['unit_owner' => $unitOwner['first_name'].' '.$unitOwner['last_name']];
             $name = $data['first_name'].' '.$data['last_name'];
             $time = $data->target_date;
             $subject = 'VMS | You are invited by '.$unitOwner['first_name'];
