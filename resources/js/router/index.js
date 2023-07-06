@@ -68,7 +68,7 @@ const DeliveryForm = () => import("@/components/VisitorRegistration/VisitorCards
 const DeliverySuccess = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliverySuccess.vue");
 
 // HOMEOWNER PAGES
-const hDashboard = () => import("@/components/HomeownerPages/hDashboard.vue");
+
 
 //TERMS AND CONDITION x PRIVACY POLICY
 const Terms = () => import("@/components/VisitorRegistration/TermsPrivacy.vue");
@@ -442,16 +442,6 @@ const routes = [
             middleware: "user",
             title: `VMS | Homeowner`,
         },
-        children:[
-            {
-                name: "hDashboard",
-                path: "/homeowner/dashboard",
-                component: hDashboard,
-                meta: {
-                    title: `VMS | Dashboard`,
-                },
-            }
-        ],
     },
     {
         name: 'guard',
