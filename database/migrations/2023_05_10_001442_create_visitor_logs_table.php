@@ -20,7 +20,10 @@ return new class extends Migration
             $table->string('log_type');
             $table->string('checked_in_by')->nullable();
             $table->string('checked_out_by')->nullable();
+            $table->string('approved_by')->nullable();
             $table->string('health_form')->nullable();
+            $table->integer('temperature')->default(0);
+            $table->string('remarks')->nullable();
             $table->boolean('is_checked_out')->default(false);
             $table->integer('status')->default(0);
             $table->timestamps();

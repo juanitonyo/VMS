@@ -68,7 +68,7 @@ class EmailTemplateController extends BaseController
             'building_name' => $building->building_name,
             'building_address' => $building->address,
             'checked_in' => $time,
-            'mailBody' => $mailBody
+            'mailBody' => $mailBody['body']
         ];
 
         foreach ($mailData as $placeholder => $value) {

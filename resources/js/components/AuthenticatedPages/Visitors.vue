@@ -371,6 +371,7 @@ export default {
 
         updateVisitor(triggered) {
             if (triggered == 'Approval') {
+                this.log.approved_by = userAuthStore().user.name + ' [System Manager]'
                 this.log.status = 1
             }
 

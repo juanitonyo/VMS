@@ -128,6 +128,7 @@ class VisitorLogsController extends BaseController
         $data = VisitorLogs::findOrFail($id)->update([
             'checked_in_by' => $request->params['data']['checked_in_by'],
             'checked_out_by' => $request->params['data']['checked_out_by'],
+            'approved_by' => $request->params['data']['approved_by'],
             'is_checked_out' => $request->params['data']['is_checked_out'],
             'health_form' => $request->params['data']['health_form'],
             'status' => $request->params['data']['status']

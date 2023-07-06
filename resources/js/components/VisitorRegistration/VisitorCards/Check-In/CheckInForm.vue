@@ -548,7 +548,7 @@ export default {
         },
 
         async syncData(id, log) {
-            if(log == 'Walk-In') {
+            if(log == 'WalkIn') {
                 await axios.get('/api/sync-visitor?id=' + id)
                 .then((data) => {
                     this.visitor = data.data.data;
