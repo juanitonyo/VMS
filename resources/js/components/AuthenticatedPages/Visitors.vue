@@ -206,7 +206,7 @@
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Approved by:</td>
-                                <td class="italic text-right text-gray-600">N/A</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.approved_by == null ? 'N/A' : this.account.approved_by }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Rating:</td>
