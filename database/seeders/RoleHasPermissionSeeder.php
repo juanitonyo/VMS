@@ -32,7 +32,7 @@ class RoleHasPermissionSeeder extends Seeder
                     break;
 
                 case 'system-tester':
-                    $modules = ['dashboard', 'visitors', 'deliveries'];
+                    $modules = ['dashboard', 'visitors', 'deliveries', 'invite'];
 
                     foreach ($modules as $module_key => $module) {
                         $permissions = \App\Models\Permissions::where('module', $module)->get();

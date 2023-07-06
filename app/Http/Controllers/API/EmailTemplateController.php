@@ -36,31 +36,23 @@ class EmailTemplateController extends BaseController
     public function sendEmail(Request $request) {
 
         $mailData = [];
-        
+
         if($request->emailPurpose == 'checkin') {
-            if($request->logType == 'Walk-In') {
-                $data = Visitors::with('latestLog')->where('id', $request->id)->latest()->first();
-                $name = $data['name'];
-            }
-            else if($request->logType == 'Invitee') {
-                $data = InvitationLogs::with('latestLog')->where('id', $request->id)->latest()->first();
-                $name = $data['first_name'].' '.$data['last_name'];
-            }
-            $building = Building::where('qr_id', $request->buildingID)->first();
-            $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first()->name;
-            $time = $data->latestLog->created_at;
             $subject = 'VMS | Your Check-In Details';
+            $data = Visitors::with('latestLog')->where('id', $request->id)->latest()->first();
+            $building = Building::where('id', $data->building_id)->first(['building_name', 'qr_id', 'address']);
+            $name = $data['name'];
+            $visitType = VisitTypes::where('id', $data->latestLog->visit_purpose_id)->first('name');
+            $time = $data->latestLog->created_at;
         }
 
         else if($request->emailPurpose == 'invitation') {
-            $data = InvitationLogs::where('id', $request->id)->latest()->first();
-            $building = Building::where('id', $data->building_id)->first();
-            $visitType = VisitTypes::where('id', $data->visit_purpose_id)->first()->name;
-            $unitOwner = Host::where('id', $data->user_id)->first();
-            $mailData = ['unit_owner' => $unitOwner['first_name'].' '.$unitOwner['last_name'],];
+            $subject = 'VMS | You are invited by '.$request->inviter;
+            $data = InvitationLogs::where('id', $request->id)->first();
+            $building = Building::where('id', $data->building_id)->first(['building_name', 'qr_id', 'address']);
             $name = $data['first_name'].' '.$data['last_name'];
+            $visitType = VisitTypes::where('id', $data->visit_purpose_id)->first(['name']);
             $time = $data->target_date;
-            $subject = 'VMS | You are invited by '.$unitOwner['first_name'];
         }
         
         $mailBody = EmailTemplate::where('purpose', $request->emailPurpose)->first()->body;
@@ -71,7 +63,7 @@ class EmailTemplateController extends BaseController
             'uuid' => $building,
             'name' => $name,
             'ref_code' => $data['ref_code'],
-            'visit_type' => $visitType,
+            'visit_type' => $visitType['name'],
             'contact' => $data['contact'],
             'building_name' => $building->building_name,
             'building_address' => $building->address,
@@ -91,10 +83,8 @@ class EmailTemplateController extends BaseController
      */
     public function store(EmailTemplateRequest $request)
     {
-
         $data = EmailTemplate::create($request->all());
         return $this->sendResponse($data, "Saved");
-    
     }
 
     /**

@@ -235,6 +235,7 @@ import { userAuthStore } from "@/store/auth";
 
 const store = useStore();
 const router = useRouter();
+const authStore = userAuthStore();
 
 export default {
     name: 'Visitor Homepage',
@@ -254,12 +255,12 @@ export default {
             id: window.location.href.split('/').pop(),
             buildings: {},
             isAllowed: true,
-            pm: false,
+            guard_pm_authorized: false,
             isQrOpen: false,
             result: '',
             error: '',
             camera: 'rear',
-
+            permission: {}
         }
     },
     methods: {
@@ -338,6 +339,9 @@ export default {
     },
     created() {
         this.getData();
+        if(userAuthStore().role == 4) {
+            this.guard_pm_authorized = true;
+        }
     },
 }
 </script>

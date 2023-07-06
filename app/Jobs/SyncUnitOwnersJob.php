@@ -38,7 +38,7 @@ class SyncUnitOwnersJob implements ShouldQueue
         foreach ($this->data as $item) {
 
             if (!User::where('email', $item['email'])->exists()) {
-                $building_ids = str_replace(['[',']'], '', $item['project_site_ids']);
+                // $building_ids = str_replace(['[',']'], '', $item['project_site_ids']);
 
                 $newRecords = User::updateOrCreate(
                     ['proptech_user_id' => $item['model_id']],
@@ -57,7 +57,7 @@ class SyncUnitOwnersJob implements ShouldQueue
                     [
                         'first_name' => $item['first_name'],
                         'last_name' => $item['last_name'],
-                        'building_id' => $building_ids,
+                        'building_id' => $item['project_site_ids'],
                         'email' => $item['email'],
                         'contact' => $item['mobile'],
                         'location' => $item['full_address'],
@@ -67,18 +67,18 @@ class SyncUnitOwnersJob implements ShouldQueue
                 UserBuildings::updateOrCreate(
                     ['user_id' => $newRecords->id],
                     [
-                        'building_id' => $building_ids,
+                        'building_id' => $item['project_site_ids'],
                     ]
                 );
             } else {
                 $user = User::where('email', $item['email'])->first();
-                $building_ids = str_replace(['[',']'], '', $item['project_site_ids']);
+                // $building_ids = str_replace(['[',']'], '', $item['project_site_ids']);
 
                 Host::where('user_id', $user->id)
                     ->update([
                         'first_name' => $item['first_name'],
                         'last_name' => $item['last_name'],
-                        'building_id' => $building_ids,
+                        'building_id' => $item['project_site_ids'],
                         'email' => $item['email'],
                         'contact' => $item['mobile'],
                         'location' => $item['full_address'],
@@ -86,7 +86,7 @@ class SyncUnitOwnersJob implements ShouldQueue
 
                 UserBuildings::where('user_id', $user->id)
                     ->update([
-                        'building_id' => $building_ids,
+                        'building_id' => $item['project_site_ids'],
                     ]);
             }
         }

@@ -11,11 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('user_buildings', function (Blueprint $table) {
+        Schema::create('expected_deliveries', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->json('building_id')->nullable();
-            $table->boolean('status')->default(false);
+            $table->integer('delivery_id');
+            $table->string('building_id');
+            $table->string('remarks');
+            $table->dateTime('target_date');
+            $table->boolean('status')->default(true);
             $table->timestamps();
         });
     }
@@ -25,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('user_buildings');
+        Schema::dropIfExists('expected_deliveries');
     }
 };

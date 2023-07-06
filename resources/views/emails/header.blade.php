@@ -15,7 +15,7 @@
             <tr style="32px"></tr>
             <tr align="center">
                 <table border="0" cellspacing="0" cellpadding="0"
-                    style="padding-bottom:20px;max-width:516px;min-width:220px">
+                    style="padding-bottom:20px;max-width:100vw;min-width:220px">
                     <tbody>
                         <tr>
                             <td style="width:8px"></td>

@@ -7,7 +7,7 @@
 
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex items-center gap-1">
             <div class="relative">
-                <input type="text" name="search" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80"
+                <input v-model="this.search" @input="getData" type="text" name="search" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80"
                     placeholder="Search">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
@@ -261,7 +261,8 @@ export default {
                 auto_approve: false,
                 status: false,
             }),
-            deletePrompt: false
+            deletePrompt: false,
+            search: ''
         }
     },
     watch: {
@@ -343,7 +344,7 @@ export default {
         },
 
         async getData(page = 1) {
-            await axios.get('/api/visit-type?page=' + page).then((data) => {
+            await axios.get('/api/visit-type?page=' + page + '&search=' + this.search).then((data) => {
                 this.data = data.data.data;
                 console.log(this.data);
             }).catch((e) => {

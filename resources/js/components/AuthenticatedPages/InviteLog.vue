@@ -256,7 +256,7 @@ export default {
         },
 
         sendInvitation(id) {
-            axios.get('/api/send-email?emailPurpose=invitation&id=' + id).then((data) => { this.show = !this.show }).catch((error) => { })
+            axios.get('/api/send-email?emailPurpose=invitation&id=' + id + '&inviter=' + userAuthStore().user.name).then((data) => { this.show = !this.show }).catch((error) => { })
         },
 
         async syncVisitType() {

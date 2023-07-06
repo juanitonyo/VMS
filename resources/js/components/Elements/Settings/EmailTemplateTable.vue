@@ -254,9 +254,7 @@ export default {
                             styles: true
                         }
                     ]
-                },
-
-                forcePasteAsPlainText: true
+                }
             },
 
             placeholder: 'Choose a purpose: ',
