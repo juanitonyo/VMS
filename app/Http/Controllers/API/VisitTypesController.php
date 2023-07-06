@@ -13,9 +13,14 @@ class VisitTypesController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = VisitTypes::with('buildingTypeName')->paginate(10);
+        if($request->search){
+            $data = VisitTypes::where('name', 'LIKE', '%'.$request->search.'%')->with('buildingTypeName')->paginate(10);
+        }
+        else {
+            $data = VisitTypes::with('buildingTypeName')->paginate(10);
+        }
         return $this->sendResponse($data, "All Visit Types in Array");
     }
 
