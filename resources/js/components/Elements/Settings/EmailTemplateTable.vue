@@ -91,8 +91,9 @@
                                     v-show="form.errors && (form.errors.has('purpose') ?? false)"
                                     v-html="form.errors && (form.errors.has('purpose')) ? form.errors.get('purpose') : ''"></span>
                             </div>
-                            <v-select v-model="form.purpose" placeholder="Search" :options="option" label="label"
-                                :class="form.errors && (form.errors.has('purpose') ?? false) ? 'bg-red-50 border rounded-md border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
+                            <v-select v-model="form.purpose" placeholder="Search" :options="option"
+                                label="label"
+                                :class="form.errors && (form.errors.has('purpose') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -184,11 +185,10 @@ import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
 import { Link } from '@ckeditor/ckeditor5-link';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
 import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
-import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
+// import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
 import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
 
 import NormalInput from "../Inputs/NormalInput.vue";
-import VueMultiselect from 'vue-multiselect';
 
 export default {
 
@@ -200,7 +200,7 @@ export default {
         }
     },
     components: {
-        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, VueMultiselect,
+        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput
     },
     data() {
         return {
@@ -226,8 +226,8 @@ export default {
                     Link,
                     Paragraph,
                     SourceEditing,
-                    Table,
-                    TableToolbar,
+                    // Table,
+                    // TableToolbar,
                     GeneralHtmlSupport
                 ],
 
@@ -239,7 +239,7 @@ export default {
                         'undo',
                         'redo',
                         'sourceEditing',
-                        'insertTable'
+                        // 'insertTable'
                     ]
                 },
                 table: {
@@ -254,7 +254,9 @@ export default {
                             styles: true
                         }
                     ]
-                }
+                },
+
+                forcePasteAsPlainText: true
             },
 
             placeholder: 'Choose a purpose: ',

@@ -18,7 +18,9 @@
                     Entries
                 </p>
 
-                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ?? false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.</p>
+                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ??
+                    false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.
+                </p>
             </div>
             <DateFilter class="mt-5" @filter-date="filterDate"></DateFilter>
             <div class="mt-8 flow-root" v-if="permissions.view">
@@ -126,7 +128,7 @@
             </div>
         </div>
     </div>
-    
+
     <SliderVue :setOpen="open" :title="(editMode ? 'View ' : 'Add ') + 'Visitors'"
         :description="'A visitor in the database'">
         <template v-slot:slider-body>
@@ -197,12 +199,14 @@
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Checked out at:</td>
-                                <td class="italic text-right text-gray-600">{{ this.account.is_checked_out ? 
-                                    moment(this.account.updated_at).format('MMMM Do YYYY, h: mm: ss a') : 'Not Yet'}}{{ this.account.status == -1 ? ' [Disapproved]' : '' }}</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.is_checked_out ?
+                                    moment(this.account.updated_at).format('MMMM Do YYYY, h: mm: ss a') : 'Not Yet' }}{{
+        this.account.status == -1 ? ' [Disapproved]' : '' }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Checked out by:</td>
-                                <td class="italic text-right text-gray-600">{{ this.account.checked_out_by == null ? 'N/A' : this.account.checked_out_by }}</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.checked_out_by == null ? 'N/A' :
+                                    this.account.checked_out_by }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Approved by:</td>
@@ -222,7 +226,8 @@
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Health Form:</td>
-                                <td class="italic text-right text-gray-600">{{ this.health_form == null ? "None" : this.health_form }}</td>
+                                <td class="italic text-right text-gray-600">{{ this.health_form == null ? "None" :
+                                    this.health_form }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Temperature:</td>
@@ -242,7 +247,13 @@
     <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
 
-            <p class="text-xs mb-1">Please state your reason:</p>
+            <div class="sliderPurpose sm:col-span-3 my-3">
+                <label for="visit_type" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
+                        Visit</label>
+                <v-select v-model="purpose" placeholder="Search" :options="visit_type" label="label"></v-select>
+            </div>
+
+            <p class="text-xs mb-1">Remark/s</p>
             <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm" />
 
             <div class="mt-4 flex gap-1">
@@ -294,7 +305,8 @@ export default {
             building: [],
             show: false,
             statusChoice: '',
-            limitPage: 10
+            limitPage: 10,
+            visit_type: [],
         }
     },
 
@@ -321,12 +333,12 @@ export default {
         async getData(page = 1) {
             if (userAuthStore().user.role_id == 2) {
                 await axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filter2)
-                .then((data) => {
-                    this.data = data.data.data;
-                    console.log(this.data)
-                }).catch((e) => {
-                    // errorMessage('Opps!', e.message, 'top-right')
-                });
+                    .then((data) => {
+                        this.data = data.data.data;
+                        console.log(this.data)
+                    }).catch((e) => {
+                        // errorMessage('Opps!', e.message, 'top-right')
+                    });
             }
             else {
                 await axios.get('/api/get-logs?page=' + page + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore).then((data) => {
@@ -336,6 +348,16 @@ export default {
                     // errorMessage('Opps!', e.message, 'top-right')
                 });
             }
+        },
+
+        async syncVisitType() {
+            await axios.get('/api/get-visit-types/')
+                .then((data) => {
+                    this.visit_type = data.data.data;
+                })
+                .catch((e) => {
+
+                });
         },
 
         saveInvitation() {

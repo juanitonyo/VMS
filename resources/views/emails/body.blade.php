@@ -1,5 +1,5 @@
 @include('emails.header')
 
-    {!! $mailData['mailBody'] !!}
+{!! $mailData['mailBody'] !!}
 
 @include('emails.footer')

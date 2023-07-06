@@ -477,7 +477,6 @@ export default {
             await axios.get("/api/user?page=" + page + "&limit=" + this.limitPage).then((data) => {
                 this.data = data.data.data;
                 this.size = data.data.data.per_page;
-                console.log(this.size)
             })
                 .catch((e) => {
                     errorMessage("Opps!", e.message, "top-right");
