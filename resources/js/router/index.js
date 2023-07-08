@@ -432,6 +432,16 @@ const routes = [
         },
     },
     {
+        name: 'userpage',
+        path: "/homeowner",
+        component: HomeownerLayout,
+        redirect: "/homeowner/dashboard",
+        meta: {
+            middleware: "user",
+            title: `VMS | Homeowner`,
+        },
+    },
+    {
         name: 'guard',
         path: "/guests",
         component: VisitorHomepage,

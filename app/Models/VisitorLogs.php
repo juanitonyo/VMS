@@ -19,6 +19,7 @@ class VisitorLogs extends Model
         'is_checked_out',
         'checked_in_by',
         'checked_out_by',
+        'approved_by',
         'health_form',
         'log_type',
         'status',

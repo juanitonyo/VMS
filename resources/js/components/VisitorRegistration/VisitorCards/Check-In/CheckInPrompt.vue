@@ -96,21 +96,24 @@ export default {
                         this.$router.push('/visitor-registration/signIn/reg/' + this.id);
                     }
 
-                    else if (this.account.latest_log.status == 0) {
-                        this.$router.push('/visitor-registration/approval');
-                    }
-
-                    else {
+                    else if (this.account.latest_log == null || this.account.latest_log.is_checked_out || this.account.latest_log.status == -1) {
                         store.setHiddenParam(this.account.id);
-                        store.setHiddenParam('WalkIn')
-
-                        if (this.account.latest_log == null || this.account.latest_log.is_checked_out || this.account.latest_log.status == -1) {
-                            this.$router.push('/visitor-registration/checkin/' + this.id);
-                        }
-                        else if (!this.account.latest_log.is_checked_out) {
-                            this.$router.push('/visitor-registration/checkout/' + this.id);
-                        }
+                        store.setHiddenLog('WalkIn')
+                        
+                        this.$router.push('/visitor-registration/checkin/' + this.id);
                     }
+
+                    else if (!this.account.latest_log.is_checked_out) {
+                        store.setHiddenParam(this.account.id);
+                        store.setHiddenLog('WalkIn')
+
+                        this.$router.push('/visitor-registration/checkout/' + this.id);
+                    }
+
+                    else if (this.account.latest_log.status == 0) {
+                            this.$router.push('/visitor-registration/approval');
+                    }
+                    
                 })
                 .catch((error) => {
 

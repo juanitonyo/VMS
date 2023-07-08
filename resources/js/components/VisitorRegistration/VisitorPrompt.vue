@@ -1,7 +1,7 @@
 <template>
     <div class="min-w-full min-h-screen flex items-center justify-center overflow-hidden">
         <div class="overflow-hidden shadow-sm shadow-slate-500 m-3 p-5 md:p-10 rounded-xl">
-            <h1 class="flex justify-center items-center text-xs lg:text-base">You are about to enter ...</h1>
+            <h1 class="flex justify-center items-center text-xs lg:text-base">You are about to enter</h1>
 
             <div class="flex flex-col items-center justify-center md:m-1">
                 <p class="m-3 text-2xl md:text-3xl font-bold uppercase">{{ this.buildings.building_name }}</p>

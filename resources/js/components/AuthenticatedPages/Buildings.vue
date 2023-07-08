@@ -11,9 +11,9 @@
                     <div class="relative">
                         <input v-model="this.search" type="text" name="search" @input="getData"
                             class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80"
-                            placeholder="Search: Building Name">
+                            placeholder="">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                            stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
+                            stroke="currentColor" class="absolute w-4 h-4 top-2 right-2">
                             <path stroke-linecap="round" stroke-linejoin="round"
                                 d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                         </svg>
@@ -25,7 +25,7 @@
 
             </div>
 
-            <div class="mt-3 flex justify-between items-center">
+            <div class="mt-3 flex items-center">
                 <p class="text-xs">Showing
                     <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
                         <option selected value="10">10</option>
@@ -34,10 +34,6 @@
                         <option value="100">100</option>
                     </select>
                     Entries
-                </p>
-
-                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ??
-                    false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.
                 </p>
             </div>
 
@@ -85,7 +81,7 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == true ?
                                             'Active' : 'Inactive' }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{
-                                            moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                            moment(item.created_at).format('MM/DD/YYYY h:mm a') }}</td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs flex w-full justify-center items-center gap-2"
                                             v-if="permissions.update">
                                             <a @click.prevent="editBuilding(item)" href="#"
@@ -116,12 +112,15 @@
                 </div>
             </div>
             <div class="flex items-center justify-between mt-3">
-                <a href="/api/export-building" target="_blank"
-                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
-                    CSV</a>
+                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ??
+                    false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.
+                </p>
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
+        <a href="/api/export-building" target="_blank"
+                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 w-40 mt-3">Export
+                    CSV</a>
     </div>
 
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Building'"

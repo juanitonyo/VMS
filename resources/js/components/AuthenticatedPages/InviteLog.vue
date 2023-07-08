@@ -291,6 +291,8 @@ export default {
 
         saveInvitation() {
             this.form.user_id = userAuthStore().user.id
+            this.form.building_id = this.form.building_id.value
+            this.form.visit_purpose_id = this.form.visit_purpose_id.value
             if(userAuthStore().role.id == 1 || userAuthStore().role.id == 2) {
                 this.form.status = true;
             }

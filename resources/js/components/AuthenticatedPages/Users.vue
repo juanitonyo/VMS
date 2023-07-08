@@ -7,19 +7,20 @@
                         USERS
                     </h1>
                     <p class="mt-2 text-xs text-gray-700">
-                        A list of all the users in your account including their
-                        name, title, email and role.
+                        A list of all the users in your account.
                     </p>
                 </div>
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex sm:space-x-1 sm:space-y-0 space-y-1 space-x-0">
-                    <button type="button" @click.prevent="openPending()"
-                        class="relative block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white ">
-                        Pending Host
-                        <div
-                            class="absolute bottom-auto left-0 right-auto top-0 inline-block -translate-x-2/4 -translate-y-1/2 rotate-0 skew-x-0 skew-y-0 scale-x-100 scale-y-100 rounded-full bg-gray-50 border border-blue-800 text-black px-2 py-1 text-xs">
-                            0
-                        </div>
-                    </button>
+                    <span class="relative">
+                        <button type="button" @click.prevent="openPending()"
+                            class="block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white ">
+                            Pending Host
+                        </button>
+                        <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
+                        </span>
+                    </span>
 
                     <button @click.prevent="setOpen" type="button"
                         class="block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white ">
@@ -27,7 +28,7 @@
                     </button>
                 </div>
             </div>
-            <div class="mt-3 flex justify-between items-center">
+            <div class="mt-3 flex items-center justify-between">
                 <p class="text-xs">Showing
                     <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
                         <option selected value="10">10</option>
@@ -38,9 +39,16 @@
                     Entries
                 </p>
 
-                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ??
-                    false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.
-                </p>
+                <div class="relative">
+                    <input v-model="this.search" type="text" name="search" @input="getData"
+                        class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80"
+                        placeholder="">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="absolute w-4 h-4 top-2 right-2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                </div>
             </div>
             <div class="mt-3 flow-root">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -50,7 +58,7 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col"
-                                            class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900 sm:pl-6">
+                                            class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900 text">
                                             Name
                                         </th>
                                         <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
@@ -68,7 +76,10 @@
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Status
                                         </th>
-                                        <th scope="col" class="text-center px-3 py-3.5 font-semibold sm:pr-6">
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                            Date Created
+                                        </th>
+                                        <th scope="col" class="text-center px-3 text-sm py-3.5 font-semibold">
                                             Action
                                         </th>
                                     </tr>
@@ -98,15 +109,16 @@
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
                                             item.status == true ? 'Active' : 'Inactive' }}</td>
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
+                                            moment(item.created_at).format('MM/DD/YYYY h:mm a') }}</td>
                                         <td
-                                            class="relative whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
+                                            class="relative whitespace-nowrap py-4 pl-3 pr-3 text-xs text-center font-medium">
                                             <a @click.prevent="editUser(item)" href="#"
                                                 class="flex justify-center text-slate-800 hover:text-indigo-900">
-                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-                                                    fill="currentColor" class="w-5 h-5">
-                                                    <path fill-rule="evenodd"
-                                                        d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                                                        clip-rule="evenodd" />
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                                 </svg>
                                             </a>
                                         </td>
@@ -118,12 +130,15 @@
                 </div>
             </div>
             <div class="flex items-center justify-between mt-3">
-                <a href="/api/export-user" target="_blank"
-                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
-                    CSV</a>
+                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ??
+                    false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.
+                </p>
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
+        <a href="/api/export-user" target="_blank"
+            class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 w-40 mt-3">Export
+            CSV</a>
     </div>
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'User'"
         :description="'A list of all the users in your account including their name, title, email and role.'">
@@ -132,13 +147,13 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.name" label="name" id="name"
+                            <NormalInput v-model="form.name" label="Name" id="name"
                                 :hasError="form.errors && (form.errors.has('name') ?? false)"
                                 :errorMessage="form.errors && (form.errors.has('name') ?? false) ? form.errors.get('name') : ''">
                             </NormalInput>
                         </div>
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.email" label="Email" id="user-email"
+                            <NormalInput v-model="form.email" label="Email" id="user-email" :type="'email'"
                                 :hasError="form.errors && (form.errors.has('email') ?? false)"
                                 :errorMessage="form.errors && (form.errors.has('email') ?? false) ? form.errors.get('email') : ''">
                             </NormalInput>
@@ -164,7 +179,7 @@
                                 v-show="form.errors && (form.errors.has('building') ?? false)"
                                 v-html="form.errors && (form.errors.has('building') ?? false) ? form.errors.get('building') : ''"></span>
                         </div>
-                        <div class="sm:col-span-3 mt-3">
+                        <div class="sm:col-span-3 mt-3" :class="editMode ? '' : 'hidden'">
                             <SwitchGroup as="div" class="flex items-center justify-between">
                                 <span class="flex flex-grow flex-col">
                                     <SwitchLabel as="span" class="text-sm font-medium leading-6 text-gray-900" passive>
@@ -194,7 +209,7 @@
                         Cancel
                     </button>
                     <button type="submit"
-                        class="ml-4 inline-flex justify-center rounded-md bg-blue-800 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-gray-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-500">
+                        class="ml-4 inline-flex justify-center rounded-md bg-blue-800 py-2 px-3 text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">
                         {{ editMode ? "Update" : "Save" }}
                     </button>
                 </div>
@@ -310,6 +325,7 @@ import { createToast } from "mosha-vue-toastify";
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import axios from "axios";
 import Form from "vform";
+import moment from 'moment';
 
 export default {
     name: "Users",
@@ -327,7 +343,8 @@ export default {
         SwitchLabel,
         NormalInput,
         DialogVue,
-        TailwindPagination
+        TailwindPagination,
+        moment
     },
     data() {
         return {
@@ -507,6 +524,7 @@ export default {
         this.getData();
         this.getRoles();
         this.getBuildings();
+        this.moment = moment;
     },
 };
 </script>

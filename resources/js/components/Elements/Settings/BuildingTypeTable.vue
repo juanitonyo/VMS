@@ -6,8 +6,7 @@
         </div>
         <div class="mt-4 flex items-center gap-1">
             <div class="relative">
-                <input type="text" name="search" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80"
-                    placeholder="Search: Building Name">
+                <input type="text" name="search" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -54,12 +53,11 @@
                                         class="relative whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
                                         <a @click.prevent="editBuilding(item)" href="#"
                                             class="flex justify-center text-slate-800 hover:text-indigo-900">
-                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                                class="w-5 h-5">
-                                                <path fill-rule="evenodd"
-                                                    d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                                                    clip-rule="evenodd" />
-                                            </svg>
+                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+                                        </svg>
 
                                         </a>
                                     </td>
@@ -68,14 +66,15 @@
                     </table>
                 </div>
                 <div class="flex items-center justify-between mt-3">
-                    <a href="/api/export-building-type" target="_blank"
-                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
-                    CSV</a>
                     <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
                 </div>
             </div>
         </div>
     </div>
+
+    <a href="/api/export-building-type" target="_blank"
+            class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 w-40 mt-3">Export
+            CSV</a>
 
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'Building Type'"
         :description="'A roster of all building types associated with your account, including their category, description and location.'">

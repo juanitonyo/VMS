@@ -8,8 +8,7 @@
                 </div>
 
                 <div class="relative">
-                    <input v-model="this.search" @input="getData" type="text" name="search"
-                        placeholder="Search: Building Name" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80">
+                    <input v-model="this.search" @input="getData" type="text" name="search" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -18,19 +17,15 @@
                 </div>
             </div>
 
-            <div class="mt-3 flex justify-between items-center">
-                <p class="text-xs">Showing
-                    <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
-                        <option selected value="10">10</option>
-                        <option value="25">25</option>
-                        <option value="50">50</option>
-                        <option value="100">100</option>
-                    </select>
-                    Entries
-                </p>
-
-                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ?? false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.</p>
-            </div>
+            <p class="mt-3 text-xs">Showing
+                <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
+                    <option selected value="10">10</option>
+                    <option value="25">25</option>
+                    <option value="50">50</option>
+                    <option value="100">100</option>
+                </select>
+                Entries
+            </p>
 
             <div class="flex flex-col">
                 <div v-for="item in data.data" class="flex mt-3 gap-2">
@@ -70,7 +65,8 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-end mt-3">
+            <div class="flex items-center justify-between mt-3">
+                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ?? false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.</p>
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>

@@ -7,8 +7,17 @@
                     <p class="mt-2 text-xs text-gray-700">A catalog of all deliveries in the database</p>
                 </div>
 
+                <div class="relative">
+                    <input
+                        class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80" placeholder="">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="absolute w-4 h-4 top-2 right-2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                </div>
             </div>
-            <DateFilter class="mt-5" :isHidden="'hidden'"></DateFilter>
+            <DateFilter class="mt-5"></DateFilter>
             <div class="mt-8 flow-root">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
@@ -36,7 +45,7 @@
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.courier_name }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">Test</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{
-                                            moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                            moment(item.created_at).format('MM/DD/YYYY h:mm a') }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -44,13 +53,13 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-between mt-3">
-                <button type="button"
-                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
-                    CSV</button>
+            <div class="flex items-center justify-end mt-3">
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
+        <button type="button"
+            class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 mt-3">Export
+            CSV</button>
     </div>
 </template>
 
