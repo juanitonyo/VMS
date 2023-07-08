@@ -132,7 +132,7 @@
                 <div class="relative flex-1 py-2 px-4 sm:px-6 divide-y divide-gray-200 border">
                     <div class="my-4 grid grid-cols-1">
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.name" label="name" id="name"
+                            <NormalInput v-model="form.name" label="Name" id="name"
                                 :hasError="form.errors && (form.errors.has('name') ?? false)"
                                 :errorMessage="form.errors && (form.errors.has('name') ?? false) ? form.errors.get('name') : ''">
                             </NormalInput>
@@ -342,7 +342,7 @@ export default {
                 role_id: "",
                 building: "",
                 password: "",
-                status: false,
+                status: true,
             }),
             errors: {
                 role_id: { error: false, label: '' },
@@ -477,7 +477,6 @@ export default {
             await axios.get("/api/user?page=" + page + "&limit=" + this.limitPage).then((data) => {
                 this.data = data.data.data;
                 this.size = data.data.data.per_page;
-                console.log(this.size)
             })
                 .catch((e) => {
                     errorMessage("Opps!", e.message, "top-right");
