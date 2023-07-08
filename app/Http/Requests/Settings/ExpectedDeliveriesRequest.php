@@ -26,7 +26,6 @@ class ExpectedDeliveriesRequest extends FormRequest
 
     public function createRules() :array {
         return [
-            ''
             'target_date' => 'required'
         ];
     }

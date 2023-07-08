@@ -2,8 +2,7 @@
   <div class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col border-r">
     <div class="flex grow flex-col gap-y-10 overflow-y-auto bg-white px-6 pb-4">
       <a href="/app/dashboard" class="cursor-pointer flex h-16 shrink-0 items-center pt-5 px-2">
-        <img class="h-[70px] w-[200px]" src="/logo/vms_logo.png"
-          alt="VMS" />
+        <img class="h-[70px] w-[200px]" src="/logo/vms_logo.png" alt="VMS" />
       </a>
       <nav class="flex flex-1 flex-col justify-between" aria-label="Sidebar">
         <div class="-mx-2 space-y-2">
@@ -11,13 +10,12 @@
             VMS Tabs
           </div>
           <div v-for="item in sidebarNavigation" v-if="permissions">
-            <router-link v-if="item.access" @click="toggleDropdown(item)" :key="item.name" :to="item.href"
-              :class="[
-                useRoute().path == item.href
-                  ? 'bg-gray-50 text-gray-700'
-                  : 'text-gray-700 hover:bg-gray-50',
-                'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal',
-              ]" :aria-current="item.current ? 'page' : undefined">
+            <router-link v-if="item.access" @click="toggleDropdown(item)" :key="item.name" :to="item.href" :class="[
+              useRoute().path == item.href
+                ? 'bg-gray-50 text-gray-700'
+                : 'text-gray-700 hover:bg-gray-50',
+              'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal',
+            ]" :aria-current="item.current ? 'page' : undefined">
               <component :is="item.icon" class="mr-4 h-6 w-6 flex-shrink-0 text-blue-500" aria-hidden="true" />
               {{ item.name }}
             </router-link>
@@ -51,7 +49,7 @@
               <component :is="item.icon" class="mr-4 h-6 w-6 text-blue-500" aria-hidden="true" />
               {{ item.name }}
             </router-link>
-            
+
           </div>
         </div>
       </nav>
@@ -72,7 +70,8 @@ import {
   TruckIcon,
   ChevronRightIcon,
   ShareIcon,
-  QrCodeIcon
+  QrCodeIcon,
+  ArrowLeftIcon
 } from "@heroicons/vue/24/outline";
 
 let permissions = userAuthStore().role.permissions;
@@ -166,6 +165,11 @@ const sidebarNavigation = reactive([
 ]);
 
 const sideBarSecondaryNavigation = [
+  {
+    name: "Front Page",
+    href: "/guests",
+    icon: ArrowLeftIcon,
+  },
   {
     name: "Maintenance",
     href: "/app/settings",

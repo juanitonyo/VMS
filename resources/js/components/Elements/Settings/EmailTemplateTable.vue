@@ -56,11 +56,10 @@
                                     class="relative whitespace-nowrap py-4 pl-3 pr-4 text-center text-xs font-medium sm:pr-6">
                                     <a @click.prevent="editTemplate(item)" href="#"
                                         class="flex justify-center text-slate-800 hover:text-indigo-900">
-                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor"
-                                            class="w-5 h-5">
-                                            <path fill-rule="evenodd"
-                                                d="M7.84 1.804A1 1 0 018.82 1h2.36a1 1 0 01.98.804l.331 1.652a6.993 6.993 0 011.929 1.115l1.598-.54a1 1 0 011.186.447l1.18 2.044a1 1 0 01-.205 1.251l-1.267 1.113a7.047 7.047 0 010 2.228l1.267 1.113a1 1 0 01.206 1.25l-1.18 2.045a1 1 0 01-1.187.447l-1.598-.54a6.993 6.993 0 01-1.929 1.115l-.33 1.652a1 1 0 01-.98.804H8.82a1 1 0 01-.98-.804l-.331-1.652a6.993 6.993 0 01-1.929-1.115l-1.598.54a1 1 0 01-1.186-.447l-1.18-2.044a1 1 0 01.205-1.251l1.267-1.114a7.05 7.05 0 010-2.227L1.821 7.773a1 1 0 01-.206-1.25l1.18-2.045a1 1 0 011.187-.447l1.598.54A6.993 6.993 0 017.51 3.456l.33-1.652zM10 13a3 3 0 100-6 3 3 0 000 6z"
-                                                clip-rule="evenodd" />
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                            stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                            <path stroke-linecap="round" stroke-linejoin="round"
+                                                d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                                         </svg>
 
                                     </a>
@@ -91,8 +90,9 @@
                                     v-show="form.errors && (form.errors.has('purpose') ?? false)"
                                     v-html="form.errors && (form.errors.has('purpose')) ? form.errors.get('purpose') : ''"></span>
                             </div>
-                            <v-select v-model="form.purpose" placeholder="Search" :options="option" label="label"
-                                :class="form.errors && (form.errors.has('purpose') ?? false) ? 'bg-red-50 border rounded-md border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
+                            <v-select v-model="form.purpose" placeholder="Search" :options="option"
+                                label="label"
+                                :class="form.errors && (form.errors.has('purpose') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"></v-select>
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
@@ -183,11 +183,10 @@ import { Bold, Italic } from '@ckeditor/ckeditor5-basic-styles';
 import { Link } from '@ckeditor/ckeditor5-link';
 import { Paragraph } from '@ckeditor/ckeditor5-paragraph';
 import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
-import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
+// import { Table, TableToolbar } from '@ckeditor/ckeditor5-table';
 import { GeneralHtmlSupport } from '@ckeditor/ckeditor5-html-support';
 
 import NormalInput from "../Inputs/NormalInput.vue";
-import VueMultiselect from 'vue-multiselect';
 
 export default {
 
@@ -199,7 +198,7 @@ export default {
         }
     },
     components: {
-        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput, VueMultiselect,
+        DialogVue, SliderVue, Switch, SwitchDescription, SwitchGroup, SwitchLabel, NormalInput
     },
     data() {
         return {
@@ -225,8 +224,8 @@ export default {
                     Link,
                     Paragraph,
                     SourceEditing,
-                    Table,
-                    TableToolbar,
+                    // Table,
+                    // TableToolbar,
                     GeneralHtmlSupport
                 ],
 
@@ -238,7 +237,7 @@ export default {
                         'undo',
                         'redo',
                         'sourceEditing',
-                        'insertTable'
+                        // 'insertTable'
                     ]
                 },
                 table: {
@@ -253,9 +252,7 @@ export default {
                             styles: true
                         }
                     ]
-                },
-
-                allowedContent: true
+                }
             },
 
             placeholder: 'Choose a purpose: ',

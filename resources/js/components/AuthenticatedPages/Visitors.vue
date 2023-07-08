@@ -6,8 +6,21 @@
                     <h1 class="text-2xl font-extrabold leading-6 text-blue-800">VISITORS</h1>
                     <p class="mt-2 text-xs text-gray-700">Log of all visitors in the database</p>
                 </div>
+
+                <div class="relative">
+                    <input class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80" placeholder="">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                        stroke="currentColor" class="absolute w-4 h-4 top-2 right-2">
+                        <path stroke-linecap="round" stroke-linejoin="round"
+                            d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                    </svg>
+                </div>
+
             </div>
-            <div class="mt-3 flex justify-between items-center">
+
+            <DateFilter class="mt-5" @filter-date="filterDate"></DateFilter>
+
+            <div class="mt-3 flex items-center">
                 <p class="text-xs">Showing
                     <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
                         <option selected value="10">10</option>
@@ -17,11 +30,9 @@
                     </select>
                     Entries
                 </p>
-
-                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ?? false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.</p>
             </div>
-            <DateFilter class="mt-5" @filter-date="filterDate"></DateFilter>
-            <div class="mt-8 flow-root" v-if="permissions.view">
+
+            <div class="mt-2 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8">
                         <div class="overflow-hidden shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg">
@@ -58,9 +69,9 @@
                                             'Pending Approval' : item.status == 1 ?
                                                 'Approved' : 'Disapproved' }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{
-                                            moment(item.created_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                            moment(item.created_at).format('MM/DD/YYYY h:mm a') }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.is_checked_out ?
-                                            moment(item.updated_at).format('MMMM Do YYYY, h:mm:ss a') : "Not Yet" }}
+                                            moment(item.created_at).format('MM/DD/YYYY h:mm a') : "Not Yet" }}
                                         </td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center"
                                             v-if="permissions.update">
@@ -119,14 +130,17 @@
                 </div>
             </div>
             <div class="flex items-center justify-between mt-3">
-                <a href="/api/export-visitor-log" target="_blank"
-                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
-                    CSV</a>
+                <p class="text-xs">Showing {{ [this.data.from ?? false ? this.data.from : '0'] + ' to ' + [this.data.to ??
+                    false ? this.data.to : '0'] + ' of ' + [this.data.total ?? false ? this.data.total : '0'] }} entries.
+                </p>
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
+        <a href="/api/export-visitor-log" target="_blank"
+            class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 mt-3 w-40">Export
+            CSV</a>
     </div>
-    
+
     <SliderVue :setOpen="open" :title="(editMode ? 'View ' : 'Add ') + 'Visitors'"
         :description="'A visitor in the database'">
         <template v-slot:slider-body>
@@ -197,16 +211,19 @@
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Checked out at:</td>
-                                <td class="italic text-right text-gray-600">{{ this.account.is_checked_out ? 
-                                    moment(this.account.updated_at).format('MMMM Do YYYY, h: mm: ss a') : 'Not Yet'}}{{ this.account.status == -1 ? ' [Disapproved]' : '' }}</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.is_checked_out ?
+                                    moment(this.account.updated_at).format('MMMM Do YYYY, h: mm: ss a') : 'Not Yet' }}{{
+        this.account.status == -1 ? ' [Disapproved]' : '' }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Checked out by:</td>
-                                <td class="italic text-right text-gray-600">{{ this.account.checked_out_by == null ? 'N/A' : this.account.checked_out_by }}</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.checked_out_by == null ? 'N/A' :
+                                    this.account.checked_out_by }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Approved by:</td>
-                                <td class="italic text-right text-gray-600">{{ this.account.approved_by == null ? 'N/A' : this.account.approved_by }}</td>
+                                <td class="italic text-right text-gray-600">{{ this.account.approved_by == null ? 'N/A' :
+                                    this.account.approved_by }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Rating:</td>
@@ -222,7 +239,8 @@
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Health Form:</td>
-                                <td class="italic text-right text-gray-600">{{ this.health_form == null ? "None" : this.health_form }}</td>
+                                <td class="italic text-right text-gray-600">{{ this.health_form == null ? "None" :
+                                    this.health_form }}</td>
                             </tr>
                             <tr>
                                 <td class="font-bold text-gray-800">Temperature:</td>
@@ -242,11 +260,18 @@
     <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
 
-            <p class="text-xs mb-1">Please state your reason:</p>
+            <div v-if="statusChoice == 'Invite'" class="sliderPurpose sm:col-span-3 my-3">
+                <label for="visit_type" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
+                    Visit</label>
+                <v-select v-model="purpose" placeholder="Search" :options="visit_type" label="label"></v-select>
+            </div>
+
+            <p class="text-xs mb-1">Remark/s</p>
             <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm" />
 
             <div class="mt-4 flex gap-1">
-                <button @click.prevent="this.statusChoice == 'Invite' ? saveInvitation(this.log) : updateVisitor(statusChoice)"
+                <button
+                    @click.prevent="this.statusChoice == 'Invite' ? saveInvitation(this.log) : updateVisitor(statusChoice)"
                     type="button"
                     class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
                     {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
@@ -296,7 +321,8 @@ export default {
             show: false,
             statusChoice: '',
             form: new Form({}),
-            limitPage: 10
+            limitPage: 10,
+            visit_type: [],
         }
     },
 
@@ -323,12 +349,12 @@ export default {
         async getData(page = 1) {
             if (userAuthStore().user.role_id == 2) {
                 await axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filter2)
-                .then((data) => {
-                    this.data = data.data.data;
-                    console.log(this.data)
-                }).catch((e) => {
-                    // errorMessage('Opps!', e.message, 'top-right')
-                });
+                    .then((data) => {
+                        this.data = data.data.data;
+                        console.log(this.data)
+                    }).catch((e) => {
+                        // errorMessage('Opps!', e.message, 'top-right')
+                    });
             }
             else {
                 await axios.get('/api/get-logs?page=' + page + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore).then((data) => {

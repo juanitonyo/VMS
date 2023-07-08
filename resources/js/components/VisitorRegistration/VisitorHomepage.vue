@@ -1,6 +1,6 @@
 <template>
     <div v-show="this.result == ''" class="flex justify-center items-center min-h-screen min-w-screen"
-        :class="pm ? 'bg-gradient-to-br from-white to-blue-100' : ''">
+        :class="guard_pm_authorized ? 'bg-gradient-to-br from-white to-blue-100' : ''">
         <div class="flex flex-col items-center justify-center gap-y-4">
 
             <img src="/logo/vms_logo.png" alt="logo" class="w-[180px]">
@@ -10,7 +10,8 @@
                 <h4 class="text-[10px] text-gray-400 text-center w-80">{{ this.buildings.address }}</h4>
             </div>
 
-            <div v-show="pm" class="actions flex items-center justify-center gap-1.5 w-[280px] text-xs font-light">
+            <div v-show="guard_pm_authorized"
+                class="actions flex items-center justify-center gap-1.5 w-[280px] text-xs font-light">
                 <button @click.prevent="openQR()"
                     class="w-full h-8 text-blue-700 border border-blue-700 rounded-md p-0.5 gap-1 flex items-center justify-center">
                     <img src="/Visitor_Homepage_Assets/qrButton.png" class="w-5 h-5">
@@ -121,7 +122,7 @@
     <div v-if="this.result != ''"
         class="flex items-center justify-center min-h-screen min-w-screen bg-gradient-to-br from-white to-blue-100">
 
-        <div class="w-[320px] mx-5 flex flex-col items-center justify-center space-y-5">
+        <div class="w-[320px] mx-5 flex flex-col items-center justify-center">
             <div class="text-center">
                 <p class="text-xs text-gray-600">You are an</p>
                 <p class="text-blue-800 font-bold text-2xl tracking-wide">Invitee</p>
@@ -130,75 +131,78 @@
 
             </div>
 
-            <p class="text-xs text-left text-blue-800">Visitor Details</p>
-            <table class="w-full text-[10px]">
-                <tr>
-                    <td class="font-bold">Name: </td>
-                    <td class="text-right">Juan Dela Cruz</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">Email: </td>
-                    <td class="text-right">jdc@gmail.com</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">Contact Number: </td>
-                    <td class="text-right">1234567890</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">Reference Code: </td>
-                    <td class="text-right">ABC123</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">Type of ID: </td>
-                    <td class="text-right">National ID</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">Last Visit: </td>
-                    <td class="text-right">Yesterday</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">Status: </td>
-                    <td class="text-right">Pending Approval</td>
-                </tr>
-            </table>
+            <div class="bg-white w-full px-4 py-8 flex flex-col items-center justify-evenly space-y-5 shadow-md shadow-gray-600 rounded-lg">
 
-            <div class="flex flex-col items-start justify-center w-full space-y-1">
-                <p class="text-[10px]">Purpose of Visit:</p>
-                <input type="text" disabled value="Meeting"
-                    class="rounded bg-gray-50 text-left w-full text-gray-500 text-[10px] border-b border-blue-800 py-1 pl-4" />
+                <p class="text-sm text-left tracking-wider text-blue-800">Visitor Details</p>
+                <table class="w-full text-[10px]">
+                    <tr>
+                        <td class="font-bold">Name: </td>
+                        <td class="text-right">Juan Dela Cruz</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Email: </td>
+                        <td class="text-right">jdc@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Contact Number: </td>
+                        <td class="text-right">1234567890</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Reference Code: </td>
+                        <td class="text-right">ABC123</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Type of ID: </td>
+                        <td class="text-right">National ID</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Last Visit: </td>
+                        <td class="text-right">Yesterday</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Status: </td>
+                        <td class="text-right">Pending Approval</td>
+                    </tr>
+                </table>
+
+                <div class="flex flex-col items-start justify-center w-full space-y-1">
+                    <p class="text-[10px]">Purpose of Visit:</p>
+                    <input type="text" disabled value="Meeting"
+                        class="rounded bg-gray-50 text-left w-full text-gray-500 text-[10px] border-b border-blue-800 py-1 pl-4" />
+                </div>
+
+                <div class="flex flex-col items-start justify-center w-full space-y-1">
+                    <p class="text-[10px]">Companion/s:</p>
+                    <textarea disabled
+                        class="rounded bg-gray-50 resize-none text-left w-full text-gray-500 text-[10px] border-b border-blue-800 py-1 pl-4 focus:outline-none h-14">Test, Test1, Test2</textarea>
+                </div>
+
+                <p class="text-sm text-left tracking-wider text-blue-800">Person to Visit Details</p>
+
+                <table class="w-full text-[10px]">
+                    <tr>
+                        <td class="font-bold">Name: </td>
+                        <td class="text-right">John Mark Pareja</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Location: </td>
+                        <td class="text-right">Tondo Gaming</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Email Address: </td>
+                        <td class="text-right">jmp@gmail.com</td>
+                    </tr>
+                    <tr>
+                        <td class="font-bold">Contact Number: </td>
+                        <td class="text-right">1234567890</td>
+                    </tr>
+                </table>
+
+                <!-- if not approved or pending approval, change button to close or back -->
+                <button class="w-full rounded-md border border-blue-800 hover:bg-blue-800 hover:text-white text-xs px-1 py-1.5">
+                    Check In Visitor
+                </button>
             </div>
-
-            <div class="flex flex-col items-start justify-center w-full space-y-1">
-                <p class="text-[10px]">Companion/s:</p>
-                <textarea disabled
-                    class="rounded bg-gray-50 resize-none text-left w-full text-gray-500 text-[10px] border-b border-blue-800 py-1 pl-4 focus:outline-none h-14">Test, Test1, Test2</textarea>
-            </div>
-
-            <p class="text-xs text-left text-blue-800">Person to Visit Details</p>
-
-            <table class="w-full text-[10px]">
-                <tr>
-                    <td class="font-bold">Name: </td>
-                    <td class="text-right">John Mark Pareja</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">Location: </td>
-                    <td class="text-right">Tondo Gaming</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">Email Address: </td>
-                    <td class="text-right">jmp@gmail.com</td>
-                </tr>
-                <tr>
-                    <td class="font-bold">Contact Number: </td>
-                    <td class="text-right">1234567890</td>
-                </tr>
-            </table>
-
-            <!-- if not approved or pending approval, change button to close or back -->
-            <button class="w-full rounded-md border border-blue-800 hover:bg-blue-800 hover:text-white text-xs p-1">
-                Check In Visitor
-            </button>
         </div>
     </div>
 
@@ -229,12 +233,10 @@
 import axios from 'axios';
 import { useStore } from '../../store/visitor';
 import FormDialog from '../Elements/Modals/FormDialog.vue';
-import { useRouter } from "vue-router";
 import { QrcodeStream } from 'vue3-qrcode-reader'
 import { userAuthStore } from "@/store/auth";
 
 const store = useStore();
-const router = useRouter();
 const authStore = userAuthStore();
 
 export default {
@@ -329,17 +331,16 @@ export default {
             }
         },
 
-        // async logout() {
-        //     await axios.post('/logout').then(({ data }) => {
-        //         const router = useRouter();
-        //         userAuthStore().signOut();
-        //         router.push('/login')
-        //     });
-        // }
+        async logout() {
+            await axios.post('/logout').then(({ data }) => {
+                userAuthStore().signOut();
+                this.$router.push('/')
+            });
+        }
     },
     created() {
         this.getData();
-        if(userAuthStore().role == 4) {
+        if (userAuthStore().role.id == 4) {
             this.guard_pm_authorized = true;
         }
     },

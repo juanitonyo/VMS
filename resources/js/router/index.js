@@ -67,8 +67,6 @@ const DeliveryPrompt = () => import("@/components/VisitorRegistration/VisitorCar
 const DeliveryForm = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliveryForm.vue");
 const DeliverySuccess = () => import("@/components/VisitorRegistration/VisitorCards/DeliveryServices/DeliverySuccess.vue");
 
-// HOMEOWNER PAGES
-
 
 //TERMS AND CONDITION x PRIVACY POLICY
 const Terms = () => import("@/components/VisitorRegistration/TermsPrivacy.vue");

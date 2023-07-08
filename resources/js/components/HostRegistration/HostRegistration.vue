@@ -1,201 +1,126 @@
 <template>
-    <div class="min-h-screen p-6 flex items-center justify-center">
-        <div class="container max-w-screen-lg mx-auto">
-            <form @submit.prevent="submitForm()" v-show="!isFormComplete">
-                <div class="bg-white rounded-md shadow-lg shadow-blue-200 p-4 px-4 md:p-8 mb-6">
-                    <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 lg:grid-cols-3">
-                        <div class="text-gray-600 flex items-center justify-center">
-                            <div class="building text-center">
-                                <p class="text-lg font-semibold">User Registration</p>
-                                <p class="font-medium text-lg text-blue-800">{{ this.buildings.building_name }}</p>
-                                <p class="text-[10px]">{{ this.buildings.address }}</p>
-                                <div class="flex justify-center items-center flex-col lg:mt-5 my-4">
-                                    <div class="lg:w-40 w-28">
-                                        <label :style="{ 'background-image': `url(${profile_url})` }"
-                                            class="flex flex-col lg:w-40 w-28 lg:h-40 h-28 border-2 hover:bg-gray-200 rounded-full justify-center items-center cursor-pointer transition duration-500 bg-cover bg-center">
-                                            <img v-show="!hideLabel_profile" class="lg:w-8 w-6 mt-3 lg:mt-0"
-                                                src="https://www.svgrepo.com/show/33565/upload.svg" />
-                                            <input type="file" ref="profile" class="opacity-0" @input="uploadProfilePhoto"
-                                                accept="image/png, image/jpeg, image/jpg, image/svg">
-                                        </label>
-                                    </div>
-                                    <p class="text-[10px] mt-5">Upload Photo</p>
-                                </div>
-                            </div>
+    <div class="flex justify-center min-h-screen min-w-screen">
+        <div v-show="!isFormComplete" class="flex flex-col items-center justify-evenly">
+
+            <div class="flex flex-col items-center justify-between mt-10 w-80 gap-y-2">
+                <div class="flex flex-col gap-y-1 items-center justify-between">
+                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
+                    <h4 class="text-gray-400 text-[10px] text-center mb-4">{{ this.buildings.address }}</h4>
+                    <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
+                </div>
+
+                <div class="flex flex-col items-center justify-center w-[100px]">
+                    <label :style="{ 'background-image': `url(${profile_url})` }"
+                        class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
+                        <div v-show="form.profile_photo == null ? true : false"
+                            class="flex flex-col items-center justify-center pt-10 pb-6">
+                            <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
                         </div>
+                        <input type="file" ref="profile" class="opacity-0 w-px" @input="uploadProfilePhoto"
+                            accept="image/png, image/jpeg, image/jpg, image/svg" />
+                    </label>
+                    <p class="text-[10px] text-gray-400 mt-1">Upload Photo</p>
+                </div>
+            </div>
 
-                        <div class="lg:col-span-2">
-                            <div class="grid gap-4 gap-y-2 text-sm grid-cols-1 md:grid-cols-5">
-                                <div class="md:col-span-3 relative">
-                                    <div class="flex justify-between">
-                                        <label for="pID" class="text-xs">Proptech ID / Account Number:</label>
-                                        <span v-show="form.errors.has('firstName')"
-                                            class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('firstName') }}</span>
-                                    </div>
-                                    <input type="text" name="pID" id="pID" placeholder="Enter your account number"
-                                        :class="form.errors.has('firstName') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.firstName" />
-                                </div>
-
-                                <!-- <div class="md:col-span-3 relative">
-                                    <div class="flex justify-between">
-                                        <label for="first_name" class="text-xs">First Name</label>
-                                        <span v-show="form.errors.has('first_name')"
-                                        <label for="first_name" class="text-xs">First Name</label>
-                                        <span v-show="form.errors.has('first_name')"
-                                            class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('first_name') }}</span>
-                                    </div>
-                                    <input type="text" name="first_name" id="first_name" placeholder="Juan"
-                                        :class="form.errors.has('first_name') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.first_name" />
-                                </div>
-
-                                <div class="md:col-span-2 relative">
-                                    <div class="flex justify-between">
-                                        <label for="lastName" class="text-xs">Last Name</label>
-                                        <span v-show="form.errors.has('lastName')"
-                                            class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('lastName') }}</span>
-                                    </div>
-                                    <input type="text" name="lastName" id="lastName" placeholder="Dela Cruz"
-                                        :class="form.errors.has('lastName') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.lastName" />
-                                </div> 
-
-                                <div class="md:col-span-3 relative">
-                                    <div class="flex justify-between">
-                                        <label for="email" class="text-xs">Email Address</label>
-                                        <span v-show="form.errors.has('email')"
-                                            class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('email') }}</span>
-                                    </div>
-                                    <input type="text" name="email" id="email"
-                                        :class="form.errors.has('email') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.email" placeholder="example@domain.com" autocomplete="off" />
-                                </div>
-
-                                <div class="md:col-span-2 relative">
-                                    <div class="flex justify-between">
-                                        <label for="password" class="text-xs">Password</label>
-                                        <span v-show="form.errors.has('password')"
-                                            class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('password') }}</span>
-                                    </div>
-                                    <input :type="showPassword ? 'text' : 'password'" name="password" id="Password"
-                                        :class="form.errors.has('password') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.password" placeholder="password" autocomplete="off" />
-
-                                    <button type="button" @click.prevent="showHide()" class="absolute right-2 top-[55%]">
-                                        <svg v-show="!showPassword" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-                                        </svg>
-
-                                        <svg v-show="showPassword" xmlns="http://www.w3.org/2000/svg" fill="none"
-                                            viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
-                                            <path stroke-linecap="round" stroke-linejoin="round"
-                                                d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88" />
-                                        </svg>
-
-
-                                    </button>
-                                </div> -->
-                                <div class="md:col-span-2 relative">
-                                    <div class="flex justify-between">
-                                        <label for="contact" class="text-xs">Mobile Number</label>
-                                        <span v-show="form.errors.has('contact')"
-                                            class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('contact') }}</span>
-                                    </div>
-                                    <input type="tel" name="contact" id="contact" placeholder="09*********" maxlength="11"
-                                        :class="form.errors.has('contact') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.contact" />
-                                </div>
-
-                                <div class="md:col-span-5 relative">
-                                    <div class="flex justify-between">
-                                        <label for="location" class="text-xs">Unit Number / Location</label>
-                                        <span v-show="form.errors.has('location')"
-                                            class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('location') }}</span>
-                                    </div>
-                                    <input type="text" name="location" id="location" placeholder="Enter Unit / Location"
-                                        :class="form.errors.has('location') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border mt-1 rounded px-4 w-full bg-gray-50'"
-                                        v-model="form.location" />
-                                </div>
-
-
-                                <div class="md:col-span-3 relative">
-                                    <div class="flex justify-between">
-                                        <label for="gov_id" class="text-xs">Government - Issued Valid ID</label>
-                                        <span v-show="form.errors.has('gov_id')"
-                                            class="text-[10px] items-center w-max text-red-500">
-                                            {{ form.errors.get('gov_id') }}</span>
-                                    </div>
-                                    <div class="valid_ids flex items-center mt-1">
-                                        <v-select v-model="form.gov_id" id="gov_id" :options="gov_id"
-                                            :placeholder="'Valid ID'"
-                                            :class="form.errors.has('gov_id') ? 'text-xs border border-red-700 bg-red-100/25 rounded px-4 mt-1 h-8 w-full' : 'h-8 text-xs border rounded px-4 w-full bg-gray-50'">
-                                        </v-select>
-                                    </div>
-                                </div>
-
-                                <div class="md:col-span-1">
-                                    <p class="text-xs">Front</p>
-                                    <label for="frontId"
-                                        class="mt-1 flex flex-col items-center justify-center w-full h-[73px] border border-gray-200 rounded-md cursor-pointer bg-gray-50 hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                                        <div class="flex flex-col items-center justify-center pt-6 pb-6">
-                                            <img src="/Visitor_Homepage_Assets/frontID.png">
-                                        </div>
-                                        <input id="frontId" ref="front" type="file"
-                                            class="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50 opacity-0"
-                                            @input="uploadImage" />
-                                    </label>
-                                </div>
-
-                                <div class="md:col-span-1">
-                                    <p class="text-xs">Back</p>
-                                    <label for="backId"
-                                        class="mt-1 flex flex-col items-center justify-center w-full h-[73px] border border-gray-200 rounded-md cursor-pointer bg-gray-50 hover:bg-blue-100/90 bg-cover bg-no-repeat">
-                                        <div class="flex flex-col items-center justify-center pt-6 pb-6">
-                                            <img src="/Visitor_Homepage_Assets/backID.png">
-                                        </div>
-                                        <input id="backId" ref="front" type="file"
-                                            class="transition-all flex items-center h-10 border mt-1 rounded px-4 w-full bg-gray-50 opacity-0"
-                                            @input="uploadImage" />
-                                    </label>
-                                </div>
-
-
-                                <div class="md:col-span-5 mt-3">
-                                    <div class="inline-flex items-center">
-                                        <input type="checkbox" name="policy" id="policy" class="form-checkbox"
-                                            @change="isChecked" />
-                                        <label for="policy" class="ml-2 text-xs">By supplying information in the homeowner
-                                            registration, you agree with our privacy policy and terms
-                                            and
-                                            conditions.</label>
-                                    </div>
-                                </div>
-
-                                <div class="md:col-span-5 text-right">
-                                    <div class="inline-flex items-end">
-                                        <button type="submit" :disabled="!checkPolicy" @click.prevent="submitForm()"
-                                            :class="[checkPolicy == true ? 'bg-blue-500 hover:bg-blue-700' : 'bg-gray-500', 'text-white font-bold py-2 px-4 rounded']">
-                                            Submit
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
+            <div class="flex flex-col gap-3">
+                <div class="relative flex flex-col mt-3 mb-2">
+                    <div class="flex flex-row items-center ">
+                        <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
+                        <div class="flex flex-col">
+                            <input v-model="form.name" type="text" :disabled="isGoogleExist" placeholder="Juan Dela Cruz"
+                                class="focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[210px]">
                         </div>
                     </div>
                 </div>
-            </form>
+
+                <div class="relative flex flex-col mb-2">
+                    <div class="flex flex-row items-center">
+                        <label for="email" class="text-[10px] text-gray-500 mr-3.5 w-20">Email Address</label>
+                        <div class="flex flex-col">
+                            <input v-model="form.email" type="email" :disabled="isGoogleExist"
+                                placeholder="example@email.com"
+                                class="focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[210px]">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative flex flex-col mb-2">
+                    <div class="flex flex-row items-center">
+                        <label for="contact" class="text-[10px] text-gray-500 mr-3.5 w-20">Mobile Number</label>
+                        <div class="flex flex-col">
+                            <input v-model="form.contact" type="text" placeholder="09*********" maxlength="11"
+                                class="focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[210px]">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative flex flex-col mb-2">
+                    <div class="gov-ids flex flex-row items-center">
+                        <label for="valid_id" class="text-[10px] text-gray-500 mr-3.5 w-20">Valid ID</label>
+                        <div class="flex flex-col">
+                            <v-select v-model="form.valid_id" id="dropdown" :options="valid_id" label="label"
+                                :placeholder="'Valid ID'"
+                                class="focus:outline-none text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[210px]"></v-select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="flex gap-2 w-full justify-end mr-4 mt-3">
+                <div class="flex items-center">
+                    <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Front</p>
+                    <label for="front-id" :style="{ 'background-image': `url(${front_url})` }"
+                        class="flex flex-col items-center justify-center w-[70px] h-[55px] border-2 border-blue-700 rounded-md bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
+                        <div v-show="form.front_id == null ? true : false"
+                            class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <img src="/Visitor_Homepage_Assets/frontID.png" alt="">
+                        </div>
+                        <input id="front-id" ref="front" type="file" class="opacity-0 w-full h-full cursor-pointer"
+                            accept="image/png, image/jpeg, image/jpg, image/svg" @input="uploadFrontID" />
+                    </label>
+                </div>
+
+                <div class="flex items-center">
+                    <p class="w-10 text-[10px] text-gray-500 mr-2">Upload Back</p>
+                    <label for="back-id" :style="{ 'background-image': `url(${back_url})` }"
+                        class="flex flex-col items-center justify-center w-[70px] h-[55px] border-2 border-blue-700 rounded-md bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
+                        <div v-show="form.back_id == null ? true : false"
+                            class="flex flex-col items-center justify-center pt-5 pb-6">
+                            <img src="/Visitor_Homepage_Assets/backID.png" alt="">
+                        </div>
+                        <input id="back-id" ref="back" type="file" class="opacity-0 w-full h-full cursor-pointer"
+                            accept="image/png, image/jpeg, image/jpg, image/svg" @change="uploadBackID" />
+                    </label>
+                </div>
+            </div>
+
+            <div class="relative flex flex-col my-2 gap-1">
+                <div class="flex items-center justify-between w-full">
+                    <label for="contact" class="text-[10px] text-gray-500 mr-3.5">Do you have a proptech account
+                        number?</label>
+                    <div class="flex items-center text-[10px] gap-1">
+                        <label for="yes">Yes</label>
+                        <input type="radio" name="choice" id="yes" value="yes" @click="showInput = true">
+
+                        <label for="no">No</label>
+                        <input type="radio" name="choice" id="no" value="no" @click="showInput = false">
+                    </div>
+                </div>
+                <div class="flex flex-col">
+                    <input type="text" placeholder="Enter Account Number"
+                        class="focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[305px]"
+                        v-if="showInput">
+                </div>
+            </div>
+
+            <div class="flex my-6 justify-between gap-x-2 w-full">
+                <a class="w-full h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">
+                    Close</a>
+                <button
+                    class="w-full h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">
+                    Next</button>
+            </div>
 
         </div>
     </div>
@@ -226,6 +151,7 @@ export default {
             hideLabel_profile: false,
             frontId: '',
             backId: '',
+            showInput: false,
             gov_id: [
                 "Digitalized BIR Taxpayer's ID",
                 'Digitized Postal ID',
@@ -269,6 +195,10 @@ export default {
                 }).catch((error) => {
                     this.$Progress.fail();
                 })
+        },
+
+        noAccountNumber() {
+            this.isProptech = !this.isProptech;
         },
 
         showHide() {

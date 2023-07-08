@@ -79,13 +79,13 @@
                     </div>
                 </div>
             </div>
-            <div class="flex items-center justify-between mt-3">
-                <button type="button"
-                    class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">Export
-                    CSV</button>
+            <div class="flex items-center justify-end mt-3">
                 <TailwindPagination :data="data" @pagination-change-page="getData" :limit="1" :keepLength="true" />
             </div>
         </div>
+        <button type="button"
+            class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 mt-3">Export
+            CSV</button>
     </div>
 
     <DialogVue :isOpen="openNotif" :dialogTitle="'Delivery Notification'" :modalWidth="'max-w-lg'">
