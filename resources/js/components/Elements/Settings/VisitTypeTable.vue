@@ -1,8 +1,8 @@
 <template>
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-            <h1 class="text-2xl font-extrabold leading-6 text-blue-800">Visit Types Table</h1>
-            <p class="mt-2 text-xs text-gray-600">List of all User Visit Types</p>
+            <h1 class="text-2xl font-extrabold leading-6 text-blue-800">Visit Types</h1>
+            <p class="mt-2 text-xs text-gray-600">A List of all user visit types.</p>
         </div>
 
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex items-center gap-1">

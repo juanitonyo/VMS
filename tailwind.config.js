@@ -9,6 +9,9 @@ module.exports = {
     extend: {
       fontFamily:{
         'poppins' : ['Poppins']
+      },
+      backgroundImage: {
+        'background': "url('/Visitor_Homepage_Assets/background.jpg')"
       }
     },
   },

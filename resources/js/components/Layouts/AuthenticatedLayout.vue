@@ -4,7 +4,7 @@
         <Sidebar/>
         <TopBar/>
         <div class="flex flex-1 flex-col lg:pl-[280px]">
-            <main class="flex-1 m-3">
+            <main class="flex-1 my-3">
                 <router-view :key="$route.fullPath"></router-view>
                 <vue-progress-bar></vue-progress-bar>
             </main>

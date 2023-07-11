@@ -2,14 +2,21 @@
     <div>
 
         <a :href="'/visitor-registration/create/' + this.id" v-show="isButton" @click="onClick" tag="button"
-            class="text-blue-800 border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-[300px] cursor-pointer">{{
+            class="text-blue-800 border border-blue-800 bg-white hover:bg-gray-100 focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-[10px] px-5 py-2 text-center flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-[300px] cursor-pointer">{{
                 label }}</a>
 
         <div v-show="!isButton" class="relative">
             <input :value="modelValue" @input="updateValue" :placeholder="'Email Address / Reference Code'"
-                :class="'placeholder:text-gray-400 placeholder:text-[10px] text-blue-900 border border-blue-800 pr-10 bg-white hover:bg-gray-50 text-center focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-xs px-5 py-2.5 inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-[300px]'">
-            <button class="absolute right-3 top-2 hover:scale-105" @click="isPop">
-                <img src="/Visitor_Homepage_Assets/qrButton.png" class="w-6 h-6">
+                :class="'placeholder:text-gray-400 placeholder:text-[10px] text-blue-900 border border-blue-800 pr-10 bg-white hover:bg-gray-50 text-center focus:ring-2 focus:outline-none focus:ring-blue-500/50 font-medium rounded-lg text-[10px] px-5 py-2 inline-flex items-center justify-center dark:focus:ring-[#4285F4]/55 w-[300px]'">
+            <button class="absolute right-2 top-1 hover:scale-105 text-blue-700" @click="isPop">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+                    stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M3.75 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 013.75 9.375v-4.5zM3.75 14.625c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5a1.125 1.125 0 01-1.125-1.125v-4.5zM13.5 4.875c0-.621.504-1.125 1.125-1.125h4.5c.621 0 1.125.504 1.125 1.125v4.5c0 .621-.504 1.125-1.125 1.125h-4.5A1.125 1.125 0 0113.5 9.375v-4.5z" />
+                    <path stroke-linecap="round" stroke-linejoin="round"
+                        d="M6.75 6.75h.75v.75h-.75v-.75zM6.75 16.5h.75v.75h-.75v-.75zM16.5 6.75h.75v.75h-.75v-.75zM13.5 13.5h.75v.75h-.75v-.75zM13.5 19.5h.75v.75h-.75v-.75zM19.5 13.5h.75v.75h-.75v-.75zM19.5 19.5h.75v.75h-.75v-.75zM16.5 16.5h.75v.75h-.75v-.75z" />
+                </svg>
+
             </button>
         </div>
 

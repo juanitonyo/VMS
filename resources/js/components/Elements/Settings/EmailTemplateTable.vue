@@ -1,8 +1,8 @@
 <template>
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-            <h1 class="text-2xl font-extrabold leading-6 text-blue-800">Email Template Table</h1>
-            <p class="mt-2 text-xs text-gray-600">A catalog of all email template maintenance entries.</p>
+            <h1 class="text-2xl font-extrabold leading-6 text-blue-800">Email Template</h1>
+            <p class="mt-2 text-xs text-gray-600">A list of all email template maintenance entries.</p>
         </div>
         <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex gap-1">
             <button @click.prevent="setOpen" type="button"

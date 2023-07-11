@@ -183,7 +183,7 @@
                                                 Name</th>
                                             <th scope="col"
                                                 class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                                Checked Out</th>
+                                                Target Date</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
@@ -227,7 +227,7 @@
                                                 Name</th>
                                             <th scope="col"
                                                 class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                                Checked Out</th>
+                                                Target Date</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">

@@ -2,7 +2,7 @@
     <div class="flex justify-center min-h-screen min-w-screen">
         <div v-show="!isFormComplete" class="flex flex-col items-center justify-evenly">
 
-            <div class="flex flex-col items-center justify-between mt-10 w-80 gap-y-2">
+            <div class="flex flex-col items-center justify-between mt-3 w-80 gap-y-2">
                 <div class="flex flex-col gap-y-1 items-center justify-between">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center mb-4">{{ this.buildings.address }}</h4>
@@ -11,7 +11,7 @@
 
                 <div class="flex flex-col items-center justify-center w-[100px]">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
-                        class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
+                        class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-50/90 bg-center bg-cover bg-no-repeat">
                         <div v-show="form.profile_photo == null ? true : false"
                             class="flex flex-col items-center justify-center pt-10 pb-6">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
