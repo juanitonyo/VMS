@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen min-w-screen">
-        <div class="flex flex-col items-center justify-center w-full min-h-screen gap-y-8">
+<div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
+        <div class="flex flex-col items-center justify-center h-screen w-full sm:w-fit gap-y-8 sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
 
                 <div class="text-[10px] text-blue-900 flex flex-col items-center text-center gap-y-3">
                     <Vue3Lottie animationLink="https://assets1.lottiefiles.com/packages/lf20_rc5d0f61.json" :loop="false" :width="150" :height="150"/>
@@ -58,7 +58,7 @@ export default {
     created() {
         this.getData();
         this.moment = moment;
-        setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 5000);
+        // setTimeout(() => this.$router.push({ path: '/visitor-registration/index/' + this.id }), 5000);
     }
     
 }

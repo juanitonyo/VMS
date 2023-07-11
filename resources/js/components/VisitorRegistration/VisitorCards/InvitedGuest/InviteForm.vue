@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen min-w-screen">
-        <div class="flex flex-col items-center justify-center gap-y-5 mx-12">
+    <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
+        <div class="flex flex-col items-center justify-center space-y-5 sm:shadow-lg shadow-none sm:px-5 px-2 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
             <div class="self-end mt-8">
                 <button @click.prevent="isPop()">
                     <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
@@ -9,7 +9,7 @@
 
             <div class="flex flex-col gap-y-2 items-center justify-center">
                 <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
+                <h4 class="text-gray-400 text-[10px] w-80 text-center">{{ this.buildings.address }}</h4>
             </div>
 
             <div class="flex flex-row mt-4 gap-x-5">
@@ -51,7 +51,7 @@
 
                         <div class="flex flex-row items-center justify-between">
                             <label for="contact" class="text-[10px] text-gray-500 mr-5">Mobile Number</label>
-                            <input type="tel"
+                            <input type="tel" maxlength="11"
                                 class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[207px]">
                         </div>
 
@@ -179,7 +179,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-col justify-center mx-[12px]">
+            <div class="flex flex-col justify-center">
                 <div class="flex flex-col mt-8 ">
                     <div class="flex flex-row items-center justify-center">
                         <label for="fullname" class="text-[10px] text-gray-500 w-[144px]">Name</label>
@@ -209,7 +209,7 @@
                     </div>
                 </div>
 
-                <div class="mt-5 flex flex-row justify-end mr-3">
+                <div class="mt-5 flex flex-row justify-end">
                     <div class="flex flex-row">
                         <p class="w-10 text-[10px] text-gray-500">Front</p>
                         <label :style="{ 'background-image': `url(${front_url})` }"

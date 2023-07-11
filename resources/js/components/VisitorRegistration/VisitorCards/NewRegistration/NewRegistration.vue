@@ -1,11 +1,12 @@
 <template>
-    <div class="flex justify-center min-h-screen min-w-screen">
-        <div v-show="!isFormComplete" class="flex flex-col items-center justify-evenly">
+    <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
+        <div v-show="!isFormComplete"
+            class="flex flex-col items-center justify-center h-screen sm:shadow-lg shadow-none sm:px-5 px-4 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white w-screen sm:w-auto">
 
             <div class="flex flex-col items-center justify-between mt-3 w-80 gap-y-2">
                 <div class="flex flex-col gap-y-1 items-center justify-between">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                    <h4 class="text-gray-400 text-[10px] text-center mb-4">{{ this.buildings.address }}</h4>
+                    <h4 class="text-gray-400 w-72 text-[10px] text-center mb-4">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                 </div>
 
@@ -118,15 +119,15 @@
         </div>
 
         <div v-show="isFormComplete">
-            <div class="flex flex-col items-center justify-center h-full">
+            <div class="flex flex-col items-center justify-center h-screen space-y-20 sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white w-screen sm:w-auto">
                 <div class="text-center">
-                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                    <h4 class="text-gray-400 text-[10px] text-center mb-5 w-80">{{ this.buildings.address }}</h4>
+                    <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}
+                    </h2>
+                    <h4 class="text-gray-400 text-[10px] w-72 text-center mb-5">{{ this.buildings.address }}</h4>
                     <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
                 </div>
                 <div class="w-80 mt-10">
-                    <div
-                        class="relative flex flex-row items-center justify-center text-gray-600 font-extralight gap-x-3">
+                    <div class="relative flex flex-row items-center justify-center text-gray-600 font-extralight gap-x-3">
                         <input v-model="form.policy" type="checkbox" class="absolute top-2 left-0 w-5 h-5"
                             @change="isChecked()">
                         <span class="ml-5 text-[10px] leading-5 w-64 text-justify">By supplying the information on VMS

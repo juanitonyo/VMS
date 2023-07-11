@@ -4,7 +4,7 @@
             <label :for="id" class="block text-sm font-medium leading-6 text-gray-900">{{ label }}</label>
             <div class="text-[10px] text-red-600 dark:text-red-500 mt-1" v-show="hasError" v-html="errorMessage" />
         </div>
-        <input :value="modelValue" @input="updateValue" :type="type" :name="id" :id="id" autocomplete="given-name"
+        <input :value="modelValue" @input="updateValue" :type="type" :name="id" :id="id" autocomplete="given-name" :maxlength="maxInput"
             :class="[hasError ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : 'focus:outline-none text-gray-900 placeholder:text-gray-400', 'block w-full px-3 rounded-md border border-gray-300 py-1 text-xs sm:leading-6']" />
 
 
@@ -50,7 +50,12 @@ export default {
         type:{
             type: String,
             default: 'text'
+        },
+        maxInput:{
+            type: String,
+            default: ''
         }
+
     },
 }
 

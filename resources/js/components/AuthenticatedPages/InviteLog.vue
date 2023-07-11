@@ -165,7 +165,7 @@
                         </div>
 
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.contact" label="Contact" id="contact"
+                            <NormalInput v-model="form.contact" label="Contact" id="contact" :maxInput="11"
                                 :hasError="this.editMode ? false : form.errors.has('contact')"
                                 :errorMessage="this.editMode ? false : form.errors.get('contact')"></NormalInput>
                         </div>
@@ -174,7 +174,7 @@
                             <div class="flex justify-between">
                                 <label class="block text-sm font-medium leading-6 text-gray-900">Companion/s</label>
                             </div>
-                            <textarea v-model="form.companions"
+                            <textarea v-model="form.companions" 
                                 class="focus:outline-none p-2 text-xs resize-none w-full h-20 rounded-md border border-gray-300"></textarea>
                             <p class="text-gray-500 text-[10px] text-left italic font-light">Note: Please type the name/s of
                                 the companion. If multiple names, seperate each with a comma ( , ). Leave blank if none.</p>

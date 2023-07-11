@@ -25,6 +25,11 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $data = User::whereHas('userBuilding')
+            ->where('name', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('email', 'LIKE', '%' . $request->search . '%')
+            // ->orWhere('building_name', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('role_id', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('status', 'LIKE', '%' . $request->search . '%')
             ->with(['userBuilding.building', 'role'])
             ->orderBy('name', 'asc')
             ->paginate($request->limit);
@@ -32,7 +37,7 @@ class UserController extends BaseController
         return $this->sendResponse($data, "All users in array");
     }
 
-    public function export() 
+    public function export()
     {
         return Excel::download(new UserExport, 'users.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
@@ -57,7 +62,7 @@ class UserController extends BaseController
         $hashPass = Hash::make('sysadmin');
         $validated['password'] = $hashPass;
         $data = User::create($validated);
-       
+
         if ($request->building) {
             UserBuildings::create([
                 'user_id' => $data->id,
@@ -88,7 +93,7 @@ class UserController extends BaseController
      * Update the specified resource in storage.
      */
     public function update(Request $request, User $user)
-    {   
+    {
         $user->update($request->params['data']);
 
         if ($request->params['data']['role']) {
@@ -114,23 +119,25 @@ class UserController extends BaseController
         //
     }
 
-    public function getSyncedUnitOwners(Request $request){
-        $users = DB::select("SELECT name FROM users WHERE created_at < ?", [Carbon::parse($request->get('syncTimeTriggered')) ]);
+    public function getSyncedUnitOwners(Request $request)
+    {
+        $users = DB::select("SELECT name FROM users WHERE created_at < ?", [Carbon::parse($request->get('syncTimeTriggered'))]);
 
-        return $this->sendResponse($users , 'Data save job dispatched');
+        return $this->sendResponse($users, 'Data save job dispatched');
     }
 
-    public function getUsersInBuildings(Request $request){
+    public function getUsersInBuildings(Request $request)
+    {
         $buildingID = Building::where('qr_id', $request->uuid)->first()->id;
 
-        $users = DB::select("SELECT * FROM hosts WHERE building_id LIKE ?", ['%'.$buildingID.'%']);
+        $users = DB::select("SELECT * FROM hosts WHERE building_id LIKE ?", ['%' . $buildingID . '%']);
 
         $array = [];
 
-        foreach($users as $user) {
+        foreach ($users as $user) {
             $array[] = [
                 'value' => $user->user_id,
-                'label' => $user->first_name.' '.$user->last_name
+                'label' => $user->first_name . ' ' . $user->last_name
             ];
         }
 

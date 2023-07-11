@@ -2,7 +2,9 @@
     <div class="flex justify-center items-center min-h-screen min-w-screen sm:bg-background sm:bg-cover sm:bg-center">
         <div class="flex flex-col items-center justify-center sm:h-[708px] space-y-20 sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
 
-            <img src="/logo/vms_logo.png" class="w-[240px] h-[90px]">
+            <a :href="'/visitor-registration/index/' + this.id">
+                <img src="/logo/vms_logo.png" class="w-[240px] h-[90px]">
+            </a>
 
             <div class="flex flex-col">
                 <div class="text-center">

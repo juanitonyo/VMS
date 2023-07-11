@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen min-w-screen">
-        <div class="flex flex-col items-center justify-center gap-y-5 mx-12">
+    <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
+        <div class="flex flex-col items-center justify-center space-y-5 sm:shadow-lg shadow-none sm:px-5 px-2 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
             <div class="self-end mt-8">
                 <button @click.prevent="isPop()">
                     <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
@@ -9,7 +9,7 @@
 
             <div class="flex flex-col gap-y-2 items-center justify-center">
                 <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
+                <h4 class="text-gray-400 text-[10px] w-80 text-center">{{ this.buildings.address }}</h4>
             </div>
 
             <div class="flex flex-row mt-4 gap-x-5">
@@ -23,7 +23,7 @@
                         'Pending Approval' }}</p>
                 </div>
             </div>
-            <div>
+            <div class="w-80">
                 <div class="space-y-3 ">
                     <div class="flex flex-col mt-8 gap-y-3">
 
@@ -84,7 +84,7 @@
                 <div class="mt-8">
                     <p class="text-sm text-blue-900 font-semibold leading-[20px] my-3">How are you feeling today?</p>
 
-                    <div class="flex gap-x-3">
+                    <div class="flex  items-center justify-between">
 
                         <button
                             class="w-[156px] h-[85px] border border-black rounded-md flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-300 focus:border-2 focus:border-blue-500 focus:scale-105"
@@ -107,7 +107,7 @@
 
             <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
                 <button @click.prevent="checkOutVisitor()" :disabled="!this.visitor.status"
-                    :class="[this.visitor.status ? 'bg-[#890707] hover:bg-[#750505] cursor-pointer' : 'bg-[#B3B3B3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center']">{{
+                    :class="[this.visitor.status ? 'bg-[#890707] hover:bg-[#750505] cursor-pointer' : 'bg-[#a4a3a3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center']">{{
                         this.visitor.status ? 'Checkout' : 'Close' }}
                 </button>
             </div>
@@ -133,7 +133,7 @@
                 </div>
             </div>
 
-            <div class="flex flex-col justify-center mx-[12px]">
+            <div class="flex flex-col justify-center">
                 <div class="flex flex-col mt-8 ">
                     <div class="flex flex-row items-center justify-center">
                         <label for="fullname" class="text-[10px] text-gray-500 w-[144px]">Name</label>
@@ -163,7 +163,7 @@
                     </div>
                 </div>
 
-                <div class="mt-5 flex flex-row justify-end mr-3">
+                <div class="mt-5 flex flex-row justify-end">
                     <div class="flex flex-row">
                         <p class="w-10 text-[10px] text-gray-500">Front</p>
                         <label :style="{ 'background-image': `url(${front_url})` }"

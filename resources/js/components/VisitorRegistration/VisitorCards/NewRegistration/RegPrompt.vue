@@ -1,15 +1,18 @@
 <template>
     <div class="flex justify-center items-center min-h-screen min-w-screen sm:bg-background sm:bg-cover sm:bg-center">
-        <div class="flex flex-col items-center justify-center sm:h-[708px] space-y-20 sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
+        <div
+            class="flex flex-col items-center justify-center sm:h-[708px] space-y-20 sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
 
-            <img src="/logo/vms_logo.png" class="w-[240px] h-[90px]">
-
+            <a :href="'/visitor-registration/index/' + this.id">
+                <img src="/logo/vms_logo.png" class="w-[240px] h-[90px]">
+            </a>
+            
             <div class="flex flex-col">
                 <div class="text-center">
                     <h2 class="text-xl font-black tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[9px] text-center w-72">{{ this.buildings.address }}</h4>
                 </div>
-            </div>  
+            </div>
 
             <div class="flex flex-col items-center justify-center">
                 <p class="text-[9px] text-gray-400 text-center">By registering your account, you agree to <br>our <a

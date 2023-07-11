@@ -1,7 +1,7 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen min-w-screen">
-        <div class="flex flex-col items-center justify-center gap-y-5 mx-12">
-            <div class="self-end mt-8" v-show="this.log == 'Walk-In'">
+    <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
+        <div class="flex flex-col items-center justify-center gap-y-5 sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white w-screen sm:w-auto">
+            <div class="self-end mt-8 mr-3" v-show="this.log == 'Walk-In'">
                 <button @click.prevent="isPop()">
                     <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
                 </button>
@@ -9,7 +9,7 @@
 
             <div class="flex flex-col gap-y-2 items-center justify-center">
                 <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
-                <h4 class="text-gray-400 text-[10px] text-center">{{ this.buildings.address }}</h4>
+                <h4 class="text-gray-400 text-[10px] w-64 text-center">{{ this.buildings.address }}</h4>
             </div>
 
             <div class="flex flex-row mt-4 gap-x-5">
@@ -24,7 +24,7 @@
                 </div>
             </div>
 
-            <form @submit.prevent="checkInVisitor()">
+            <form @submit.prevent="checkInVisitor()" class="w-350">
                 <div class="check_purpose space-y-3 mt-5">
                     <v-select v-model="this.selectedPurpose" id="dropdown" :disabled="this.log == 'Invitee'"
                         :placeholder="'What is the purpose of your visit? Tap here to select'" :options="visitType"
@@ -194,7 +194,7 @@
                     </div>
                 </div>
 
-                <div class="mt-5 flex flex-row justify-end mr-3">
+                <div class="mt-5 flex flex-row justify-end">
                     <div class="flex flex-row">
                         <p class="w-10 text-[10px] text-gray-500">Front</p>
                         <label :style="{ 'background-image': `url(${front_url})` }"

@@ -1,6 +1,6 @@
 <template>
-    <div class="flex justify-center items-center min-h-screen min-w-screen">
-        <div class="flex flex-col items-center gap-y-5">
+    <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
+        <div class="flex flex-col items-center justify-center gap-y-5 h-screen w-screen sm:w-auto sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
 
             <div class="flex flex-col items-center justify-center gap-y-3">
                 <img src="/Visitor_Homepage_Assets/successIcon.png" class="w-12 h-12">
