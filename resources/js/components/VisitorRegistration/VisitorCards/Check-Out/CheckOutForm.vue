@@ -106,9 +106,9 @@
             </div>
 
             <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
-                <button @click.prevent="checkOutVisitor()" :disabled="!this.visitor.status"
-                    :class="[this.visitor.status ? 'bg-[#890707] hover:bg-[#750505] cursor-pointer' : 'bg-[#a4a3a3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center']">{{
-                        this.visitor.status ? 'Checkout' : 'Close' }}
+                <button @click.prevent="checkOutVisitor()" :disabled="this.visitor.status != 1"
+                    :class="[this.visitor.status != 1 ? 'bg-[#890707] hover:bg-[#750505] cursor-pointer' : 'bg-[#B3B3B3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center']">{{
+                        this.visitor.status != 1 ? 'Checkout' : 'Close' }}
                 </button>
             </div>
 
@@ -407,7 +407,7 @@ export default {
             this.visitor.latest_log.checked_out_by = this.visitor.name + ' [Visitor]'
             this.visitor.latest_log.is_checked_out = 1
 
-            axios.put("/api/visitor-logs/" + this.visitor.id, {
+            axios.put("/api/visitor-logs/" + this.visitor.latest_log.id, {
                 params: {
                     data: this.visitor.latest_log
                 }
