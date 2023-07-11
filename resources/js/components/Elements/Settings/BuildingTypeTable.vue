@@ -1,8 +1,8 @@
 <template>
     <div class="sm:flex sm:items-center">
         <div class="sm:flex-auto">
-            <h1 class="text-2xl font-extrabold leading-6 text-blue-900">Building Type Table</h1>
-            <p class="mt-2 text-xs text-gray-700 w-[400px]">A roster of all building types.</p>
+            <h1 class="text-2xl font-extrabold leading-6 text-blue-900">Building Type</h1>
+            <p class="mt-2 text-xs text-gray-700 w-[400px]">A list of all building types.</p>
         </div>
         <div class="mt-4 flex items-center gap-1">
             <div class="relative">

@@ -26,19 +26,26 @@
               <a href="/app/dashboard" class="cursor-pointer flex h-16 shrink-0 items-center pt-5 px-2">
                 <img class="h-[70px] w-[200px]" src="/logo/vms_logo.png" alt="VMS" />
               </a>
+
+              <div class="text-center">
+
+                <div class="w-full h-[1.5px] bg-gray-200"></div>
+                <div class="py-3">
+                  <p class="font-bold text-blue-800">GlobalSpaces Shaw</p>
+                  <p class="font-extralight text-sm">{{ store.user.name }}</p>
+                </div>
+                <div class="w-full h-[1.5px] bg-gray-200"></div>
+              </div>
+
               <nav class="flex flex-1 flex-col justify-between" aria-label="Sidebar">
                 <div class="-mx-2 space-y-2">
-                  <div class="text-xs font-semibold leading-6 text-blue-800">
-                    VMS Tabs
-                  </div>
                   <div v-for="item in sidebarNavigation" v-if="permissions">
-                    <router-link v-if="item.access" @click="toggleDropdown(item)" :key="item.name"
-                      :to="item.href" :class="[
-                        useRoute().path == item.href
-                          ? 'bg-gray-50 text-gray-700'
-                          : 'text-gray-700 hover:bg-gray-50',
-                        'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal',
-                      ]" :aria-current="item.current ? 'page' : undefined">
+                    <router-link v-if="item.access" @click="toggleDropdown(item)" :key="item.name" :to="item.href" :class="[
+                      useRoute().path == item.href
+                        ? 'bg-gray-50 text-gray-700'
+                        : 'text-gray-700 hover:bg-gray-50',
+                      'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal',
+                    ]" :aria-current="item.current ? 'page' : undefined">
                       <component :is="item.icon" class="mr-4 h-6 w-6 flex-shrink-0 text-blue-500" aria-hidden="true" />
                       {{ item.name }}
                     </router-link>
@@ -56,23 +63,6 @@
                         </router-link>
                       </li>
                     </ul>
-                  </div>
-                </div>
-
-                <div class="mt-6 pt-6">
-                  <div class="-mx-2 space-y-2" v-if="permissions.settings">
-                    <div class="text-xs font-semibold leading-6 text-blue-800">
-                      VMS Settings
-                    </div>
-                    <router-link v-for="item in sideBarSecondaryNavigation" :key="item.name" :to="item.href" :class="[
-                      useRoute().path == item.href
-                        ? 'bg-gray-50 text-gray-700'
-                        : 'text-gray-700 hover:bg-gray-50',
-                      'group flex gap-x-3 rounded-xl p-2 text-sm leading-6 font-normal',
-                    ]">
-                      <component :is="item.icon" class="mr-4 h-6 w-6 text-blue-500" aria-hidden="true" />
-                      {{ item.name }}
-                    </router-link>
                   </div>
                 </div>
               </nav>
@@ -98,7 +88,8 @@
           <Menu as="div" class="relative">
             <MenuButton class="-m-1.5 flex items-center p-1.5">
               <span class="sr-only">Open user menu</span>
-              <img class="h-8 w-9 rounded-full bg-gray-50 text-[8px] flex items-center justify-center" src="/Visitor_Homepage_Assets/user_icon.jpg" alt="no photo" />
+              <img class="h-8 w-9 rounded-full bg-gray-50 text-[8px] flex items-center justify-center"
+                src="/Visitor_Homepage_Assets/user_icon.jpg" alt="no photo" />
               <span class="hidden lg:flex lg:items-center">
                 <span class="ml-4 text-sm font-normal leading-6 text-gray-900" aria-hidden="true">{{ user_full_name
                 }}</span>
@@ -320,7 +311,8 @@ import {
   TruckIcon,
   ChevronRightIcon,
   ShareIcon,
-  QrCodeIcon
+  QrCodeIcon,
+  ArrowLeftIcon
 } from '@heroicons/vue/24/outline'
 import {
   ChevronDownIcon,
@@ -328,6 +320,7 @@ import {
 
 let permissions = userAuthStore().role.permissions;
 let activeDropdown = ref(null);
+const store = userAuthStore();
 
 const toggleDropdown = (item) => {
   if (activeDropdown.value === item) {
@@ -351,7 +344,7 @@ const sidebarNavigation = reactive([
   },
   {
     name: "Manage Users",
-    href: "#",
+    href: "/app/users",
     icon: UsersIcon,
     access: (permissions.users || permissions.roles) ?? false,
     dropdown: false,
@@ -376,7 +369,7 @@ const sidebarNavigation = reactive([
   },
   {
     name: "Manage Visitors",
-    href: "#",
+    href: "/app/visitors",
     icon: UserGroupIcon,
     access: (permissions.visitors || permissions.invite) ?? false,
     dropdown: false,
@@ -395,7 +388,7 @@ const sidebarNavigation = reactive([
   },
   {
     name: "Manage Deliveries",
-    href: "#",
+    href: "/app/deliveries",
     icon: TruckIcon,
     access: (permissions.deliveries || permissions.expected) ?? false,
     dropdown: false,
@@ -412,9 +405,17 @@ const sidebarNavigation = reactive([
       },
     ],
   },
-]);
-
-const sideBarSecondaryNavigation = [
+  {
+    name: "Front Page",
+    href: "/guests",
+    icon: ArrowLeftIcon,
+  },
+  {
+    name: "QR Codes",
+    href: "/app/qrcode",
+    icon: QrCodeIcon,
+    access: permissions.qrcode ?? false,
+  },
   {
     name: "Maintenance",
     href: "/app/settings",
@@ -427,13 +428,8 @@ const sideBarSecondaryNavigation = [
     icon: ShareIcon,
     access: permissions.sync ?? false,
   },
-  {
-    name: "QR Codes",
-    href: "/app/qrcode",
-    icon: QrCodeIcon,
-    access: permissions.qrcode ?? false,
-  },
-];
+]);
+
 
 const gov_id = [
   "Digitalized BIR Taxpayer's ID",

@@ -1,17 +1,17 @@
 <template>
-    <div class="flex justify-center min-h-screen min-w-screen">
-        <div v-show="!isFormComplete" class="flex flex-col items-center justify-evenly">
+    <div class="flex justify-center items-center min-h-screen min-w-screen sm:bg-background sm:bg-cover sm:bg-center">
+        <div v-show="!isFormComplete" class="flex flex-col items-center justify-evenly sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
 
-            <div class="flex flex-col items-center justify-between mt-10 w-80 gap-y-2">
+            <div class="flex flex-col items-center justify-between mt-3 w-80 gap-y-2">
                 <div class="flex flex-col gap-y-1 items-center justify-between">
                     <h2 class="text-lg font-semibold tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
                     <h4 class="text-gray-400 text-[10px] text-center mb-4">{{ this.buildings.address }}</h4>
-                    <p class="text-xl font-bold tracking-normal text-blue-700 ">Visitor Registration</p>
+                    <p class="text-xl font-bold tracking-normal text-blue-700 ">User Registration</p>
                 </div>
 
                 <div class="flex flex-col items-center justify-center w-[100px]">
                     <label :style="{ 'background-image': `url(${profile_url})` }"
-                        class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-100/90 bg-center bg-cover bg-no-repeat">
+                        class="flex flex-col items-center justify-center w-full h-[100px] border-2 border-blue-700 rounded-full cursor-pointer bg-white hover:bg-blue-50/90 bg-center bg-cover bg-no-repeat">
                         <div v-show="form.profile_photo == null ? true : false"
                             class="flex flex-col items-center justify-center pt-10 pb-6">
                             <img src="/Visitor_Homepage_Assets/uploadphoto.png" alt="">
@@ -95,9 +95,9 @@
                 </div>
             </div>
 
-            <div class="relative flex flex-col my-2 gap-1">
-                <div class="flex items-center justify-between w-full">
-                    <label for="contact" class="text-[10px] text-gray-500 mr-3.5">Do you have a proptech account
+            <div class="relative flex flex-col mt-5 gap-1">
+                <div class="flex items-center justify-between w-[305px]">
+                    <label for="contact" class="text-[10px] text-gray-500">Do you have a proptech account
                         number?</label>
                     <div class="flex items-center text-[10px] gap-1">
                         <label for="yes">Yes</label>
@@ -114,8 +114,9 @@
                 </div>
             </div>
 
-            <div class="flex my-6 justify-between gap-x-2 w-full">
-                <a class="w-full h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">
+            <div class="flex mb-6 mt-4 justify-between gap-x-2 w-full">
+                <a
+                    class="w-full h-[33px] rounded-md bg-[#B3B3B3] text-white text-xs flex items-center justify-center cursor-pointer">
                     Close</a>
                 <button
                     class="w-full h-[33px] rounded-md bg-blue-700 text-white text-xs flex items-center justify-center cursor-pointer">

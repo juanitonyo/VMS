@@ -1,9 +1,9 @@
 <template>
-    <div v-show="this.result == ''" class="flex justify-center items-center min-h-screen min-w-screen"
+    <div v-show="this.result == ''" class="flex justify-center items-center min-h-screen min-w-screen sm:bg-background sm:bg-cover sm:bg-center"
         :class="guard_pm_authorized ? 'bg-gradient-to-br from-white to-blue-100' : ''">
-        <div class="flex flex-col items-center justify-center gap-y-4">
+        <div class="flex flex-col items-center justify-center gap-y-4 sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
 
-            <img src="/logo/vms_logo.png" alt="logo" class="w-[180px]">
+            <img src="/logo/vms_logo.png" alt="logo" class="w-[180px] pointer-events-none">
 
             <div class="flex flex-col items-center justify-center">
                 <h2 class="text-sm font-light tracking-wide text-blue-700">{{ this.buildings.building_name }}</h2>
