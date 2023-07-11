@@ -74,7 +74,7 @@ export default {
 
     created() {
         this.getData();
-        store.setHiddenLog('Walk-In');
+        store.setHiddenLog('WalkIn');
         store.setHiddenParam(store.hiddenID);
     }
 }

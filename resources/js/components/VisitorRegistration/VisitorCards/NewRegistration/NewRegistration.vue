@@ -351,6 +351,7 @@ export default {
 
                     this.$Progress.finish();
                     store.setHiddenParam(this.account.id);
+                    store.setHiddenLog('Walkin');
                     this.$router.push('/visitor-registration/success/' + this.id);
                 }).catch((error) => {
                     this.isFormComplete = !this.isFormComplete
