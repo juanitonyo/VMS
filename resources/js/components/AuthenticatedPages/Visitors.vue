@@ -8,7 +8,7 @@
                 </div>
 
                 <div class="relative">
-                    <input class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80" placeholder="">
+                    <input v-model="this.search" @input="getData" class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80" placeholder="">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="absolute w-4 h-4 top-2 right-2">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -58,7 +58,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="item in data.data" :key="item.id">
+                                    <tr v-for="item in data.data" :key="item.id" v-if="(item ?? false) ? (item.visitor.name.toLowerCase().trim() == this.search.toLowerCase().trim() || item.visit_type.name.toLowerCase().trim() == this.search.toLowerCase().trim() || item.building.building_name.toLowerCase().trim() == this.search.toLowerCase().trim()) : true">
                                         <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-48">{{
                                             item.visitor.name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.building_name
@@ -313,6 +313,7 @@ export default {
             permissions: {},
             data: {},
             log: {},
+            search: '',
             editMode: false,
             open: false,
             isChanged: false,

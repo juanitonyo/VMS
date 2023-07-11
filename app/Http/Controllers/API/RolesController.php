@@ -67,6 +67,17 @@ class RolesController extends BaseController
 
     public function getRoles(Request $request)
     {
-        return $this->sendResponse(Roles::all(), 'roles');
+        $data = Roles::get();
+
+        $arr = [];
+
+        foreach ($data as $item) {
+            $arr[] = [
+                'value' => $item->id,
+                'label' => $item->title
+            ];
+        }
+
+        return $this->sendResponse($arr, 'roles');
     }
 }

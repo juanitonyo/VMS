@@ -55,8 +55,8 @@ class User extends Authenticatable
         return $this->belongsTo(Roles::class, 'role_id');
     }
 
-    public function userBuilding()
+    public function building()
     {
-        return $this->hasOne(UserBuildings::class, 'user_id', 'id');
+        return $this->belongsToMany(Building::class, 'user_buildings', 'user_id', 'building_id');
     }
 }

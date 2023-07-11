@@ -38,7 +38,7 @@ class SyncUnitOwnersJob implements ShouldQueue
         foreach ($this->data as $item) {
 
             if (!User::where('email', $item['email'])->exists()) {
-                // $building_ids = str_replace(['[',']'], '', $item['project_site_ids']);
+                $building_ids = str_replace(['[',']'], '', $item['project_site_ids']);
 
                 $newRecords = User::updateOrCreate(
                     ['proptech_user_id' => $item['model_id']],
@@ -57,22 +57,24 @@ class SyncUnitOwnersJob implements ShouldQueue
                     [
                         'first_name' => $item['first_name'],
                         'last_name' => $item['last_name'],
-                        'building_id' => $item['project_site_ids'],
+                        'building_id' => $building_ids,
                         'email' => $item['email'],
                         'contact' => $item['mobile'],
                         'location' => $item['full_address'],
                     ]
                 );
 
-                UserBuildings::updateOrCreate(
-                    ['user_id' => $newRecords->id],
-                    [
-                        'building_id' => $item['project_site_ids'],
-                    ]
-                );
+                $arr = [];
+                $arr = explode(',', $building_ids);
+                
+                foreach ($arr as $building) {
+                    $user = new User();
+                    $user->save();
+                    $user->building()->atach($building);
+                }
             } else {
                 $user = User::where('email', $item['email'])->first();
-                // $building_ids = str_replace(['[',']'], '', $item['project_site_ids']);
+                $building_ids = str_replace(['[',']'], '', $item['project_site_ids']);
 
                 Host::where('user_id', $user->id)
                     ->update([
@@ -84,10 +86,13 @@ class SyncUnitOwnersJob implements ShouldQueue
                         'location' => $item['full_address'],
                     ]);
 
-                UserBuildings::where('user_id', $user->id)
-                    ->update([
-                        'building_id' => $item['project_site_ids'],
-                    ]);
+                $arr = [];
+                $arr = explode(',', $building_ids);
+
+                foreach($arr as $building) {
+                    $user = User::find($user->id);
+                    $user->building()->sync($building);
+                }
             }
         }
        

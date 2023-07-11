@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
-        <div class="flex flex-col items-center justify-center space-y-5 sm:shadow-lg shadow-none sm:px-5 px-2 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
-            <div class="self-end mt-8">
+        <div class="flex flex-col items-center justify-center space-y-5 sm:shadow-lg shadow-none sm:px-5 px-2 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white w-screen sm:w-auto">
+            <div class="self-end mt-8 mr-3">
                 <button @click.prevent="isPop()">
                     <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
                 </button>

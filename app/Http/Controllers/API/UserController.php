@@ -24,15 +24,17 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        $data = User::whereHas('userBuilding')
-            ->where('name', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('email', 'LIKE', '%' . $request->search . '%')
-            // ->orWhere('building_name', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('role_id', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('status', 'LIKE', '%' . $request->search . '%')
-            ->with(['userBuilding.building', 'role'])
+        if($request->search) {
+            $data = User::with('building', 'role')
+            ->where('name', 'LIKE', '%'.$request->search.'%')
+            ->orWhere('email', 'LIKE', '%'.$request->search.'%')
             ->orderBy('name', 'asc')
             ->paginate($request->limit);
+        }
+        else {
+            $data = User::with('building', 'role')
+            ->paginate($request->limit);
+        }
 
         return $this->sendResponse($data, "All users in array");
     }
@@ -92,21 +94,26 @@ class UserController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
-    {
-        $user->update($request->params['data']);
+    public function update(UserRequest $request, $id)
+    {   
+        $data = User::findOrFail($id)->update([
+            'name' => $request->params['name'],
+            'email' => $request->params['email'],
+            'role_id' => $request->params['role_id'],
+            'status' => $request->params['status']
+        ]);
 
-        if ($request->params['data']['role']) {
-            $user->update([
-                'role_id' => $request->params['data']['role']['id']
-            ]);
-        }
+        // if ($request->params['data']['role']) {
+        //     $user->update([
+        //         'role_id' => $request->params['data']['role']['id']
+        //     ]);
+        // }
 
-        if ($request->params['data']['building']) {
-            UserBuildings::where('user_id', $user->id)->update([
-                'building_id' => $request->params['data']['building']['value']
-            ]);
-        }
+        // if ($request->params['data']['building'] || $request->params['data']['building'] !== []) {
+        //     UserBuildings::findOrFail('user_id', $request->id)->update([
+        //         'building_id' => $request->params['data']['building']['value']
+        //     ]);
+        // }
 
         return $this->sendResponse($request->params['data']['building'], "Updated Data");
     }
