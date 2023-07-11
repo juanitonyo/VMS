@@ -56,21 +56,25 @@
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ moment(invitation.target_date).format('MMMM Do YYYY, h: mm: ss a') }}</td>
                                         <td
                                             class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center">
-                                            <button v-if="moment().isSameOrAfter(invitation.target_date)" class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
+                                            <button v-if="moment().isSameOrAfter(invitation.target_date)" 
+                                                @click.prevent="setShow('Approval', item)"
+                                                class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </button>
-                                            <button v-if="moment().isSameOrAfter(invitation.target_date)" class="approve text-white bg-red-400 rounded-md p-1 cursor-pointer">
+                                            <button v-if="moment().isSameOrAfter(invitation.target_date)" 
+                                                @click.prevent="setShow('Disapproval', item)"
+                                                class="approve text-white bg-red-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M6 18L18 6M6 6l12 12" />
                                                 </svg>
                                             </button>
-                                            <button
+                                            <button 
                                                 class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -78,17 +82,8 @@
                                                         d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                                                 </svg>
                                             </button>
-                                            <button v-if="invitation.latest_log ?? false ? invitation.latest_log.is_checked_out : false"
-                                                class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                                                    <path stroke-linecap="round" stroke-linejoin="round"
-                                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
-                                                    </path>
-                                                    <polyline points="22,6 12,13 2,6"></polyline>
-                                                </svg>
-                                            </button>
                                             <button v-if="invitation.latest_log ?? false ? [(!invitation.latest_log.is_checked_out && moment().isSameOrAfter(invitation.target_date)) && invitation.latest.status == 1] : false"
+                                                @click.prevent="setShow()"
                                                 class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -207,17 +202,48 @@
             </form>
         </template>
     </SliderVue>
+    <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
+        <template v-slot:dialogBody>
+
+            <div v-if="statusChoice == 'Invite'" class="sliderPurpose sm:col-span-3 my-3">
+                <label for="visit_type" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
+                    Visit</label>
+                <v-select v-model="purpose" placeholder="Search" :options="visit_type" label="label"></v-select>
+            </div>
+
+            <p class="text-xs mb-1">Remark/s</p>
+            <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm" />
+
+            <div class="mt-4 flex gap-1">
+                <button
+                    @click.prevent="this.statusChoice == 'Invite' ? saveInvitation(this.log) : updateVisitor(statusChoice)"
+                    type="button"
+                    class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
+                    {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
+                        : 'Disapprove' : statusChoice }}
+                </button>
+                <button type="button"
+                    class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90"
+                    @click.prevent="this.show = !this.show">
+                    Close
+                </button>
+            </div>
+
+        </template>
+    </DialogVue>
 </template>
 
 <script>
 import SliderVue from '@/components/Elements/Modals/Slider.vue'
 import NormalInput from '@/components/Elements/Inputs/NormalInput.vue'
+import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import { userAuthStore } from "@/store/auth";
 import Form from 'vform';
 import axios from 'axios';
 import moment from 'moment';
 
 export default {
+    name: 'InviteLogs',
     props: {
         data: {
             type: Object,
@@ -240,13 +266,15 @@ export default {
                 target_date: '',
                 status: ''
             }),
+            show: false,
+            statusChoice: '',
             visit_type: [],
             pop: false,
         }
     },
 
     components: {
-        SliderVue, NormalInput, moment
+        SliderVue, DialogVue, NormalInput, moment
     },
 
     methods: {
@@ -289,6 +317,12 @@ export default {
                 });
         },
 
+        setShow(choice, item) {
+            this.statusChoice = choice;
+            this.log = item;
+            this.show = !this.show
+        },
+
         saveInvitation() {
             this.form.user_id = userAuthStore().user.id
             this.form.building_id = this.form.building_id.value
@@ -322,6 +356,11 @@ export default {
                     this.$Progress.fail();
                 })
         },
+
+        updateInvitee() {
+
+        },
+
         async getData(page = 1) {
             await axios.get('/api/invitation?page=' + page)
                 .then((data) => {

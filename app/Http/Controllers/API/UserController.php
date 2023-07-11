@@ -27,6 +27,13 @@ class UserController extends BaseController
         $data = User::with('building', 'role')
             ->where('name', 'LIKE', '%'.$request->search.'%')
             ->orWhere('email', 'LIKE', '%'.$request->search.'%')
+            ->orWhere(function ($query) use ($request) {
+                if ($request->search === 'active') {
+                    $query->where('status', true);
+                } elseif ($request->search === 'inactive') {
+                    $query->where('status', false);
+                }
+            })
             ->orderBy('name', 'asc')
             ->paginate($request->limit);
 

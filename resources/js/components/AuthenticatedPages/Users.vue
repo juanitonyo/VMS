@@ -95,6 +95,7 @@
                                         <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
                                             <span v-for="building in item.building" :key="building.id">
                                                 <p>{{ building.building_name }}</p>
+                                                <br v-if="building.id != item.building.length">
                                             </span>
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
