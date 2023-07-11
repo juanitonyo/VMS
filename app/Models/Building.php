@@ -28,4 +28,9 @@ class Building extends Model
     {
         return $this->hasOne(BuildingTypes::class, 'id', 'building_type')->select(['id','name', 'delivery_form']);
     }
+
+    public function user()
+    {
+        return $this->belongsToMany(User::class, 'user_buildings', 'building_id', 'user_id');
+    }
 }

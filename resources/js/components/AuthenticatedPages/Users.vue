@@ -93,7 +93,7 @@
                                             {{ item.email }}
                                         </td>
                                         <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
-                                            <span v-for="building in item.user_building.building" :key="building.id">
+                                            <span v-for="building in item.building" :key="building.id">
                                                 <p>{{ building.building_name }}</p>
                                             </span>
                                         </td>
@@ -166,7 +166,7 @@
                                     v-show="form.errors && (form.errors.has('role_id') ?? false)"
                                     v-html="form.errors && (form.errors.has('role_id') ?? false) ? form.errors.get('role_id').replace(' id', '') : ''"></span>
                             </div>
-                            <v-select v-model="form.role_id" :options="roles" label="title" placeholder="search"
+                            <v-select v-model="form.role_id" :options="roles" label="label" placeholder="search"
                                 :class="form.errors && (form.errors.has('role_id') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"></v-select>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
@@ -353,20 +353,20 @@ export default {
             editMode: false,
             open: false,
             form: new Form({
-                id: "",
-                name: "",
-                email: "",
-                role_id: "",
-                building: "",
-                password: "",
+                id: '',
+                name: '',
+                email: '',
+                role_id: '',
+                building: '',
+                password: '',
                 status: true,
             }),
             errors: {
                 role_id: { error: false, label: '' },
                 building: { error: false, label: '' },
             },
-            roles: Object,
-            buildings: Object,
+            roles: {},
+            buildings: {},
             pendingHost: false,
             exisitingData: {},
             statusChoice: '',
@@ -450,19 +450,16 @@ export default {
         editUser(item) {
             this.editMode = true;
             this.open = !this.open;
-            this.form = item
-            this.form.role_id = {
-                value: item.role.id,
-                label: item.role.title
-            }
-            this.form.building = {
-                value: item.user_building.building.id,
-                label: item.user_building.building.buildingName,
-            };
+            this.form = item;
+            this.form.role_id = { value: item.role.id, label: item.role.title }
+            console.log(this.form)
+            // this.form.building = { value: item.user_building.building.id, label: item.user_building.building.building_name }
         },
         updateUser() {
-            axios
-                .put("/api/user/" + this.form.id, {
+            this.form.role_id = this.form.role_id.value
+            this.form.building = this.form.building.value
+
+            axios.put("/api/user/" + this.form.id, {
                     params: {
                         data: this.form,
                     },

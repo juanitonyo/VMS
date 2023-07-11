@@ -24,8 +24,8 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        $data = User::whereHas('userBuilding')
-            ->with(['userBuilding.building', 'role'])
+        $data = User::
+            with('building', 'role')
             ->orderBy('name', 'asc')
             ->paginate($request->limit);
 
@@ -87,21 +87,26 @@ class UserController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(UserRequest $request, $id)
     {   
-        $user->update($request->params['data']);
+        $data = User::findOrFail($id)->update([
+            'name' => $request->params['name'],
+            'email' => $request->params['email'],
+            'role_id' => $request->params['role_id'],
+            'status' => $request->params['status']
+        ]);
 
-        if ($request->params['data']['role']) {
-            $user->update([
-                'role_id' => $request->params['data']['role']['id']
-            ]);
-        }
+        // if ($request->params['data']['role']) {
+        //     $user->update([
+        //         'role_id' => $request->params['data']['role']['id']
+        //     ]);
+        // }
 
-        if ($request->params['data']['building']) {
-            UserBuildings::where('user_id', $user->id)->update([
-                'building_id' => $request->params['data']['building']['value']
-            ]);
-        }
+        // if ($request->params['data']['building'] || $request->params['data']['building'] !== []) {
+        //     UserBuildings::findOrFail('user_id', $request->id)->update([
+        //         'building_id' => $request->params['data']['building']['value']
+        //     ]);
+        // }
 
         return $this->sendResponse($request->params['data']['building'], "Updated Data");
     }

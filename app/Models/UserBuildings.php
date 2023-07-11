@@ -23,9 +23,4 @@ class UserBuildings extends Model
     protected $attributes = [
         'status' => 1,
     ];
-
-    public function building(): BelongsToMany
-    {
-        return $this->belongsToMany(Building::class, 'user_buildings', 'id', 'building_id');
-    }
 }

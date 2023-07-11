@@ -13,9 +13,14 @@ return new class extends Migration
     {
         Schema::create('user_buildings', function (Blueprint $table) {
             $table->id();
-            $table->integer('user_id');
-            $table->json('building_id')->nullable();
-            $table->boolean('status')->default(false);
+            $table->unsignedBigInteger('user_id')->unsigned();
+            $table->unsignedBigInteger('building_id')->unsigned();
+
+            $table->foreign('user_id')->references('id')
+                ->on('users')->onDelete('cascade');
+            $table->foreign('building_id')->references('id')
+                ->on('buildings')->onDelete('cascade');
+
             $table->timestamps();
         });
     }
