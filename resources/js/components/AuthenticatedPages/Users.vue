@@ -31,8 +31,8 @@
             <div class="mt-3 flex items-center justify-between">
                 <p class="text-xs">Showing
                     <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
-                        <option selected value="10">10</option>
-                        <option value="25">25</option>
+                        <option selected value="20">20</option>
+                        <option value="30">30</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
@@ -58,7 +58,7 @@
                                 <thead class="bg-gray-50">
                                     <tr>
                                         <th scope="col"
-                                            class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900 text">
+                                            class="text-left px-4 py-3.5 text-sm font-semibold text-gray-900 text">
                                             Name
                                         </th>
                                         <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
@@ -86,7 +86,7 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in data.data" :key="item.id">
-                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">
+                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900">
                                             {{ item.name }}
                                         </td>
                                         <td class="w-[450px] break-all px-3 py-4 text-xs text-gray-500">
@@ -349,7 +349,7 @@ export default {
     data() {
         return {
             data: {},
-            limitPage: 10,
+            limitPage: 20,
             search: '',
             editMode: false,
             open: false,

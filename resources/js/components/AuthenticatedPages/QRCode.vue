@@ -17,15 +17,15 @@
                 </div>
             </div>
 
-            <p class="mt-3 text-xs">Showing
-                <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
-                    <option selected value="10">10</option>
-                    <option value="25">25</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
-                Entries
-            </p>
+            <p class="text-xs mt-2">Showing
+                    <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
+                        <option selected value="20">20</option>
+                        <option value="30">30</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    Entries
+                </p>
 
             <div class="flex flex-col">
                 <div v-for="item in data.data" class="flex mt-3 gap-2">
@@ -93,7 +93,7 @@ export default {
             data: {},
             url: '',
             search: '',
-            limitPage: 10
+            limitPage: 20
         }
     },
     methods: {

@@ -31,7 +31,7 @@
                         label="label" class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                     <!-- split the companions -->
                     <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
-                        class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none"></textarea>
+                        class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none focuse:outline-none"></textarea>
                 </div>
                 <div v-show="this.selectedPurpose != null && this.selectedPurpose.personToVisit">
                     <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
@@ -75,7 +75,7 @@
                     </div>
                 </div>
 
-                <div v-show="true">
+                <div v-if="this.buildings.health_form == 1">
                     <p class="text-xs text-blue-900 font-semibold leading-[20px] my-3">How are you feeling today?</p>
 
                     <div class="flex gap-x-3 w-80">
@@ -104,7 +104,7 @@
 
                 </div>
 
-                <div v-show="goodHealth"
+                <div v-if="goodHealth && this.buildings.health_form == 1"
                     class="relative flex flex-row items-center justify-center w-[320px] text-gray-600 font-extralight mt-5 gap-x-3">
                     <input type="checkbox" class="absolute top-1 left-0 w-5 h-5" @change="isChecked()">
                     <span class=" ml-8 text-[11px] leading-4">I hereby affirm that I am in good physical condition and
@@ -116,7 +116,7 @@
 
 
                 <!-- if no hdf, stay here. else single-->
-                <div 
+                <div v-if="this.buildings.health_form == 0"
                     class="relative flex flex-row items-center justify-center w-[310px] text-gray-600 font-extralight mt-3 gap-x-3">
                     <input type="checkbox" class="absolute top-0 left-0 w-5 h-5" @change="isChecked()">
                     <span class="ml-10 text-[10px] leading-4">By supplying the information on VMS registration form, I
@@ -138,7 +138,7 @@
                 <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
                     <button type="submit" :disabled="!enableButton" :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
                         class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
-                        Check In
+                        {{ this.buildings.health_form == 1 ? 'Next' : 'Check In' }}
                     </button>
                     <router-link :to="'/visitor-registration/SignIn/checkin/' + this.id"
                         class="w-80 h-[33px] rounded-md bg-[#B3B3B3] hover:bg-[#B3B3B3]/75 text-white text-xs flex items-center justify-center cursor-pointer">Close</router-link>
@@ -359,6 +359,7 @@ export default {
             pop: false,
             permission: userAuthStore(),
             log: '',
+            hdf: true,
             symptoms: [
                 {
                     id: 0,
@@ -541,6 +542,7 @@ export default {
                 .then((data) => {
                     this.buildings = data.data.data;
                     console.log(this.buildings);
+                    console.log(this.buildings.health_form);
                 })
                 .catch((e) => {
                     errorMessage('Opps!', e.message, 'top-right')

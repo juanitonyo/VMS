@@ -28,8 +28,8 @@
             <div class="mt-3 flex items-center">
                 <p class="text-xs">Showing
                     <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
-                        <option selected value="10">10</option>
-                        <option value="25">25</option>
+                        <option selected value="20">20</option>
+                        <option value="30">30</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
@@ -151,7 +151,7 @@
                                     class="text-[10px] text-red-600 dark:text-red-500 mt-1"></span>
                             </div>
                             <textarea v-model="form.address" type="text" name="build" id="building" autocomplete="building"
-                                class="block w-full h-40 px-3 rounded-md py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-gray-600 sm:text-sm sm:leading-6"
+                                class="block resize-none focus:outline-none w-full h-40 px-3 rounded-md py-1.5 text-gray-900 shadow-sm border border-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
                                 :class="form.errors && (form.errors.has('address') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''" />
                         </div>
 
@@ -163,7 +163,7 @@
                                     v-html="form.errors && (form.errors.has('building_type') ?? false) ? form.errors.get('building_type') : ''"
                                     class="text-[10px] text-red-600 dark:text-red-500"></span>
                             </div>
-                            <v-select v-model="form.building_type" placeholder="search" :options="building_types"
+                            <v-select v-model="form.building_type" placeholder="Search" :options="building_types"
                                 label="label"
                                 :class="form.errors && (form.errors.has('building_type') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"></v-select>
                         </div>
@@ -351,7 +351,7 @@ export default {
             open: false,
             pop: false,
             mode: '',
-            limitPage: 10,
+            limitPage: 20,
             search: '',
             form: new Form({
                 building_name: '',

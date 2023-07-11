@@ -23,8 +23,8 @@
             <div class="mt-3 flex items-center">
                 <p class="text-xs">Showing
                     <select v-model="limitPage" @change="getData" name="length" class="text-center bg-white">
-                        <option selected value="10">10</option>
-                        <option value="25">25</option>
+                        <option selected value="20">20</option>
+                        <option value="30">30</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
                     </select>
@@ -322,7 +322,7 @@ export default {
             show: false,
             statusChoice: '',
             form: new Form({}),
-            limitPage: 10,
+            limitPage: 20,
             visit_type: [],
         }
     },

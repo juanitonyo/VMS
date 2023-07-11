@@ -41,7 +41,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="item in data.data" :key="item.id">
-                                    <td class="w-80 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ item.name }}
+                                    <td class="w-80 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6 font-bold">{{ item.name }}
                                     </td>
                                     <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
