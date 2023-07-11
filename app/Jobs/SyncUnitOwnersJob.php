@@ -68,9 +68,7 @@ class SyncUnitOwnersJob implements ShouldQueue
                 $arr = explode(',', $building_ids);
                 
                 foreach ($arr as $building) {
-                    $user = new User();
-                    $user->save();
-                    $user->building()->atach($building);
+                    $newRecords->building()->attach($building);
                 }
             } else {
                 $user = User::where('email', $item['email'])->first();

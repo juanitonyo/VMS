@@ -25,26 +25,16 @@ class BuildingController extends BaseController
      * Display a listing of the resource.
      */
     public function index(Request $request)
-    {
-        if(Str::lower($request->search) == 'active') {
-            $request['search'] = '1';
-        }
-        else if(Str::lower($request->search) == 'inactive') {
-            $request['search'] = '0';
-        }
-        if ($request->search) {
-
-            $data = Building::where('building_name', 'LIKE', '%' . $request->search . '%')
-                ->orWhere('status', $request->search)
-                ->whereHas('buildingType', function($query) use ($request) {
-                    $query->where('name', 'LIKE', '%'.$request->search.'%');
-                })
-                ->orderBy('building_name', 'asc')
-                ->paginate($request->limit);
-
-            return $this->sendResponse($data, 'Queued data in table');
-        }
+    {   
         $data = Building::with('buildingType')
+            ->where('building_name', 'LIKE', '%' . $request->search . '%')
+            ->orWhere(function ($query) use ($request) {
+                if ($request->search === 'active') {
+                    $query->where('status', true);
+                } elseif ($request->search === 'inactive') {
+                    $query->where('status', false);
+                }
+            })
             ->orderBy('building_name', 'asc')
             ->paginate($request->limit);
 
