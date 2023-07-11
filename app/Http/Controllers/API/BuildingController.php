@@ -36,19 +36,19 @@ class BuildingController extends BaseController
 
             $data = Building::where('building_name', 'LIKE', '%' . $request->search . '%')
                 ->orWhere('status', $request->search)
+                ->whereHas('buildingType', function($query) use ($request) {
+                    $query->where('name', 'LIKE', '%'.$request->search.'%');
+                })
                 ->orderBy('building_name', 'asc')
                 ->paginate($request->limit);
 
             return $this->sendResponse($data, 'Queued data in table');
         }
-        // $data = Building::with('building_type')->paginate(10);
-        $relationship = 'buildingType';
-        $data = Building::query()
-            ->when(Building::with('buildingType')->get(), function ($query) use ($relationship) {
-                return $query->with($relationship)->orderBy('building_name', 'asc');
-            })
+        $data = Building::with('buildingType')
+            ->orderBy('building_name', 'asc')
             ->paginate($request->limit);
-        return $this->sendResponse($data, "All buildings in array");
+
+        return $this->sendResponse($data, 'Queued data in table');
     }
 
     public function export() 

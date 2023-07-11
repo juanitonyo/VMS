@@ -24,17 +24,11 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
-        if($request->search) {
-            $data = User::with('building', 'role')
+        $data = User::with('building', 'role')
             ->where('name', 'LIKE', '%'.$request->search.'%')
             ->orWhere('email', 'LIKE', '%'.$request->search.'%')
             ->orderBy('name', 'asc')
             ->paginate($request->limit);
-        }
-        else {
-            $data = User::with('building', 'role')
-            ->paginate($request->limit);
-        }
 
         return $this->sendResponse($data, "All users in array");
     }
