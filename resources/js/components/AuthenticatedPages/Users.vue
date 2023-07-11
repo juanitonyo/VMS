@@ -231,7 +231,7 @@
                                         <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Name
                                         </th>
-                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Assigned Building
                                         </th>
                                         <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
