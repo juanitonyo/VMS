@@ -350,6 +350,7 @@ export default {
         return {
             data: {},
             limitPage: 10,
+            search: '',
             editMode: false,
             open: false,
             form: new Form({
@@ -488,7 +489,7 @@ export default {
                 .catch((error) => { });
         },
         async getData(page = 1) {
-            await axios.get("/api/user?page=" + page + "&limit=" + this.limitPage).then((data) => {
+            await axios.get("/api/user?page=" + page + "&limit=" + this.limitPage + '&search=' + this.search).then((data) => {
                 this.data = data.data.data;
                 this.size = data.data.data.per_page;
             })
