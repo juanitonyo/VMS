@@ -6,7 +6,6 @@
                     <h1 class="text-2xl font-extrabold leading-6 text-blue-800">PROPTECH DATA SYNC</h1>
                     <p class="mt-2 text-xs text-gray-700">Transfer information from PropTech to VMS in synchronization</p>
                 </div>
-
                 <div class="mt-4 flex gap-1 sm:mt-0 sm:ml-16 sm:flex-none" v-if="permissions.create">
                     <button type="button" @click.prevent="syncData()"
                         class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-cyan-600">SYNC
@@ -22,15 +21,19 @@
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8 ">
                         <div class=" shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg relative">
                             <div class="bg-gray-200 h-2 rounded-t-lg absolute w-full">
-                                <div class="bg-blue-500 h-full rounded-t-lg" :class="progressBar == 100 ? 'bg-green-500' : ''" :style="'width:' + progressBar + '%'"></div>
+                                <div class="bg-blue-500 h-full rounded-t-lg"
+                                    :class="progressBar == 100 ? 'bg-green-500' : ''" :style="'width:' + progressBar + '%'">
+                                </div>
                             </div>
                             <div class="ease-in duration-300 delay-100 overflow-y-auto h-96 p-5 text-xs">
-                                <p class="w-full py-4 pl-2 rounded-md shadow-sm shadow-gray-400 mb-2" v-for="(item, index) in messages" :key="index">{{ item }}</p>
+                                <p class="w-full py-4 pl-2 rounded-md shadow-sm shadow-gray-400 mb-2"
+                                    v-for="(item, index) in messages" :key="index">{{ item }}</p>
                             </div>
                         </div>
                         <div class="flex space-x-2 mt-2">
 
-                            <div class="text-sm flex items-center justify-center gap-1 text-blue-800 bg-white border border-blue-800 rounded-md py-1 px-2">
+                            <div
+                                class="text-sm flex items-center justify-center gap-1 text-blue-800 bg-white border border-blue-800 rounded-md py-1 px-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -38,7 +41,8 @@
                                 </svg>
                                 <p>Data Count: {{ this.realtimeLength }} / {{ this.unitOwnersLength }}</p>
                             </div>
-                            <div class="text-sm flex items-center justify-center gap-1 text-blue-800 bg-white border border-blue-800 rounded-md py-1 px-2">
+                            <div
+                                class="text-sm flex items-center justify-center gap-1 text-blue-800 bg-white border border-blue-800 rounded-md py-1 px-2">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                                     stroke="currentColor" class="w-6 h-6">
                                     <path stroke-linecap="round" stroke-linejoin="round"

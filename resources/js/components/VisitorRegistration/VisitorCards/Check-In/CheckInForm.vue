@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
         <div class="flex flex-col items-center justify-center gap-y-5 sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white w-screen sm:w-auto">
-            <div class="self-end mt-8 mr-3" v-show="this.log == 'Walk-In'">
+            <div class="self-end mt-8 mr-3" v-show="this.log == 'WalkIn'">
                 <button @click.prevent="isPop()">
                     <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
                 </button>
@@ -31,9 +31,10 @@
                         label="label" class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-80"></v-select>
                     <!-- split the companions -->
                     <textarea type="text" placeholder="Do you have other guests with you? Please type the name(s) here."
-                        class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none focuse:outline-none"></textarea>
+                        class="withguest text-[9px] border border-blue-700 rounded-[3px] pl-2 pt-1 w-80 h-[100px] resize-none focus:outline-none"></textarea>
                 </div>
-                <div v-show="this.selectedPurpose != null && this.selectedPurpose.personToVisit">
+                <!-- v-show="this.selectedPurpose != null && this.selectedPurpose.personToVisit" -->
+                <div>
                     <p class="text-[16px] text-blue-900 font-semibold leading-[20px] mt-3">Person To Visit</p>
 
                     <div class="flex flex-row mt-2 gap-x-3">
