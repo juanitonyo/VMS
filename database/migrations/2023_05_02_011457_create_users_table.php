@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('google_id',50)->nullable();
             $table->string('contact')->nullable();
             $table->rememberToken();
-            $table->integer('status')->default(1);
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }
