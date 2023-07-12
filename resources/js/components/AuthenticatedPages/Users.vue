@@ -271,7 +271,7 @@
                                         </td>
                                         <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">{{ account.created_at }}</td>
-                                        <td
+                                        <td v-if="store.role.id == 1"
                                             class="flex items-center justify-center gap-1 whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
                                             <a @click.prevent="setShow('Approval')"
                                                 class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
