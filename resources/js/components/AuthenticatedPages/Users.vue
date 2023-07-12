@@ -17,8 +17,8 @@
                             Pending Host
                         </button>
                         <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :class="(this.pendings ?? false) ? 'bg-green-400' : 'bg-red-400'"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3" :class="(this.pendings ?? false) ? 'bg-green-500' : 'bg-red-500'"></span>
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :class="this.pendings.length > 0 ? 'bg-green-400' : 'bg-red-400'"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3" :class="this.pendings.length > 0 ? 'bg-green-500' : 'bg-red-500'"></span>
                         </span>
                     </span>
 
