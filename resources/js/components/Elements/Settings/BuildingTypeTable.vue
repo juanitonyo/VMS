@@ -26,7 +26,7 @@
                         <thead class="bg-gray-50">
                             <tr>
                                 <th scope="col"
-                                    class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900 sm:pl-6">Building
+                                    class="text-left py-3.5 pl-4 pr-3 text-sm font-semibold text-gray-900">Building
                                     Type</th>
                                 <th scope="col" class="text-left px-3 py-3.5  text-sm font-semibold text-gray-900">
                                     Description</th>
@@ -41,7 +41,7 @@
                         </thead>
                         <tbody class="divide-y divide-gray-200 bg-white">
                                 <tr v-for="item in data.data" :key="item.id">
-                                    <td class="w-80 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6 font-bold">{{ item.name }}
+                                    <td class="w-80 py-4 pl-4 pr-3 text-xs font-600 text-gray-900">{{ item.name }}
                                     </td>
                                     <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">{{ item.description }}</td>
                                     <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{

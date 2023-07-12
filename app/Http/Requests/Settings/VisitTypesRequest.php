@@ -28,11 +28,7 @@ class VisitTypesRequest extends FormRequest
         return [
             'name' => 'required',
             'building_type' => 'required',
-            'description' => 'required',
-            'person_to_visit' => 'required',
-            'visit_approval' => 'required',
-            'auto_approve' => 'required',
-            'status' => 'required'
+            'description' => 'required'
         ];
     }
 
@@ -41,10 +37,6 @@ class VisitTypesRequest extends FormRequest
             'params.data.name'  => 'required',
             'params.data.building_type' => 'required',
             'params.data.description' => 'required',
-            'params.data.person_to_visit' => 'required',
-            'params.data.visit_approval' => 'required',
-            'params.data.auto_approve' => 'required',
-            'params.data.status' => 'required'
         ];
     }
 }

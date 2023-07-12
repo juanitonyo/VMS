@@ -7,9 +7,8 @@
                     <p class="mt-2 text-xs text-gray-700">A catalog of all deliveries in the database</p>
                 </div>
 
-                <div class="relative">
-                    <input
-                        class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80" placeholder="">
+                <div class="relative sm:mt-0 mt-3">
+                    <input v-model="this.search" @input="getData" class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs sm:w-80 w-full" placeholder="">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="absolute w-4 h-4 top-2 right-2">
                         <path stroke-linecap="round" stroke-linejoin="round"

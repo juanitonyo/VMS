@@ -1,8 +1,7 @@
 <template>
     <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
-        <div
-            class="flex flex-col items-center justify-center space-y-5 sm:shadow-lg shadow-none sm:px-5 px-2 py-10 sm:rounded-lg rounded-none bg-white">
-            <div class="self-end mt-8 sm:mt-0 mr-3">
+        <div class="flex flex-col items-center justify-center space-y-5 sm:shadow-lg shadow-none sm:px-5 px-2 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
+            <div class="self-end mt-8">
                 <button @click.prevent="isPop()">
                     <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
                 </button>
@@ -20,7 +19,7 @@
                     <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
                     }}</p>
                     <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
-                    <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' :
+                    <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.latest_log.status ? 'Approved' :
                         'Pending Approval' }}</p>
                 </div>
             </div>
@@ -46,7 +45,7 @@
                 <p class="text-sm text-blue-900 font-semibold leading-[20px] mt-5">Person To Visit</p>
 
                 <div class="space-y-3">
-                    <div class="flex flex-col mt-5 gap-y-3">
+                    <div class="flex flex-col mt-8 gap-y-3">
 
                         <div class="flex flex-row items-center justify-between">
                             <label for="propertyAddress" class="text-[10px] text-gray-500 mr-5">Property Address</label>
@@ -108,8 +107,8 @@
 
             <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
                 <button @click.prevent="checkOutVisitor()"
-                    :class="[this.visitor.status == 1 ? 'bg-[#890707] hover:bg-[#750505] cursor-pointer' : 'bg-[#B3B3B3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center']">{{
-                        this.visitor.status == 1 ? 'Checkout' : 'Close' }}
+                    :class="[this.visitor.latest_log.status == 1 ? 'bg-[#890707] hover:bg-[#750505] cursor-pointer' : 'bg-[#B3B3B3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center']">{{
+                        this.visitor.latest_log.status == 1 ? 'Checkout' : 'Close' }}
                 </button>
             </div>
 
@@ -406,24 +405,19 @@ export default {
         },
 
         checkOutVisitor() {
-            if (this.visitor.status != 1) {
-                this.$router.push('/visitor-registration/index/' + this.id);
-            }
-            else {
-                this.visitor.latest_log.health_form = this.health_form
-                this.visitor.latest_log.checked_out_by = this.visitor.name + ' [Visitor]'
-                this.visitor.latest_log.is_checked_out = 1
+            this.visitor.latest_log.health_form = this.health_form
+            this.visitor.latest_log.checked_out_by = this.visitor.name + ' [Visitor]'
+            this.visitor.latest_log.is_checked_out = 1
 
-                axios.put("/api/visitor-logs/" + this.visitor.latest_log.id, {
-                    params: {
-                        data: this.visitor.latest_log
-                    }
-                }).then((data) => {
-                    this.$router.push('/visitor-registration/success/checkout/' + this.id);
-                }).catch((e) => {
+            axios.put("/api/visitor-logs/" + this.visitor.latest_log.id, {
+                params: {
+                    data: this.visitor.latest_log
+                }
+            }).then((data) => {
+                this.$router.push('/visitor-registration/success/checkout/' + this.id);
+            }).catch((e) => {
 
-                });
-            }
+            });
         },
 
         async getBuildingData() {
@@ -440,7 +434,6 @@ export default {
             await axios.get('/api/sync-visitor?id=' + store.hiddenID)
                 .then((data) => {
                     this.visitor = data.data.data;
-                    console.log(this.visitor);
 
                     if (this.visitor.profile_photo != null)
                         this.profile_url = '/uploads/profiles-visitor/' + this.visitor.profile_photo

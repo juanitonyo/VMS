@@ -27,16 +27,14 @@ class BuildingTypeRequest extends FormRequest
     public function createRules() :array {
         return [
             'name' => 'required|unique:building_types|max:100',
-            'description' => 'required',
-            'status' => 'required'
+            'description' => 'required'
         ];
     }
 
     public function updateRules(){
         return [
             'params.data.name' => 'required|max:100|unique:building_types,id,'.$this->get('id'),
-            'params.data.description' => 'required',
-            'params.data.status' => 'required',
+            'params.data.description' => 'required'
         ];
     }
 

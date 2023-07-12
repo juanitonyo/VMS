@@ -10,20 +10,20 @@
                         A list of all the users in your account.
                     </p>
                 </div>
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex sm:space-x-1 sm:space-y-0 space-y-1 space-x-0">
+                <div class="mt-4 sm:mt-0 sm:ml-16 gap-1 sm:items-center flex flex-col sm:flex-row">
                     <span class="relative">
                         <button type="button" @click.prevent="openPending()"
-                            class="block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white ">
+                            class="block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white w-full sm:w-32 ">
                             Pending Host
                         </button>
                         <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                         </span>
                     </span>
 
                     <button @click.prevent="setOpen" type="button"
-                        class="block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white ">
+                        class="block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white w-full sm:w-32">
                         Add User
                     </button>
                 </div>
