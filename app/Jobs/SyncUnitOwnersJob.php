@@ -65,10 +65,15 @@ class SyncUnitOwnersJob implements ShouldQueue
                 );
 
                 $arr = [];
-                $arr = explode(',', $building_ids);
+                $arr = explode(', ', $building_ids);
                 
                 foreach ($arr as $building) {
-                    $newRecords->building()->attach($building);
+                    if (!UserBuildings::where('user_id', $newRecords->id)->where('building_id', $building)->exists()) {
+                        UserBuildings::create([
+                            'user_id' => $newRecords->id,
+                            'building_id' => (int)$building
+                        ]);
+                    }
                 }
             } else {
                 $user = User::where('email', $item['email'])->first();
@@ -78,19 +83,11 @@ class SyncUnitOwnersJob implements ShouldQueue
                     ->update([
                         'first_name' => $item['first_name'],
                         'last_name' => $item['last_name'],
-                        'building_id' => $item['project_site_ids'],
+                        'building_id' => $building_ids,
                         'email' => $item['email'],
                         'contact' => $item['mobile'],
                         'location' => $item['full_address'],
                     ]);
-
-                $arr = [];
-                $arr = explode(',', $building_ids);
-
-                foreach($arr as $building) {
-                    $user = User::find($user->id);
-                    $user->building()->sync($building);
-                }
             }
         }
        
