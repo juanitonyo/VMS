@@ -17,8 +17,8 @@
                             Pending Host
                         </button>
                         <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :class="(this.pendings ?? false) ? 'bg-green-400' : 'bg-red-400'"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3" :class="(this.pendings ?? false) ? 'bg-green-500' : 'bg-red-500'"></span>
                         </span>
                     </span>
 
@@ -95,7 +95,7 @@
                                         <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
                                             <span v-for="(building, index) in item.building" :key="building.id">
                                                 <p>{{ building.building_name }}</p>
-                                                <br v-if="index !== item.building.length">
+                                                <br v-if="index !== (item.building.length - 1)">
                                             </span>
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
@@ -246,11 +246,16 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr>
-                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6"></td>
+                                    <tr v-for="account in this.pendings" :key="account.id">
+                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ account.name }}</td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">
+                                            <span v-for="(building, index) in account.building" :key="building.id">
+                                                <p>{{ building.building_name }}</p>
+                                                <br v-if="index !== (account.building.length - 1)">
+                                            </span>
+                                        </td>
                                         <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">{{ account.created_at }}</td>
                                         <td
                                             class="flex items-center justify-center gap-1 whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
                                             <a @click.prevent="setShow('Approval')"
@@ -319,6 +324,7 @@ import {
     SwitchGroup,
     SwitchLabel,
 } from "@headlessui/vue";
+import { userAuthStore } from "@/store/auth";
 import { TailwindPagination } from 'laravel-vue-pagination';
 import NormalInput from "@/components/Elements/Inputs/NormalInput.vue";
 import SliderVue from "@/components/Elements/Modals/Slider.vue";
@@ -327,6 +333,8 @@ import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import axios from "axios";
 import Form from "vform";
 import moment from 'moment';
+
+const store = userAuthStore();
 
 export default {
     name: "Users",
@@ -361,7 +369,7 @@ export default {
                 role_id: '',
                 building: '',
                 password: '',
-                status: true,
+                status: false,
             }),
             errors: {
                 role_id: { error: false, label: '' },
@@ -369,6 +377,7 @@ export default {
             },
             roles: {},
             buildings: {},
+            pendings: {},
             pendingHost: false,
             exisitingData: {},
             statusChoice: '',
@@ -417,10 +426,12 @@ export default {
         },
 
         saveUser() {
-            console.log(this.form)
+            if(store.role.id == 1) {
+                this.form.status = true;
+            }
+
             this.$Progress.start();
-            this.form
-                .post("/api/user")
+            this.form.post("/api/user")
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
@@ -448,6 +459,7 @@ export default {
 
         openPending() {
             this.pendingHost = !this.pendingHost;
+            this.getPendings();
         },
 
         editUser(item) {
@@ -455,8 +467,7 @@ export default {
             this.open = !this.open;
             this.form = item;
             this.form.role_id = { value: item.role.id, label: item.role.title }
-            console.log(this.form)
-            // this.form.building = { value: item.user_building.building.id, label: item.user_building.building.building_name }
+            this.form.building = { value: item.user_building.building.id, label: item.user_building.building.building_name }
         },
         updateUser() {
             this.form.role_id = this.form.role_id.value
@@ -519,11 +530,21 @@ export default {
                     errorMessage("Opps!", e.message, "top-right");
                 });
         },
+
+        getPendings() {
+            axios.get('/api/get-pendings/')
+                .then((data) => {
+                    this.pendings = data.data.data
+                    console.log(this.pendings);
+                })
+                .catch((error) => {})
+        }
     },
     created() {
         this.getData();
         this.getRoles();
         this.getBuildings();
+        this.getPendings();
         this.moment = moment;
     },
 };

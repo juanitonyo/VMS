@@ -59,6 +59,12 @@ class UserController extends BaseController
         return $this->sendResponse($data, "Fetched data from table");
     }
 
+    public function getAllPendingUsers() {
+        $data = User::where('status', 0)->with('building')->get();
+
+        return $this->sendResponse($data, "Pending Users.");
+    }
+
     /**
      * Show the form for creating a new resource.
      */

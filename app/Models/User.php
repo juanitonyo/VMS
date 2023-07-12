@@ -48,7 +48,6 @@ class User extends Authenticatable
 
     protected $attributes = [
         'password' => 'password',
-        'status' => 1
     ];
 
     public function isHost(): HasOne
