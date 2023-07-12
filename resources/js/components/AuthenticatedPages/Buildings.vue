@@ -387,7 +387,6 @@ export default {
         },
 
         editBuilding(item) {
-            console.log(item);
             this.editMode = true;
             this.open = !this.open;
             this.form = item;

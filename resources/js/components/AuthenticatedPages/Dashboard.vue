@@ -187,7 +187,7 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
-                                        <tr v-for="person in this.visitorCheckOuts.data" :key="person.id">
+                                        <tr>
                                             <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500"></td>
                                             <td
                                                 class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6"></td>
@@ -228,11 +228,8 @@
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
                                         <tr>
-                                            <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">
-                                            </td>
-                                            <td
-                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
-                                                {{ person.visitor.name }}</td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500"></td>
+                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6"></td>
                                             <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500"></td>
                                         </tr>
                                     </tbody>
@@ -350,8 +347,8 @@ export default {
     },
     created() {
         this.moment = moment;
-        this.filterOn = moment().format('YYYY-MM-DD');
-        this.filterBefore = moment().format('YYYY-MM-DD');
+        this.filterOn = moment().format('YYYY-MM-DD 00:00:00');
+        this.filterBefore = moment().format('YYYY-MM-DD 23:59:59');
         this.getVisitorLogs();
         this.getVisitors();
         this.getCheckOuts();

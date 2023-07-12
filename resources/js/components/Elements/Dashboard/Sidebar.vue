@@ -8,9 +8,8 @@
       <div class="text-center">
         <div class="w-full h-[1.5px] bg-gray-200"></div>
         <div class="py-3">
-          <p class="font-bold text-blue-800">GlobalSpaces Shaw</p>
-          <p class="font-extralight text-sm">{{ (this.data ?? false) ? this.data.first_name + ' ' + this.data.last_name :
-            store.user.name }}</p>
+          <p class="font-bold text-blue-800">{{ (this.data.building ?? false) ? this.data.building.building_name : '' }}</p>
+          <p class="font-extralight text-sm">{{ store.user.name }}</p>
         </div>
         <div class="w-full h-[1.5px] bg-gray-200"></div>
       </div>
@@ -69,8 +68,8 @@ export default {
   methods: {
     syncUser() {
       axios.get('/api/sync-user-host?id=' + store.user.id)
-        .then((data) => { this.data = data.data.data; console.log(this.data); })
-        .catch((error) => { })
+        .then((data) => { this.account = data.data.data; console.log(this.account); })
+        .catch((error) => {})
     }
   },
   created() {

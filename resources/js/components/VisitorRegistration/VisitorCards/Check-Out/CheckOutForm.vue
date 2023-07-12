@@ -210,7 +210,9 @@
                     <div class="flex flex-row justify-center items-center">
                         <label for="contact" class="text-[10px] text-gray-500 w-[144px]">Approved</label>
                         <p class="text-[10px] border rounded-[3px] border-blue-700 h-[28px] py-1.5 pl-2 w-full">
-                            {{ this.visitor.status ? 'Approved' : 'Pending Approval' }}</p>
+                            {{ this.visitor.status == 0 ?
+                                    'Pending Approval' : this.visitor.status == 1 ?
+                                        'Approved' : 'Disapproved' }}</p>
                     </div>
                 </div>
 

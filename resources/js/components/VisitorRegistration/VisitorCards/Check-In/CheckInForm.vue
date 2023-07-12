@@ -331,7 +331,7 @@ export default {
                 visit_purpose_id: '',
                 health_form: '',
                 log_type: '',
-                temperature: '',
+                temperature: 0,
                 checked_in_by: ''
             }),
             buildings: {},
@@ -634,6 +634,9 @@ export default {
     created() {
         this.log = store.hiddenLog
         this.syncData(store.hiddenID, this.log);
+        if(!store.hiddenID ?? false) {
+            this.$router.push('/visitor-registration/SignIn/checkin/' + this.id)
+        }
         this.getData();
         this.syncVisitType();
         this.syncUnitOwners();
