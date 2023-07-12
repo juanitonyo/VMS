@@ -29,8 +29,7 @@ class BuildingRequest extends FormRequest
             'building_name' => 'required|unique:buildings|max:100',
             'address' => 'required',
             'building_type' => 'required',
-            'description' => 'required',
-            'health_form' => 'required',
+            'description' => 'required'
             
         ];
     }
@@ -41,7 +40,6 @@ class BuildingRequest extends FormRequest
             'params.data.address' => 'required',
             'params.data.building_type' => 'required',
             'params.data.description' => 'required',
-            'params.data.health_form' => 'required',
         ];
     }
 }

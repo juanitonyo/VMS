@@ -46,11 +46,11 @@
                                             Building</th>
                                         <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                             Visit Type</th>
-                                        <th scope="col" class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Status</th>
-                                        <th scope="col" class="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-2 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Checked In</th>
-                                        <th scope="col" class="px-2 py-3.5 text-left text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="px-2 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Checked Out</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Actions</th>
@@ -65,12 +65,12 @@
                                         }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}
                                         </td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.status == 0 ?
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == 0 ?
                                             'Pending Approval' : item.status == 1 ?
                                                 'Approved' : 'Disapproved' }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(item.created_at).format('MM/DD/YYYY h:mm a') }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.is_checked_out ?
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.is_checked_out ?
                                             moment(item.created_at).format('MM/DD/YYYY h:mm a') : "Not Yet" }}
                                         </td>
                                         <td class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center"

@@ -151,7 +151,7 @@
                                     class="text-[10px] text-red-600 dark:text-red-500 mt-1"></span>
                             </div>
                             <textarea v-model="form.address" type="text" name="build" id="building" autocomplete="building"
-                                class="block resize-none focus:outline-none w-full h-40 px-3 rounded-md py-1.5 text-gray-900 shadow-sm border border-gray-300 placeholder:text-gray-400 sm:text-sm sm:leading-6"
+                                class="block resize-none focus:outline-none w-full h-40 px-3 rounded-md py-1.5 text-gray-900 shadow-sm border border-gray-300 placeholder:text-gray-400 text-xs"
                                 :class="form.errors && (form.errors.has('address') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''" />
                         </div>
 

@@ -64,7 +64,7 @@
                                         <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Email
                                         </th>
-                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Assigned Building
                                         </th>
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
@@ -92,10 +92,10 @@
                                         <td class="w-[450px] break-all px-3 py-4 text-xs text-gray-500">
                                             {{ item.email }}
                                         </td>
-                                        <td class="w-72 break-all px-3 py-4 text-xs text-gray-500">
+                                        <td class="w-72 break-all px-3 py-4 text-xs text-center text-gray-500">
                                             <span v-for="building in item.building" :key="building.id">
                                                 <p>{{ building.building_name }}</p>
-                                                <br v-if="building.id != item.building.length">
+                                                <p v-if="building.id != item.building.length"></p>
                                             </span>
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
@@ -167,14 +167,14 @@
                                     v-show="form.errors && (form.errors.has('role_id') ?? false)"
                                     v-html="form.errors && (form.errors.has('role_id') ?? false) ? form.errors.get('role_id').replace(' id', '') : ''"></span>
                             </div>
-                            <v-select v-model="form.role_id" :options="roles" label="label" placeholder="search"
+                            <v-select v-model="form.role_id" :options="roles" label="label" placeholder="Search"
                                 :class="form.errors && (form.errors.has('role_id') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"></v-select>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
                                 Buildings</label>
 
-                            <v-select v-model="form.building" :options="buildings" label="label" placeholder="search"
+                            <v-select v-model="form.building" :options="buildings" label="label" placeholder="Search"
                                 :class="form.errors && (form.errors.has('building') ?? false) ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
                             <span class="text-xs/2 text-red-600 dark:text-red-500"
                                 v-show="form.errors && (form.errors.has('building') ?? false)"

@@ -35,7 +35,7 @@
                                     <tbody v-for="role in roles" :key="role.id" class="divide-y divide-gray-200 bg-white">
                                         <tr @click.prevent="testFxn(role.id)" :class="idStore == role.id ? 'bg-gray-100 text-black' : 'hover:bg-gray-50'">
                                             <td class="w-72 break-all px-3 py-4 text-xs">
-                                                {{ role.title }}
+                                                {{ role.label }}
                                             </td>
                                         </tr>
                                     </tbody>
@@ -134,6 +134,7 @@ export default {
         async getRoles() {
             await axios.get('/api/get-roles').then((data) => {
                 this.roles = data.data.data;
+                console.log(this.roles)
             }).catch((e) => {
                 errorMessage('Opps!', e.message, 'top-right')
             });
