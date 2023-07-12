@@ -228,13 +228,13 @@
                             <table class="min-w-full divide-y divide-gray-300">
                                 <thead class="bg-gray-50 font-poppins">
                                     <tr>
-                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Name
                                         </th>
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Assigned Building
                                         </th>
-                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Location
                                         </th>
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
@@ -254,9 +254,15 @@
                                                 <br v-if="index !== (account.building.length - 1)">
                                             </span>
                                         </td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">{{ account.created_at }}</td>
-                                        <td v-if="store.role.id == 1"
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">
+                                            <span v-for="(building, index) in account.building" :key="building.id">
+                                                <p>{{ building.address }}</p>
+                                                <br v-if="index !== (account.building.length - 1)">
+                                            </span>
+                                        </td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">{{ 
+                                            moment(account.created_at).format('MM/DD/YYYY h:mm a') }}</td>
+                                        <td
                                             class="flex items-center justify-center gap-1 whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
                                             <a @click.prevent="setShow('Approval')"
                                                 class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
