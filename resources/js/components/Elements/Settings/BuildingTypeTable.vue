@@ -6,7 +6,7 @@
         </div>
         <div class="mt-4 flex items-center gap-1">
             <div class="relative">
-                <input type="text" name="search" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80">
+                <input v-model="this.search" @input="getData" type="text" name="search" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                     stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
                     <path stroke-linecap="round" stroke-linejoin="round"
@@ -169,6 +169,7 @@ export default {
             data: {},
             editMode: false,
             open: false,
+            search: '',
             form: new Form({
                 id: '',
                 name: '',
@@ -239,7 +240,7 @@ export default {
             })
         },
         async getData(page = 1) {
-            await axios.get('/api/building-types?page=' + page).then((data) => {
+            await axios.get('/api/building-types?page=' + page + '&search=' + this.search).then((data) => {
                 this.data = data.data.data;
             }).catch((e) => {
                 // errorMessage('Opps!', e.message, 'top-right')

@@ -15,6 +15,7 @@ use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 use App\Exports\UserExport;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends BaseController
@@ -33,6 +34,12 @@ class UserController extends BaseController
                 } elseif ($request->search === 'inactive') {
                     $query->where('status', false);
                 }
+            })
+            ->orWhereHas('building', function ($query) use ($request) {
+                $query->where('building_name', 'LIKE', '%'.$request->search.'%');
+            })
+            ->orWhereHas('role', function ($query) use ($request) {
+                $query->where('title', 'LIKE', '%'.$request->search.'%');
             })
             ->orderBy('name', 'asc')
             ->paginate($request->limit);

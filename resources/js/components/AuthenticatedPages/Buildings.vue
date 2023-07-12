@@ -357,14 +357,14 @@ export default {
                 building_name: '',
                 address: '',
                 description: '',
-                building_type: '',
+                building_type: [],
                 logo: null,
-                status: false,
+                status: true,
                 health_form: false,
                 errors: []
             }),
             image_url: '',
-            building_types: [],
+            building_types: {},
             url: '',
             qr_url: 'https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=',
             deletePrompt: false
@@ -415,6 +415,7 @@ export default {
         },
 
         saveBuilding() {
+            this.form.building_type = this.form.building_type.value
             this.$Progress.start();
             this.form.post('/api/building')
                 .then((data) => {

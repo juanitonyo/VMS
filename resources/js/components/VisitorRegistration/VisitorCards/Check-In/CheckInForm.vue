@@ -1,7 +1,7 @@
 <template>
     <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
         <div class="flex flex-col items-center justify-center gap-y-5 sm:shadow-lg shadow-none sm:px-5 px-0 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white w-screen sm:w-auto">
-            <div class="self-end mt-8 mr-3" v-show="this.log == 'Walk-In'">
+            <div class="self-end mt-8 mr-3" v-show="this.log == 'WalkIn'">
                 <button @click.prevent="isPop()">
                     <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
                 </button>
@@ -119,23 +119,16 @@
                 <div v-if="this.buildings.health_form == 0"
                     class="relative flex flex-row items-center justify-center w-[310px] text-gray-600 font-extralight mt-3 gap-x-3">
                     <input type="checkbox" class="absolute top-0 left-0 w-5 h-5" @change="isChecked()">
-                    <span class="ml-10 text-[10px] leading-4">By supplying the information on VMS registration form, I
-                        affirm
-                        that I have read,
-                        understood and
-                        hereby
-                        accept the terms of Globalland Property Management, Inc. (“Company”) <a href=""
-                            class="underline text-blue-700 font-semibold"> Web Application Privacy Policy</a> and
-                        I
-                        hereby consent to the collection, use, storage, processing, retention and disclosure by the
-                        Company
-                        of
-                        all
-                        the personal information (hereafter, “Personal Information”) I may have provided herein.
+                    <span class="ml-10 text-[10px] leading-4">
+                        By supplying the information on VMS registration form, I affirm that I have read, understood and hereby
+                        accept the terms of Globalland Property Management, Inc. (“Company”) 
+                            <a href="" class="underline text-blue-700 font-semibold"> Web Application Privacy Policy</a> 
+                        and I hereby consent to the collection, use, storage, processing, retention and disclosure by the Company
+                        of all the personal information (hereafter, “Personal Information”) I may have provided herein.
                     </span>
                 </div>
 
-                <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
+                <div class="flex flex-col mt-10 justiWfy-center gap-y-2 mb-8">
                     <button type="submit" :disabled="!enableButton" :class="[enableButton ? 'bg-green-600' : 'bg-gray-600']"
                         class="w-80 h-[33px] rounded-md  text-white text-xs flex items-center justify-center cursor-pointer">
                         {{ this.buildings.health_form == 1 ? 'Next' : 'Check In' }}
@@ -337,6 +330,7 @@ export default {
                 visit_purpose_id: '',
                 health_form: '',
                 log_type: '',
+                temperature: '',
                 checked_in_by: ''
             }),
             buildings: {},
