@@ -53,7 +53,9 @@ class UserController extends BaseController
     }
 
     public function syncHost(Request $request) {
-        $data = User::findOrFail($request->id)->with('host', 'building')->first();
+
+        $data = User::where('id', $request->id)->with('isHost', 'building')->first();
+        
         return $this->sendResponse($data, "Fetched data from table");
     }
 
@@ -72,7 +74,7 @@ class UserController extends BaseController
     {
         $validated = $request->validated();
 
-        $validated['role_id'] = $request['role_id']['id'];
+        $validated['role_id'] = $request['role_id']['value'];
 
         $hashPass = Hash::make('sysadmin');
         $validated['password'] = $hashPass;
