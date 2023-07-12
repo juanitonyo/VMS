@@ -50,6 +50,11 @@ class User extends Authenticatable
         'status' => 1
     ];
 
+    public function host()
+    {
+        return $this->hasOne(Host::class, 'user_id', 'id');
+    }
+
     public function role()
     {
         return $this->belongsTo(Roles::class, 'role_id');

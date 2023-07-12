@@ -54,6 +54,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     Route::get('sync-invitee', 'InvitationLogsController@syncInvitee');
     
     Route::get('get-unitowners-by-building', 'UserController@getUsersInBuildings');
+    Route::get('sync-user-host', 'UserController@syncHost');
     Route::get('fetch-realtime-data', 'UserController@getSyncedUnitOwners');
 
     Route::get('export-building', 'BuildingController@export');

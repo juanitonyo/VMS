@@ -10,7 +10,7 @@
         <div class="w-full h-[1.5px] bg-gray-200"></div>
         <div class="py-3">
           <p class="font-bold text-blue-800">GlobalSpaces Shaw</p>
-          <p class="font-extralight text-sm">{{ store.user.name }}</p>
+          <p class="font-extralight text-sm">{{ (this.data ?? false) ? this.data.first_name + ' ' + this.data.last_name : store.user.name }}</p>
         </div>
         <div class="w-full h-[1.5px] bg-gray-200"></div>
       </div>
@@ -46,6 +46,38 @@
     </div>
   </div>
 </template>
+
+<script>
+import axios from 'axios';
+import { userAuthStore } from "@/store/auth";
+
+const store = userAuthStore();
+
+export default {
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    }
+  },
+  data() {
+    return {
+      data: {},
+      account: {}
+    }
+  },
+  methods: {
+    syncUser() {
+      axios.get('/api/sync-user-host?id=' + store.user.id)
+        .then((data) => { this.data = data.data.data; console.log(this.data); })
+        .catch((error) => {})
+    }
+  },
+  created() {
+    this.syncUser();
+  },
+}
+</script>
 
 <script setup>
 import { reactive, ref } from "vue";
