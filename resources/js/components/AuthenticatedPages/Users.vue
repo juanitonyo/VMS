@@ -17,7 +17,8 @@
                             Pending Host
                         </button>
                         <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                            <span
+                                class="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                             <span class="relative inline-flex rounded-full h-3 w-3 bg-green-500"></span>
                         </span>
                     </span>
@@ -41,8 +42,7 @@
 
                 <div class="relative">
                     <input v-model="this.search" type="text" name="search" @input="getData"
-                        class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80"
-                        placeholder="">
+                        class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs w-80" placeholder="">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                         stroke="currentColor" class="absolute w-4 h-4 top-2 right-2">
                         <path stroke-linecap="round" stroke-linejoin="round"
@@ -93,9 +93,9 @@
                                             {{ item.email }}
                                         </td>
                                         <td class="w-72 break-all px-3 py-4 text-xs text-center text-gray-500">
-                                            <span v-for="building in item.building" :key="building.id">
+                                            <span v-for="(building, index) in item.building" :key="building.id">
                                                 <p>{{ building.building_name }}</p>
-                                                <p v-if="building.id != item.building.length"></p>
+                                                <p v-if="index !== item.building.length"></p>
                                             </span>
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
@@ -154,10 +154,26 @@
                             </NormalInput>
                         </div>
                         <div class="sm:col-span-3 mt-3">
-                            <NormalInput v-model="form.email" label="Email" id="user-email" :type="'email'"
+                            <!-- <NormalInput v-model="form.email" label="Email" id="user-email" :type="'email'"
                                 :hasError="form.errors && (form.errors.has('email') ?? false)"
                                 :errorMessage="form.errors && (form.errors.has('email') ?? false) ? form.errors.get('email') : ''">
-                            </NormalInput>
+                            </NormalInput> -->
+                            <div class="sm:col-span-3">
+                                <div class="flex justify-between">
+                                    <label for="email"
+                                        class="block text-sm font-medium leading-6 text-gray-900">Email</label>
+                                    <div class="flex items-center">
+                                        <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
+                                            v-show="form.errors && (form.errors.has('email') ?? false)"
+                                            v-html="form.errors && (form.errors.has('email') ?? false) ? form.errors.get('email') : ''" />
+                                        <p class="text-[10px]" :class="isValidEmail ? 'text-green-500' : 'text-red-500'">{{ isValidEmail ? 'Email is Valid' : 'Email is Invalid' }}</p>
+                                    </div>
+                                </div>
+                                <div class="relative">
+                                    <input v-model="form.email" type="email" name="email" id="email"
+                                        :class="[form.errors && (form.errors.has('email') ?? false) ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : 'focus:outline-none text-gray-900 placeholder:text-gray-400', 'block w-full px-3 rounded-md border border-gray-300 py-1 text-xs sm:leading-6']" />
+                                </div>
+                            </div>
                         </div>
                         <div class="sliderPurpose sm:col-span-3 mt-3 text-sm">
                             <div class="flex justify-between">
@@ -378,6 +394,12 @@ export default {
             search: ''
         };
     },
+
+    computed: {
+        isValidEmail() {
+            return /^[^@]+@\w+(\.\w+)+\w$/.test(this.form.email);
+        }
+    },
     methods: {
 
         // Opening and Closing of Dialog Vue Component
@@ -463,10 +485,10 @@ export default {
             this.form.building = this.form.building.value
 
             axios.put("/api/user/" + this.form.id, {
-                    params: {
-                        data: this.form,
-                    },
-                })
+                params: {
+                    data: this.form,
+                },
+            })
                 .then((data) => {
                     this.editMode = false;
                     this.$Progress.finish();

@@ -8,7 +8,10 @@
       <div class="text-center">
         <div class="w-full h-[1.5px] bg-gray-200"></div>
         <div class="py-3">
-          <p class="font-bold text-blue-800">{{ (this.account.building ?? false) ? this.account.building.building_name : '' }}</p>
+          <div v-for="(building, index) in this.building" :key="building.id">
+            <p class="font-bold text-blue-800">{{ building.building_name }}</p>
+            <p v-if="index !== (this.building.length - 1)"></p>
+          </div>
           <p class="font-extralight text-sm">{{ store.user.name }}</p>
         </div>
         <div class="w-full h-[1.5px] bg-gray-200"></div>
@@ -62,7 +65,8 @@ export default {
   data() {
     return {
       data: {},
-      account: {}
+      account: {},
+      building: {}
     }
   },
   methods: {
@@ -70,8 +74,8 @@ export default {
       axios.get('/api/sync-user-host?id=' + store.user.id)
         .then((data) => { 
           this.account = data.data.data; 
-          console.log(this.account); 
-        })
+          this.building = this.account.building; 
+          console.log(this.building); })
         .catch((error) => {})
     }
   },

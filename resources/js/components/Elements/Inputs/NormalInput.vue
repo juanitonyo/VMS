@@ -6,8 +6,6 @@
         </div>
         <input :value="modelValue" @input="updateValue" :type="type" :name="id" :id="id" autocomplete="given-name" :maxlength="maxInput"
             :class="[hasError ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : 'focus:outline-none text-gray-900 placeholder:text-gray-400', 'block w-full px-3 rounded-md border border-gray-300 py-1 text-xs sm:leading-6']" />
-
-
     </div>
 </template>
 

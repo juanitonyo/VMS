@@ -108,7 +108,7 @@
             <div class="flex flex-col mt-10 justify-center gap-y-2 mb-8">
                 <button @click.prevent="checkOutVisitor()"
                     :class="[this.visitor.latest_log.status == 1 ? 'bg-[#890707] hover:bg-[#750505] cursor-pointer' : 'bg-[#B3B3B3] hover:bg-[#B3B3B3]/75', 'w-[330px] h-[33px] rounded-md  text-white text-xs flex items-center justify-center']">{{
-                        this.visitor.latest_log.status == 1 ? 'Checkout' : 'Close' }}
+                        this.visitor.latest_log.status != 1 ? 'Checkout' : 'Close' }}
                 </button>
             </div>
 
