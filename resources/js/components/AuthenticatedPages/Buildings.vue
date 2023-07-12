@@ -4,7 +4,7 @@
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-2xl font-extrabold leading-6 text-blue-800">BUILDINGS</h1>
-                    <p class="mt-2 text-xs text-gray-700">Viewing and Adding types of Buildings</p>
+                    <p class="mt-2 text-xs text-gray-700">Viewing and Adding of Buildings</p>
                 </div>
 
                 <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex gap-1 items-center">
@@ -68,7 +68,7 @@
                                         <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type ?
-                                            item.building_type.name : 'HOA Condo'
+                                            item.building_type.name : 'HOA/Condo Corp.'
                                         }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 flex space-x-1.5">
                                             <button :disabled="item.status ? false : true"
@@ -466,6 +466,7 @@ export default {
                     })
             }).catch((error) => {
                 this.$Progress.fail();
+                this.form.building_type = { value: this.form.building_type.id, label: this.form.building_type.name }
             })
         },
 

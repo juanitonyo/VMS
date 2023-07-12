@@ -1,8 +1,8 @@
 <template>
     <div class="flex justify-center items-center min-h-screen min-w-screen bg-background bg-cover">
         <div
-            class="flex flex-col items-center justify-center space-y-5 sm:shadow-lg shadow-none sm:px-5 px-2 sm:py-10 py-0 sm:rounded-lg rounded-none bg-white">
-            <div class="self-end mt-8">
+            class="flex flex-col items-center justify-center space-y-5 sm:shadow-lg shadow-none sm:px-5 px-2 py-10 sm:rounded-lg rounded-none bg-white">
+            <div class="self-end mt-8 sm:mt-0 mr-3">
                 <button @click.prevent="isPop()">
                     <img src="/Visitor_Homepage_Assets/hamburgerMenu.png">
                 </button>
@@ -20,7 +20,7 @@
                     <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
                     }}</p>
                     <p class="text-[9px] text-blue-800 font-light">Visit: Walk - In</p>
-                    <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.latest_log.status ? 'Approved' :
+                    <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor.status ? 'Approved' :
                         'Pending Approval' }}</p>
                 </div>
             </div>
