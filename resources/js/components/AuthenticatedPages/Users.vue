@@ -17,8 +17,8 @@
                             Pending Host
                         </button>
                         <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :class="(this.pendings ?? false) ? 'bg-green-400' : 'bg-red-400'"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3" :class="(this.pendings ?? false) ? 'bg-green-500' : 'bg-red-500'"></span>
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :class="this.pendings.length > 0 ? 'bg-green-400' : 'bg-red-400'"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3" :class="this.pendings.length > 0 ? 'bg-green-500' : 'bg-red-500'"></span>
                         </span>
                     </span>
 
@@ -256,7 +256,7 @@
                                         </td>
                                         <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
                                         <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">{{ account.created_at }}</td>
-                                        <td
+                                        <td v-if="store.role.id == 1"
                                             class="flex items-center justify-center gap-1 whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
                                             <a @click.prevent="setShow('Approval')"
                                                 class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
