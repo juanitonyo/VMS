@@ -21,6 +21,7 @@ class VisitorLogs extends Model
         'checked_out_by',
         'approved_by',
         'health_form',
+        'temperature',
         'log_type',
         'status',
         'status_remarks'

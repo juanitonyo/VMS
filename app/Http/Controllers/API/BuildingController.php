@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\DB;
 use App\Events\SyncUnitOwnersEvent;
 use App\Models\BuildingTypes;
 use App\Exports\BuildingExport;
+use Illuminate\Contracts\Database\Eloquent\Builder;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BuildingController extends BaseController
@@ -34,6 +35,9 @@ class BuildingController extends BaseController
                 } elseif ($request->search === 'inactive') {
                     $query->where('status', false);
                 }
+            })
+            ->orWhereHas('buildingType', function ($query) use ($request) {
+                $query->where('name', 'LIKE', '%'.$request->search.'%');
             })
             ->orderBy('building_name', 'asc')
             ->paginate($request->limit);

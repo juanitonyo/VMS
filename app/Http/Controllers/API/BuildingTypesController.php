@@ -13,9 +13,10 @@ class BuildingTypesController extends BaseController
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $data = BuildingTypes::paginate(10);
+        $data = BuildingTypes::where('name', 'LIKE', '%'.$request->search.'%')
+        ->paginate(10);
         return $this->sendResponse($data, "All building types in array");
     }
 
