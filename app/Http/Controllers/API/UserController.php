@@ -52,6 +52,11 @@ class UserController extends BaseController
         return Excel::download(new UserExport, 'users.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
+    public function syncHost(Request $request) {
+        $data = User::findOrFail($request->id)->with('host', 'building')->first();
+        return $this->sendResponse($data, "Fetched data from table");
+    }
+
     /**
      * Show the form for creating a new resource.
      */
