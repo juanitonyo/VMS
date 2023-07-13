@@ -94,9 +94,9 @@
                                             {{ item.email }}
                                         </td>
                                         <td class="w-72 break-all px-3 py-4 text-xs text-center text-gray-500">
-                                            <span v-for="(building, index) in item.building" :key="building.id">
+                                            <span v-for="building in item.building" :key="building.id">
                                                 <p>{{ building.building_name }}</p>
-                                                <br v-if="index !== (item.building.length - 1)">
+                                                <p v-if="building.id != item.building.length"></p>
                                             </span>
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">
@@ -488,6 +488,7 @@ export default {
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
+                    this.getPendings();
                     this.form = new Form({});
                     this.open = !this.open;
                     createToast(
@@ -547,6 +548,7 @@ export default {
                 .then((data) => {
                     this.editMode = false;
                     this.$Progress.finish();
+                    this.getPendings();
                     this.getData();
                     this.this.form = new Form({});;
                     this.open = !this.open;
