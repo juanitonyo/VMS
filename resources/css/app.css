@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+@import url('https://unpkg.com/vue-multiselect@2.1.6/dist/vue-multiselect.min.css');
 
 @tailwind base;
 @tailwind components;
@@ -301,6 +302,42 @@
 
 .vs__no-options{
     font-size: 12px;
+}
+
+.vs__open-indicator{
+    display: none;
+}
+
+.user-tag .multiselect__tag{
+    width: auto;
+    font-size: 10px;
+    background-color: #5c74ed;
+}
+
+.user-tag .multiselect__input{
+    margin: 0;
+    padding: 0;
+    font-size: 12px;
+}
+
+.user-tag .multiselect__placeholder{
+    font-size: 12px;
+    color: #929292;
+    margin: 0;
+    padding: 0;
+}
+
+.user-tag .multiselect__input::placeholder{
+    font-size: 12px;
+    color: #929292;
+}
+
+.user-tag .multiselect__tag-icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 22px;
 }
 
 

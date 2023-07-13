@@ -17,8 +17,10 @@
                             Pending Host
                         </button>
                         <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :class="this.pendings.length > 0 ? 'bg-green-400' : 'bg-red-400'"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3" :class="this.pendings.length > 0 ? 'bg-green-500' : 'bg-red-500'"></span>
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
+                                :class="this.pendings.length > 0 ? 'bg-green-400' : 'bg-red-400'"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3"
+                                :class="this.pendings.length > 0 ? 'bg-green-500' : 'bg-red-500'"></span>
                         </span>
                     </span>
 
@@ -167,7 +169,11 @@
                                         <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
                                             v-show="form.errors && (form.errors.has('email') ?? false)"
                                             v-html="form.errors && (form.errors.has('email') ?? false) ? form.errors.get('email') : ''" />
-                                        <span :class="form.errors.has('email') ? 'hidden' : ''"><p v-if="form.email" class="text-[10px]" :class="isValidEmail ? 'text-green-500' : 'text-red-500'">{{ isValidEmail ? 'Email is Valid' : 'Email is Invalid' }}</p></span>
+                                        <span :class="form.errors.has('email') ? 'hidden' : ''">
+                                            <p v-if="form.email" class="text-[10px]"
+                                                :class="isValidEmail ? 'text-green-500' : 'text-red-500'">{{ isValidEmail ?
+                                                    'Email is Valid' : 'Email is Invalid' }}</p>
+                                        </span>
                                     </div>
                                 </div>
                                 <div class="relative">
@@ -191,8 +197,14 @@
                             <label for="email_subj" class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose
                                 Buildings</label>
 
-                            <v-select v-model="form.building" :options="buildings" label="label" placeholder="Search"
-                                :class="form.errors && (form.errors.has('building') ?? false) ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select>
+                            <!-- <v-select v-model="form.building" :options="buildings" label="label" placeholder="Search"
+                                :class="form.errors && (form.errors.has('building') ?? false) ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select> -->
+                            <div class="user-tag">
+                                <multiselect v-model="form.building" tag-placeholder="Add this as new tag"
+                                    placeholder="Search or add a tag" label="label" :track-by="this.form.building.value" :options="buildings"
+                                    :multiple="true" :taggable="true" tag-position="bottom" :max-height="150" class="text-xs">
+                                </multiselect>
+                            </div>
                             <span class="text-xs/2 text-red-600 dark:text-red-500"
                                 v-show="form.errors && (form.errors.has('building') ?? false)"
                                 v-html="form.errors && (form.errors.has('building') ?? false) ? form.errors.get('building') : ''"></span>
@@ -245,13 +257,13 @@
                             <table class="min-w-full divide-y divide-gray-300">
                                 <thead class="bg-gray-50 font-poppins">
                                     <tr>
-                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Name
                                         </th>
-                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Assigned Building
                                         </th>
-                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Location
                                         </th>
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
@@ -264,7 +276,8 @@
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="account in this.pendings" :key="account.id">
-                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ account.name }}</td>
+                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900">{{ account.name }}
+                                        </td>
                                         <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">
                                             <span v-for="(building, index) in account.building" :key="building.id">
                                                 <p>{{ building.building_name }}</p>
@@ -277,7 +290,7 @@
                                                 <br v-if="index !== (account.building.length - 1)">
                                             </span>
                                         </td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-center text-gray-500">{{ 
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-center text-gray-500">{{
                                             moment(account.created_at).format('MM/DD/YYYY h:mm a') }}</td>
                                         <td
                                             class="flex items-center justify-center gap-1 whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
@@ -356,6 +369,8 @@ import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import axios from "axios";
 import Form from "vform";
 import moment from 'moment';
+import Multiselect from 'vue-multiselect'
+
 
 const store = userAuthStore();
 
@@ -376,7 +391,8 @@ export default {
         NormalInput,
         DialogVue,
         TailwindPagination,
-        moment
+        moment,
+        Multiselect
     },
     data() {
         return {
@@ -424,7 +440,7 @@ export default {
             this.show = !this.show;
             this.form = item
 
-            if(this.statusChoice === 'Approval') {
+            if (this.statusChoice === 'Approval') {
                 this.form.status = 1;
             }
             else if (this.statusChoice === 'Disapproval') {
@@ -463,7 +479,7 @@ export default {
         },
 
         saveUser() {
-            if(store.role.id == 1) {
+            if (store.role.id == 1) {
                 this.form.status = true;
             }
 
@@ -575,6 +591,7 @@ export default {
             axios.get("/api/get-buildings")
                 .then((data) => {
                     this.buildings = data.data.data;
+                    console.log(this.buildings)
                 })
                 .catch((e) => {
                     errorMessage("Opps!", e.message, "top-right");
@@ -587,7 +604,7 @@ export default {
                     this.pendings = data.data.data
                     console.log(this.pendings);
                 })
-                .catch((error) => {})
+                .catch((error) => { })
         }
     },
     created() {

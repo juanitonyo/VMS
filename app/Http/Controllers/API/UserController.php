@@ -26,6 +26,7 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $data = User::with('building', 'role')
+            ->where('status', 1)
             ->where('name', 'LIKE', '%'.$request->search.'%')
             ->orWhere('email', 'LIKE', '%'.$request->search.'%')
             ->orWhere(function ($query) use ($request) {
