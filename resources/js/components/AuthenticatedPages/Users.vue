@@ -17,8 +17,8 @@
                             Pending Host
                         </button>
                         <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75" :class="this.pendings.length > 0 ? 'bg-green-400' : 'bg-red-400'"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3" :class="this.pendings.length > 0 ? 'bg-green-500' : 'bg-red-500'"></span>
                         </span>
                     </span>
 
@@ -141,6 +141,8 @@
             class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 w-40 mt-3">Export
             CSV</a>
     </div>
+
+    <!-- Slider Panel for Adding and Updating User's Information -->
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'User'"
         :description="'A list of all the users in your account including their name, title, email and role.'">
         <template v-slot:slider-body>
@@ -206,7 +208,7 @@
                 <div class="flex flex-shrink-0 justify-end px-4 py-4">
                     <button type="button"
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                        @click="setOpen">
+                        @click="setOpen(); getData()">
                         Cancel
                     </button>
                     <button type="submit"
@@ -228,13 +230,13 @@
                             <table class="min-w-full divide-y divide-gray-300">
                                 <thead class="bg-gray-50 font-poppins">
                                     <tr>
-                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Name
                                         </th>
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Assigned Building
                                         </th>
-                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Location
                                         </th>
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
@@ -246,14 +248,25 @@
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr>
-                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6"></td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
+                                    <tr v-for="account in this.pendings" :key="account.id">
+                                        <td class="w-64 py-4 pl-4 pr-3 text-xs font-600 text-gray-900 sm:pl-6">{{ account.name }}</td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">
+                                            <span v-for="(building, index) in account.building" :key="building.id">
+                                                <p>{{ building.building_name }}</p>
+                                                <br v-if="index !== (account.building.length - 1)">
+                                            </span>
+                                        </td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">
+                                            <span v-for="(building, index) in account.building" :key="building.id">
+                                                <p>{{ building.address }}</p>
+                                                <br v-if="index !== (account.building.length - 1)">
+                                            </span>
+                                        </td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-center text-gray-500">{{ 
+                                            moment(account.created_at).format('MM/DD/YYYY h:mm a') }}</td>
                                         <td
                                             class="flex items-center justify-center gap-1 whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
-                                            <a @click.prevent="setShow('Approval')"
+                                            <a @click.prevent="setShow('Approval', account)"
                                                 class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
@@ -261,7 +274,7 @@
                                                         d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </a>
-                                            <a @click.prevent="setShow('Disapproval')"
+                                            <a @click.prevent="setShow('Disapproval', account)"
                                                 class="disapprove text-white bg-red-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -288,7 +301,7 @@
         </template>
     </DialogVue>
 
-    <!-- Add Entry Button -->
+    <!-- Approving/Disapproving User Registration -->
     <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
 
@@ -296,7 +309,7 @@
             <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm" />
 
             <div class="mt-4 flex gap-1">
-                <button type="button"
+                <button @click.prevent="approveUser" type="button"
                     class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
                     {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
                         : 'Disapprove' : statusChoice }}
@@ -319,6 +332,7 @@ import {
     SwitchGroup,
     SwitchLabel,
 } from "@headlessui/vue";
+import { userAuthStore } from "@/store/auth";
 import { TailwindPagination } from 'laravel-vue-pagination';
 import NormalInput from "@/components/Elements/Inputs/NormalInput.vue";
 import SliderVue from "@/components/Elements/Modals/Slider.vue";
@@ -327,6 +341,8 @@ import DialogVue from '@/components/Elements/Modals/Dialog.vue'
 import axios from "axios";
 import Form from "vform";
 import moment from 'moment';
+
+const store = userAuthStore();
 
 export default {
     name: "Users",
@@ -361,7 +377,7 @@ export default {
                 role_id: '',
                 building: '',
                 password: '',
-                status: true,
+                status: false,
             }),
             errors: {
                 role_id: { error: false, label: '' },
@@ -369,6 +385,7 @@ export default {
             },
             roles: {},
             buildings: {},
+            pendings: {},
             pendingHost: false,
             exisitingData: {},
             statusChoice: '',
@@ -381,9 +398,17 @@ export default {
     methods: {
 
         // Opening and Closing of Dialog Vue Component
-        setShow(choice) {
+        setShow(choice, item) {
             this.statusChoice = choice;
-            this.show = !this.show
+            this.show = !this.show;
+            this.form = item
+
+            if(this.statusChoice === 'Approval') {
+                this.form.status = 1;
+            }
+            else if (this.statusChoice === 'Disapproval') {
+                this.form.status = -1;
+            }
         },
 
         // Opening and Closing of Slider Vue Component
@@ -417,13 +442,16 @@ export default {
         },
 
         saveUser() {
-            console.log(this.form)
+            if(store.role.id == 1) {
+                this.form.status = true;
+            }
+
             this.$Progress.start();
-            this.form
-                .post("/api/user")
+            this.form.post("/api/user")
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
+                    this.getPendings();
                     this.form = new Form({});
                     this.open = !this.open;
                     createToast(
@@ -448,6 +476,7 @@ export default {
 
         openPending() {
             this.pendingHost = !this.pendingHost;
+            this.getPendings();
         },
 
         editUser(item) {
@@ -455,8 +484,20 @@ export default {
             this.open = !this.open;
             this.form = item;
             this.form.role_id = { value: item.role.id, label: item.role.title }
-            console.log(this.form)
-            // this.form.building = { value: item.user_building.building.id, label: item.user_building.building.building_name }
+        },
+        approveUser() {
+            axios.put('/api/user/' + this.form.id, {
+                params: {
+                    data: this.form,
+                }
+            }).then((data) => {
+                this.statusChoice = '';
+                this.getPendings();
+                this.show = !this.show;
+                this.getData();
+            }).catch((error) => {
+
+            })
         },
         updateUser() {
             this.form.role_id = this.form.role_id.value
@@ -470,6 +511,7 @@ export default {
                 .then((data) => {
                     this.editMode = false;
                     this.$Progress.finish();
+                    this.getPendings();
                     this.getData();
                     this.this.form = new Form({});;
                     this.open = !this.open;
@@ -519,11 +561,21 @@ export default {
                     errorMessage("Opps!", e.message, "top-right");
                 });
         },
+
+        getPendings() {
+            axios.get('/api/get-pendings/')
+                .then((data) => {
+                    this.pendings = data.data.data
+                    console.log(this.pendings);
+                })
+                .catch((error) => {})
+        }
     },
     created() {
         this.getData();
         this.getRoles();
         this.getBuildings();
+        this.getPendings();
         this.moment = moment;
     },
 };

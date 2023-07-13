@@ -19,8 +19,4 @@ class UserBuildings extends Model
     protected $casts = [
         'building_id' => 'json'
     ];
-
-    protected $attributes = [
-        'status' => 1,
-    ];
 }

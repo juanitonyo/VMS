@@ -356,8 +356,8 @@ export default {
     },
     created() {
         this.moment = moment;
-        this.filterOn = moment().format('YYYY-MM-DD');
-        this.filterBefore = moment().format('YYYY-MM-DD');
+        this.filterOn = moment().format('YYYY-MM-DD 00:00:00');
+        this.filterBefore = moment().format('YYYY-MM-DD 23:59:59');
         this.getVisitorLogs();
         this.getVisitors();
         this.getCheckOuts();

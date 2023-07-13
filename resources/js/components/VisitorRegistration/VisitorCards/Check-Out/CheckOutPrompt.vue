@@ -104,14 +104,14 @@ export default {
                         this.$router.push('/visitor-registration/checkin/' + this.id);
                     }
 
+                    else if (this.account.latest_log.status == 0) {
+                            this.$router.push('/visitor-registration/approval');
+                    }
+
                     else if (!this.account.latest_log.is_checked_out) {
                         store.setHiddenParam(this.account.id);
 
                         this.$router.push('/visitor-registration/checkout/' + this.id);
-                    }
-
-                    else if (this.account.latest_log.status == 0) {
-                            this.$router.push('/visitor-registration/approval');
                     }
 
                 })

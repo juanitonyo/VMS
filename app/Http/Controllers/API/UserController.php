@@ -26,6 +26,7 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $data = User::with('building', 'role')
+            ->where('status', 1)
             ->where('name', 'LIKE', '%'.$request->search.'%')
             ->orWhere('email', 'LIKE', '%'.$request->search.'%')
             ->orWhere(function ($query) use ($request) {
@@ -50,6 +51,19 @@ class UserController extends BaseController
     public function export()
     {
         return Excel::download(new UserExport, 'users.xlsx', \Maatwebsite\Excel\Excel::XLSX);
+    }
+
+    public function syncHost(Request $request) {
+
+        $data = User::where('id', $request->id)->with('isHost', 'building')->first();
+        
+        return $this->sendResponse($data, "Fetched data from table");
+    }
+
+    public function getAllPendingUsers() {
+        $data = User::where('status', 0)->with('building')->get();
+
+        return $this->sendResponse($data, "Pending Users.");
     }
 
     /**
@@ -105,23 +119,11 @@ class UserController extends BaseController
     public function update(UserRequest $request, $id)
     {   
         $data = User::findOrFail($id)->update([
-            'name' => $request->params['name'],
-            'email' => $request->params['email'],
-            'role_id' => $request->params['role_id'],
-            'status' => $request->params['status']
+            'name' => $request->params['data']['name'],
+            'email' => $request->params['data']['email'],
+            'role_id' => $request->params['data']['role_id'],
+            'status' => $request->params['data']['status']
         ]);
-
-        // if ($request->params['data']['role']) {
-        //     $user->update([
-        //         'role_id' => $request->params['data']['role']['id']
-        //     ]);
-        // }
-
-        // if ($request->params['data']['building'] || $request->params['data']['building'] !== []) {
-        //     UserBuildings::findOrFail('user_id', $request->id)->update([
-        //         'building_id' => $request->params['data']['building']['value']
-        //     ]);
-        // }
 
         return $this->sendResponse($request->params['data']['building'], "Updated Data");
     }

@@ -9,7 +9,10 @@
 
         <div class="w-full h-[1.5px] bg-gray-200"></div>
         <div class="py-3">
-          <p class="font-bold text-blue-800">GlobalSpaces Shaw</p>
+          <div v-for="(building, index) in this.building" :key="building.id">
+            <p class="font-bold text-blue-800">{{ building.building_name }}</p>
+            <br v-if="index !== (this.building.length - 1)">
+          </div>
           <p class="font-extralight text-sm">{{ store.user.name }}</p>
         </div>
         <div class="w-full h-[1.5px] bg-gray-200"></div>
@@ -46,6 +49,42 @@
     </div>
   </div>
 </template>
+
+<script>
+import axios from 'axios';
+import { userAuthStore } from "@/store/auth";
+
+const store = userAuthStore();
+
+export default {
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    }
+  },
+  data() {
+    return {
+      data: {},
+      account: {},
+      building: {}
+    }
+  },
+  methods: {
+    syncUser() {
+      axios.get('/api/sync-user-host?id=' + store.user.id)
+        .then((data) => { 
+          this.account = data.data.data; 
+          this.building = this.account.building; 
+          console.log(this.building); })
+        .catch((error) => {})
+    }
+  },
+  created() {
+    this.syncUser();
+  },
+}
+</script>
 
 <script setup>
 import { reactive, ref } from "vue";

@@ -387,7 +387,6 @@ export default {
         },
 
         editBuilding(item) {
-            console.log(item);
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
@@ -466,6 +465,7 @@ export default {
                     })
             }).catch((error) => {
                 this.$Progress.fail();
+                this.form.building_type = { value: this.form.building_type.id, label: this.form.building_type.name }
             })
         },
 
