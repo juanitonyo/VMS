@@ -165,7 +165,7 @@
                                         <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
                                             v-show="form.errors && (form.errors.has('email') ?? false)"
                                             v-html="form.errors && (form.errors.has('email') ?? false) ? form.errors.get('email') : ''" />
-                                        <p class="text-[10px]" :class="isValidEmail ? 'text-green-500' : 'text-red-500'">{{ isValidEmail ? 'Email is Valid' : 'Email is Invalid' }}</p>
+                                        <span :class="form.errors.has('email') ? 'hidden' : ''"><p v-if="form.email" class="text-[10px]" :class="isValidEmail ? 'text-green-500' : 'text-red-500'">{{ isValidEmail ? 'Email is Valid' : 'Email is Invalid' }}</p></span>
                                     </div>
                                 </div>
                                 <div class="relative">
