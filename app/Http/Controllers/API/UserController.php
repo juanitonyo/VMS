@@ -67,7 +67,7 @@ class UserController extends BaseController
     {
         $validated = $request->validated();
 
-        $validated['role_id'] = $request['role_id']['id'];
+        $validated['role_id'] = $request['role_id']['value'];
 
         $hashPass = Hash::make('sysadmin');
         $validated['password'] = $hashPass;
