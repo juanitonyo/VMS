@@ -118,23 +118,11 @@ class UserController extends BaseController
     public function update(UserRequest $request, $id)
     {   
         $data = User::findOrFail($id)->update([
-            'name' => $request->params['name'],
-            'email' => $request->params['email'],
-            'role_id' => $request->params['role_id'],
-            'status' => $request->params['status']
+            'name' => $request->params['data']['name'],
+            'email' => $request->params['data']['email'],
+            'role_id' => $request->params['data']['role_id'],
+            'status' => $request->params['data']['status']
         ]);
-
-        // if ($request->params['data']['role']) {
-        //     $user->update([
-        //         'role_id' => $request->params['data']['role']['id']
-        //     ]);
-        // }
-
-        // if ($request->params['data']['building'] || $request->params['data']['building'] !== []) {
-        //     UserBuildings::findOrFail('user_id', $request->id)->update([
-        //         'building_id' => $request->params['data']['building']['value']
-        //     ]);
-        // }
 
         return $this->sendResponse($request->params['data']['building'], "Updated Data");
     }

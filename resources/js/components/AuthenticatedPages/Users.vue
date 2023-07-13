@@ -140,6 +140,8 @@
             class="block rounded-md bg-blue-800 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90 w-40 mt-3">Export
             CSV</a>
     </div>
+
+    <!-- Slider Panel for Adding and Updating User's Information -->
     <SliderVue :setOpen="open" :title="(editMode ? 'Update ' : 'Add ') + 'User'"
         :description="'A list of all the users in your account including their name, title, email and role.'">
         <template v-slot:slider-body>
@@ -221,7 +223,7 @@
                 <div class="flex flex-shrink-0 justify-end px-4 py-4">
                     <button type="button"
                         class="rounded-md bg-white py-2 px-3 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:ring-gray-400"
-                        @click="setOpen">
+                        @click="setOpen(); getData()">
                         Cancel
                     </button>
                     <button type="submit"
@@ -243,13 +245,13 @@
                             <table class="min-w-full divide-y divide-gray-300">
                                 <thead class="bg-gray-50 font-poppins">
                                     <tr>
-                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Name
                                         </th>
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Assigned Building
                                         </th>
-                                        <th scope="col" class="text-left px-3 py-3.5 text-sm font-semibold text-gray-900">
+                                        <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
                                             Location
                                         </th>
                                         <th scope="col" class="text-center px-3 py-3.5 text-sm font-semibold text-gray-900">
@@ -269,11 +271,17 @@
                                                 <br v-if="index !== (account.building.length - 1)">
                                             </span>
                                         </td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">{{ account.created_at }}</td>
-                                        <td v-if="store.role.id == 1"
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">
+                                            <span v-for="(building, index) in account.building" :key="building.id">
+                                                <p>{{ building.address }}</p>
+                                                <br v-if="index !== (account.building.length - 1)">
+                                            </span>
+                                        </td>
+                                        <td class="w-64 break-all px-3 py-4 text-xs text-center text-gray-500">{{ 
+                                            moment(account.created_at).format('MM/DD/YYYY h:mm a') }}</td>
+                                        <td
                                             class="flex items-center justify-center gap-1 whitespace-nowrap py-4 pl-3 pr-4 text-xs text-center font-medium sm:pr-6">
-                                            <a @click.prevent="setShow('Approval')"
+                                            <a @click.prevent="setShow('Approval', account)"
                                                 class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
@@ -281,7 +289,7 @@
                                                         d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </a>
-                                            <a @click.prevent="setShow('Disapproval')"
+                                            <a @click.prevent="setShow('Disapproval', account)"
                                                 class="disapprove text-white bg-red-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -308,7 +316,7 @@
         </template>
     </DialogVue>
 
-    <!-- Add Entry Button -->
+    <!-- Approving/Disapproving User Registration -->
     <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
 
@@ -316,7 +324,7 @@
             <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm" />
 
             <div class="mt-4 flex gap-1">
-                <button type="button"
+                <button @click.prevent="approveUser" type="button"
                     class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
                     {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
                         : 'Disapprove' : statusChoice }}
@@ -411,9 +419,17 @@ export default {
     methods: {
 
         // Opening and Closing of Dialog Vue Component
-        setShow(choice) {
+        setShow(choice, item) {
             this.statusChoice = choice;
-            this.show = !this.show
+            this.show = !this.show;
+            this.form = item
+
+            if(this.statusChoice === 'Approval') {
+                this.form.status = 1;
+            }
+            else if (this.statusChoice === 'Disapproval') {
+                this.form.status = -1;
+            }
         },
 
         // Opening and Closing of Slider Vue Component
@@ -488,7 +504,20 @@ export default {
             this.open = !this.open;
             this.form = item;
             this.form.role_id = { value: item.role.id, label: item.role.title }
-            this.form.building = { value: item.user_building.building.id, label: item.user_building.building.building_name }
+        },
+        approveUser() {
+            axios.put('/api/user/' + this.form.id, {
+                params: {
+                    data: this.form,
+                }
+            }).then((data) => {
+                this.statusChoice = '';
+                this.getPendings();
+                this.show = !this.show;
+                this.getData();
+            }).catch((error) => {
+
+            })
         },
         updateUser() {
             this.form.role_id = this.form.role_id.value
