@@ -451,6 +451,7 @@ export default {
                 .then((data) => {
                     this.$Progress.finish();
                     this.getData();
+                    this.getPendings();
                     this.form = new Form({});
                     this.open = !this.open;
                     createToast(
@@ -510,6 +511,7 @@ export default {
                 .then((data) => {
                     this.editMode = false;
                     this.$Progress.finish();
+                    this.getPendings();
                     this.getData();
                     this.this.form = new Form({});;
                     this.open = !this.open;
