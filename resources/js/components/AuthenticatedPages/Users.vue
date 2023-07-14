@@ -18,9 +18,9 @@
                         </button>
                         <span class="flex absolute h-3 w-3 top-0 right-0 -mt-1 -mr-1">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full opacity-75"
-                                :class="this.pendings.length > 0 ? 'bg-green-400' : 'bg-red-400'"></span>
+                                :class="this.pendings.length > 0 ? 'bg-green-400' : 'hidden'"></span>
                             <span class="relative inline-flex rounded-full h-3 w-3"
-                                :class="this.pendings.length > 0 ? 'bg-green-500' : 'bg-red-500'"></span>
+                                :class="this.pendings.length > 0 ? 'bg-green-500' : 'hidden'"></span>
                         </span>
                     </span>
 
@@ -201,7 +201,7 @@
                                 :class="form.errors && (form.errors.has('building') ?? false) ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select> -->
                             <div class="user-tag">
                                 <multiselect v-model="form.building" tag-placeholder="Add this as new tag"
-                                    placeholder="Search or add a tag" label="label" :track-by="this.form.building.value" :options="buildings"
+                                    placeholder="Search or add a tag" label="label" :options="buildings"
                                     :multiple="true" :taggable="true" tag-position="bottom" :max-height="150" class="text-xs">
                                 </multiselect>
                             </div>

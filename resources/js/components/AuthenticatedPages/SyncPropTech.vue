@@ -19,16 +19,26 @@
             <div class="mt-8 flow-root" v-if="permissions.view">
                 <div class="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
                     <div class="inline-block min-w-full py-2 align-middle sm:px-6 lg:px-8 ">
-                        <div class=" shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg relative">
-                            <div class="bg-gray-200 h-2 rounded-t-lg absolute w-full">
-                                <div class="bg-blue-500 h-full rounded-t-lg"
+                        <div
+                            class=" shadow ring-1 ring-black ring-opacity-5 sm:rounded-lg flex flex-col h-[400px] items-center justify-center">
+
+                            <Vue3Lottie v-if="isSync && progressBar < 100"
+                                animationLink="https://lottie.host/157d2638-4df8-41e6-be42-b8b94e355408/kRlVez8oo7.json"
+                                :loop="true" class="w-[150px]" />
+                            <Vue3Lottie v-if="progressBar == 100"
+                                animationLink="https://assets1.lottiefiles.com/packages/lf20_rc5d0f61.json"
+                                :loop="false" class="w-[150px]" />
+                            <div v-if="isSync" class="bg-gray-200 h-1 w-40 rounded-full">
+                                <div class="bg-blue-500 h-full rounded-full "
                                     :class="progressBar == 100 ? 'bg-green-500' : ''" :style="'width:' + progressBar + '%'">
                                 </div>
                             </div>
-                            <div class="ease-in duration-300 delay-100 overflow-y-auto h-96 p-5 text-xs">
-                                <p class="w-full py-4 pl-2 rounded-md shadow-sm shadow-gray-400 mb-2"
-                                    v-for="(item, index) in messages" :key="index">{{ item }}</p>
-                            </div>
+                            <!-- <p class="w-full py-4 pl-2 rounded-md shadow-sm shadow-gray-400 mb-2"
+                                    v-for="(item, index) in messages" :key="index">{{ item }}</p> -->
+                            <!-- <p v-for="(item, index) in messages" :key="index">{{ item }}</p> -->
+                            <p v-if="isSync && progressBar < 100" class="text-[10px]">Loading resources: {{
+                                this.building.name }}</p>
+                            <p v-if="progressBar == 100" class="text-[10px]">Sync Complete</p>
                         </div>
                         <div class="flex space-x-2 mt-2">
 
@@ -66,6 +76,8 @@ import axios from 'axios';
 import { userAuthStore } from "@/store/auth";
 import moment from 'moment';
 import { createToast } from 'mosha-vue-toastify'
+import { Vue3Lottie } from 'vue3-lottie'
+
 
 export default {
     name: 'sync',
@@ -87,14 +99,18 @@ export default {
             realtimeLength: 0,
             unitOwnersLength: 0,
             syncTimeTriggered: '',
+            building: [],
+            isSync: false
         }
     },
     components: {
+        Vue3Lottie
     },
     methods: {
         async syncData() {
             this.counter = 1;
             this.progressBar = 0;
+            this.isSync = !this.isSync;
             await axios.get('https://proptech-api.globalland.com.ph/api/vms/sync-buildings')
                 .then((data) => {
                     data.data.forEach((item, index) => {
@@ -102,6 +118,7 @@ export default {
                             this.progressBar = (this.counter++ / data.data.length) * 100;
                             // this.messages.push(data.data.messasge)
                             this.saveBuilding(item);
+                            this.building = item;
                         }, index * 150);
                     })
 
