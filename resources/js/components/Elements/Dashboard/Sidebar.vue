@@ -8,14 +8,11 @@
       <div class="text-center">
         <div class="w-full h-[1.5px] bg-gray-200"></div>
         <div class="py-3">
-          <div v-if="building.building_name != null" v-for="(building, index) in this.building" :key="building.id">
+          <div v-for="(building, index) in this.building" :key="building.id">
             <p class="font-bold text-blue-800">{{ building.building_name }}</p>
             <p v-if="index !== (this.building.length - 1)"></p>
           </div>
-          <div v-else>
-            <p class="font-bold text-blue-800">GlobalSpaces Shaw</p>
-          </div>
-          <p class="font-extralight text-sm">{{ store.user.name }}</p>
+          <p class="font-extralight text-sm">{{ store.user.role.title }}</p>
         </div>
         <div class="w-full h-[1.5px] bg-gray-200"></div>
       </div>
@@ -75,11 +72,12 @@ export default {
   methods: {
     syncUser() {
       axios.get('/api/sync-user-host?id=' + store.user.id)
-        .then((data) => { 
-          this.account = data.data.data; 
-          this.building = this.account.building; 
-          console.log(this.building); })
-        .catch((error) => {})
+        .then((data) => {
+          this.account = data.data.data;
+          this.building = this.account.building;
+          console.log(this.building);
+        })
+        .catch((error) => { })
     }
   },
   created() {

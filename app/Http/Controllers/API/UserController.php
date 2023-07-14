@@ -27,8 +27,8 @@ class UserController extends BaseController
     {
         $data = User::with('building', 'role')
             ->where('status', 1)
-            ->where('name', 'LIKE', '%'.$request->search.'%')
-            ->orWhere('email', 'LIKE', '%'.$request->search.'%')
+            ->where('name', 'LIKE', '%' . $request->search . '%')
+            ->orWhere('email', 'LIKE', '%' . $request->search . '%')
             ->orWhere(function ($query) use ($request) {
                 if ($request->search === 'active') {
                     $query->where('status', true);
@@ -37,10 +37,10 @@ class UserController extends BaseController
                 }
             })
             ->orWhereHas('building', function ($query) use ($request) {
-                $query->where('building_name', 'LIKE', '%'.$request->search.'%');
+                $query->where('building_name', 'LIKE', '%' . $request->search . '%');
             })
             ->orWhereHas('role', function ($query) use ($request) {
-                $query->where('title', 'LIKE', '%'.$request->search.'%');
+                $query->where('title', 'LIKE', '%' . $request->search . '%');
             })
             ->orderBy('name', 'asc')
             ->paginate($request->limit);
@@ -53,14 +53,16 @@ class UserController extends BaseController
         return Excel::download(new UserExport, 'users.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
-    public function syncHost(Request $request) {
+    public function syncHost(Request $request)
+    {
 
         $data = User::where('id', $request->id)->with('isHost', 'building')->first();
-        
+
         return $this->sendResponse($data, "Fetched data from table");
     }
 
-    public function getAllPendingUsers() {
+    public function getAllPendingUsers()
+    {
         $data = User::where('status', 0)->with('building')->get();
 
         return $this->sendResponse($data, "Pending Users.");
@@ -87,11 +89,15 @@ class UserController extends BaseController
         $validated['password'] = $hashPass;
         $data = User::create($validated);
 
-        if ($request->building) {
-            UserBuildings::create([
-                'user_id' => $data->id,
-                'building_id' => $request->building['value']
-            ]);
+        // if ($request->building) {
+        //     UserBuildings::create([
+        //         'user_id' => $data->id,
+        //         'building_id' => $request->building['value']
+        //     ]);
+        // }
+
+        foreach ($request->building as $building) {
+            $data->building()->sync($building['value']);
         }
 
         return $this->sendResponse($data, "Saved data to table.");
@@ -117,7 +123,7 @@ class UserController extends BaseController
      * Update the specified resource in storage.
      */
     public function update(UserRequest $request, $id)
-    {   
+    {
         $data = User::findOrFail($id)->update([
             'name' => $request->params['data']['name'],
             'email' => $request->params['data']['email'],
