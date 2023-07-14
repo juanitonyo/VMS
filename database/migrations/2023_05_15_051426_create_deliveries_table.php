@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('deliveries', function (Blueprint $table) {
             $table->id();
-            $table->string('courier_name');
+            $table->integer('delivery_id');
             $table->string('rider_name')->nullable();
             $table->string('contact');
             $table->timestamps();

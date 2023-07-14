@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('expected_deliveries', function (Blueprint $table) {
             $table->id();
-            $table->integer('delivery_id');
-            $table->string('building_id');
-            $table->string('remarks');
-            $table->dateTime('target_date');
+            $table->string('courier_name');
+            $table->integer('building_id');
+            $table->integer('user_id');
+            $table->string('remarks')->nullable();
             $table->boolean('status')->default(true);
+            $table->dateTime('target_date');
             $table->timestamps();
         });
     }

@@ -57,13 +57,78 @@
 
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="item in data.data" :key="item.id" v-if="(item ?? false) ? (item.visitor.name.toLowerCase().trim() == this.search.toLowerCase().trim() || item.visit_type.name.toLowerCase().trim() == this.search.toLowerCase().trim() || item.building.building_name.toLowerCase().trim() == this.search.toLowerCase().trim()) : true">
+                                <tbody v-for="item in data.data" :key="item.id" class="divide-y divide-gray-200 bg-white">
+                                    <tr v-if="item.log_type == 'WalkIn'">
                                         <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-48">{{
                                             item.visitor.name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.building_name
                                         }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.visit_type.name }}
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.log_type   }}
+                                        </td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == 0 ?
+                                            'Pending Approval' : item.status == 1 ?
+                                                'Approved' : 'Disapproved' }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{
+                                            moment(item.created_at).format('MM/DD/YYYY h:mm a') }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.is_checked_out ?
+                                            moment(item.created_at).format('MM/DD/YYYY h:mm a') : "Not Yet" }}
+                                        </td>
+                                        <td class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center"
+                                            v-if="permissions.update">
+                                            <button v-show="!item.is_checked_out && item.status == 0"
+                                                class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer"
+                                                @click.prevent="setShow('Approval', item)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M4.5 12.75l6 6 9-13.5" />
+                                                </svg>
+                                            </button>
+                                            <button v-show="!item.is_checked_out && item.status == 0"
+                                                class="approve text-white bg-red-400 rounded-md p-1 cursor-pointer"
+                                                @click.prevent="setShow('Disapproval', item)">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M6 18L18 6M6 6l12 12" />
+                                                </svg>
+                                            </button>
+                                            <button @click.prevent="editVisitors(item)"
+                                                class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+                                                </svg>
+                                            </button>
+                                            <button v-show="item.is_checked_out && item.status"
+                                                @click.prevent="setShow('Invite', item)"
+                                                class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z">
+                                                    </path>
+                                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                                </svg>
+                                            </button>
+                                            <button v-show="!item.is_checked_out && item.status == 1"
+                                                @click.prevent="setShow('Check Out', item)"
+                                                class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                                                    stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+                                                    <path stroke-linecap="round" stroke-linejoin="round"
+                                                        d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9" />
+                                                </svg>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr v-if="item.log_type == 'Invitee'">
+                                        <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-48">{{
+                                            item.invited.first_name + ' ' + item.invited.last_name }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.building.building_name
+                                        }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ item.log_type   }}
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.status == 0 ?
                                             'Pending Approval' : item.status == 1 ?
@@ -349,7 +414,7 @@ export default {
 
         async getData(page = 1) {
             if (userAuthStore().user.role_id == 2) {
-                await axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filter2)
+                await axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filter2 + '&logType=WalkIn')
                     .then((data) => {
                         this.data = data.data.data;
                         console.log(this.data)
@@ -358,7 +423,7 @@ export default {
                     });
             }
             else {
-                await axios.get('/api/get-logs?page=' + page + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore).then((data) => {
+                await axios.get('/api/get-logs?page=' + page + '&limit=' + this.limitPage + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore + '&logType=WalkIn').then((data) => {
                     this.data = data.data.data;
                     console.log(this.data)
                 }).catch((e) => {

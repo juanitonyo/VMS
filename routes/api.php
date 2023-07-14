@@ -52,6 +52,8 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
 
     Route::get('get-invitation', 'InvitationLogsController@getInvitation');
     Route::get('sync-invitee', 'InvitationLogsController@syncInvitee');
+    Route::get('get-expected-guest', 'InvitationLogsController@getExpectedGuest');
+    Route::get('get-expected-guest-by-id', 'InvitationLogsController@getExpectedGuestByID');
     
     Route::get('get-unitowners-by-building', 'UserController@getUsersInBuildings');
     Route::get('sync-user-host', 'UserController@syncHost');
@@ -66,6 +68,9 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
     // Route::get('export-expected-deliveries', 'Controller@export');
     Route::get('export-deliveries', 'DeliveryController@export');
 
+    Route::get('get-expected-delivery', 'ExpectedDeliveriesController@getExpectedDeliveries');
+    Route::get('get-expected-delivery-by-id', 'InvitationLogsController@getExpectedDeliveriesByID');
+
     Route::apiResources([
         'user' => 'UserController',
         'building-types' => 'BuildingTypesController',
@@ -77,6 +82,7 @@ Route::namespace('App\Http\Controllers\API')->group(function() {
         'visit-type' => 'VisitTypesController',
         'visitor-logs' => 'VisitorLogsController',
         'delivery' => 'DeliveryController',
+        'expected-deliveries' => 'ExpectedDeliveriesController',
         'roles' => 'RolesController',
         'invitation' => 'InvitationLogsController'
     ]);

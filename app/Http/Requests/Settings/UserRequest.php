@@ -40,5 +40,15 @@ class UserRequest extends FormRequest
             'params.data.email' => 'required',
             'params.data.role_id' => 'required'
         ];
+
+        
+    }
+
+    public function messages()
+    {
+        return [
+            'role_id' => 'The role field is required.',
+            'params.data.role_id.required' => 'The role field is required.'
+        ];
     }
 }

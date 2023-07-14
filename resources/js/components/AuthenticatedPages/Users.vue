@@ -110,10 +110,10 @@
                                             {{ item.role.title }}
                                         </td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
-                                            item.status == true ? 'Active' : 'Inactive' }}</td>
+                                            item.status > -1 ? item.status > 0 ? 'Approved' : 'Pending Approval' : 'Disapproved' }}</td>
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-center text-gray-500">{{
                                             moment(item.created_at).format('MM/DD/YYYY h:mm a') }}</td>
-                                        <td
+                                        <td :hidden="item.status == -1"
                                             class="relative whitespace-nowrap py-4 pl-3 pr-3 text-xs text-center font-medium">
                                             <a @click.prevent="editUser(item)" href="#"
                                                 class="flex justify-center text-slate-800 hover:text-indigo-900">
@@ -188,7 +188,7 @@
                                     class="block text-sm font-medium leading-6 text-gray-900 mb-1">Choose Role</label>
                                 <span class="text-[10px] text-red-600 dark:text-red-500 mt-1"
                                     v-show="form.errors && (form.errors.has('role_id') ?? false)"
-                                    v-html="form.errors && (form.errors.has('role_id') ?? false) ? form.errors.get('role_id').replace(' id', '') : ''"></span>
+                                    v-html="form.errors && (form.errors.has('role_id') ?? false) ? form.errors.get('role_id') : ''"></span>
                             </div>
                             <v-select v-model="form.role_id" :options="roles" label="label" placeholder="Search"
                                 :class="form.errors && (form.errors.has('role_id') ?? false) ? 'bg-red-50 border border-red-400 rounded-md text-red-900 placeholder-red-700' : ''"></v-select>
@@ -560,10 +560,10 @@ export default {
                 .then((data) => {
                     this.editMode = false;
                     this.$Progress.finish();
+                    this.open = !this.open;
                     this.getPendings();
                     this.getData();
                     this.this.form = new Form({});;
-                    this.open = !this.open;
                     createToast(
                         {
                             title: "Success!",

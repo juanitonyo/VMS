@@ -47,6 +47,6 @@ class InvitationLogs extends Model
 
     public function log(): HasOne
     {
-        return $this->hasOne(VisitorLogs::class, 'visitor_id', 'id');
+        return $this->hasOne(VisitorLogs::class, 'visitor_id', 'id')->where('log_type', 'Invitee');
     }
 }

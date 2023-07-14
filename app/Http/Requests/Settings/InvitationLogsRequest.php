@@ -55,4 +55,13 @@ class InvitationLogsRequest extends FormRequest
             'params.data.status' => 'required',  
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'building_id' => 'The building field is required.',
+            'visit_purpose_id' => 'The visit purpose field is required.',
+            'user_id' => 'The user field is required.',
+        ];
+    }
 }

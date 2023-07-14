@@ -28,7 +28,7 @@
                                             class="w-56 px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Rider Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Mobile</th>
+                                            Mobile Number</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Company</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
@@ -92,7 +92,8 @@ export default {
             form: new Form({
                 courier_name: '',
                 rider_name: '',
-                contact: ''
+                contact: '',
+                status: ''
             }),
         }
     },
@@ -105,6 +106,16 @@ export default {
                 }).catch((e) => {
                     this.$Progress.fail();
                 });
+        },
+
+        saveDelivery() {
+            this.form.post('/api/delivery/')
+                .then((data) => {
+                    this.data = data.data.data
+                })
+                .catch((error) => {
+
+                })
         },
 
         setPop() {

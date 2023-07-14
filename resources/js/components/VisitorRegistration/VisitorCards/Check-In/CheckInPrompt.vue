@@ -100,7 +100,6 @@ export default {
 
                     else if (this.account.latest_log == null || this.account.latest_log.is_checked_out || this.account.latest_log.status == -1) {
                         store.setHiddenParam(this.account.id);
-                        store.setHiddenLog('WalkIn')
                         
                         this.$router.push('/visitor-registration/checkin/' + this.id);
                     }
@@ -111,7 +110,6 @@ export default {
 
                     else if (!this.account.latest_log.is_checked_out) {
                         store.setHiddenParam(this.account.id);
-                        store.setHiddenLog('WalkIn')
 
                         this.$router.push('/visitor-registration/checkout/' + this.id);
                     }

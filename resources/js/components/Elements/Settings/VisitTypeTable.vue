@@ -338,9 +338,6 @@ export default {
             this.form = item;
             this.form.building_type = { value: item.building_type_name.id, label: item.building_type_name.name }
         },
-        forMessage() {
-            return this.editMode ? ' ' : this.form.errors.get('building_type')
-        },
 
         async getData(page = 1) {
             await axios.get('/api/visit-type?page=' + page + '&search=' + this.search).then((data) => {

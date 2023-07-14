@@ -50,14 +50,14 @@
                                         <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-48">{{ invitation.first_name + ' ' + invitation.last_name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.building.building_name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.visit_type.name }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">N/A</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.latest_log ?? false ? invitation.latest_log.created_at : 'Not yet' }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.latest_log ?? false ? [invitation.latest_log.is_checked_out ? invitation.latest_log.updated_at : 'Not yet'] : 'Not yet' }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ moment(invitation.target_date).format('MMMM Do YYYY, h: mm: ss a') }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.latest_log.status == 1 ? 'Approved' : 'Pending Approval' }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.latest_log ?? false ? moment(invitation.latest_log.created_at).format('MMMM Do YYYY, h:mm:ss a') : 'Not yet' }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.latest_log ?? false ? invitation.latest_log.is_checked_out ? moment(invitation.latest_log.updated_at).format('MMMM Do YYYY, h:mm:ss a') : 'Not yet' : 'Not yet' }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ moment(invitation.target_date).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td
                                             class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center">
-                                            <button v-if="moment().isSameOrAfter(invitation.target_date)" 
-                                                @click.prevent="setShow('Approval', item)"
+                                            <!-- <button v-if="invitation.latest_log ?? false ? moment().isSameOrAfter(invitation.target_date) && invitation.latest_log.status == 0 : false" 
+                                                @click.prevent="setShow('Approval', invitation)"
                                                 class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="2.5" stroke="currentColor" class="w-5 h-5">
@@ -65,15 +65,15 @@
                                                         d="M4.5 12.75l6 6 9-13.5" />
                                                 </svg>
                                             </button>
-                                            <button v-if="moment().isSameOrAfter(invitation.target_date)" 
-                                                @click.prevent="setShow('Disapproval', item)"
+                                            <button v-if="invitation.latest_log ?? false ? moment().isSameOrAfter(invitation.target_date) && invitation.latest_log.status == 0 : false" 
+                                                @click.prevent="setShow('Disapproval', invitation)"
                                                 class="approve text-white bg-red-400 rounded-md p-1 cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                                                     stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M6 18L18 6M6 6l12 12" />
                                                 </svg>
-                                            </button>
+                                            </button> -->
                                             <button 
                                                 class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -82,7 +82,7 @@
                                                         d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
                                                 </svg>
                                             </button>
-                                            <button v-if="invitation.latest_log ?? false ? [(!invitation.latest_log.is_checked_out && moment().isSameOrAfter(invitation.target_date)) && invitation.latest.status == 1] : false"
+                                            <!-- <button v-if="invitation.latest_log ?? false ? (!invitation.latest_log.is_checked_out && moment().isSameOrAfter(invitation.target_date)) && invitation.latest_log.status == 1 : false"
                                                 @click.prevent="setShow()"
                                                 class="flex justify-center text-blue-900 border border-blue-900 p-1 rounded-md cursor-pointer">
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -90,7 +90,7 @@
                                                     <path stroke-linecap="round" stroke-linejoin="round"
                                                         d="M10 3H6a2 2 0 0 0-2 2v14c0 1.1.9 2 2 2h4M16 17l5-5-5-5M19.8 12H9" />
                                                 </svg>
-                                            </button>
+                                            </button> -->
                                         </td>
                                     </tr>
                                 </tbody>
@@ -134,7 +134,7 @@
                             <div class="flex justify-between">
                                 <label for="building"
                                     class="block text-sm font-medium leading-6 text-gray-900">Building</label>
-                                <span v-show="form.errors && (form.errors.has('building_id') ?? false)" v-html="form.errors && (form.errors.has('building_id') ?? false) ? form.errors.get('building_id').replace('id', '') : ''"
+                                <span v-show="form.errors && (form.errors.has('building_id') ?? false)" v-html="form.errors && (form.errors.has('building_id') ?? false) ? form.errors.get('building_id') : ''"
                                     class="text-[10px] text-red-600 dark:text-red-500 mt-1"></span>
                             </div>
                             <v-select v-model="form.building_id" placeholder="Search" :options="building" label="label"
@@ -145,7 +145,7 @@
                             <div class="flex justify-between">
                                 <label for="visit_type" class="block text-sm font-medium leading-6 text-gray-900">Purpose of
                                     Visit</label>
-                                <span v-show="form.errors && (form.errors.has('visit_purpose_id') ?? false)" v-html="form.errors && (form.errors.has('visit_purpose_id') ?? false) ? form.errors.get('visit_purpose_id').replace('id', '') : ''"
+                                <span v-show="form.errors && (form.errors.has('visit_purpose_id') ?? false)" v-html="form.errors && (form.errors.has('visit_purpose_id') ?? false) ? form.errors.get('visit_purpose_id') : ''"
                                     class="text-[10px] text-red-600 dark:text-red-500 mt-1"></span>
                             </div>
                             <v-select v-model="form.visit_purpose_id" placeholder="Search" :options="visit_type"
@@ -202,6 +202,7 @@
             </form>
         </template>
     </SliderVue>
+
     <DialogVue :isOpen="show" :dialogTitle="'Reason for ' + statusChoice" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
 
@@ -216,11 +217,10 @@
 
             <div class="mt-4 flex gap-1">
                 <button
-                    @click.prevent="this.statusChoice == 'Invite' ? saveInvitation(this.log) : updateVisitor(statusChoice)"
+                    @click.prevent="updateInvitee"
                     type="button"
                     class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
-                    {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
-                        : 'Disapprove' : statusChoice }}
+                    {{ statusChoice == 'Approval' ? 'Approve' : 'Disapprove' }}
                 </button>
                 <button type="button"
                     class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90"
@@ -269,6 +269,7 @@ export default {
             show: false,
             statusChoice: '',
             visit_type: [],
+            log: {},
             pop: false,
         }
     },
@@ -295,16 +296,6 @@ export default {
                 .catch((e) => {
 
                 });
-        },
-
-        forBuilding(message) {
-            const error = message;
-            return error ? error.replace('building id', 'building') : ''
-        },
-
-        forVisitType(message) {
-            const error = message;
-            return error ? error.replace('visit purpose id', 'visit purpose') : ''
         },
 
         async syncBuilding() {
@@ -358,7 +349,23 @@ export default {
         },
 
         updateInvitee() {
+            if(this.statusChoice == 'Approval') {
+                this.log.status = 1
+            }
+            else if(this.statusChoice == 'Disapproval') {
+                this.log.status = -1
+            }
 
+            axios.put('/api/invitation/' + this.log.id, {
+                params: {
+                    data: this.log
+                }
+            })
+                .then((data) => {
+                    this.statusChoice = ''
+                    this.show = !this.show
+                })
+                .catch((error) => {})
         },
 
         async getData(page = 1) {

@@ -39,6 +39,11 @@ class Visitors extends Model
         return $this->hasOne(Building::class, 'id', 'building_id')->select(['id', 'qr_id','building_name']);
     }
 
+    public function log(): HasOne
+    {
+        return $this->hasOne(VisitorLogs::class, 'visitor_id', 'id')->where('log_type', 'WalkIn');
+    }
+
     public function latestLog(): HasOne
     {
         return $this->hasOne(VisitorLogs::class, 'visitor_id', 'id')->latestOfMany();
