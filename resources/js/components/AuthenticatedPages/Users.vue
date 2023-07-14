@@ -200,9 +200,9 @@
                             <!-- <v-select v-model="form.building" :options="buildings" label="label" placeholder="Search"
                                 :class="form.errors && (form.errors.has('building') ?? false) ? 'bg-red-50  border-red-500 text-red-900 placeholder-red-700' : ''"></v-select> -->
                             <div class="user-tag">
-                                <multiselect v-model="form.building" tag-placeholder="Add this as new tag"
-                                    placeholder="Search or add a tag" label="label" :options="buildings"
-                                    :multiple="true" :taggable="true" tag-position="bottom" :max-height="150" class="text-xs">
+                                <multiselect v-model="form.building" tag-placeholder="Add this as new tag" limit="2"
+                                    placeholder="Search" label="label" :options="buildings" track-by="value"
+                                    :multiple="true" :taggable="true" tag-position="bottom" :max-height="160" class="text-xs">
                                 </multiselect>
                             </div>
                             <span class="text-xs/2 text-red-600 dark:text-red-500"

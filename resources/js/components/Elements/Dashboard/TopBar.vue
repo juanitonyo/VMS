@@ -31,7 +31,14 @@
 
                 <div class="w-full h-[1.5px] bg-gray-200"></div>
                 <div class="py-3">
-                  <p class="font-bold text-blue-800">GlobalSpaces Shaw</p>
+                  <div v-if="building.building_name != null" v-for="(building, index) in this.building"
+                    :key="building.id">
+                    <p class="font-bold text-blue-800">{{ building.building_name }}</p>
+                    <p v-if="index !== (this.building.length - 1)"></p>
+                  </div>
+                  <div v-else>
+                    <p class="font-bold text-blue-800">GlobalSpaces Shaw</p>
+                  </div>
                   <p class="font-extralight text-sm">{{ store.user.name }}</p>
                 </div>
                 <div class="w-full h-[1.5px] bg-gray-200"></div>
@@ -463,16 +470,44 @@ const logout = async () => {
 </script>
 
 <script>
+
+import axios from 'axios';
+import { userAuthStore } from "@/store/auth";
+
+const store = userAuthStore();
+
 export default {
+  props: {
+    data: {
+      type: Object,
+      default: {}
+    }
+  },
   data() {
     return {
-      changePass: false
+      changePass: false,
+      data: {},
+      account: {},
+      building: {}
     }
   },
   methods: {
     changePassword() {
       this.changePass = !this.changePass
+    },
+    syncUser() {
+      axios.get('/api/sync-user-host?id=' + store.user.id)
+        .then((data) => {
+          this.account = data.data.data;
+          this.building = this.account.building;
+          console.log(this.building);
+        })
+        .catch((error) => { })
     }
-  }
+  },
+
+  created() {
+    this.syncUser();
+  },
 }
 </script>
