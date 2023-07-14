@@ -6,12 +6,14 @@
       </a>
 
       <div class="text-center">
-
         <div class="w-full h-[1.5px] bg-gray-200"></div>
         <div class="py-3">
-          <div v-for="(building, index) in this.building" :key="building.id">
+          <div v-if="building.building_name != null" v-for="(building, index) in this.building" :key="building.id">
             <p class="font-bold text-blue-800">{{ building.building_name }}</p>
-            <br v-if="index !== (this.building.length - 1)">
+            <p v-if="index !== (this.building.length - 1)"></p>
+          </div>
+          <div v-else>
+            <p class="font-bold text-blue-800">GlobalSpaces Shaw</p>
           </div>
           <p class="font-extralight text-sm">{{ store.user.name }}</p>
         </div>

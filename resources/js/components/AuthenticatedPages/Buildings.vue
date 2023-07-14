@@ -4,13 +4,13 @@
             <div class="sm:flex sm:items-center">
                 <div class="sm:flex-auto">
                     <h1 class="text-2xl font-extrabold leading-6 text-blue-800">BUILDINGS</h1>
-                    <p class="mt-2 text-xs text-gray-700">Viewing and Adding types of Buildings</p>
+                    <p class="mt-2 text-xs text-gray-700">Viewing and Adding of Buildings</p>
                 </div>
 
-                <div class="mt-4 sm:mt-0 sm:ml-16 sm:flex gap-1 items-center">
+                <div class="mt-4 sm:mt-0 sm:ml-16 gap-1 sm:items-center flex flex-col sm:flex-row">
                     <div class="relative">
                         <input v-model="this.search" type="text" name="search" @input="getData"
-                            class="h-[36px] border border-gray-500 rounded-md pl-2 text-xs w-80"
+                            class="h-[36px] border border-gray-500 rounded-md pl-2 text-xs sm:w-80 w-full"
                             placeholder="">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
                             stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
@@ -19,7 +19,7 @@
                         </svg>
                     </div>
                     <button @click.prevent="setOpen" type="button" v-if="permissions.create"
-                        class="block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm hover:bg-gray-800 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
+                        class="block rounded-md bg-blue-800 hover:bg-blue-800/90 py-2 px-3 text-center text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gray-600">Add
                         Building</button>
                 </div>
 
@@ -68,7 +68,7 @@
                                         <td class="text-center px-3 py-4 text-xs w-64 text-gray-500">{{ item.description }}
                                         </td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building_type ?
-                                            item.building_type.name : 'HOA Condo'
+                                            item.building_type.name : 'HOA/Condo Corp.'
                                         }}</td>
                                         <td class="text-center px-3 py-4 text-xs text-gray-900 flex space-x-1.5">
                                             <button :disabled="item.status ? false : true"

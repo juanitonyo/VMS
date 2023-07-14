@@ -23,12 +23,23 @@
                 </div>
             </div>
 
-            <div class="flex flex-col gap-3">
-                <div class="relative flex flex-col mt-3 mb-2">
+            <div class="flex flex-col gap-3 mt-6">
+                
+                <div class="relative flex flex-col mb-2">
                     <div class="flex flex-row items-center ">
-                        <label for="fullname" class="text-[10px] text-gray-500 mr-16">Name</label>
+                        <label for="fullname" class="text-[10px] text-gray-500 mr-[41px]">First Name</label>
                         <div class="flex flex-col">
-                            <input v-model="form.name" type="text" :disabled="isGoogleExist" placeholder="Juan Dela Cruz"
+                            <input v-model="form.fname" type="text" placeholder="Juan"
+                                class="focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[210px]">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="relative flex flex-col mb-2">
+                    <div class="flex flex-row items-center ">
+                        <label for="fullname" class="text-[10px] text-gray-500 mr-[41px]">Last Name</label>
+                        <div class="flex flex-col">
+                            <input v-model="form.fname" type="text" placeholder="Dela Cruz"
                                 class="focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[210px]">
                         </div>
                     </div>
@@ -108,7 +119,7 @@
                     </div>
                 </div>
                 <div class="flex flex-col">
-                    <input type="text" placeholder="Enter Account Number"
+                    <input type="text" placeholder="Enter Account Number" 
                         class="focus:outline-none text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[305px]"
                         v-if="showInput">
                 </div>
@@ -170,17 +181,17 @@ export default {
                 "Voter's ID"
             ],
             form: new Form({
-                firstName: '',
-                lastName: '',
+                lname: '',
+                fname: '',
                 email: '',
                 password: '',
-                location: '',
                 contact: null,
                 front_id: null,
                 back_id: null,
                 gov_id: null,
                 profile_photo: null,
                 policy: true,
+                account_number: '',
                 role: 'host'
             }),
         }

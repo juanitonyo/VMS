@@ -7,10 +7,10 @@
                     <p class="mt-2 text-xs text-gray-700">A summary of QR codes of all the buildings</p>
                 </div>
 
-                <div class="relative">
-                    <input v-model="this.search" @input="getData" type="text" name="search" class="py-2 border border-gray-500 rounded-md pl-2 text-xs w-80">
+                <div class="relative sm:mt-0 mt-3">
+                    <input v-model="this.search" @input="getData" class="h-[30px] border border-gray-500 rounded-md pl-2 text-xs sm:w-80 w-full" placeholder="">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
-                        stroke="currentColor" class="absolute w-4 h-4 top-2.5 right-2">
+                        stroke="currentColor" class="absolute w-4 h-4 top-2 right-2">
                         <path stroke-linecap="round" stroke-linejoin="round"
                             d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
                     </svg>
@@ -38,8 +38,8 @@
                             <div class="details text-center lg:text-left">
                                 <p class="leading-3">Unit Owner</p>
                                 <p class="font-semibold">{{ item.building_name }}</p>
-                                <p class="text-[10px] font-extralight text-gray-400 w-80">{{ item.address }}</p>
-                                <p class="mt-3 italic font-extralight text-gray-600 text-xs">{{ item.description ?? '' }}
+                                <p class="text-[10px] font-extralight text-gray-400 w-80 sm:block hidden">{{ item.address }}</p>
+                                <p class="mt-3 italic font-extralight text-gray-600 text-xs sm:block hidden">{{ item.description ?? '' }}
                                 </p>
                                 <a :href="this.url + '/homeowner-registration/' + item.qr_id" target="_blank"
                                     class="font-light text-xs mt-3 text-blue-500">> Proceed to host registration</a>
@@ -55,8 +55,8 @@
                             <div class="details text-center lg:text-left">
                                 <p class="leading-3">Visitor</p>
                                 <p class="font-semibold">{{ item.building_name }}</p>
-                                <p class="text-[10px] font-extralight text-gray-400 w-80">{{ item.address }}</p>
-                                <p class="mt-3 italic font-extralight text-gray-600 text-xs">{{ item.description ?? '' }}
+                                <p class="text-[10px] font-extralight text-gray-400 w-80 sm:block hidden">{{ item.address }}</p>
+                                <p class="mt-3 italic font-extralight text-gray-600 text-xs sm:block hidden">{{ item.description ?? '' }}
                                 </p>
                                 <a :href="this.url + '/visitor-registration/' + item.qr_id" target="_blank"
                                     class="font-light text-xs mt-3 text-blue-500">> Proceed to visitor registration</a>

@@ -1,37 +1,25 @@
 <template>
-    <div class="min-h-screen min-w-full flex items-center justify-center">
-        <div>
-            <ckeditor :editor="editor" :config="editorConfig"></ckeditor>
+    <div class="w-20 h-20 bg-blue-300" @click.prevent="isOpen()"></div>
+    <div class="relative w-80" @click.prevent="isOpen()">
+        <div :class="[open ? 'translate-x-full left-80 ': '-translate-x-full left-0', 'absolute left-0 w-80 h-screen bg-gray-100 transition-all']">
+            <p class="text-black">test</p>
         </div>
     </div>
 </template>
 
 <script>
-
-// import { SourceEditing } from '@ckeditor/ckeditor5-source-editing';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-
-
 export default {
-    name: 'BasicExampleURL',
-
-    components: {
-    },
 
     data() {
         return {
-            editor: ClassicEditor,
-            editorConfig: {
-                toolbar: ['undo', 'redo', '|', 'bold', 'italic', '|', 'link', 'heading', '|', 'sourceEditing'],
-                heading: {
-                    options: [
-                        { model: 'paragraph', title: 'Paragraph', class: 'ck-heading_paragraph' },
-                        { model: 'heading1', view: 'h1', title: 'Heading 1', class: 'ck-heading_heading1' },
-                        { model: 'heading2', view: 'h2', title: 'Heading 2', class: 'ck-heading_heading2' }
-                    ]
-                },
-            },
+            open: false
         }
     },
+
+    methods: {
+        isOpen() {
+            this.open = !this.open;
+        }
+    }
 }
 </script>

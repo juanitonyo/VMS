@@ -12,27 +12,27 @@
                     below</p>
             </div>
 
-            <div class="flex flex-col gap-y-5">
+            <div class="flex flex-col items-center gap-y-5">
                 <!-- <router-link :to="'/visitor-registration/details/' + this.id"
                 class="w-[280px] h-[35px] rounded-md bg-[#3066BE] text-white text-xs flex items-center justify-center cursor-pointer">Check
                 In</router-link> -->
 
                 <router-link :to="'/visitor-registration/checkin/' + this.id">
                     <div
-                        class=" relative w-[300px] h-[180px] border-2 border-blue-700 rounded-xl flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-150 shadow-md shadow-slate-300 ">
-                        <p class="text-xs text-blue-700 absolute top-3">Are you visiting someone? Tap here</p>
-                        <img src="/Visitor_Homepage_Assets/visiting.png" alt="No Photo">
+                        class=" relative w-[280px] h-[180px] border-2 border-blue-700 rounded-xl flex flex-col justify-center items-center gap-y-2 hover:scale-105 ease-in-out duration-150 shadow-md shadow-slate-300 ">
+                        <p class="text-[10px] text-blue-700 absolute top-3">Are you visiting someone? Tap here</p>
+                        <img src="/Visitor_Homepage_Assets/visiting.png" alt="No Photo" width="160">
                     </div>
                 </router-link>
 
                 <router-link :to="this.isDeliveryAllowed ? '/visitor-registration/delivery/' + this.id : ''">
                     <div
-                        :class="[this.isDeliveryAllowed ? 'hover:scale-105 ease-in-out duration-150 shadow-md shadow-slate-300 border-red-700' : 'border-gray-700', 'relative w-[300px] h-[180px] border-2 rounded-xl flex flex-col justify-center items-center gap-y-2']">
+                        :class="[this.isDeliveryAllowed ? 'hover:scale-105 ease-in-out duration-150 shadow-md shadow-slate-300 border-red-700' : 'border-gray-700', 'relative w-[280px] h-[180px] border-2 rounded-xl flex flex-col justify-center items-center gap-y-2']">
                         <p
-                            :class="[this.isDeliveryAllowed ? 'text-red-600' : 'text-gray-600 opacity 70', 'text-xs absolute top-3']">
+                            :class="[this.isDeliveryAllowed ? 'text-red-600' : 'text-gray-600 opacity 70', 'text-[10px] absolute top-3']">
                             Are you a delivery crew/ rider? Tap here</p>
                         <img src="/Visitor_Homepage_Assets/delivery.png" alt="No Photo"
-                            :class="[this.isDeliveryAllowed ? '' : 'opacity-70', 'mt-5']">
+                            :class="[this.isDeliveryAllowed ? '' : 'opacity-70', 'mt-5']" width="160">
                         <span v-if="!this.isDeliveryAllowed"
                             class="w-full bg-gray-200 justify-center text-xs text-center text-gray-600 absolute p-2">Not
                             Allowed</span>

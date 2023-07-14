@@ -29,8 +29,7 @@ class EmailTemplateRequest extends FormRequest
             'purpose' => 'required|unique:email_templates|max:100',
             'subject' => 'required',
             'body' => 'required',
-            'description' => 'required',
-            'status' => 'required',
+            'description' => 'required'
         ];
     }
 
@@ -39,8 +38,7 @@ class EmailTemplateRequest extends FormRequest
             'params.data.purpose' => 'required|max:100|unique:email_templates,id,'.$this->get('id'),
             'params.data.subject' => 'required',
             'params.data.body' => 'required',
-            'params.data.description' => 'required',
-            'params.data.status' => 'required',
+            'params.data.description' => 'required'
         ];
     }
 

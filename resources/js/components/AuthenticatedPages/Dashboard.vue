@@ -179,7 +179,7 @@
                                                 class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
                                                 Email</th>
                                             <th scope="col"
-                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900 sm:pl-6">
+                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">
                                                 Name</th>
                                             <th scope="col"
                                                 class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
@@ -187,15 +187,11 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
-                                        <tr v-for="person in this.visitorCheckOuts.data" :key="person.id">
-                                            <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
-                                                person.visitor.email }}
-                                            </td>
+                                        <tr>
+                                            <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500"></td>
                                             <td
-                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
-                                                {{ person.visitor.name }}</td>
-                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
-                                                moment(person.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6"></td>
+                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -231,15 +227,10 @@
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
-                                        <tr v-for="person in this.visitorCheckOuts.data" :key="person.id">
-                                            <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
-                                                person.visitor.email }}
-                                            </td>
-                                            <td
-                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
-                                                {{ person.visitor.name }}</td>
-                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
-                                                moment(person.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                        <tr>
+                                            <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500"></td>
+                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6"></td>
+                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500"></td>
                                         </tr>
                                     </tbody>
                                 </table>

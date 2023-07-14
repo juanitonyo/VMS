@@ -27,16 +27,14 @@ class SMSTemplateRequest extends FormRequest
     public function createRules() :array {
         return [
             'message' => 'required|unique:s_m_s_templates|max:100',
-            'description' => 'required',
-            'status' => 'required',
+            'description' => 'required'
         ];
     }
 
     public function updateRules(){
         return [
             'params.data.message' => 'required|max:100|unique:s_m_s_templates,id,'.$this->get('id'),
-            'params.data.description' => 'required',
-            'params.data.status' => 'required',
+            'params.data.description' => 'required'
         ];
     }
 }

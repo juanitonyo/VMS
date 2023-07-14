@@ -13,6 +13,9 @@ import VueQrcodeReader from "vue3-qrcode-reader";
 import VueCookies from "vue-cookies";
 import Pusher from "pusher-js";
 
+import Multiselect from "vue-multiselect";
+// import "vue-multiselect/dist/vue-multiselect.min.css";
+
 import moshaToast from "mosha-vue-toastify";
 import "mosha-vue-toastify/dist/style.css";
 import "vue-select/dist/vue-select.css";
@@ -36,6 +39,7 @@ const pinia = createPinia();
 pinia.use(piniaPluginPersistedstate);
 app.config.globalProperties.$axios = axios;
 app.use(Router);
+app.use('multiselect', Multiselect);
 app.use(pinia, moshaToast, Form);
 app.use(VueProgressBar, options);
 // app.use(CKEditor);

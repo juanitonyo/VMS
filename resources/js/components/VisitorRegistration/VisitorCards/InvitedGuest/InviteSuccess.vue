@@ -5,7 +5,7 @@
             <div class="text-[10px] text-blue-900 flex flex-col items-center text-center gap-y-3">
                 <Vue3Lottie animationLink="https://assets1.lottiefiles.com/packages/lf20_rc5d0f61.json" :loop="false"
                     :width="150" :height="150" />
-                <p class="text-base tracking-wide text-green-500 font-bold">Checked-In</p>
+                <p class="text-base tracking-wide text-green-500 font-bold">Successful Checked-In</p>
             </div>
             <div class="text-[10px] text-blue-900 flex flex-col text-center">
                 <p>Time recorded</p>
