@@ -272,6 +272,10 @@
     padding-left: 7px;
 }
 
+.sliderPurpose .vs__actions{
+    padding-right: 10px;
+}
+
 .sliderPurpose .vs__search::placeholder{
     font-size: 12px;
     color: #808080;
@@ -304,8 +308,12 @@
     font-size: 12px;
 }
 
-.vs__open-indicator{
+.user-tag .multiselect__select{
     display: none;
+}
+
+.user-tag .multiselect__strong{
+    font-size: 12px;
 }
 
 .user-tag .multiselect__tag{
@@ -324,7 +332,7 @@
     font-size: 12px;
     color: #929292;
     margin: 0;
-    padding: 0;
+    padding-top: 2px;
 }
 
 .user-tag .multiselect__input::placeholder{
@@ -338,6 +346,8 @@
     justify-content: center;
     text-align: center;
     width: 22px;
+    background-color: #5c74ed;
+    color: white;
 }
 
 
