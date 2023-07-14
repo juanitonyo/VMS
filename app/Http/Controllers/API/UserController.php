@@ -89,15 +89,8 @@ class UserController extends BaseController
         $validated['password'] = $hashPass;
         $data = User::create($validated);
 
-        // if ($request->building) {
-        //     UserBuildings::create([
-        //         'user_id' => $data->id,
-        //         'building_id' => $request->building['value']
-        //     ]);
-        // }
-
-        foreach ($request->building as $building) {
-            $data->building()->sync($building['value']);
+        foreach($request->building as $building) {
+            $data->building()->sync($building['value'], false);
         }
 
         return $this->sendResponse($data, "Saved data to table.");
@@ -122,16 +115,21 @@ class UserController extends BaseController
     /**
      * Update the specified resource in storage.
      */
-    public function update(UserRequest $request, $id)
-    {
-        $data = User::findOrFail($id)->update([
+    public function update(Request $request, $id)
+    {   
+        $user = User::findOrFail($id);
+        $user->update([
             'name' => $request->params['data']['name'],
             'email' => $request->params['data']['email'],
             'role_id' => $request->params['data']['role_id'],
             'status' => $request->params['data']['status']
         ]);
 
-        return $this->sendResponse($request->params['data']['building'], "Updated Data");
+        foreach ($request->params['data']['building'] as $building) {
+            $user->building()->sync($building['value'], false);
+        }
+
+        return $this->sendResponse($user, "Updated Data");
     }
 
     /**

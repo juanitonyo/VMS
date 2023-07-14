@@ -64,6 +64,7 @@
 
 <script>
 import { TailwindPagination } from 'laravel-vue-pagination';
+import { Form } from 'vform';
 import axios from 'axios';
 import moment from 'moment';
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
@@ -72,6 +73,12 @@ import DateFilter from '../Elements/DateFilter/DateFilter.vue';
 export default {
 
     name: 'Delivery',
+    components: {
+        moment,
+        TailwindPagination,
+        DialogVue,
+        DateFilter
+    },
     props: {
         data: {
             type: Object,
@@ -81,14 +88,13 @@ export default {
     data() {
         return {
             data: {},
-            pop: false
+            pop: false,
+            form: new Form({
+                courier_name: '',
+                rider_name: '',
+                contact: ''
+            }),
         }
-    },
-    components: {
-        moment,
-        TailwindPagination,
-        DialogVue,
-        DateFilter
     },
 
     methods: {
