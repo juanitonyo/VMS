@@ -169,7 +169,7 @@
                                         <div class="text-[10px] text-red-600 dark:text-red-500 mt-1"
                                             v-show="form.errors && (form.errors.has('email') ?? false)"
                                             v-html="form.errors && (form.errors.has('email') ?? false) ? form.errors.get('email') : ''" />
-                                        <span :class="form.errors.has('email') ? 'hidden' : ''">
+                                        <span :class="form.errors && (form.errors.has('email') ?? false) ? 'hidden' : ''">
                                             <p v-if="form.email" class="text-[10px]"
                                                 :class="isValidEmail ? 'text-green-500' : 'text-red-500'">{{ isValidEmail ?
                                                     'Email is Valid' : 'Email is Invalid' }}</p>
@@ -520,7 +520,14 @@ export default {
             this.editMode = true;
             this.open = !this.open;
             this.form = item;
-            this.form.role_id = { value: item.role.id, label: item.role.title }
+            this.form.role_id = { value: item.role.id, label: item.role.title };
+
+            this.form.building = item.building.map((building) => ({
+                value: building.id,
+                label: building.building_name,
+            }));
+
+            console.log(this.form.building);
         },
         approveUser() {
             axios.put('/api/user/' + this.form.id, {
@@ -538,7 +545,6 @@ export default {
         },
         updateUser() {
             this.form.role_id = this.form.role_id.value
-            this.form.building = this.form.building.value
 
             axios.put("/api/user/" + this.form.id, {
                 params: {
