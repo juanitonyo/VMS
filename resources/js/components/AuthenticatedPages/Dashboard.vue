@@ -95,13 +95,22 @@
                                             Checked In</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="person in this.visitorLogs.data" :key="person.id">
+                                <tbody v-for="person in this.visitorLogs.data" :key="person.id" class="divide-y divide-gray-200 bg-white">
+                                    <tr v-if="person.log_type == 'WalkIn'">
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
                                             person.visitor.email }}
                                         </td>
                                         <td class="whitespace-nowrap py-4 px-4 pr-3 text-xs font-medium text-gray-900">
                                             {{ person.visitor.name }}</td>
+                                        <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
+                                            person.status != -1 ? moment(person.created_at).format('MMMM Do YYYY, h:mm:ss a') : 'Disapproved' }}</td>
+                                    </tr>
+                                    <tr v-if="person.log_type == 'Invitee'">
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
+                                            person.invited.email }}
+                                        </td>
+                                        <td class="whitespace-nowrap py-4 px-4 pr-3 text-xs font-medium text-gray-900">
+                                            {{ person.invited.first_name + ' ' + person.invited.last_name }}</td>
                                         <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
                                             person.status != -1 ? moment(person.created_at).format('MMMM Do YYYY, h:mm:ss a') : 'Disapproved' }}</td>
                                     </tr>
@@ -139,14 +148,24 @@
                                             Checked Out</th>
                                     </tr>
                                 </thead>
-                                <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr v-for="person in this.visitorCheckOuts.data" :key="person.id">
+                                <tbody v-for="person in this.visitorCheckOuts.data" :key="person.id" class="divide-y divide-gray-200 bg-white">
+                                    <tr v-if="person.log_type == 'WalkIn'">
                                         <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
                                             person.visitor.email }}
                                         </td>
                                         <td
                                             class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
                                             {{ person.visitor.name }}</td>
+                                        <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
+                                            moment(person.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                    </tr>
+                                    <tr v-if="person.log_type == 'Invitee'">
+                                        <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{
+                                            person.invited.email }}
+                                        </td>
+                                        <td
+                                            class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">
+                                            {{ person.invited.first_name + ' ' + person.invited.last_name }}</td>
                                         <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{
                                             moment(person.updated_at).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                     </tr>
@@ -176,22 +195,17 @@
                                     <thead class="bg-gray-50">
                                         <tr>
                                             <th scope="col"
-                                                class="px-3 py-3.5 text-left text-sm font-semibold text-gray-900">
-                                                Email</th>
-                                            <th scope="col"
-                                                class="py-3.5 pl-4 pr-3 text-left text-sm font-semibold text-gray-900">
-                                                Name</th>
+                                                class="py-3.5 pl-4 text-center pr-3 text-left text-sm font-semibold text-gray-900">
+                                                Courier Name</th>
                                             <th scope="col"
                                                 class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                                Target Date</th>
+                                                Expected Date</th>
                                         </tr>
                                     </thead>
                                     <tbody class="divide-y divide-gray-200 bg-white">
-                                        <tr>
-                                            <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500"></td>
-                                            <td
-                                                class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6"></td>
-                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500"></td>
+                                        <tr v-for="person in this.expectedDelivery.data" :key="person.id">
+                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{ person.courier_name }}</td>
+                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{ person.target_date }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -226,11 +240,11 @@
                                                 Target Date</th>
                                         </tr>
                                     </thead>
-                                    <tbody class="divide-y divide-gray-200 bg-white">
+                                    <tbody v-for="person in this.expectedGuest.data" :key="person.id" class="divide-y divide-gray-200 bg-white">
                                         <tr>
-                                            <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500"></td>
-                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6"></td>
-                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500"></td>
+                                            <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.email }}</td>
+                                            <td class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">{{ person.first_name + ' ' + person.last_name }}</td>
+                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{ moment(person.target_date).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -268,6 +282,8 @@ export default {
             visitorData: {},
             visitorCheckOuts: {},
             accountsCheckIn: {},
+            expectedGuest: {},
+            expectedDelivery: {},
             numVisitors: '',
             numLogs: '',
             numCheckouts: '',
@@ -277,8 +293,8 @@ export default {
     },
     methods: {
         getVisitors() {
-            if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
+            if (userAuthStore().user.role_id == 3) {
+                axios.get('/api/get-index-log-by-user-id?id=' + userAuthStore().user.id + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore + '&limit=5')
                     .then((data) => {
                         this.visitors = data.data.data;
                         this.numVisitors = this.visitors.total;
@@ -287,7 +303,7 @@ export default {
                     });
             }
             else {
-                axios.get('/api/visitors/filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
+                axios.get('/api/visitor-logs?filter1=' + this.filterOn + '&filter2=' + this.filterBefore + '&limit=5')
                     .then((data) => {
                         this.visitors = data.data.data;
                         this.numVisitors = this.visitors.total;
@@ -297,8 +313,8 @@ export default {
             }
         },
         getVisitorLogs(page = 1) {
-            if (userAuthStore().user.role_id == 2) {
-                axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
+            if (userAuthStore().user.role_id == 3) {
+                axios.get('/api/get-visitors-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore + '&limit=5')
                     .then((data) => {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
@@ -307,7 +323,7 @@ export default {
                     });
             }
             else {
-                axios.get('/api/visitor-logs?page=' + page + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
+                axios.get('/api/visitor-logs?page=' + page + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore + '&limit=5') 
                     .then((data) => {
                         this.visitorLogs = data.data.data;
                         this.numLogs = this.visitorLogs.total;
@@ -317,7 +333,7 @@ export default {
             }
         },
         getCheckOuts(page = 1) {
-            if (userAuthStore().user.role_id == 2) {
+            if (userAuthStore().user.role_id == 3) {
                 axios.get('/api/get-checkouts-by-user?page=' + page + '&id=' + userAuthStore().user.id + '&filter1=' + this.filterOn + '&filter2=' + this.filterBefore)
                     .then((data) => {
                         this.visitorCheckOuts = data.data.data;
@@ -337,6 +353,44 @@ export default {
             }
         },
 
+        getExpectedGuests(page = 1) {
+            if (userAuthStore().user.role_id == 3) {
+                axios.get('/api/get-expected-guest-by-id?page=' + page + '&id=' + userAuthStore().user.id)
+                    .then((data) => {
+                        this.expectedGuest = data.data.data;
+                    }).catch((e) => {
+                        
+                    })
+            }
+            else {
+                axios.get('/api/get-expected-guest?page=' + page)
+                    .then((data) => {
+                        this.expectedGuest = data.data.data;
+                    }).catch((e) => {
+
+                    })
+            }
+        },
+
+        getExpectedDeliveries(page = 1) {
+            if (userAuthStore().user.role_id == 3) {
+                axios.get('/api/get-expected-delivery-by-id?page=' + page + '&id=' + userAuthStore().user.id)
+                    .then((data) => {
+                        this.expectedDelivery = data.data.data;
+                    }).catch((e) => {
+                        
+                    })
+            }
+            else {
+                axios.get('/api/get-expected-delivery?page=' + page)
+                    .then((data) => {
+                        this.expectedDelivery = data.data.data;
+                    }).catch((e) => {
+
+                    })
+            }
+        },
+
         filterData({ value1, value2 }) {
             this.filterOn = value1
             this.filterBefore = value2
@@ -352,6 +406,8 @@ export default {
         this.getVisitorLogs();
         this.getVisitors();
         this.getCheckOuts();
+        this.getExpectedGuests();
+        this.getExpectedDeliveries();
     },
     beforeMount() {
         this.permissions = {

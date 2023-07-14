@@ -26,6 +26,8 @@ class ExpectedDeliveriesRequest extends FormRequest
 
     public function createRules() :array {
         return [
+            'courier_name' => 'required',
+            'building_id' => 'required',
             'target_date' => 'required'
         ];
     }

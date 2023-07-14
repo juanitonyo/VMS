@@ -22,7 +22,7 @@ return new class extends Migration
             $table->string('ref_code');
             $table->string('location');
             $table->string('contact');
-            $table->boolean('status');
+            $table->integer('status')->default(0);
             $table->string('companions')->nullable();
             $table->dateTime('target_date');
             $table->timestamps();

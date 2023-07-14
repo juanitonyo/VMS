@@ -22,32 +22,22 @@
                             <table class="min-w-full divide-y divide-gray-300">
                                 <thead class="bg-gray-50">
                                     <tr>
-                                        <th scope="col"
-                                            class="w-56 px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Rider Name</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Mobile</th>
+                                            Company/Courier</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Company</th>
-                                        <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Building/s</th>
+                                            Building</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Expected Date</th>
-                                        <th scope="col" class="px-2 py-3.5 text-center text-sm font-semibold text-gray-900">
-                                            Status</th>
                                         <th scope="col" class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
                                             Actions</th>
 
                                     </tr>
                                 </thead>
                                 <tbody class="divide-y divide-gray-200 bg-white">
-                                    <tr>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500"></td>
+                                    <tr v-for="item in data.data" :key="item.id">
+                                        <td class="text-center px-3 py-4 text-xs text-gray-900">{{ item.courier_name }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building.building_name }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.target_date).format('MMMM Do YYYY, h:mm:ss a') }}</td>
                                         <td
                                             class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 items-center justify-center">
                                             <a class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
@@ -90,25 +80,32 @@
 
     <DialogVue :isOpen="openNotif" :dialogTitle="'Delivery Notification'" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
+            <form @submit.prevent="saveDelivery">
             <div class="space-y-3">
                 <div class="space-y-2">
                     <label for="courier_name">Courier / Company</label>
-                    <input type="text" class="pl-2 h-8 w-full border border-black focus:outline-none rounded-md">
+                    <input v-model="form.courier_name" type="text" class="pl-2 h-8 w-full border border-black focus:outline-none rounded-md">
+                </div>
+
+                <div class="space-y-2">
+                    <label for="building">Building</label>
+                    <v-select v-model="form.building_id" type="text" placeholder="Search" :options="buildings" label="label"
+                        class="border border-black rounded-md"></v-select>
                 </div>
 
                 <div class="space-y-2">
                     <label for="date">Expected Delivery Date</label>
-                    <input type="date" class="pl-2 h-8 w-full border border-black focus:outline-none rounded-md">
+                    <input v-model="form.target_date" type="date" class="pl-2 h-8 w-full border border-black focus:outline-none rounded-md">
                 </div>
 
                 <div class="space-y-2">
                     <label for="date">Details (Optional)</label>
-                    <textarea type="date" class="p-2 w-full border border-black focus:outline-none rounded-md"></textarea>
+                    <textarea v-model="form.remarks" type="date" class="p-2 w-full border border-black focus:outline-none rounded-md"></textarea>
                 </div>
             </div>
 
             <div class="mt-4 flex gap-1">
-                <button type="button"
+                <button type="submit"
                     class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
                     Send
                 </button>
@@ -118,30 +115,92 @@
                     Close
                 </button>
             </div>
-
+            </form>
         </template>
     </DialogVue>
 </template>
 
 <script>
 import DialogVue from '@/components/Elements/Modals/Dialog.vue'
+import { Form } from 'vform';
+import axios from 'axios';
+import moment from 'moment';
+import { TailwindPagination } from 'laravel-vue-pagination';
+import { userAuthStore } from "@/store/auth";
 
 export default {
 
     components: {
-        DialogVue
+        DialogVue,
+        TailwindPagination,
+        moment
+    },
+
+    props: {
+        data: {
+            type: Object,
+            default: {}
+        }
     },
 
     data() {
         return {
-            openNotif: false
+            data: {},
+            buildings: [],
+            openNotif: false,
+            form: new Form({
+                courier_name: '',
+                building_id: '',
+                user_id: '',
+                remarks: '',
+                target_date: '',
+                status: true
+            })
         }
     },
 
     methods: {
         notif() {
             this.openNotif = !this.openNotif;
-        }
+            this.getBuildings();
+        },
+
+        saveDelivery() {
+            this.form.building_id = this.form.building_id.value
+            this.form.user_id = userAuthStore().user.id
+
+            this.form.post('/api/expected-deliveries')
+                .then((data) => {
+                    this.openNotif = !this.openNotif
+                    this.getData();
+                }).catch((e) => {
+
+                })
+        },
+
+        getBuildings() {
+            axios.get('/api/get-buildings/')
+                .then((data) => {
+                    this.buildings = data.data.data
+                }).catch((error) => {
+
+                })
+        },
+
+        async getData(page = 1) {
+            await axios.get('/api/expected-deliveries?page=' + page)
+                .then((data) => {
+                    this.data = data.data.data
+                }).catch((e) => {
+
+                })
+        },
+    },
+
+    created() {
+        this.getData();
+        this.getBuildings();
+        this.moment = moment;
     }
 }
 

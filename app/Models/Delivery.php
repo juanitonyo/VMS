@@ -13,5 +13,6 @@ class Delivery extends Model
         'courier_name',
         'rider_name',
         'contact',
+        'status'
     ];
 }

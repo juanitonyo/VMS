@@ -19,7 +19,7 @@ class VisitorLogsController extends BaseController
     public function index(Request $request)
     {
 
-        $data = VisitorLogs::with('visitor')
+        $data = VisitorLogs::with('visitor', 'invited')
             ->where([
                 ['created_at', '>=', $request->filter1],
                 ['created_at', '<=', $request->filter2],
@@ -33,7 +33,7 @@ class VisitorLogsController extends BaseController
     public function getVisitorLogs(Request $request)
     {
         if($request->search) {
-            $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')
+            $data = VisitorLogs::with(['visitor', 'user', 'building', 'visitType', 'invited'])
                 ->where([
                     ['created_at', '>=', $request->filter1],
                     ['created_at', '<=', $request->filter2],
@@ -47,11 +47,15 @@ class VisitorLogsController extends BaseController
                 ->orWhereHas('visitType', function ($query) use ($request) {
                     $query->where('name', 'LIKE', '%'.$request->search.'%');
                 })
+                ->orWhereHas('invited', function ($query) use ($request) {
+                    $query->where('first_name', 'LIKE', '%'.$request->search.'%')->orWhere('first_name', 'LIKE', '%'.$request->search.'%');
+                })
                 ->latest()
                 ->paginate(10);
             return $this->sendResponse($data, "All Visitor Logs in Table");
         }
-        $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')
+        
+        $data = VisitorLogs::with(['visitor', 'user', 'building', 'visitType', 'invited'])
             ->where([
                 ['created_at', '>=', $request->filter1],
                 ['created_at', '<=', $request->filter2],
@@ -73,7 +77,7 @@ class VisitorLogsController extends BaseController
     }
 
     public function totalCheckOut(Request $request) {
-        $data = VisitorLogs::with('visitor')->where('is_checked_out', 1)->where([
+        $data = VisitorLogs::with('visitor', 'invited')->where('is_checked_out', 1)->where([
             ['created_at', '>=', $request->filter1],
             ['created_at', '<=', $request->filter2],
         ])->latest()->paginate(5);
@@ -81,7 +85,7 @@ class VisitorLogsController extends BaseController
     }
     
     public function getIndexByUserID(Request $request) {
-        $data = VisitorLogs::with('visitor')->where('user_id', $request->id)->where([
+        $data = VisitorLogs::with('visitor', 'invited')->where('user_id', $request->id)->where([
             ['created_at', '>=', $request->filter1],
             ['created_at', '<=', $request->filter2],
         ])->latest()->paginate($request->limit);
@@ -90,7 +94,7 @@ class VisitorLogsController extends BaseController
 
     public function getVisitorLogsByUserID(Request $request) {
         if($request->search) {
-            $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')
+            $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType', 'invited')
                 ->where('user_id', $request->id)
                 ->where([
                     ['created_at', '>=', $request->filter1],
@@ -110,7 +114,7 @@ class VisitorLogsController extends BaseController
             return $this->sendResponse($data, "All Visitor Logs in Table");
         }
 
-        $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')
+        $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType', 'invited')
                 ->where('user_id', $request->id)
                 ->where([
                     ['created_at', '>=', $request->filter1],
@@ -122,7 +126,7 @@ class VisitorLogsController extends BaseController
     }
 
     public function getTotalCheckoutForUser(Request $request) {
-        $data = VisitorLogs::with('visitor')->where([
+        $data = VisitorLogs::with(['visitor', 'invited'])->where([
             'user_id' => $request->id,
             'is_checked_out' => 1
         ])->where([

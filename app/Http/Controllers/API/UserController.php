@@ -26,7 +26,6 @@ class UserController extends BaseController
     public function index(Request $request)
     {
         $data = User::with('building', 'role')
-            ->where('status', 1)
             ->where('name', 'LIKE', '%'.$request->search.'%')
             ->orWhere('email', 'LIKE', '%'.$request->search.'%')
             ->orWhere(function ($query) use ($request) {
@@ -88,7 +87,7 @@ class UserController extends BaseController
         $data = User::create($validated);
 
         foreach($request->building as $building) {
-            $data->building()->sync($building['value'], false);
+            $data->building()->sync([$building['value']], false);
         }
 
         return $this->sendResponse($data, "Saved data to table.");
@@ -123,9 +122,13 @@ class UserController extends BaseController
             'status' => $request->params['data']['status']
         ]);
 
+        $buildingTemp = [];
+
         foreach ($request->params['data']['building'] as $building) {
-            $user->building()->sync($building['value'], false);
+            $buildingTemp[] = $building['value'];
         }
+
+        $user->building()->sync($buildingTemp);
 
         return $this->sendResponse($user, "Updated Data");
     }

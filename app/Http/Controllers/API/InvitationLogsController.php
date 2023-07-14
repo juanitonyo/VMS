@@ -16,9 +16,33 @@ class InvitationLogsController extends BaseController
      */
     public function index()
     {
-        $data = InvitationLogs::with(['building', 'visitType', 'latestLog'])->paginate(10);
+        $data = InvitationLogs::with(['building', 'visitType', 'latestLog'])
+        ->paginate(10);
 
         return $this->sendResponse($data, "Fetched data in table.");
+    }
+
+    public function getExpectedGuest(Request $request) {
+        $data = InvitationLogs::with(['latestLog'])
+            ->whereHas('latestLog', function ($query) {
+                $query->where('is_checked_out', false);
+            })
+            ->latest()
+            ->paginate(5);
+
+        return $this->sendResponse($data, 'Fetched data.');
+    }
+    
+    public function getExpectedGuestByID(Request $request) {
+        $data = InvitationLogs::with(['latestLog'])
+            ->where('user_id', $request->id)
+            ->whereHas('latestLog', function ($query) {
+                $query->where('is_checked_out', false);
+            })
+            ->latest()
+            ->paginate(5);
+
+        return $this->sendResponse($data, 'Fetched data.');
     }
 
     public function getInvitation(Request $request) {

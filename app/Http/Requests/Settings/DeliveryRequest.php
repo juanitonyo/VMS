@@ -29,7 +29,6 @@ class DeliveryRequest extends FormRequest
             'courier_name' => 'required',
             'rider_name' => 'required',
             'contact' => 'required|unique:deliveries|max:100',
-
         ];
     }
 
@@ -38,6 +37,14 @@ class DeliveryRequest extends FormRequest
             'params.data.courier_name' => 'required',
             'params.data.rider_name' => 'required',
             'params.data.contact' => 'required|max:100|unique:deliveries,id,'.$this->get('id')
+        ];
+    }
+
+    public function messages() {
+        return [
+            'params.data.courier_name.required' => 'The courier name field is required.',
+            'params.data.rider_name.required' => 'The rider name field is required',
+            'params.data.contact.required' => 'The contact field is required.'
         ];
     }
 }
