@@ -18,6 +18,7 @@ class VisitorLogsController extends BaseController
      */
     public function index(Request $request)
     {
+
         $data = VisitorLogs::with('visitor')
             ->where([
                 ['created_at', '>=', $request->filter1],

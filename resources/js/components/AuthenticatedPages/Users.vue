@@ -171,13 +171,13 @@
                                             v-html="form.errors && (form.errors.has('email') ?? false) ? form.errors.get('email') : ''" />
                                         <span :class="form.errors && (form.errors.has('email') ?? false) ? 'hidden' : ''">
                                             <p v-if="form.email" class="text-[10px]"
-                                                :class="isValidEmail ? 'text-green-500' : 'text-red-500'">{{ isValidEmail ?
+                                                :class="isValidEmail ? 'text-green-500' : 'text-red-600'">{{ isValidEmail ?
                                                     'Email is Valid' : 'Email is Invalid' }}</p>
                                         </span>
                                     </div>
                                 </div>
                                 <div class="relative">
-                                    <input v-model="form.email" type="email" name="email" id="email"
+                                    <input v-model="form.email" type="text" name="email" id="email"
                                         :class="[form.errors && (form.errors.has('email') ?? false) ? 'bg-red-50 border-red-500 text-red-900 placeholder-red-700' : 'focus:outline-none text-gray-900 placeholder:text-gray-400', 'block w-full px-3 rounded-md border border-gray-300 py-1 text-xs sm:leading-6']" />
                                 </div>
                             </div>
@@ -202,7 +202,8 @@
                             <div class="user-tag">
                                 <multiselect v-model="form.building" tag-placeholder="Add this as new tag" limit="2"
                                     placeholder="Search" label="label" :options="buildings" track-by="value"
-                                    :multiple="true" :taggable="true" tag-position="bottom" :max-height="160" class="text-xs">
+                                    :multiple="true" :taggable="true" tag-position="bottom" :max-height="160"
+                                    class="text-xs">
                                 </multiselect>
                             </div>
                             <span class="text-xs/2 text-red-600 dark:text-red-500"
@@ -281,13 +282,13 @@
                                         <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">
                                             <span v-for="(building, index) in account.building" :key="building.id">
                                                 <p>{{ building.building_name }}</p>
-                                                <br v-if="index !== (account.building.length - 1)">
+                                                <p v-if="index !== (account.building.length - 1)"></p>
                                             </span>
                                         </td>
                                         <td class="w-64 break-all px-3 py-4 text-xs text-gray-500">
                                             <span v-for="(building, index) in account.building" :key="building.id">
                                                 <p>{{ building.address }}</p>
-                                                <br v-if="index !== (account.building.length - 1)">
+                                                <p v-if="index !== (account.building.length - 1)"></p>
                                             </span>
                                         </td>
                                         <td class="w-64 break-all px-3 py-4 text-xs text-center text-gray-500">{{
@@ -337,15 +338,15 @@
             <textarea name="reason" id="reason" class="w-full h-36 rounded-md focus:outline-none border p-2 text-sm" />
 
             <div class="mt-4 flex gap-1">
-                <button @click.prevent="approveUser" type="button"
-                    class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
-                    {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
-                        : 'Disapprove' : statusChoice }}
-                </button>
                 <button type="button"
-                    class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90"
+                    class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50"
                     @click.prevent="this.show = !this.show">
                     Close
+                </button>
+                <button @click.prevent="approveUser" type="button"
+                    class="inline-flex w-full justify-center rounded-md bg-gray-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-gray-800/90">
+                    {{ statusChoice == 'Approval' || statusChoice == 'Disapproval' ? statusChoice == 'Approval' ? 'Approve'
+                        : 'Disapprove' : statusChoice }}
                 </button>
             </div>
 
@@ -530,6 +531,11 @@ export default {
             console.log(this.form.building);
         },
         approveUser() {
+            this.form.building = this.form.building.map((building) => ({
+                value: building.id,
+                label: building.building_name,
+            }));
+
             axios.put('/api/user/' + this.form.id, {
                 params: {
                     data: this.form,

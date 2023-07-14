@@ -25,26 +25,35 @@ class UserController extends BaseController
      */
     public function index(Request $request)
     {
+        if($request->search) {
+            $data = User::with('building', 'role')
+                ->where('status', 1)
+                ->where('name', 'LIKE', '%'.$request->search.'%')
+                ->orWhere('email', 'LIKE', '%'.$request->search.'%')
+                ->orWhere(function ($query) use ($request) {
+                    if ($request->search === 'active') {
+                        $query->where('status', true);
+                    } elseif ($request->search === 'inactive') {
+                        $query->where('status', false);
+                    }
+                })
+                ->orWhereHas('building', function ($query) use ($request) {
+                    $query->where('building_name', 'LIKE', '%'.$request->search.'%');
+                })
+                ->orWhereHas('role', function ($query) use ($request) {
+                    $query->where('title', 'LIKE', '%'.$request->search.'%');
+                })
+                ->orderBy('name', 'asc')
+                ->paginate($request->limit);
+    
+            return $this->sendResponse($data, "All users in array");
+        }
+
         $data = User::with('building', 'role')
             ->where('status', 1)
-            ->where('name', 'LIKE', '%' . $request->search . '%')
-            ->orWhere('email', 'LIKE', '%' . $request->search . '%')
-            ->orWhere(function ($query) use ($request) {
-                if ($request->search === 'active') {
-                    $query->where('status', true);
-                } elseif ($request->search === 'inactive') {
-                    $query->where('status', false);
-                }
-            })
-            ->orWhereHas('building', function ($query) use ($request) {
-                $query->where('building_name', 'LIKE', '%' . $request->search . '%');
-            })
-            ->orWhereHas('role', function ($query) use ($request) {
-                $query->where('title', 'LIKE', '%' . $request->search . '%');
-            })
             ->orderBy('name', 'asc')
             ->paginate($request->limit);
-
+    
         return $this->sendResponse($data, "All users in array");
     }
 
@@ -53,16 +62,14 @@ class UserController extends BaseController
         return Excel::download(new UserExport, 'users.xlsx', \Maatwebsite\Excel\Excel::XLSX);
     }
 
-    public function syncHost(Request $request)
-    {
+    public function syncHost(Request $request) {
 
         $data = User::where('id', $request->id)->with('isHost', 'building')->first();
-
+        
         return $this->sendResponse($data, "Fetched data from table");
     }
 
-    public function getAllPendingUsers()
-    {
+    public function getAllPendingUsers() {
         $data = User::where('status', 0)->with('building')->get();
 
         return $this->sendResponse($data, "Pending Users.");

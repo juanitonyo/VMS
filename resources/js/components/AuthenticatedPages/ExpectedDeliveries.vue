@@ -109,13 +109,13 @@
 
             <div class="mt-4 flex gap-1">
                 <button type="button"
-                    class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
-                    Send
-                </button>
-                <button type="button"
-                    class="inline-flex w-full justify-center rounded-md bg-blue-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90"
+                    class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50"
                     @click.prevent="this.openNotif = !this.openNotif">
                     Close
+                </button>
+                <button type="button"
+                    class="inline-flex w-full justify-center rounded-md bg-blue-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">
+                    Send
                 </button>
             </div>
 

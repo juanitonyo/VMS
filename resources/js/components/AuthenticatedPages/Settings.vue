@@ -10,10 +10,10 @@
                 </select>
             </div>
             <ul
-                class="hidden text-sm font-medium text-center text-gray-500 divide-x divide-gray-200 rounded-lg shadow sm:flex dark:divide-gray-200 dark:text-gray-400">
+                class="hidden text-sm font-medium text-center text-gray-500 rounded-lg sm:flex dark:text-gray-400">
                 <li class="w-full" v-for="(item, index) in tabs" :key="item.name">
                     <a href="#" @click.prevent="setTab(item.name)"
-                        :class="[index == 0 ? 'rounded-l-lg' : (tabs.length - 1 == index ? 'rounded-r-lg' : ''), currentTab == item.name ? 'bg-blue-800 text-white border border-blue-800 ' : 'border border-blue-800 text-black', 'inline-block w-full p-4 focus:outline-none']"
+                        :class="[index == 0 ? 'rounded-l-lg' : (tabs.length - 1 == index ? 'rounded-r-lg' : ''), currentTab == item.name ? 'bg-blue-800 text-white ' : 'text-black', 'inline-block w-full p-4 focus:outline-none border border-gray-300']"
                         aria-current="page">
                         {{ item.name }}
                     </a>
