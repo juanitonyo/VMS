@@ -24,7 +24,7 @@
             <!-- Sidebar component, swap this element with another sidebar if you like -->
             <div class="flex grow flex-col gap-y-10 overflow-y-auto bg-white px-6 pb-4 font-poppins">
               <a href="/app/dashboard" class="cursor-pointer flex h-16 shrink-0 items-center pt-5 px-2">
-                <img class="h-[70px] w-[200px]" src="/logo/vms_logo.png" alt="VMS" />
+                <img class="h-[70px] w-[200px]" src="/logo/vms_logo.png" />
               </a>
 
               <div class="text-center">

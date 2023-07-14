@@ -2,7 +2,7 @@
   <div class="hidden lg:fixed lg:inset-y-0 lg:flex lg:w-72 lg:flex-col border-r">
     <div class="flex grow flex-col gap-y-10 overflow-y-auto bg-white px-6 pb-4">
       <a href="/app/dashboard" class="cursor-pointer flex items-center mt-5 px-2 focus:outline-none">
-        <img class="h-[70px] w-[200px]" src="/logo/vms_logo.png" alt="VMS" />
+        <img class="h-[70px] w-[200px]" src="/logo/vms_logo.png" />
       </a>
 
       <div class="text-center">

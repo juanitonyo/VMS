@@ -423,7 +423,7 @@ export default {
             isFormComplete: false,
             show: false,
             size: '',
-            search: ''
+            search: '',
         };
     },
 
