@@ -18,6 +18,8 @@ class VisitorLogsController extends BaseController
      */
     public function index(Request $request)
     {
+
+    dd($request);
         $data = VisitorLogs::with('visitor')
             ->where([
                 ['created_at', '>=', $request->filter1],
@@ -31,20 +33,30 @@ class VisitorLogsController extends BaseController
 
     public function getVisitorLogs(Request $request)
     {
+        if($request->search) {
+            $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')
+                ->where([
+                    ['created_at', '>=', $request->filter1],
+                    ['created_at', '<=', $request->filter2],
+                ])
+                ->whereHas('visitor', function ($query) use ($request) {
+                    $query->where('name', 'LIKE', '%'.$request->search.'%');
+                })
+                ->orWhereHas('building', function ($query) use ($request) {
+                    $query->where('building_name', 'LIKE', '%'.$request->search.'%');
+                })
+                ->orWhereHas('visitType', function ($query) use ($request) {
+                    $query->where('name', 'LIKE', '%'.$request->search.'%');
+                })
+                ->latest()
+                ->paginate(10);
+            return $this->sendResponse($data, "All Visitor Logs in Table");
+        }
         $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')
             ->where([
                 ['created_at', '>=', $request->filter1],
                 ['created_at', '<=', $request->filter2],
             ])
-            ->orWhereHas('visitor', function ($query) use ($request) {
-                $query->where('name', 'LIKE', '%'.$request->search.'%');
-            })
-            ->orWhereHas('building', function ($query) use ($request) {
-                $query->where('building_name', 'LIKE', '%'.$request->search.'%');
-            })
-            ->orWhereHas('visitType', function ($query) use ($request) {
-                $query->where('name', 'LIKE', '%'.$request->search.'%');
-            })
             ->latest()
             ->paginate(10);
         return $this->sendResponse($data, "All Visitor Logs in Table");
@@ -78,24 +90,36 @@ class VisitorLogsController extends BaseController
     }
 
     public function getVisitorLogsByUserID(Request $request) {
+        if($request->search) {
+            $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')
+                ->where('user_id', $request->id)
+                ->where([
+                    ['created_at', '>=', $request->filter1],
+                    ['created_at', '<=', $request->filter2],
+                ])
+                ->orWhereHas('visitor', function ($query) use ($request) {
+                    $query->where('name', 'LIKE', '%'.$request->search.'%');
+                })
+                ->orWhereHas('building', function ($query) use ($request) {
+                    $query->where('building_name', 'LIKE', '%'.$request->search.'%');
+                })
+                ->orWhereHas('visitType', function ($query) use ($request) {
+                    $query->where('name', 'LIKE', '%'.$request->search.'%');
+                })
+                ->latest()
+                ->paginate($request->limit);
+            return $this->sendResponse($data, "All Visitor Logs in Table");
+        }
+
         $data = VisitorLogs::with('visitor', 'user', 'building', 'visitType')
-            ->where('user_id', $request->id)
-            ->where([
-                ['created_at', '>=', $request->filter1],
-                ['created_at', '<=', $request->filter2],
-            ])
-            ->orWhereHas('visitor', function ($query) use ($request) {
-                $query->where('name', 'LIKE', '%'.$request->search.'%');
-            })
-            ->orWhereHas('building', function ($query) use ($request) {
-                $query->where('building_name', 'LIKE', '%'.$request->search.'%');
-            })
-            ->orWhereHas('visitType', function ($query) use ($request) {
-                $query->where('name', 'LIKE', '%'.$request->search.'%');
-            })
-            ->latest()
-            ->paginate($request->limit);
-        return $this->sendResponse($data, "All Visitor Logs in Table");
+                ->where('user_id', $request->id)
+                ->where([
+                    ['created_at', '>=', $request->filter1],
+                    ['created_at', '<=', $request->filter2],
+                ])
+                ->latest()
+                ->paginate($request->limit);
+            return $this->sendResponse($data, "All Visitor Logs in Table");
     }
 
     public function getTotalCheckoutForUser(Request $request) {
