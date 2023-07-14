@@ -530,6 +530,11 @@ export default {
             console.log(this.form.building);
         },
         approveUser() {
+            this.form.building = this.form.building.map((building) => ({
+                value: building.id,
+                label: building.building_name,
+            }));
+
             axios.put('/api/user/' + this.form.id, {
                 params: {
                     data: this.form,
