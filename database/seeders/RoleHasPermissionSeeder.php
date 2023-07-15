@@ -49,7 +49,7 @@ class RoleHasPermissionSeeder extends Seeder
                     break;
 
                     case 'unit-owner':
-                        $modules = ['dashboard', 'visitors', 'deliveries'];
+                        $modules = ['dashboard', 'visitors', 'deliveries', 'invite', 'expected'];
     
                         foreach ($modules as $module_key => $module) {
                             $permissions = \App\Models\Permissions::where('module', $module)->get();

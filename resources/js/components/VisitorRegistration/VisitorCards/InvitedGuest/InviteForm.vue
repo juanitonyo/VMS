@@ -19,7 +19,7 @@
                     <p class="text-[16px] text-blue-900 font-semibold leading-[20px]">Welcome back, {{ this.visitor.name
                     }}</p>
                     <p class="text-[9px] text-blue-800 font-light">Visit: Invitee</p>
-                    <p class="text-[9px] text-blue-800 font-light">Status: {{ this.visitor. }}</p>
+                    <p class="text-[9px] text-blue-800 font-light">Status: </p>
                 </div>
             </div>
 

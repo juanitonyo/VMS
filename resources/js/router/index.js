@@ -247,7 +247,7 @@ const routes = [
                 path: "/visitor-registration/index/:id",
                 component: VisitorHomepage,
                 meta: {
-                    title: `VMS | Visitor Registration`,
+                    title: `VMS | Visitor`,
                 },
             },
             {

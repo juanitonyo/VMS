@@ -23,10 +23,8 @@ class InvitationLogsController extends BaseController
     }
 
     public function getExpectedGuest(Request $request) {
-        $data = InvitationLogs::with(['latestLog'])
-            ->whereHas('latestLog', function ($query) {
-                $query->where('is_checked_out', false);
-            })
+        $data = InvitationLogs::with('latestLog')
+            ->where('target_date', '=', now()->startOfDay())
             ->latest()
             ->paginate(5);
 
@@ -34,11 +32,9 @@ class InvitationLogsController extends BaseController
     }
     
     public function getExpectedGuestByID(Request $request) {
-        $data = InvitationLogs::with(['latestLog'])
+        $data = InvitationLogs::with('latestLog')
+            ->where('target_date', '=', now()->startOfDay())
             ->where('user_id', $request->id)
-            ->whereHas('latestLog', function ($query) {
-                $query->where('is_checked_out', false);
-            })
             ->latest()
             ->paginate(5);
 

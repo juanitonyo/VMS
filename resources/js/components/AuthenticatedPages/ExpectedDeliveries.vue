@@ -36,8 +36,10 @@
                                 <tbody class="divide-y divide-gray-200 bg-white">
                                     <tr v-for="item in data.data" :key="item.id">
                                         <td class="text-center px-3 py-4 text-xs text-gray-900">{{ item.courier_name }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ item.building.building_name }}</td>
-                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{ moment(item.target_date).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{
+                                            item.building.building_name }}</td>
+                                        <td class="text-center px-3 py-4 text-xs text-gray-500">{{
+                                            moment(item.target_date).format('MMMM Do YYYY') }}</td>
                                         <td
                                             class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 items-center justify-center">
                                             <a class="approve text-white bg-green-400 rounded-md p-1 cursor-pointer">
@@ -81,44 +83,43 @@
     <DialogVue :isOpen="openNotif" :dialogTitle="'Delivery Notification'" :modalWidth="'max-w-lg'">
         <template v-slot:dialogBody>
             <form @submit.prevent="saveDelivery">
-            <div class="space-y-3">
-                <div class="space-y-2">
-                    <label for="courier_name">Courier / Company</label>
-                    <input v-model="form.courier_name" type="text" class="pl-2 h-8 w-full border border-black focus:outline-none rounded-md">
+                <div class="space-y-3">
+                    <div class="space-y-2">
+                        <label for="courier_name">Courier / Company</label>
+                        <input v-model="form.courier_name" type="text"
+                            class="pl-2 h-8 w-full border border-black focus:outline-none rounded-md">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="building">Building</label>
+                        <v-select v-model="form.building_id" type="text" placeholder="Search" :options="buildings"
+                            label="label" class="border border-black rounded-md"></v-select>
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="date">Expected Delivery Date</label>
+                        <input v-model="form.target_date" type="date"
+                            class="pl-2 h-8 w-full border border-black focus:outline-none rounded-md">
+                    </div>
+
+                    <div class="space-y-2">
+                        <label for="date">Details (Optional)</label>
+                        <textarea v-model="form.remarks" type="date"
+                            class="p-2 w-full border border-black focus:outline-none rounded-md"></textarea>
+                    </div>
                 </div>
 
-                <div class="space-y-2">
-                    <label for="building">Building</label>
-                    <v-select v-model="form.building_id" type="text" placeholder="Search" :options="buildings" label="label"
-                        class="border border-black rounded-md"></v-select>
+                <div class="mt-4 flex gap-1">
+                    <button type="button"
+                        class="inline-flex w-full justify-center rounded-md bg-blue-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90"
+                        @click.prevent="this.openNotif = !this.openNotif">
+                        Close
+                    </button>
+                    <button type="submit"
+                        class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
+                        Send
+                    </button>
                 </div>
-
-                <div class="space-y-2">
-                    <label for="date">Expected Delivery Date</label>
-                    <input v-model="form.target_date" type="date" class="pl-2 h-8 w-full border border-black focus:outline-none rounded-md">
-                </div>
-
-                <div class="space-y-2">
-                    <label for="date">Details (Optional)</label>
-                    <textarea v-model="form.remarks" type="date" class="p-2 w-full border border-black focus:outline-none rounded-md"></textarea>
-                </div>
-            </div>
-
-            <div class="mt-4 flex gap-1">
-                <button type="submit"
-                    class="inline-flex w-full justify-center rounded-md border border-gray-800 py-2 px-5 text-sm font-semibold text-gray-800 shadow-sm hover:bg-gray-50">
-                    Send
-                </button>
-                <button type="button"
-                    class="inline-flex w-full justify-center rounded-md bg-blue-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90"
-                    @click.prevent="this.openNotif = !this.openNotif">
-                    Close
-                </button>
-                <button type="button"
-                    class="inline-flex w-full justify-center rounded-md bg-blue-800 py-2 px-5 text-sm font-semibold text-white shadow-sm hover:bg-blue-800/90">
-                    Send
-                </button>
-            </div>
             </form>
         </template>
     </DialogVue>

@@ -41,7 +41,7 @@
                         <div class="buildingSelect flex flex-col gap-y-1">
                             <label for="buildingName" class="text-gray-400 text-[10px]">Building/Phase</label>
                             <v-select id="dropdown" :options="purpose" label="label" :disabled="this.log == 'Invitee'"
-                                class="text-[10px] border border-blue-700 rounded-[3px] pl-2 h-[28px] w-[165px]"></v-select>
+                                class="text-[10px] border border-blue-700 rounded-[3px] h-[28px] w-[165px]"></v-select>
                         </div>
 
                         <div class="flex flex-col gap-y-1">

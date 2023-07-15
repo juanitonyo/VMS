@@ -41,19 +41,14 @@
                                     </tr>
                                 </thead>
                                 <tbody v-for="invitation in data.data" :key="invitation.id" class="divide-y divide-gray-200 bg-white">
-                                    <tr v-if="this.data.data.length === 0">
-                                        <td class="text-center px-3 py-4 text-xs text-gray-900 sm:pl-6" colspan="7">
-                                            No data available
-                                        </td>
-                                    </tr>
                                     <tr>
                                         <td class="text-left px-3 py-4 text-xs text-gray-900 sm:pl-6 w-48">{{ invitation.first_name + ' ' + invitation.last_name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.building.building_name }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.visit_type.name }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.latest_log.status == 1 ? 'Approved' : 'Pending Approval' }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.latest_log ?? false ? invitation.latest_log.status == 1 ? 'Approved' : 'Pending Approval' : 'Pending' }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.latest_log ?? false ? moment(invitation.latest_log.created_at).format('MMMM Do YYYY, h:mm:ss a') : 'Not yet' }}</td>
                                         <td class="text-left px-3 py-4 text-xs text-gray-500">{{ invitation.latest_log ?? false ? invitation.latest_log.is_checked_out ? moment(invitation.latest_log.updated_at).format('MMMM Do YYYY, h:mm:ss a') : 'Not yet' : 'Not yet' }}</td>
-                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ moment(invitation.target_date).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                        <td class="text-left px-3 py-4 text-xs text-gray-500">{{ moment(invitation.target_date).format('MMMM Do YYYY') }}</td>
                                         <td
                                             class="relative text-center py-4 pl-3 pr-4 text-xs flex gap-1 w-full justify-center items-center">
                                             <!-- <button v-if="invitation.latest_log ?? false ? moment().isSameOrAfter(invitation.target_date) && invitation.latest_log.status == 0 : false" 

@@ -179,7 +179,8 @@
         <div class="flex items-center justify-end mt-3">
             <TailwindPagination :data="visitorCheckOuts" @pagination-change-page="getCheckOuts" />
         </div>
-        <div class="flex items-center gap-2 w-full">
+        
+        <div class="flex gap-2 w-full">
             <div id="deliveries" class="p-5 sm:px-6 lg:px-8 bg-white rounded-lg ring-1 ring-slate-900/10 mt-4 w-full">
                 <div class="sm:flex sm:items-center">
                     <div class="sm:flex-auto">
@@ -195,7 +196,7 @@
                                     <thead class="bg-gray-50">
                                         <tr>
                                             <th scope="col"
-                                                class="py-3.5 pl-4 text-center pr-3 text-left text-sm font-semibold text-gray-900">
+                                                class="py-3.5 pl-4 text-center pr-3 text-sm font-semibold text-gray-900">
                                                 Courier Name</th>
                                             <th scope="col"
                                                 class="px-3 py-3.5 text-center text-sm font-semibold text-gray-900">
@@ -205,7 +206,7 @@
                                     <tbody class="divide-y divide-gray-200 bg-white">
                                         <tr v-for="person in this.expectedDelivery.data" :key="person.id">
                                             <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{ person.courier_name }}</td>
-                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{ person.target_date }}</td>
+                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{ moment(person.target_date).format('MMMM Do YYYY') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -241,10 +242,10 @@
                                         </tr>
                                     </thead>
                                     <tbody v-for="person in this.expectedGuest.data" :key="person.id" class="divide-y divide-gray-200 bg-white">
-                                        <tr>
+                                        <tr v-if="!(person.latest_log ?? false)">
                                             <td class="whitespace-nowrap px-3 py-4 text-xs text-gray-500">{{ person.email }}</td>
                                             <td class="whitespace-nowrap py-4 pl-4 pr-3 text-xs font-medium text-gray-900 sm:pl-6">{{ person.first_name + ' ' + person.last_name }}</td>
-                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{ moment(person.target_date).format('MMMM Do YYYY, h:mm:ss a') }}</td>
+                                            <td class="whitespace-nowrap text-center px-3 py-4 text-xs text-gray-500">{{ moment(person.target_date).format('MMMM Do YYYY') }}</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -366,6 +367,7 @@ export default {
                 axios.get('/api/get-expected-guest?page=' + page)
                     .then((data) => {
                         this.expectedGuest = data.data.data;
+                        console.log(this.expectedGuest)
                     }).catch((e) => {
 
                     })

@@ -60,7 +60,7 @@
 } */
 
 .check_purpose .vs__dropdown-toggle{
-    height:28px; 
+    height:26px; 
     border: none;
 }
 
@@ -99,8 +99,9 @@
 }
 
 .buildingSelect .vs__dropdown-toggle{
-    height:28px; 
+    height:26px; 
     border: none;
+    width: 163px;
 }
 
 .buildingDropdown .vs__search{
